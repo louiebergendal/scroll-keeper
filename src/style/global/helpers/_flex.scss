@@ -1,0 +1,13 @@
+.flex {
+    display: flex !important;
+    &.-h-center { justify-content: center !important; }
+    &.-h-spread { justify-content: space-between !important; }
+    &.-h-stretch {
+      > * { flex-grow: 1; }
+    }
+    &.-v-center { align-items: center !important; }
+    &.-v-spread { align-content: space-between !important; }
+    &.-v-stretch { align-content: stretch !important; }
+    &.-h-end { justify-content: flex-end !important; }
+    &.-wrap { flex-wrap: wrap !important; }
+}

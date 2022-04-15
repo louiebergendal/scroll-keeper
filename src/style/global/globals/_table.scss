@@ -1,0 +1,48 @@
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  thead {
+    th {
+      color: $font-contrast-low;
+      text-align: left;
+      padding: $size-tiny $size-medium;
+      padding-bottom: $size-small;
+      font-weight: normal;
+    }
+  }
+  &.-odd-rows-background tbody {
+    tr:nth-child(odd) {
+      background: $background-brightness-high;
+    }
+    tr:nth-child(even) {
+      background: darken($background-brightness-high, 1%);
+    }
+  }
+  tbody tr {
+    background:  darken($background-brightness-high, 1%);
+    &:nth-child(even) {
+      background: $background-brightness-high;
+    }
+    &.-hover:hover {
+      td:not(.-hover-disabled), td:not(.-hover-disabled) >icon ion-icon {
+        color: $font-contrast-high;
+      }
+    }
+    td {
+      text-align: left;
+      padding: $size-small $size-medium;
+      border-top-width: 1px;
+      border-top-style: solid;
+      font-size: $font-size-small;
+      color: $font-contrast-medium;
+      border-top-color: $border-contrast-low;
+      ion-icon {
+        color: $font-contrast-low;
+      }
+      &.-hover:hover, &.-hover:hover >icon ion-icon {
+        color: $font-contrast-medium;
+      }
+    }
+  }
+}

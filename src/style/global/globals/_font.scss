@@ -1,0 +1,45 @@
+h1,h2,h3,h4,h5,h6,p {
+    margin: 0;
+}
+h1 {
+    font-size: $font-size-large;
+    font-weight: 500;
+    margin-bottom: $size-medium;
+    &:first-child { margin-top: -0.5rem; }
+}
+h2 {
+    font-size: $font-size-medium;
+    font-weight: normal;
+    margin-bottom: $size-small;
+    &:first-child { margin-top: -0.5rem; }
+}
+h3 {
+    font-size: $font-size-small;
+    font-weight: 600;
+    margin-bottom: $size-tiny;
+    &:first-child { margin-top: -0.3rem; }
+}
+p {
+    font-size: $font-size-small;
+    &:first-child { margin-top: -0.3rem; }
+}
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: $font-color-link;
+    &:hover { color: darken($font-color-link, 15%); }
+}
+strong {
+    font-weight: 600;
+}
+ul, ol {
+    padding: 0;
+    padding-left: 1.7rem;
+    margin-top: -0.3rem;
+    margin: 0;
+    margin-bottom: 0;
+    li {
+        padding: 0;
+        padding-bottom: $size-tiny;
+    }
+}

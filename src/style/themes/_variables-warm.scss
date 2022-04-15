@@ -1,0 +1,42 @@
+@import '../global/_variables.scss';
+
+$background-brightnesses: (
+    "high": #fffbf6,
+    "medium": #f0eae0,
+    "low": #e4ded3,
+);
+$background-brightness-high: map-get($background-brightnesses, 'high');
+$background-brightness-medium: map-get($background-brightnesses, 'medium');
+$background-brightness-low: map-get($background-brightnesses, 'low');
+
+$font-contrasts: (
+    "high": #000,
+    "medium": #474543,
+    "low": #78736c,
+    "lowest": #a19f9c
+);
+$font-contrast-high: map-get($font-contrasts, 'high');
+$font-contrast-medium: map-get($font-contrasts, 'medium');
+$font-contrast-low: map-get($font-contrasts, 'low');
+$font-contrast-lowest: map-get($font-contrasts, 'lowest');
+
+$border-contrasts: (
+    "high": rgba(0,0,0,0.15),
+    "medium": rgba(0,0,0,0.1),
+    "low": rgba(0,0,0,0.05)
+);
+$border-contrast-high: map-get($border-contrasts, 'high');
+$border-contrast-medium: map-get($border-contrasts, 'medium');
+$border-contrast-low: map-get($border-contrasts, 'low');
+
+$button-default: (
+    'background-color': #d7cfc2,
+    'font-color': map-get($font-contrasts, 'medium'),
+    'border-color': #d7cfc2,
+    'hover-darken-percentage': 5%
+);
+
+$button-background-color: map-get($button-default, 'background-color');
+$button-font-color: map-get($button-default, 'font-color');
+$button-border-color: map-get($button-default, 'background-color');
+$button-hover-darken-percentage: map-get($button-default, 'hover-darken-percentage');

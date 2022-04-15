@@ -1,0 +1,7 @@
+@each $key, $value in $sizes {
+    .padding-#{$key} { padding: $value !important; }
+    .padding-top-#{$key} { padding-top: $value !important; }
+    .padding-right-#{$key} { padding-right: $value !important; }
+    .padding-bottom-#{$key} { padding-bottom: $value !important; }
+    .padding-left-#{$key} { padding-left: $value !important; }
+}

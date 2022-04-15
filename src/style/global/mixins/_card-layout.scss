@@ -1,0 +1,12 @@
+@mixin card-layout(
+    $size: 200px,
+    $gap: $size-small,
+    $aspect-ratio: 16 / 9,
+) {
+    grid-template-columns: repeat(auto-fill, minmax($size, 1fr));
+    display: grid;
+    gap: $gap;
+    > * {
+      aspect-ratio: $aspect-ratio;
+    }
+}

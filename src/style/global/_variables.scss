@@ -1,0 +1,143 @@
+/* ----- General ----- */
+
+$generals: (
+    'header-width': 25rem,
+    'border-radius': 5px,
+    'box-shadow': 0 0.15rem 0.3rem rgba(0,0,0,0.3),
+    'box-shadow-large': 0 0.5rem 3rem rgba(0, 0, 0, 0.3),
+    'font-family': 'canada-type-gibson',
+    'line-height': 1.5
+);
+
+// Shorthand
+$header-width: map-get($generals, 'header-width');
+$border-radius: map-get($generals, 'border-radius');
+$box-shadow: map-get($generals, 'box-shadow');
+$box-shadow-large: map-get($generals, 'box-shadow-large');
+$line-height: map-get($generals, 'line-height');
+$font-family: map-get($generals, 'font-family');
+
+
+/* ----- Sizes ----- */
+
+$fractions: (
+    'whole': 100%,
+    'half': 50%,
+    'third': 33.333%,
+    'fourth': 25%,
+    'fifth': 20%
+);
+
+// Shorthand
+$fraction-whole: map-get($fractions, 'whole');
+$fraction-half: map-get($fractions, 'half');
+$fraction-third: map-get($fractions, 'third');
+$fraction-fourth: map-get($fractions, 'fourth');
+$fraction-fifth: map-get($fractions, 'fifth');
+
+$sizes: (
+    'zero': 0rem,
+    'nano': 1px,
+    'tiny': 0.5rem,
+    'small': 1rem,
+    'medium': 1.5rem,
+    'large': 2rem,
+    'huge': 3rem,
+);
+
+// Shorthand
+$size-nano: map-get($sizes, 'nano');
+$size-tiny: map-get($sizes, 'tiny');
+$size-small: map-get($sizes, 'small');
+$size-medium: map-get($sizes, 'medium');
+$size-large: map-get($sizes, 'large');
+$size-huge: map-get($sizes, 'huge');
+
+$font-sizes: (
+    'nano': 1.1rem,
+    'tiny': 1.3rem,
+    'small': 1.5rem,
+    'medium': 2rem,
+    'large': 2.5rem,
+    'huge': 4rem
+);
+
+// Shorthand
+$font-size-nano: map-get($font-sizes, 'nano');
+$font-size-tiny: map-get($font-sizes, 'tiny');
+$font-size-small: map-get($font-sizes, 'small');
+$font-size-medium: map-get($font-sizes, 'medium');
+$font-size-large: map-get($font-sizes, 'large');
+$font-size-huge: map-get($font-sizes, 'huge');
+
+
+/* ----- Colors ----- */
+
+$background-colors: (
+    'primary': #36b998,
+    'success': #36b998,
+    'danger': #eb6f52,
+    'warning': #F5D348
+);
+
+// Shorthand
+$background-color-primary: map-get($background-colors, 'primary');
+$background-color-success: map-get($background-colors, 'success');
+$background-color-danger: map-get($background-colors, 'danger');
+$background-color-warning: map-get($background-colors, 'warning');
+
+$font-colors: (
+    'link': #36b998,
+    'success': #5cb936,
+    'danger': #eb6f52,
+    'warning': #F4EC43
+);
+
+// Shorthand
+$font-color-link: map-get($font-colors, 'link');
+$font-color-success: map-get($font-colors, 'success');
+$font-color-danger: map-get($font-colors, 'danger');
+$font-color-warning: map-get($font-colors, 'warning');
+
+
+// Brand colors
+$color-background-brand-facebook: #4267B2;
+$color-background-brand-youtube: #ff0000;
+$color-background-brand-twitter: #1DA1F2;
+
+
+/* ----- Buttons ----- */
+
+$button-generals: (
+    'height': 4rem,
+    'height-small': 3rem,
+    'padding': 0.9rem 2rem 1rem 2rem,
+    'padding-small': 0.6rem 1rem 0.7rem 1rem
+);
+
+// Shorthand
+$button-height: map-get($button-generals, 'height');
+$button-height-small: map-get($button-generals, 'height-small');
+$button-padding: map-get($button-generals, 'padding');
+$button-padding-small: map-get($button-generals, 'padding-small');
+
+$button-variants: (
+    'primary': (
+        'background-color': map-get($background-colors, 'primary'),
+        'font-color': #fff,
+        'border-color': map-get($background-colors, 'primary'),
+        'hover-darken-percentage': 10%
+    ),
+    'danger': (
+        'background-color': map-get($background-colors, 'danger'),
+        'font-color': #fff,
+        'border-color': map-get($background-colors, 'danger'),
+        'hover-darken-percentage': 15%
+    ),
+    'warning': (
+        'background-color': map-get($background-colors, 'warning'),
+        'font-color': #111,
+        'border-color': map-get($background-colors, 'warning'),
+        'hover-darken-percentage': 10%
+    )
+);

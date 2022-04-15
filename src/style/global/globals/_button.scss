@@ -1,0 +1,121 @@
+button, .button {
+    height: $button-height;
+    padding: $button-padding;
+    font-size: $font-size-small;
+    border-radius: $border-radius;
+    line-height: 1;
+    border: 1px solid transparent;
+    display: inline-block;
+    cursor: pointer;
+    margin: 0;
+    font-family: $font-family, helvetica;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    ion-icon {
+        margin-top: -1px;
+        vertical-align: middle;
+        margin-right: $size-tiny;
+    }
+    &:disabled {
+        opacity: 0.3;
+        cursor: default;
+    }
+    &:not(:focus-visible):focus {
+      outline: none;
+    }
+
+    // Default from Theme
+
+    background-color: map-get($button-default, 'background-color');
+    color: map-get($button-default, 'font-color');
+    border-color: map-get($button-default, 'border-color');
+    &:not([disabled='disabled']):hover {
+        background-color: darken(map-get($button-default, 'background-color'), $button-hover-darken-percentage);
+        border-color: darken(map-get($button-default, 'border-color'), $button-hover-darken-percentage);
+        color: darken(map-get($button-default, 'font-color'), $button-hover-darken-percentage);
+    }
+
+    // Variants
+
+    @each $key, $properties in $button-variants {
+        &.-#{$key} {
+            background-color: map-get($properties, 'background-color');
+            color: map-get($properties, 'font-color');
+            border-color: map-get($properties, 'border-color');
+            &:not([disabled='disabled']):hover {
+                background: darken(map-get($properties, 'background-color'), map-get($properties, 'hover-darken-percentage'));
+                border-color: darken(map-get($properties, 'border-color'), map-get($properties, 'hover-darken-percentage'));
+                color: map-get($properties, 'font-color');
+            }
+        }
+    }
+
+    // Special variants
+
+    &.-text {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+        color: map-get($font-colors, 'link');
+        background: transparent;
+        border-color: transparent;
+        ion-icon { color: map-get($font-colors, 'link'); }
+        &:hover {
+            color: map-get($font-contrasts, 'high');
+            border-color: transparent;
+            background: transparent;
+            ion-icon { color: map-get($font-contrasts, 'high'); }
+        }
+    }
+
+    &.-icon {
+        border-color: transparent;
+        background: transparent;
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: $button-height;
+        width: $button-height;
+        ion-icon {
+            margin-right: 0;
+            font-size: 2.5rem;
+            color: map-get($font-contrasts, 'low');
+        }
+        &:hover {
+            border-color: transparent;
+            background: transparent;
+            ion-icon {
+                color: map-get($font-contrasts, 'high');
+            }
+        }
+    }
+
+    &.-hover-rotate {
+      &:hover {
+        ion-icon {
+          transition: transform 0.3s;
+          transform: rotate(120deg);
+        }
+      }
+    }
+
+
+    // Sizes
+
+    &.-small {
+        padding: $button-padding-small;
+        height: $button-height-small;
+        font-size: $font-size-tiny;
+        ion-icon {
+          font-size: 1.1rem;
+          margin-top: -1px;
+        }
+        &.-icon {
+          width: $button-height-small;
+          ion-icon {
+            font-size: 1.8rem;
+          }
+        }
+    }
+}

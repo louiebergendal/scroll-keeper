@@ -1,0 +1,15 @@
+@each $key, $value in $border-contrasts {
+    .border-contrast-#{$key} { border: 1px solid $value !important; }
+    .border-top-contrast-#{$key} { border-top: 1px solid $value !important; }
+    .border-right-contrast-#{$key} { border-right: 1px solid $value !important; }
+    .border-bottom-contrast-#{$key} { border-bottom: 1px solid $value !important; }
+    .border-left-contrast-#{$key} { border-left: 1px solid $value !important; }
+}
+
+.border-zero { border: 0 !important; }
+.border-top-zero { border-top: 0 !important; }
+.border-right-zero { border-right: 0 !important; }
+.border-bottom-zero { border-bottom: 0 !important; }
+.border-left-zero { border-left: 0 !important; }
+
+.border-radius { border-radius: map-get($generals, 'border-radius') !important; }

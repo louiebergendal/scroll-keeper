@@ -1,0 +1,11 @@
+article {
+    max-width: 60rem;
+    h2 {
+        margin-top: $size-large;
+    }
+    p, ul {
+        &:not(:last-child) {
+            margin-bottom: $size-small;
+        }
+    }
+}

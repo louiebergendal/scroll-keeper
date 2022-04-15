@@ -1,0 +1,3 @@
+@each $key, $value in $background-brightnesses {
+    .background-brightness-#{$key} { background-color: $value !important; }
+}

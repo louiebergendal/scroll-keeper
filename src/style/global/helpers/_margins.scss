@@ -1,0 +1,13 @@
+@each $key, $value in $sizes {
+    .margin-#{$key} { margin: $value !important; }
+    .margin-top-#{$key} { margin-top: $value !important; }
+    .margin-right-#{$key} { margin-right: $value !important; }
+    .margin-bottom-#{$key} { margin-bottom: $value !important; }
+    .margin-left-#{$key} { margin-left: $value !important; }
+
+    .margin-#{$key}-negative { margin: -$value !important; }
+    .margin-top-#{$key}-negative { margin-top: -$value !important; }
+    .margin-right-#{$key}-negative { margin-right: -$value !important; }
+    .margin-bottom-#{$key}-negative { margin-bottom: -$value !important; }
+    .margin-left-#{$key}-negative { margin-left: -$value !important; }
+}

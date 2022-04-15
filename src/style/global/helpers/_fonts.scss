@@ -1,0 +1,23 @@
+.italic { font-style: italic !important; }
+.bold { font-weight: 600 !important; }
+.normal { font-weight: normal !important; }
+.lowercase { text-transform: lowercase !important; }
+.line-through { text-decoration: line-through !important; }
+.underline { text-decoration: underline !important; }
+
+.font-size-nano { font-size: $font-size-nano !important; }
+.font-size-tiny { font-size: $font-size-tiny !important; }
+.font-size-small { font-size: $font-size-small !important; }
+.font-size-medium { font-size: $font-size-medium !important; }
+.font-size-large { font-size: $font-size-large !important; }
+.font-size-huge { font-size: $font-size-huge !important; }
+
+// Font Colors
+@each $key, $value in $font-colors {
+    .font-color-#{$key} { color: $value  !important; }
+}
+
+// Font Contrasts
+@each $key, $value in $font-contrasts {
+    .font-contrast-#{$key} { color: $value  !important; }
+}

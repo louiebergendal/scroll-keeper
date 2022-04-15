@@ -1,0 +1,18 @@
+@each $key, $value in $sizes {
+    .width-#{$key} { width: $value !important; }
+    .height-#{$key} { height: $value !important; }
+
+    @each $fraction-key, $fraction-value in $fractions {
+        .width-#{$fraction-key}-minus-#{$key} {
+            width: calc(#{$fraction-value} - #{$value}) !important;
+        }
+        .height-#{$fraction-key}-minus-#{$key} {
+            height: calc(#{$fraction-value} - #{$value}) !important;
+        }
+    }
+}
+
+@each $key, $value in $fractions {
+    .width-#{$key} { width: $value !important; }
+    .height-#{$key} { height: $value !important; }
+}

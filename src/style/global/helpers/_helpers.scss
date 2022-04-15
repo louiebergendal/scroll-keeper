@@ -1,0 +1,38 @@
+// Float
+.float-left { float: left !important; }
+.float-right { float: right !important; }
+.float-none { float: none !important; }
+.clear { clear: both !important; display: block !important; }
+
+// Align
+.vertical-align-top { vertical-align: top !important; }
+.vertical-align-bottom { vertical-align: bottom !important; }
+.align-right { text-align: right !important; }
+.align-left { text-align: left !important; }
+.align-center { text-align: center !important; }
+
+// Cursor
+.cursor-pointer { cursor: pointer !important; }
+.cursor-default { cursor: default !important; }
+.cursor-help { cursor: help !important; }
+
+// Display
+.display-none { display: none !important;  }
+.display-block { display: block !important; }
+.display-inline-block { display: inline-block !important; }
+
+// Position
+.position-relative { position: relative !important; }
+
+// Misc
+.outline-none { outline: none !important; }
+.disabled { opacity: 0.5 !important; }
+.nowrap { white-space: nowrap !important; }
+.truncate {
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+}
+.center { margin-left: auto !important; margin-right: auto !important; }
+.blur { filter: blur(5px) !important; }
+.overflow-hidden { overflow: hidden !important; }
