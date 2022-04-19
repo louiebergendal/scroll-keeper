@@ -6,7 +6,8 @@ import { initializeApp } from "firebase/app";
 const firebaseConfig = {
   apiKey: "AIzaSyBNNKsfm5XvoUOuCdAxhx38IjGW2_wIe64",
   authDomain: "scroll-keeper.firebaseapp.com",
-  databaseURL: 'https://scroll-keeper-default-rtdb.europe-west1.firebasedatabase.app/',
+  databaseURL:
+    "https://scroll-keeper-default-rtdb.europe-west1.firebasedatabase.app/",
   projectId: "scroll-keeper",
   storageBucket: "scroll-keeper.appspot.com",
   messagingSenderId: "635232477486",

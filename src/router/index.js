@@ -1,6 +1,10 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "../views/Home.vue";
 
+// Add routes here
+// reach them anywhere with
+// <router-link :to="{name: '[NAME]'}">NAME</router-link>
+
 const routes = [
   {
     path: "/",
@@ -21,6 +25,12 @@ const routes = [
     path: "/login",
     name: "Login",
     component: () => import("../views/Login.vue"),
+  },
+  // Hard coded as there is just one conlang at the moment
+  {
+    path: "/dictionaries/vendi",
+    name: "Vendic Dictionary",
+    component: () => import("../views/Dictionary.vue"),
   },
 ];
 

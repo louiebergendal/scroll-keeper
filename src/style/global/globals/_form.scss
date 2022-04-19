@@ -34,7 +34,7 @@ form {
     margin: 0;
     margin-bottom: $size-large;
   }
-  input {
+  input, textarea, select {
     padding: 0 $size-small;
     background: $background-brightness-medium;
     border-radius: $border-radius;

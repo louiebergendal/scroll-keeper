@@ -3,8 +3,22 @@
     <div class="card dark padding-small faux-modal">
       <h2>Login</h2>
       <form>
-        <p><input type="text" placeholder="Email" class="margin-bottom-small" v-model="email" /></p>
-        <p><input type="password" placeholder="Password" class="margin-bottom-small" v-model="password" /></p>
+        <p>
+          <input
+            type="text"
+            placeholder="Email"
+            class="margin-bottom-small"
+            v-model="email"
+          />
+        </p>
+        <p>
+          <input
+            type="password"
+            placeholder="Password"
+            class="margin-bottom-small"
+            v-model="password"
+          />
+        </p>
       </form>
       <p class="align-right"><button @click="signIn">Submit</button></p>
     </div>
@@ -24,8 +38,8 @@ export default {
     return {
       email,
       password,
-      router
-    }
+      router,
+    };
   },
   methods: {
     signIn() {
@@ -40,7 +54,7 @@ export default {
           console.log(error.code);
           alert(error.message);
         });
-    }
-  }
+    },
+  },
 };
 </script>

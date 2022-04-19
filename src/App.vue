@@ -1,21 +1,35 @@
-
 <template>
-    <nav>
-      <router-link class="margin-small" to="/"> Home </router-link> |
-      <router-link class="margin-small" to="/profile"> Profile </router-link> |
-      <span v-if="this.isLoggedIn">
-        <a class="margin-small" @click="logOut"> Logout </a>
-      </span>
-      <span v-else>
-        <router-link class="margin-small" to="/register"> Register </router-link> |
-        <router-link class="margin-small" to="/login"> Login </router-link>
-      </span>
-    </nav>
-    <router-view />
+  <nav>
+    <router-link class="margin-small" :to="{ name: 'Vendic Dictionary' }">
+      Vendic Dictionary
+    </router-link>
+    |
+    <router-link class="margin-small" :to="{ name: 'Home' }">
+      Home
+    </router-link>
+    |
+    <router-link class="margin-small" :to="{ name: 'Profile' }">
+      Profile
+    </router-link>
+    |
+    <span v-if="this.isLoggedIn">
+      <a class="margin-small" @click="logOut"> Logout </a>
+    </span>
+    <span v-else>
+      <router-link class="margin-small" :to="{ name: 'Register' }">
+        Register
+      </router-link>
+      |
+      <router-link class="margin-small" :to="{ name: 'Login' }">
+        Login
+      </router-link>
+    </span>
+  </nav>
+  <router-view />
 </template>
 
 <script>
-import { ref, onBeforeMount, watchEffect } from "vue";
+import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
 
@@ -28,6 +42,7 @@ export default {
     const homePath = "/";
     const isLoggedIn = ref(true);
     const auth = getAuth();
+
     return {
       router,
       route,
@@ -35,15 +50,13 @@ export default {
       registerPath,
       homePath,
       isLoggedIn,
-      auth
-    }
+      auth,
+    };
   },
   beforeMount() {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
-        const uid = user.uid;
         this.isLoggedIn = true;
-        console.log("logged in as: ", user.uid, user.email);
       } else {
         this.isLoggedIn = false;
         this.router.replace(this.loginPath);
@@ -55,16 +68,16 @@ export default {
       signOut(this.auth)
         .then(() => {
           console.log("Successfully logged out");
-          this.router.push("/");
+          this.router.push({ name: "Home" });
         })
         .catch((error) => {
           console.log("An error occurred: ", error);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
-  @import "./style/themes/_warm.scss";
+@import "./style/themes/_warm.scss";
 </style>

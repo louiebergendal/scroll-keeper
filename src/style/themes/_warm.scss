@@ -14,8 +14,10 @@ nav {
   align-items: center;
 }
 
+
+
 .faux-modal-container {
-  height: 100%;
+  height: calc(100% - 5rem);
   width: 100%;
   display: flex;
   justify-content: center;
@@ -36,6 +38,17 @@ nav {
     background-color: $background-brightness-medium;
   }
   &.light {
+    background-color: $background-brightness-high;
+  }
+}
+
+.dictionary-word {
+  cursor: pointer;
+  border-radius: $border-radius;
+  &:hover {
+    background-color: $background-brightness-medium;
+  }
+  &.selected {
     background-color: $background-brightness-high;
   }
 }
