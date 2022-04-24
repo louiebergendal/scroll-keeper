@@ -26,6 +26,11 @@ const routes = [
     name: "Login",
     component: () => import("../views/Login.vue"),
   },
+  {
+    path: "/users/:userDisplayName/characters",
+    name: "Characters",
+    component: () => import("../views/Characters.vue"),
+  },
   // Hard coded as there is just one conlang at the moment
   {
     path: "/dictionaries/vendi",

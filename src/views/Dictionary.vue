@@ -202,6 +202,7 @@ export default {
   methods: {
     setDictionaryListener() {
       // Vendi hardcoded applies here
+      // Database contact onValue() updates at data renew
       const dictionaryRef = fbRef(this.db, this.dictionaryRefString);
       onValue(dictionaryRef, (snapshot) => {
         this.dictionary = snapshot.val();
@@ -210,6 +211,7 @@ export default {
     },
     writeDictionaryEntry(word) {
       // Vendi hardcoded applies here
+      // Database contact single use "write" to db
       const dictionaryRef = fbRef(this.db, this.dictionaryRefString);
       push(dictionaryRef, word);
     },
@@ -235,6 +237,7 @@ export default {
       });
     },
     selectWord(key) {
+      // Database contact get() = single use
       this.selectedWordKey = key;
       const ref = fbRef(this.db, this.dictionaryRefString + "/" + key);
       get(ref).then((snapshot) => {

@@ -4,6 +4,13 @@
       Vendic Dictionary
     </router-link>
     |
+    <router-link v-if="userUid" class="margin-small" :to="{ name: 'Characters', params: {
+      userUid: userUid,
+      userDisplayName: userDisplayName
+    } }">
+      Characters
+    </router-link>
+    |
     <router-link class="margin-small" :to="{ name: 'Home' }">
       Home
     </router-link>
@@ -42,6 +49,8 @@ export default {
     const homePath = "/";
     const isLoggedIn = ref(true);
     const auth = getAuth();
+    const userUid = ref("");
+    const userDisplayName = ref("");
 
     return {
       router,
@@ -51,12 +60,21 @@ export default {
       homePath,
       isLoggedIn,
       auth,
+      userUid,
+      userDisplayName
+
     };
   },
   beforeMount() {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
+
+        console.log('user: ', user);
+
         this.isLoggedIn = true;
+        this.userUid = user.uid;
+        this.userDisplayName = user.displayName;
+
       } else {
         this.isLoggedIn = false;
         this.router.replace(this.loginPath);
