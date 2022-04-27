@@ -206,7 +206,7 @@ export default {
       const dictionaryRef = fbRef(this.db, this.dictionaryRefString);
       onValue(dictionaryRef, (snapshot) => {
         this.dictionary = snapshot.val();
-        return this.dictionary;
+        // return this.dictionary;
       });
     },
     writeDictionaryEntry(word) {

@@ -4,7 +4,7 @@
       Vendic Dictionary
     </router-link>
     |
-    <router-link v-if="userUid" class="margin-small" :to="{ name: 'Characters', params: {
+    <router-link v-if="userUid" class="margin-small" :to="{ name: 'Character', params: {
       userUid: userUid,
       userDisplayName: userDisplayName
     } }">

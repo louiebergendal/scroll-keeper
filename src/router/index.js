@@ -28,8 +28,8 @@ const routes = [
   },
   {
     path: "/users/:userDisplayName/characters",
-    name: "Characters",
-    component: () => import("../views/Characters.vue"),
+    name: "Character",
+    component: () => import("../views/Character.vue"),
   },
   // Hard coded as there is just one conlang at the moment
   {
