@@ -3,8 +3,10 @@ import {traits, baseValue} from '../rules/traits'
 const flattenCharacter = (characterHistory) => {
 	const levelHistory = characterHistory.history
 	const levelHistoryKeys = Object.keys(levelHistory)
+	const metadata = characterHistory.metadata
 
 	let flatCharacter = {
+		metadata: metadata,
 		traits: {
 			battle: baseValue,
 			agility: baseValue,
@@ -15,7 +17,7 @@ const flattenCharacter = (characterHistory) => {
 	}
 
 	// one-index because level starts at one
-	for (let i = 1; i <= characterHistory.metadata.currentLevel; i++) {
+	for (let i = 1; i <= metadata.currentLevel; i++) {
 		const chosenBonus = levelHistory[i].choice
 		
 		for (const trait in traits) {
@@ -24,7 +26,6 @@ const flattenCharacter = (characterHistory) => {
 			}
 		}
 	}
-	console.log('flatCharacter: ', flatCharacter)
 	return flatCharacter
 }
 

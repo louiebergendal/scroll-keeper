@@ -3,7 +3,8 @@
 
 const VilleVakt = {
 	metadata: {
-		currentLevel: 4
+		name: "Ville Vakt",
+		currentLevel: 11
 	},
 	history: {
 		1: {
@@ -45,6 +46,10 @@ const VilleVakt = {
 		10: {
 			bonusType: "trait",
 			choice: "agility"
+		},
+		11: {
+			bonusType: "talent",
+			choice: "steady"
 		}
 	}
 }

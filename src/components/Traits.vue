@@ -10,7 +10,7 @@
 <script>
   import { ref as vRef } from "vue";
   import Trait from '../components/Trait.vue';
-	import experienceTable from '../rules/experienceTable.js';
+	import experienceTable from '../rules/experienceTableMaker.js';
 	import { traits } from '../rules/traits.js'
 
   import {

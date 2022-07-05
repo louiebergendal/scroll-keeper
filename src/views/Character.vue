@@ -1,8 +1,8 @@
 <template>
 	<div class="character">Character</div>
-	
+	<p>{{ this.character.metadata.name }}</p>
 	<Traits :traitValues="this.character.traits" />
-	<LevelLadder />
+	<LevelLadder :characterHistory="this.characterHistory" />
 </template>
 
 <script>
@@ -17,9 +17,11 @@
 			LevelLadder
 		},
 		setup() {
-			const character = flattenCharacter(VilleVakt)
+			const characterHistory = VilleVakt // HÅRDKODAT
+			const character = flattenCharacter(VilleVakt) // HÅRDKODAT
 			return {
-				character
+				character,
+				characterHistory
 			}
 		}
 	}
