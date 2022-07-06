@@ -1,10 +1,26 @@
 <template>
-  <h2 class="traits">Traits</h2>
-  <Trait :trait="this.traits.battle" :traitValue="traitValues.battle"/>
-  <Trait :trait="this.traits.agility" :traitValue="traitValues.agility"/>
-	<Trait :trait="this.traits.spirit" :traitValue="traitValues.spirit"/>
-	<Trait :trait="this.traits.knowledge" :traitValue="traitValues.knowledge"/>
-	<Trait :trait="this.traits.physique" :traitValue="traitValues.physique"/>
+  <div class="card dark padding-right-tiny padding-top-tiny padding-left-tiny width-half">
+    <h3 class="traits margin-top-nano align-center">Traits</h3>
+    <Trait
+      :trait="this.traits.battle"
+      :skills="[skills.melee, skills.accuracy]"
+    />
+    <Trait
+      :trait="this.traits.agility"
+      :skills="[skills.stealth, skills.athletics]"
+    />
+    <Trait
+      :trait="this.traits.spirit"
+      :skills="[skills.force, skills.extrasensation]"
+    />
+    <Trait
+      :trait="this.traits.knowledge"
+      :skills="[skills.lore, skills.alchemy]"
+    />
+    <Trait
+      :trait="this.traits.physique"
+    />
+  </div>
 </template>
 
 <script>
@@ -12,6 +28,7 @@
   import Trait from '../components/Trait.vue';
 	import experienceTable from '../rules/experienceTableMaker.js';
 	import { traits } from '../rules/traits.js'
+  import skills from '../rules/skills.js'
 
   import {
     ref as fbRef,
@@ -19,7 +36,6 @@
   } from "firebase/database";
 
   export default {
-    props: ["traitValues"],
 		components: {
 			experienceTable,
       Trait
@@ -39,7 +55,8 @@
         spirit,
         knowledge,
         physique,
-        traits
+        traits,
+        skills
       }
     },
   }

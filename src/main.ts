@@ -1,7 +1,8 @@
-import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import { initializeApp } from "firebase/app";
+import { createApp } from "vue"
+import { createPinia } from 'pinia'
+import App from "./App.vue"
+import router from "./router"
+import { initializeApp } from "firebase/app"
 
 const firebaseConfig = {
   apiKey: "AIzaSyBNNKsfm5XvoUOuCdAxhx38IjGW2_wIe64",
@@ -13,6 +14,6 @@ const firebaseConfig = {
   messagingSenderId: "635232477486",
   appId: "1:635232477486:web:f0d570f944dd58a4d49abf",
 };
-initializeApp(firebaseConfig);
-
-createApp(App).use(router).mount("#app");
+initializeApp(firebaseConfig)
+const pinia = createPinia()
+createApp(App).use(router).use(pinia).mount("#app")
