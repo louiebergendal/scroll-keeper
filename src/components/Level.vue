@@ -1,8 +1,13 @@
 <template>
-	<p :class="{ bold: hasChosen }">
-		{{ level }}: {{ levelBonus }}<br/>
-		<span v-if="hasChosen">{{ choice }}</span>
-	</p>
+	<div :class="{ bold: hasChosen }">
+		<div class="align-center level">{{ level }}</div>
+		<div class="align-center card light margin-tiny capitalize">
+			{{ levelBonus }}
+			<span class="" v-if="hasChosen">
+				<span v-if="choice">: </span>
+				{{ choice }}
+			</span></div>
+	</div>
 </template>
 
 <script>
@@ -16,4 +21,12 @@
 	}
 </script>
 
-<style></style>
+<style>
+	.level {
+		background: rgb(255,251,246);
+		background: linear-gradient(90deg, rgba(255,251,246,0) 0%, rgba(255,251,246,1) 50%, rgba(255,251,246,0) 100%);	
+	}
+	.capitalize {
+		text-transform: capitalize;
+	}
+</style>

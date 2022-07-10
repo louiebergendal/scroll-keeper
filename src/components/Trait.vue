@@ -18,8 +18,8 @@
 					{{ skill.name }}
 				</span>
 			</div>
-			<div class="skill-value card light padding-nano flex width-half margin-left-tiny align-center ">
-				<div class="padding-left-small padding-nano width-fourth">
+			<div class="skill-value card light padding-nano flex width-half margin-left-tiny">
+				<div class="padding-left-small padding-nano width-fourth padding-left-huge">
 					<span
 						v-if="skill.hasSkill"
 						class="vertical-correction font-size-nano bold"
@@ -32,7 +32,7 @@
 							{{ traitValue }}
 					</span>
 				</div>
-				<div class="padding-nano italic">
+				<div class="padding-nano italic padding-right-medium">
 					<span
 						v-if="skill.hasSkill"
 						class="vertical-correction font-size-nano align-right">
@@ -90,7 +90,7 @@
 		flex-direction: column;
 	}
 	.skill-value {
-		justify-content: space-around;
+		justify-content: space-between;
 	}
 	.vertical-correction {
 		vertical-align: text-bottom;

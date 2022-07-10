@@ -1,27 +1,33 @@
 <template>
-
-	<div v-for="level in levelArray" :key="level.level">
-		<Level
-			:level="level.level"
-			:levelBonus="level.levelBonus"
-			:hasChosen="level.hasChosen"
-			:choice="level.choice"
-		/>
+	<div class="level-ladder card dark padding-small width-half">
+		<div
+			v-for="level in levelArray"
+			:key="level.level"
+			class="card medium padding-top-nano margin-bottom-tiny"
+		>
+			<Level
+				:level="level.level"
+				:levelBonus="level.levelBonus"
+				:hasChosen="level.hasChosen"
+				:choice="level.choice"
+			/>
+		</div>
 	</div>
 </template>
 
 <script>
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
 	import Level from './Level.vue'
+	import { useStore } from '../stores/character'
 	
 	export default {
-		props: ['characterHistory'],
 		components: {
 			Level
 		},
-		setup(props) {
-			const characterHistory = props.characterHistory.history
-			const currentLevel = props.characterHistory.metadata.currentLevel
+		setup() {
+			const store = useStore()
+			const characterHistory = store.getCharacterHistory()
+			const currentLevel = store.characterHistory.metadata.currentLevel
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const currentExperienceTable = experienceTableMaker(currentLevel)
 
@@ -50,10 +56,18 @@
 				currentExperienceTable,
 				fullExperienceTable,
 				characterHistory,
-				levelArray
+				levelArray,
+				store
 			}
 		},
 	}
 </script>
 
-<style></style>
+<style>
+	.level-ladder {
+		position: absolute;
+		top: 0;
+		max-height: 100vh;
+		overflow: scroll;
+	}
+</style>

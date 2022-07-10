@@ -18,4 +18,8 @@
 	}
 </script>
 
-<style></style>
+<style>
+	.character {
+		position: relative;
+	}
+</style>
