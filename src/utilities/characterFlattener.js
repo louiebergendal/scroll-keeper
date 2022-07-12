@@ -22,6 +22,7 @@ const flattenCharacter = (characterHistory) => {
 	// one-index because level starts at one
 	for (let i = 1; i <= metadata.currentLevel; i++) {
 		const chosenBonus = levelHistory[i].choice
+		const skillList = allSkills()
 
 		for (const trait in traits) {
 			if (trait === chosenBonus) {
@@ -29,7 +30,7 @@ const flattenCharacter = (characterHistory) => {
 			}
 		}
 
-		for (const skill in allSkills()) {
+		for (const skill in skillList) {
 			if (skill === chosenBonus) {
 				characterSkillList.push(skill)
 			}

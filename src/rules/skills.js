@@ -1,11 +1,20 @@
 // * * S K I L L S * * //
+
+const name = "Färdigheter"
+
 // TODO:
 // - Fill in the missing skills
+// - Skill code should be ordered alphabetically
 // - Generalise functions representing commonly occurring behaviours of skills
+// - - Example: "addProficiencyBonus"
+// - - Put these under the Skill Rules header
 // - - If these common patterns grow into a large list, refactor into a new file
 
+
 // * * Skill Rules * * //
+
 const proficiencyBonus = 2
+
 const addProficiencyBonus = (fv) => fv + proficiencyBonus
 
 
@@ -122,10 +131,14 @@ function assignOwnershipToSkills(skillList, characterSkills) {
 }
 
 // * * Exports * * //
+/**
+* user-friendly title
+*/
+export const skillsName = name
 
 /**
-* returns a traitSkills list with 'hasSkill: true' assigned to
-* the appropriate character skills. Providing no characterSkills value
+* returns a 'traitSkills' list with 'hasSkill: true' assigned to
+* the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'hasSkill: false'
 */
 export function traitSkills(characterSkills = []) {
@@ -135,8 +148,8 @@ export function traitSkills(characterSkills = []) {
 }
 
 /**
-* returns a generalSkills list with 'hasSkill: true' assigned to
-* the appropriate character skills. Providing no characterSkills value
+* returns a 'generalSkills' list with 'hasSkill: true' assigned to
+* the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'hasSkill: false'
 */
 export function generalSkills(characterSkills = []) {
@@ -146,8 +159,8 @@ export function generalSkills(characterSkills = []) {
 }
 
 /**
-* returns a allSkills list with 'hasSkill: true' assigned to
-* the appropriate character skills. Providing no characterSkills value
+* returns an 'allSkills' list with 'hasSkill: true' assigned to
+* the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'hasSkill: false'
 */
 export function allSkills(characterSkills = []) {
