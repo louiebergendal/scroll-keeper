@@ -19,7 +19,7 @@
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
 	import Level from './Level.vue'
 	import { useStore } from '../stores/character'
-	
+
 	export default {
 		components: {
 			Level
@@ -34,13 +34,13 @@
 			let levelArray = []
 			for (let i = 0; i < fullExperienceTable.length; i++) {
 				const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
-				
+
 				const hasChosen = characterHistory[levelIndex] !== undefined
 				let choice = ""
 
 				if (hasChosen) {
 					choice = characterHistory[levelIndex].choice
-				} 
+				}
 
 				const level = {
 					level: levelIndex,
