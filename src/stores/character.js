@@ -5,8 +5,8 @@ import { flattenCharacter } from '../utilities/characterFlattener';
 
 export const useStore = defineStore('activeCharacter', {
   state: () => {
-    const characterHistory = VilleVakt // HÅRDKODAT
-    const characterSheet = flattenCharacter(VilleVakt) // HÅRDKODAT
+    const characterHistory = VilleVakt // HÅRDKODAD MOCK
+    const characterSheet = flattenCharacter(characterHistory)
     return {
       metadata: characterHistory.metadata,
       sheet: characterSheet,
@@ -16,8 +16,8 @@ export const useStore = defineStore('activeCharacter', {
   getters: {
     characterHistory: (state) => state.history,
     characterSheet: (state) =>  state.sheet,
-    characterTraits: (state) =>  state.sheet.traits,
-    characterSkills: (state) =>  state.sheet.skills,
+    characterTraits: (state) => state.sheet.traits,
+    characterSkills: (state) => state.sheet.skills,
     characterLevel: (state) => state.metadata.currentLevel,
     characterName: (state) => state.metadata.name
   }

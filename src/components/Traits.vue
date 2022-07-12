@@ -3,19 +3,19 @@
     <h3 class="traits margin-top-nano align-center">Traits</h3>
     <Trait
       :trait="this.traits.battle"
-      :traitSkills="[traitSkills.melee, traitSkills.accuracy]"
+      :skills="[skillsWithOwnership.melee, skillsWithOwnership.accuracy]"
     />
     <Trait
       :trait="this.traits.agility"
-      :traitSkills="[traitSkills.stealth, traitSkills.athletics]"
+      :skills="[skillsWithOwnership.stealth, skillsWithOwnership.athletics]"
     />
     <Trait
       :trait="this.traits.spirit"
-      :traitSkills="[traitSkills.force, traitSkills.extrasensation]"
+      :skills="[skillsWithOwnership.extrasensation, skillsWithOwnership.force]"
     />
     <Trait
       :trait="this.traits.knowledge"
-      :traitSkills="[traitSkills.lore, traitSkills.alchemy]"
+      :skills="[skillsWithOwnership.lore, skillsWithOwnership.alchemy]"
     />
     <Trait
       :trait="this.traits.physique"
@@ -29,8 +29,7 @@
 	import experienceTable from '../rules/experienceTableMaker.js';
 	import { traits } from '../rules/traits.js'
   import { traitSkills } from '../rules/skills.js'
-
-
+	import { useStore } from '../stores/character'
 
   import {
     ref as fbRef,
@@ -43,6 +42,7 @@
       Trait
     },
     setup() {
+      const store = useStore()
       const db = getDatabase();
 
       const battle = vRef(0);
@@ -50,6 +50,7 @@
       const spirit = vRef(0);
       const knowledge = vRef(0);
       const physique = vRef(0);
+      const skillsWithOwnership = traitSkills(store.characterSkills)
 
       return {
         battle,
@@ -58,7 +59,8 @@
         knowledge,
         physique,
         traits,
-        traitSkills
+        skillsWithOwnership,
+        store
       }
     },
   }

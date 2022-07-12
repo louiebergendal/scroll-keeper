@@ -9,7 +9,7 @@
 			</div>
 		</div>
 		<div
-			v-for="skill in traitSkills"
+			v-for="skill in skills"
 			:key="skill.key"
 			class="width-whole flex"
 		>
@@ -61,29 +61,12 @@
 
 
 	export default {
-		props: ["trait", "traitSkills"],
+		props: ["trait", "skills"],
 		setup(props) {
 			const store = useStore()
-
-			const addHasSkillToSkill = () => {
-				let skillList = {}
-				Object.assign(skillList, props.traitSkills) // PROPS ARE READ ONLY
-				Object.keys(skillList).forEach(skillIndex => {
-					store.characterSkills.forEach(characterSkill => {
-						if (characterSkill === skillList[skillIndex].key ) {
-							skillList[skillIndex].hasSkill = true
-						}
-					})
-				})
-				return skillList
-			}
-
-			const skillList = addHasSkillToSkill()
 			const traitValue = store.characterTraits[props.trait.key]
 			return {
 				setTraitValueName,
-				addHasSkillToSkill,
-				skillList,
 				traitValue,
 				store
 			}
