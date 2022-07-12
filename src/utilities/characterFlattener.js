@@ -24,7 +24,7 @@ const flattenCharacter = (characterHistory) => {
 	console.log("characterHistory: ", characterHistory)
 	for (let i = 1; i <= metadata.currentLevel; i++) {
 		const chosenBonus = levelHistory[i].choice
-		
+
 		for (const trait in traits) {
 			if (trait === chosenBonus) {
 				baseCharacter.traits[chosenBonus]++
@@ -32,6 +32,7 @@ const flattenCharacter = (characterHistory) => {
 		}
 		for (const skill in skills) {
 			if (skill.toString() === chosenBonus) {
+				console.log("shouldAddSkill: ", skill)
 				characterSkillList.push(skill)
 			}
 		}

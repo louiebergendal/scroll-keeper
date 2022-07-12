@@ -13,21 +13,24 @@
 			/>
 		</div>
 	</div>
+  <Drawer />
 </template>
 
 <script>
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
 	import Level from './Level.vue'
+  import Drawer from './Drawer.vue'
 	import { useStore } from '../stores/character'
 
 	export default {
 		components: {
-			Level
+			Level,
+      Drawer
 		},
 		setup() {
 			const store = useStore()
-			const characterHistory = store.getCharacterHistory()
-			const currentLevel = store.characterHistory.metadata.currentLevel
+			const characterHistory = store.characterHistory
+			const currentLevel = store.characterLevel
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const currentExperienceTable = experienceTableMaker(currentLevel)
 

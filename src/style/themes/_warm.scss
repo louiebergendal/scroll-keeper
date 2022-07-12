@@ -14,8 +14,6 @@ nav {
   align-items: center;
 }
 
-
-
 .faux-modal-container {
   height: calc(100% - 5rem);
   width: 100%;
@@ -51,4 +49,10 @@ nav {
   &.selected {
     background-color: $background-brightness-high;
   }
+}
+
+.drawer {
+  width: 6rem;
+  height: 100vh;
+  background-color: $background-brightness-low;
 }

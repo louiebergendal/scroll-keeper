@@ -63,7 +63,8 @@
 				let skillList = {}
 				Object.assign(skillList, props.skills) // PROPS ARE READ ONLY
 				Object.keys(skillList).forEach(skillIndex => {
-					store.characterSheet.skills.forEach(characterSkill => {
+					console.log("store: ", store)
+					store.characterSkills.forEach(characterSkill => {
 						if (characterSkill === skillList[skillIndex].key ) {
 							skillList[skillIndex].hasSkill = true
 						}
@@ -73,7 +74,7 @@
 			}
 
 			const skillList = addHasSkillToSkill()
-			const traitValue = store.characterSheet.traits[props.trait.key]
+			const traitValue = store.characterTraits[props.trait.key]
 			return {
 				setTraitValueName,
 				addHasSkillToSkill,
@@ -97,6 +98,6 @@
 	}
 	.trait-value {
 		background: rgb(255,251,246);
-		background: linear-gradient(90deg, rgba(255,251,246,0) 0%, rgba(255,251,246,1) 50%, rgba(255,251,246,0) 100%);	
+		background: linear-gradient(90deg, rgba(255,251,246,0) 0%, rgba(255,251,246,1) 50%, rgba(255,251,246,0) 100%);
 	}
 </style>
