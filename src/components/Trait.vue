@@ -9,33 +9,39 @@
 			</div>
 		</div>
 		<div
-			v-for="skill in skills"
+			v-for="skill in traitSkills"
 			:key="skill.key"
 			class="width-whole flex"
 		>
 			<div class="width-half card medium padding-nano italic align-center">
-				<span class="font-size-nano">
-					{{ skill.name }}
+				<span
+					v-if="skill.hasSkill"
+					class="font-size-nano bold">
+						- {{ skill.name }} -
+				</span>
+				<span
+					v-if="!skill.hasSkill"
+					class="font-size-nano">
+						{{ skill.name }}
 				</span>
 			</div>
 			<div class="skill-value card light padding-nano flex width-half margin-left-tiny">
 				<div class="padding-left-small padding-nano width-fourth padding-left-huge">
 					<span
 						v-if="skill.hasSkill"
-						class="vertical-correction font-size-nano bold"
-					>
+						class="vertical-correction font-size-nano bold">
 							{{ skill.addBonus(traitValue) }}
 					</span>
 					<span
 						v-if="!skill.hasSkill"
-						class="vertical-correction font-size-nano bold">
+						class="vertical-correction font-size-nano">
 							{{ traitValue }}
 					</span>
 				</div>
 				<div class="padding-nano italic padding-right-medium">
 					<span
 						v-if="skill.hasSkill"
-						class="vertical-correction font-size-nano align-right">
+						class="vertical-correction font-size-nano align-right bold">
 							{{ setTraitValueName(skill.addBonus(traitValue)) }}
 					</span>
 					<span
@@ -55,15 +61,14 @@
 
 
 	export default {
-		props: ["trait", "skills"],
+		props: ["trait", "traitSkills"],
 		setup(props) {
 			const store = useStore()
 
 			const addHasSkillToSkill = () => {
 				let skillList = {}
-				Object.assign(skillList, props.skills) // PROPS ARE READ ONLY
+				Object.assign(skillList, props.traitSkills) // PROPS ARE READ ONLY
 				Object.keys(skillList).forEach(skillIndex => {
-					console.log("store: ", store)
 					store.characterSkills.forEach(characterSkill => {
 						if (characterSkill === skillList[skillIndex].key ) {
 							skillList[skillIndex].hasSkill = true

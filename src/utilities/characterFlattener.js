@@ -1,5 +1,5 @@
-import skills from '../rules/skills'
-import {traits, baseValue} from '../rules/traits'
+import { allSkills } from '../rules/skills'
+import { traits, baseValue } from '../rules/traits'
 
 const flattenCharacter = (characterHistory) => {
 	const levelHistory = characterHistory.history
@@ -17,11 +17,9 @@ const flattenCharacter = (characterHistory) => {
 			knowledge: baseValue,
 			physique: baseValue
 		}
-
 	}
 
 	// one-index because level starts at one
-	console.log("characterHistory: ", characterHistory)
 	for (let i = 1; i <= metadata.currentLevel; i++) {
 		const chosenBonus = levelHistory[i].choice
 
@@ -30,7 +28,7 @@ const flattenCharacter = (characterHistory) => {
 				baseCharacter.traits[chosenBonus]++
 			}
 		}
-		for (const skill in skills) {
+		for (const skill in allSkills) {
 			if (skill.toString() === chosenBonus) {
 				console.log("shouldAddSkill: ", skill)
 				characterSkillList.push(skill)
@@ -38,11 +36,11 @@ const flattenCharacter = (characterHistory) => {
 		}
 
 	}
+
 	const flattenedCharacter = {
 		...baseCharacter,
 		skills: characterSkillList
 	}
-	console.log(flattenedCharacter)
 	return flattenedCharacter
 }
 

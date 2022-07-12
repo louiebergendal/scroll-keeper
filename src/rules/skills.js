@@ -1,12 +1,11 @@
-
 // * * INTERNAL * * //
 
 const proficiencyBonus = 2
 const addProficiencyBonus = (fv) => fv + proficiencyBonus
 
-
 // * * EXPORTED * * //
 
+// * * TraitSkills * * //
 const melee = {
     key: "melee",
     name: "Närkamp",
@@ -63,6 +62,9 @@ const alchemy = {
     addBonus: (fv) => addProficiencyBonus(fv)
 }
 
+
+// * * General Skills * * //
+
 const brawling = {
     key: "brawling",
     name: "Slagsmål",
@@ -79,7 +81,7 @@ const brawling = {
 
 // * * * * * * * * //
 
-export default {
+export const traitSkills = {
     melee,
     accuracy,
     stealth,
@@ -87,6 +89,14 @@ export default {
     extrasensation,
     force,
     lore,
-    alchemy,
+    alchemy
+}
+
+export const generalSkills = {
     brawling
+}
+
+export const allSkills = {
+    ...traitSkills,
+    ...generalSkills
 }

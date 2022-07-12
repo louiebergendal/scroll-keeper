@@ -10,8 +10,8 @@
 
 	export default {
 		components: {
-			Traits,
-			LevelLadder
+			Traits
+			//LevelLadder
 		},
 		setup() {
 		}

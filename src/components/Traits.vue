@@ -3,19 +3,19 @@
     <h3 class="traits margin-top-nano align-center">Traits</h3>
     <Trait
       :trait="this.traits.battle"
-      :skills="[skills.melee, skills.accuracy]"
+      :traitSkills="[traitSkills.melee, traitSkills.accuracy]"
     />
     <Trait
       :trait="this.traits.agility"
-      :skills="[skills.stealth, skills.athletics]"
+      :traitSkills="[traitSkills.stealth, traitSkills.athletics]"
     />
     <Trait
       :trait="this.traits.spirit"
-      :skills="[skills.force, skills.extrasensation]"
+      :traitSkills="[traitSkills.force, traitSkills.extrasensation]"
     />
     <Trait
       :trait="this.traits.knowledge"
-      :skills="[skills.lore, skills.alchemy]"
+      :traitSkills="[traitSkills.lore, traitSkills.alchemy]"
     />
     <Trait
       :trait="this.traits.physique"
@@ -28,7 +28,9 @@
   import Trait from '../components/Trait.vue';
 	import experienceTable from '../rules/experienceTableMaker.js';
 	import { traits } from '../rules/traits.js'
-  import skills from '../rules/skills.js'
+  import { traitSkills } from '../rules/skills.js'
+
+
 
   import {
     ref as fbRef,
@@ -56,7 +58,7 @@
         knowledge,
         physique,
         traits,
-        skills
+        traitSkills
       }
     },
   }
