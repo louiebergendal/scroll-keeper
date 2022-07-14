@@ -30,7 +30,7 @@
 					<span
 						v-if="skill.hasSkill"
 						class="vertical-correction font-size-nano bold">
-							{{ skill.addBonus(traitValue) }}
+							{{ skill.addProficiencyBonus(traitValue) }}
 					</span>
 					<span
 						v-if="!skill.hasSkill"
@@ -42,7 +42,7 @@
 					<span
 						v-if="skill.hasSkill"
 						class="vertical-correction font-size-nano align-right bold">
-							{{ setTraitValueName(skill.addBonus(traitValue)) }}
+							{{ setTraitValueName(skill.addProficiencyBonus(traitValue)) }}
 					</span>
 					<span
 						v-if="!skill.hasSkill"
