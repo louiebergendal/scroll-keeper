@@ -6,7 +6,7 @@
 
 <script>
 	import Traits from '../components/Traits.vue';
-	import LevelLadder from '../components/LevelLadder.vue';
+	//import LevelLadder from '../components/LevelLadder.vue';
 
 	export default {
 		components: {

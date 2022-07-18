@@ -21,14 +21,19 @@ const softUnlockBonus = 6
 
 const addProficiencyBonus = (fv) => fv + proficiencyBonus
 const removeSucRollPenalty = (fv) => fv + softUnlockBonus
-
 const addAdvantage = (roll) => console.log(roll)  // <--- this needs roll mechanics
 const freeReroll = (roll) => console.log(roll)    // <--- this needs roll mechanics too
+
+const canChoseExtraEffects = () => console.log('can chose extra effects!');
+const canUseVia = () => console.log('can use via!');
+const canUseSigns = () => console.log('can use signs!');
 
 const multiplyActionTime = (actionTime, factor) => actionTime * factor
 const refineProvisions = (provisions) => console.log(provisions) // <--- this needs gear
 
 const increaseCarryingCapacity = (carryingCapacity) => console.log(carryingCapacity) // <--- this needs carryingCapacity
+
+const canPickExtractsOnForageRoll = (roll) => console.log(roll) // <--- this needs foraging
 
 // * * traitSkills * * //
 
@@ -64,7 +69,7 @@ const extrasensation = {
   key: "extrasensation",
   name: "Förnimma",
   hasSkill: false,
-  addSucRollBonus: (fv) => addProficiencyBonus(fv)
+  addProficiencyBonus: (fv) => addProficiencyBonus(fv)
 }
 
 const force = {
@@ -91,29 +96,19 @@ const alchemy = {
 
 // * * generalSkills * * //
 
-const unarmouredFighting = {
-  key: "unarmoured fighting",
-  name: "Bar bringa",
+const animalHusbandry = {
+  key: "animal husbandry", // should the key have the same spelling as the object?
+  name: "Djurskötsel",
   hasSkill: false,
-  usageRequirements: ['unarmoured'],
-  addInitiative: (initiative) => initiative + 1,
-  addFateAtBeginningOfCombat: (fate) => fate + 2,
-}
-
-const carouse = {
-  key: "carouse",
-  name: "Berusningsvana",
-  hasSkill: false,
-  usageRequirements: ['drunk'],
-  addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-}
-
-const resolve = {
-  key: "resolve",
-  name: "Beslutsamhet",
-  hasSkill: false,
-  addProficiencyBonus: (fv) => addProficiencyBonus(fv),
   addAdvantage: (sucRoll) => addAdvantage(sucRoll),
+  loyalAnimal: (beast) => beast.loyal = true
+}
+
+const beastOfBurden = {
+  key: "beast of burden",
+  name: "Packåsna",
+  hasSkill: false,
+  increaseCarryingCapacity: (carryingCapacity) => increaseCarryingCapacity(carryingCapacity)
 }
 
 const bookworm = {
@@ -129,126 +124,6 @@ const bookworm = {
   fastReader: (actionTime) => multiplyActionTime(actionTime, 0.5)
 }
 
-const animalHusbandry = {
-  key: "animal husbandry", // should the key have the same spelling as the object?
-  name: "Djurskötsel",
-  hasSkill: false,
-  addAdvantage: (sucRoll) => addAdvantage(sucRoll),
-  loyalAnimal: (beast) => beast.loyal = true
-}
-
-const fast = {
-  key: "fast",
-  name: "Flyfotad",
-  hasSkill: false,
-  requirements: {
-    traits: {
-      agility: 7
-    }
-  },
-  usageRequirements: ['standing'],
-  increaseFastMovement: (movement) => movement + 1,
-  increaseSprintMovement:  (movement) => movement + 2
-}
-
-const warfare = {
-  key: "warfare",
-  name: "Fältslag",
-  hasSkill: false,
-  usageRequirements: ['formation'],
-  addFormationBonus: (fv) => fv + 1
-}
-
-const crafting = {
-  key: "crafting",
-  name: "Hantverk",
-  hasSkill: false,
-  softUnlock: (fv) => removeSucRollPenalty(fv)
-}
-
-const hardy = {
-  key: "hardy",
-  name: "Härdad",
-  hasSkill: false,
-  addHealthBonus: (health) => health + 2
-}
-
-const intrusion = {
-  key: "intrusion",
-  name: "Inbrott",
-  hasSkill: false,
-  actionTimeRollPick: () => 1
-}
-
-const cooking = {
-  key: "cooking",
-  name: "kok-konst",
-  hasSkill: false,
-  usageRequirements: ['fire'],
-  increaseGroupMorale: (morale) => morale + 1,
-  refineProvisions: (provisions) => refineProvisions(provisions)
-}
-
-const meticulous = {
-  key: "meticulous",
-  name: "noggrann",
-  hasSkill: false,
-  usageRequirements: ['formation'],
-  freeReroll: (roll) => freeReroll(roll)
-}
-
-const physician = {
-  key: "physician",
-  name: "Omvårdnad",
-  hasSkill: false,
-  requirements: {
-    skills: ['alchemy']
-  },
-  increaseHealCealingForRestingCarachtersInGroup: (cealing) => cealing + 2
-}
-
-const wayfinding = {
-  key: "wayfinding",
-  name: "Orientera",
-  hasSkill: false,
-  usageRequirements: ['rough terrain', 'miserable terrain'],
-  increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.25
-}
-
-const beastOfBurden = {
-  key: "beast of burden",
-  name: "Packåsna",
-  hasSkill: false,
-  increaseCarryingCapacity: (carryingCapacity) => increaseCarryingCapacity(carryingCapacity)
-}
-
-const riding = {
-  key: "riding",
-  name: "Rida",
-  hasSkill: false,
-  usageRequirements: ['normal terrain', 'road'],
-  increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.5
-}
-
-const seamanship = { // new name needed
-  key: "seamanship",
-  name: "Sjövana",
-  hasSkill: false,
-  usageRequirements: ['boat'],
-  increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.25,
-  addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-  increaseMorale: (morale) => morale + 2,
-}
-
-const tracking = { // new name needed
-  key: "tracking",
-  name: "Spåra",
-  hasSkill: false,
-  softUnlock: (fv) => removeSucRollPenalty(fv),
-  IncreaseForaging: (provisions) => provisions + 1,
-  IncreaseForagingIfWinter: (provisions) => provisions + 1
-}
-
 const brawling = {
   key: "brawling",
   name: "Slagsmål",
@@ -262,25 +137,28 @@ const brawling = {
   retroactivelyLowerCritRoll: (critRoll) => critRoll - 2
 }
 
-const performer = {
-  key: "performer",
-  name: "Underhållning",
+const carouse = {
+  key: "carouse",
+  name: "Berusningsvana",
   hasSkill: false,
-  increaseGroupMorale: (morale) => morale + 1,
-}
-
-const vigilant = {
-  key: "vigilant",
-  name: "Vaksam",
-  hasSkill: false,
+  usageRequirements: ['drunk'],
   addProficiencyBonus: (fv) => addProficiencyBonus(fv)
 }
 
-const weatherBeaten = {
-  key: "weather-beaten",
-  name: "Väderbiten",
+const cook = {
+  key: "cook",
+  name: "kok-konst",
   hasSkill: false,
-  increaseMorale: (morale) => morale + 1,
+  usageRequirements: ['fire'],
+  increaseGroupMorale: (morale) => morale + 1,
+  refineProvisions: (provisions) => refineProvisions(provisions)
+}
+
+const crafting = {
+  key: "crafting",
+  name: "Hantverk",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
 const cutthroat = {
@@ -298,20 +176,260 @@ const cutthroat = {
   retroactivelyIncreaseCritRoll: (critRoll) => critRoll + 2
 }
 
+const fast = {
+  key: "fast",
+  name: "Flyfotad",
+  hasSkill: false,
+  requirements: {
+    traits: {
+      agility: 7
+    }
+  },
+  usageRequirements: ['standing'],
+  increaseFastMovement: (movement) => movement + 1,
+  increaseSprintMovement:  (movement) => movement + 2
+}
+
 const forager = {
   key: "forager",
   name: "Överlevnad",
   hasSkill: false,
-  IncreaseForaging: (provisions) => provisions + 2,
+  IncreaseForaging: (provisions) => provisions + 2
 }
 
-const accustomedTo = {
-  key: "forager",
-  name: "Överlevnad",
+const hardy = {
+  key: "hardy",
+  name: "Härdad",
+  hasSkill: false,
+  addHealthBonus: (health) => health + 2
+}
+
+const intrusion = {
+  key: "intrusion",
+  name: "Inbrott",
+  hasSkill: false,
+  actionTimeRollPick: () => 1
+}
+
+const meticulous = {
+  key: "meticulous",
+  name: "noggrann",
+  hasSkill: false,
+  usageRequirements: ['formation'],
+  freeReroll: (roll) => freeReroll(roll)
+}
+
+const performer = {
+  key: "performer",
+  name: "Underhållning",
+  hasSkill: false,
+  increaseGroupMorale: (morale) => morale + 1
+}
+
+const physician = {
+  key: "physician",
+  name: "Omvårdnad",
+  hasSkill: false,
+  requirements: {
+    skills: ['alchemy']
+  },
+  increaseHealCealingForRestingCarachtersInGroup: (cealing) => cealing + 2
+}
+
+const resolve = {
+  key: "resolve",
+  name: "Beslutsamhet",
   hasSkill: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-  IncreaseForaging: (provisions) => provisions + 1,
+  addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
+
+const riding = {
+  key: "riding",
+  name: "Rida",
+  hasSkill: false,
+  usageRequirements: ['normal terrain', 'road'],
+  increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.5
+}
+
+const seamanship = { // new name needed
+  key: "seamanship",
+  name: "Sjövana",
+  hasSkill: false,
+  usageRequirements: ['boat'],
+  increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.25,
+  addProficiencyBonus: (fv) => addProficiencyBonus(fv),
+  increaseMorale: (morale) => morale + 2
+}
+
+const tracking = { // new name needed
+  key: "tracking",
+  name: "Spåra",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv),
+  IncreaseForaging: (provisions) => provisions + 1,
+  IncreaseForagingIfWinter: (provisions) => provisions + 1
+}
+
+const unarmouredFighting = {
+  key: "unarmoured fighting",
+  name: "Bar bringa",
+  hasSkill: false,
+  usageRequirements: ['unarmoured'],
+  addInitiative: (initiative) => initiative + 1,
+  addFateAtBeginningOfCombat: (fate) => fate + 2
+}
+
+const vigilant = {
+  key: "vigilant",
+  name: "Vaksam",
+  hasSkill: false,
+  addProficiencyBonus: (fv) => addProficiencyBonus(fv)
+}
+
+const warfare = {
+  key: "warfare",
+  name: "Fältslag",
+  hasSkill: false,
+  usageRequirements: ['formation'],
+  addFormationBonus: (fv) => fv + 1
+}
+
+const wayfinding = {
+  key: "wayfinding",
+  name: "Orientera",
+  hasSkill: false,
+  usageRequirements: ['rough terrain', 'miserable terrain'],
+  increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.25
+}
+
+const weatherBeaten = {
+  key: "weather-beaten",
+  name: "Väderbiten",
+  hasSkill: false,
+  increaseMorale: (morale) => morale + 1
+}
+
+// * * AccustomedTo * * //
+
+const accustomedToForest = { // placeholder name
+  key: "accustomed to forest",
+  name: "Vana (Skog)",
+  hasSkill: false,
+  addProficiencyBonus: (fv) => addProficiencyBonus(fv),
+  IncreaseForaging: (provisions) => provisions + 1
+}
+
+// * * Knowledge skills * * //
+
+const basicKnowledgeDavand = {
+  key: "basic knowledge davand",
+  name: "Ytlig kunskap (Davand)",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
+const advancedKnowledgeDavand = {
+  key: "advanced knowledge davand",
+  name: "Fördjupad kunskap (Davand)",
+  hasSkill: false,
+  requirements: {
+    skills: ['basic knowledge davand']
+  },
+  addAdvantage: (sucRoll) => addAdvantage(sucRoll)
+}
+
+const basicKnowledgeVend = {
+  key: "basic knowledge vend",
+  name: "Ytlig kunskap (Vend)",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
+const advancedKnowledgeVend = {
+  key: "advanced knowledge vend",
+  name: "Fördjupad kunskap (Vend)",
+  hasSkill: false,
+  requirements: {
+    skills: ['basic knowledge vend']
+  },
+  addAdvantage: (sucRoll) => addAdvantage(sucRoll)
+}
+
+const basicKnowledgeSodor = {
+  key: "basic knowledge sodor",
+  name: "Ytlig kunskap (Sodor)",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
+const advancedKnowledgeSodor = {
+  key: "advanced knowledge Sodor",
+  name: "Fördjupad kunskap (Sodor)",
+  hasSkill: false,
+  requirements: {
+    skills: ['basic knowledge sodor']
+  },
+  addAdvantage: (sucRoll) => addAdvantage(sucRoll)
+}
+
+const basicKnowledgeSidra = {
+  key: "basic knowledge sidra",
+  name: "Ytlig kunskap (Sidra)",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
+const advancedKnowledgeSidra = {
+  key: "advanced knowledge sidra",
+  name: "Fördjupad kunskap (Sidra)",
+  hasSkill: false,
+  requirements: {
+    skills: ['basic knowledge sidra']
+  },
+  addAdvantage: (sucRoll) => addAdvantage(sucRoll)
+}
+
+const basicKnowledgeChemistry = { // placeholder name
+  key: "basic knowledge chemistry",
+  name: "Ytlig kunskap (Extrakt)",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv),
+  canPickExtractsOnForageRoll: (roll) => canPickExtractsOnForageRoll(roll)
+}
+
+const advancedKnowledgeChemistry = { // placeholder name
+  key: "advanced knowledge chemistry",
+  name: "Fördjupad kunskap (Extrakt)",
+  hasSkill: false,
+  requirements: {
+    skills: ['basic knowledge chemistry']
+  },
+  addAdvantage: (sucRoll) => addAdvantage(sucRoll),
+  canChoseExtraEffects: () => canChoseExtraEffects()
+}
+
+const basicKnowledgeArcane = {
+  key: "basic knowledge arcane",
+  name: "Ytlig kunskap (Magi)",
+  hasSkill: false,
+  softUnlock: (fv) => removeSucRollPenalty(fv),
+  canUseVia: () => canUseVia(),
+  canUseSigns: () => canUseSigns() // rungaldr
+}
+
+const advancedKnowledgeArcane = {
+  key: "advanced knowledge arcane",
+  name: "Fördjupad kunskap (Magi)",
+  hasSkill: false,
+  requirements: {
+    skills: ['basic knowledge arcane']
+  },
+  addAdvantage: (sucRoll) => addAdvantage(sucRoll),
+  addSpellbookPoint: (spellbookPoints) => spellbookPoints + 1
+}
+
+
 
 
 
@@ -329,31 +447,52 @@ const traitSkillsList = {
 }
 
 const generalSkillsList = {
-  brawling,
-  unarmouredFighting,
-  carouse,
-  resolve,
-  bookworm,
   animalHusbandry,
-  fast,
-  warfare,
+  beastOfBurden,
+  bookworm,
+  brawling,
+  carouse,
+  cook,
   crafting,
+  cutthroat,
+  fast,
+  forager,
   hardy,
   intrusion,
-  cooking,
   meticulous,
+  performer,
   physician, 
-  wayfinding,
-  beastOfBurden,
+  resolve,
   riding,
-  seamanship,
+  seamanship, 
   tracking,
-  performance,
+  unarmouredFighting,
   vigilant,
+  warfare,
+  wayfinding,
   weatherBeaten,
-  cutthroat,
-  forager,
-  accustomedTo
+  accustomedToForest
+}
+
+const knowledgeSkillsList = {
+  basicKnowledgeDavand,
+  advancedKnowledgeDavand,
+  basicKnowledgeVend,
+  advancedKnowledgeVend,
+  basicKnowledgeSodor,
+  advancedKnowledgeSodor,
+  basicKnowledgeSidra,
+  advancedKnowledgeSidra,
+  basicKnowledgeChemistry,
+  advancedKnowledgeChemistry,
+  basicKnowledgeArcane,
+  advancedKnowledgeArcane,
+}
+
+const allSkillsList = {
+  ...traitSkillsList,
+  ...generalSkillsList,
+  ...knowledgeSkillsList
 }
 
 
@@ -368,6 +507,7 @@ function assignOwnershipToSkills(skillList, characterSkills) {
   Object.assign(skillListWithOwnership, skillList)
   Object.keys(skillListWithOwnership).forEach(skillIndex => {
     characterSkills.forEach(characterSkill => {
+
       if (characterSkill === skillListWithOwnership[skillIndex].key ) {
         skillListWithOwnership[skillIndex].hasSkill = true
       }
@@ -383,7 +523,7 @@ function assignOwnershipToSkills(skillList, characterSkills) {
 export const skillsName = name
 
 /**
-* returns a 'traitSkills' list with 'hasSkill: true' assigned to
+* Returns a 'traitSkills' list with 'hasSkill: true' assigned to
 * the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'hasSkill: false'
 */
@@ -394,7 +534,7 @@ export function traitSkills(characterSkills = []) {
 }
 
 /**
-* returns a 'generalSkills' list with 'hasSkill: true' assigned to
+* Returns a 'generalSkills' list with 'hasSkill: true' assigned to
 * the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'hasSkill: false'
 */
@@ -405,7 +545,7 @@ export function generalSkills(characterSkills = []) {
 }
 
 /**
-* returns an 'allSkills' list with 'hasSkill: true' assigned to
+* Returns an 'allSkills' list with 'hasSkill: true' assigned to
 * the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'hasSkill: false'
 */
@@ -417,3 +557,40 @@ export function allSkills(characterSkills = []) {
   if (characterSkills.length) return assignOwnershipToSkills(list, characterSkills)
   return list
 }
+
+/**
+* Compares a characterSkills array to a single skill and assigns 'hasSkill: true'
+* to the skills that have been chosen by the character.
+*/
+export function skillWithOwnershipFromKey(skillKey, characterSkills = []) {
+
+  // use the skillKey to get the skillObject
+  const skill = allSkillsList[skillKey]
+
+  const skillWithOwnership = skillWithOwnershipFromSkill(skill, characterSkills)
+
+  return skillWithOwnership
+}
+
+function skillWithOwnershipFromSkill(skill, characterSkills = []) {
+
+  //  makes a copy of the parameter skillObject
+  let skillWithOwnership = {}
+  Object.assign(skillWithOwnership, skill)
+
+  // loops and checks if the skill matches any skill in characterSkills
+  characterSkills.forEach(characterSkill => {
+    if (characterSkill === skillWithOwnership.key) {
+
+      // tells the skill that it is owned
+      skillWithOwnership.hasSkill = true
+    }
+  })
+
+  return skillWithOwnership
+}
+
+
+console.log('ANNAN 1: ', skillWithOwnershipFromKey('melee', ['accuracy', 'plupp']));
+console.log('ANNAN 2: ', skillWithOwnershipFromKey('melee', ['accuracy', 'melee']));
+console.log('ANNAN 3: ', skillWithOwnershipFromKey('melee', ['melee', 'accuracy']));

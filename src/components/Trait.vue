@@ -59,7 +59,6 @@
 	import { setTraitValueName } from '../rules/traits'
 	import { useStore } from '../stores/character'
 
-
 	export default {
 		props: ["trait", "skills"],
 		setup(props) {
