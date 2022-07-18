@@ -21,7 +21,8 @@
 				</span>
 				<span
 					v-if="!skill.hasSkill"
-					class="font-size-nano">
+					class="font-size-nano"
+					>
 						{{ skill.name }}
 				</span>
 			</div>
@@ -41,12 +42,16 @@
 				<div class="padding-nano italic padding-right-medium">
 					<span
 						v-if="skill.hasSkill"
-						class="vertical-correction font-size-nano align-right bold">
-							{{ setTraitValueName(skill.addProficiencyBonus(traitValue)) }}
+						class="vertical-correction font-size-nano align-right bold"
+						:class="{ 'font-contrast-low': addProficiencyBonus(traitValue) < 5 }"
+					>
+						{{ setTraitValueName(skill.addProficiencyBonus(traitValue)) }}
 					</span>
 					<span
 						v-if="!skill.hasSkill"
-						class="vertical-correction font-size-nano align-right">
+						class="vertical-correction font-size-nano align-right"
+						:class="{ 'font-contrast-lowest': traitValue < 5 }"
+					>
 							{{ setTraitValueName(traitValue) }}
 					</span>
 				</div>
@@ -58,6 +63,7 @@
 <script>
 	import { setTraitValueName } from '../rules/traits'
 	import { useStore } from '../stores/character'
+	import { addProficiencyBonus } from '../rules/mechanics'
 
 	export default {
 		props: ["trait", "skills"],
@@ -67,7 +73,8 @@
 			return {
 				setTraitValueName,
 				traitValue,
-				store
+				store,
+				addProficiencyBonus
 			}
 		}
 	}
