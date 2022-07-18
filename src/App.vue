@@ -68,13 +68,9 @@ export default {
   beforeMount() {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
-
-        console.log('user: ', user);
-
         this.isLoggedIn = true;
         this.userUid = user.uid;
         this.userDisplayName = user.displayName;
-
       } else {
         this.isLoggedIn = false;
         this.router.replace(this.loginPath);
