@@ -1,4 +1,12 @@
-// * * S K I L L S * * //
+// * * * S K I L L S  /  F Ä R D I G H E T E R * * * //
+
+// * * * N O T E P A D * * * //
+
+// STUFF:
+// - Removed "night owl"
+
+// * * * C O N T E N T * * * //
+
 import traitSkillsList from './skillLists/traitSkills'
 import generalSkillsList from './skillLists/generalSkills'
 import knowledgeSkillsList from './skillLists/knowledgeSkills'
@@ -12,20 +20,7 @@ const allSkillsList = {
   ...favouredTerrainSkillsList
 }
 
-console.log('allSkillsList: ', allSkillsList);
-
-// TODO:
-// - Fill in the missing skills
-// - Skill code should be ordered alphabetically
-// - Generalise functions representing commonly occurring behaviours of skills
-// - - Example: "addProficiencyBonus"
-
-// STUFF:
-// - Removed "night owl"
-
-
-
-// * * Internal functions * * //
+// * * * Internal functions * * * //
 /**
 * compares a characterSkills array to skillList and assigns 'hasSkill: true'
 * to the skills that have been chosen by the character
@@ -35,8 +30,7 @@ function assignOwnershipToSkills(skillList, characterSkills) {
   Object.assign(skillListWithOwnership, skillList)
   Object.keys(skillListWithOwnership).forEach(skillIndex => {
     characterSkills.forEach(characterSkill => {
-
-      if (characterSkill === skillListWithOwnership[skillIndex].key ) {
+      if (characterSkill === skillListWithOwnership[skillIndex].key) {
         skillListWithOwnership[skillIndex].hasSkill = true
       }
     })
@@ -45,24 +39,18 @@ function assignOwnershipToSkills(skillList, characterSkills) {
 }
 
 function skillWithOwnershipFromSkill(skill, characterSkills = []) {
-
-  //  makes a copy of the parameter skillObject
   let skillWithOwnership = {}
   Object.assign(skillWithOwnership, skill)
-
-  // loops and checks if the skill matches any skill in characterSkills
   characterSkills.forEach(characterSkill => {
     if (characterSkill === skillWithOwnership.key) {
-
-      // tells the skill that it is owned
       skillWithOwnership.hasSkill = true
     }
   })
-
   return skillWithOwnership
 }
 
-// * * Exports * * //
+// * * * Exports * * * //
+
 /**
 * user-friendly title
 */
@@ -89,6 +77,10 @@ export function generalSkills(characterSkills = []) {
   if (characterSkills.length) return assignOwnershipToSkills(list, characterSkills)
   return list
 }
+/**
+* Returns an array containing the keys of generalSkillsList
+*/
+export const generalSkillListKeys = () => Object.keys(generalSkillsList)
 
 /**
 * Returns a 'knowledgeSkills' list with 'hasSkill: true' assigned to
@@ -100,9 +92,13 @@ export function knowledgeSkills(characterSkills = []) {
   if (characterSkills.length) return assignOwnershipToSkills(list, characterSkills)
   return list
 }
+/**
+* Returns an array containing the keys of knowledgeSkillsList
+*/
+export const knowledgeSkillListKeys = () => Object.keys(knowledgeSkillsList)
 
 /**
-* Returns a 'knowledgeSkills' list with 'hasSkill: true' assigned to
+* Returns a 'favouredTerrainSkills' list with 'hasSkill: true' assigned to
 * the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'hasSkill: false'
 */
@@ -111,6 +107,10 @@ export function favouredTerrainSkills(characterSkills = []) {
   if (characterSkills.length) return assignOwnershipToSkills(list, characterSkills)
   return list
 }
+/**
+* Returns an array containing the keys of favouredTerrainSkillsList
+*/
+export const favouredTerrainSkillListKeys = () => Object.keys(favouredTerrainSkillsList)
 
 /**
 * Returns an 'allSkills' list with 'hasSkill: true' assigned to
@@ -122,21 +122,31 @@ export function allSkills(characterSkills = []) {
   if (characterSkills.length) return assignOwnershipToSkills(list, characterSkills)
   return list
 }
+/**
+* Returns an array containing the keys of allSkillsList
+*/
+export const allSkillListKeys = () => Object.keys(allSkillsList)
 
 /**
 * Compares a characterSkills array to a single skill and assigns 'hasSkill: true'
 * to the skill if it has been chosen by the character.
 */
 export function skillWithOwnershipFromKey(skillKey, characterSkills = []) {
-
-  // use the skillKey to get the skillObject
   const skill = allSkillsList[skillKey]
   const skillWithOwnership = skillWithOwnershipFromSkill(skill, characterSkills)
   return skillWithOwnership
 }
 
+// * * * I N D E P E N D E N T  U T I L I T I E S * * * //
+// Functions that are skill related and should be served by the skills module,
+// but that do not rely on the contents of this file or its imports.
+
+// TODO:
+
+// canChooseSkill(flatCharacter, skillKey) => return boolean,
+// Does the character fill the requirements for choosing a specific skill?
 
 
-console.log('[accuracy, plupp]: ', skillWithOwnershipFromKey('melee', ['accuracy', 'plupp']));
-console.log('[accuracy, melee]: ', skillWithOwnershipFromKey('melee', ['accuracy', 'melee']));
-console.log('[melee, accuracy]: ', skillWithOwnershipFromKey('melee', ['melee', 'accuracy']));
+export function hasSkill(skillKey, characterSkills) {
+  return characterSkills.contains(skillKey) ? true : false
+}
