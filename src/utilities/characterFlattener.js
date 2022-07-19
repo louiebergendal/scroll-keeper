@@ -35,7 +35,6 @@ const flattenCharacter = (characterHistory) => {
 				characterSkillList.push(skill)
 			}
 		}
-
 	}
 
 	const flattenedCharacter = {

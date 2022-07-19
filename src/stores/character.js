@@ -18,6 +18,7 @@ export const useStore = defineStore('activeCharacter', {
     characterSheet: (state) =>  state.sheet,
     characterTraits: (state) => state.sheet.traits,
     characterSkills: (state) => state.sheet.skills,
+    //characterTalents: (state) => state.sheet.talents,
     characterLevel: (state) => state.metadata.currentLevel,
     characterName: (state) => state.metadata.name
   }
@@ -30,7 +31,8 @@ export default {
       'characterHistory',
       'characterSheet',
       'characterTraits',
-      'characterSkills',
+      //'characterSkills',
+      'characterTalents',
       'characterLevel',
       'characterName'
     ]),

@@ -28,7 +28,7 @@ const favouredTerrainPlains = {
 
 const favouredTerrainUrban = {
   key: "favouredTerrainUrban",
-  name: "Vana (Skog)",
+  name: "Vana (Stad)",
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
   increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)

@@ -26,7 +26,7 @@
 <script>
   import Trait from '../components/Trait.vue';
 	import { traits } from '../rules/traits.js'
-  import { traitSkills } from '../rules/skills.js'
+  import { traitSkills, canChooseSkill } from '../rules/skills.js'
 	import { useStore } from '../stores/character'
 
   export default {
@@ -35,8 +35,9 @@
     },
     setup() {
       const store = useStore()
-
       const skillsWithOwnership = traitSkills(store.characterSkills)
+
+      console.log('canChooseSkill: ', canChooseSkill('brawling', store));
 
       return {
         traits,

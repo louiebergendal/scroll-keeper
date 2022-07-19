@@ -11,6 +11,7 @@ import traitSkillsList from './skillLists/traitSkills'
 import generalSkillsList from './skillLists/generalSkills'
 import knowledgeSkillsList from './skillLists/knowledgeSkills'
 import favouredTerrainSkillsList from './skillLists/favouredTerrainSkills'
+import { Logger } from 'sass'
 
 const name = "Färdigheter"
 const allSkillsList = {
@@ -146,7 +147,48 @@ export function skillWithOwnershipFromKey(skillKey, characterSkills = []) {
 // canChooseSkill(flatCharacter, skillKey) => return boolean,
 // Does the character fill the requirements for choosing a specific skill?
 
+export function canChooseSkill(skillKey, flatCharacter) {
+  
+  // access target skills requirements
+  const skill = allSkillsList[skillKey]
+
+  if (skill.requirements) {
+    let requirementsAreMet = true
+
+    // check required skills
+    if (skill.requirements.skills) {
+      const requiredSkills = skill.requirements.skills
+
+      requiredSkills.forEach(requiredSkill => {
+        if(!hasSkill(requiredSkill, flatCharacter.characterSkills)) {
+          requirementsAreMet = false
+        }
+      })
+    }
+
+    // check required traits
+    if (skill.requirements.traits) {
+      const requiredTraitKeys = Object.keys(skill.requirements.traits)
+
+      requiredTraitKeys.forEach(requiredTraitKey => {
+        const requiredTraitValue = skill.requirements.traits[requiredTraitKey]
+        const characterTraitValue = flatCharacter.characterTraits[requiredTraitKey]
+
+        if (requiredTraitValue > characterTraitValue) {
+          requirementsAreMet = false
+        }
+      })
+    }
+
+    return requirementsAreMet
+  }
+}
+
 
 export function hasSkill(skillKey, characterSkills) {
-  return characterSkills.contains(skillKey) ? true : false
+  return characterSkills.includes(skillKey) ? true : false
 }
+
+/* export function hasTalent(talentKey, characterTalents) {
+  return characterTalents.includes(talentKey) ? true : false
+} */

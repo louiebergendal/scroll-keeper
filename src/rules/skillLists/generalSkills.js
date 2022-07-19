@@ -43,7 +43,10 @@ const brawling = {
     name: "Slagsmål",
     isOwned: false,
     requirements: {
-        skills: ['melee']
+        skills: ['melee'],
+        traits: {
+            battle: 5
+        }
     },
     usageRequirements: ['unarmed'],
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),
