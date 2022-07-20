@@ -1,16 +1,16 @@
-import Traits from '../components/traits.vue'
+import Attributes from '../components/attributes.vue'
 
 export default {
-  title: 'Traits',
-  component: Traits,
+  title: 'Attributes',
+  component: Attributes,
 }
 
 const Template = (args) => ({
-  components: { Traits },
+  components: { Attributes },
   setup() {
     return { args }
   },
-  template: '<traits />',
+  template: '<attributes />',
 })
 
 export const Primary = Template.bind({})

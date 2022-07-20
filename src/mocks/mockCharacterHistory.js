@@ -12,7 +12,7 @@ const VilleVakt = {
 			choice: "background"
 		},
 		2: {
-			bonusType: "trait",
+			bonusType: "attribute",
 			choice: "battle"
 		},
 		3: {
@@ -20,7 +20,7 @@ const VilleVakt = {
 			choice: "melee"
 		},
 		4: {
-			bonusType: "trait",
+			bonusType: "attribute",
 			choice: "battle"
 		},
 		5: {
@@ -28,7 +28,7 @@ const VilleVakt = {
 			choice: ""
 		},
 		6: {
-			bonusType: "trait",
+			bonusType: "attribute",
 			choice: "physique"
 		},
 		7: {
@@ -36,7 +36,7 @@ const VilleVakt = {
 			choice: ""
 		},
 		8: {
-			bonusType: "trait",
+			bonusType: "attribute",
 			choice: "physique"
 		},
 		9: {
@@ -44,7 +44,7 @@ const VilleVakt = {
 			choice: "athletics"
 		},
 		10: {
-			bonusType: "trait",
+			bonusType: "attribute",
 			choice: "agility"
 		},
 		11: {

@@ -1,58 +1,61 @@
 <template>
-	<div class="trait padding-right-tiny padding-left-tiny margin-bottom-nano flex">
+	<div class="attribute padding-right-tiny padding-left-tiny margin-bottom-nano flex">
 		<div class="width-whole flex margin-bottom-nano">
 			<div class="padding-nano width-half align-center">
-				<span class="font-size-tiny bold">{{ trait.shortName }}</span>
+				<span class="font-size-tiny bold">{{ attribute.shortName }}</span>
 			</div>
-			<div class="trait-value padding-left-small padding-nano margin-left-tiny align-center width-half">
-				<span class="font-size-tiny bold">{{ traitValue }}</span>
+			<div class="attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half">
+				<span class="font-size-tiny bold">{{ attributeValue }}</span>
 			</div>
 		</div>
 		<div
-			v-for="skill in skills"
+			v-for="skill in attributeSkills"
 			:key="skill.key"
 			class="width-whole flex"
 		>
 			<div class="width-half card medium padding-nano italic align-center">
 				<span
 					v-if="skill.hasSkill"
-					class="font-size-nano bold">
-						- {{ skill.name }} -
+					class="font-size-nano bold"
+				>
+					- {{ skill.name }} -
 				</span>
 				<span
 					v-if="!skill.hasSkill"
 					class="font-size-nano"
-					>
-						{{ skill.name }}
+				>
+					{{ skill.name }}
 				</span>
 			</div>
 			<div class="skill-value card light padding-nano flex width-half margin-left-tiny">
 				<div class="padding-left-small padding-nano width-fourth padding-left-huge">
 					<span
 						v-if="skill.hasSkill"
-						class="vertical-correction font-size-nano bold">
-							{{ skill.addProficiencyBonus(traitValue) }}
+						class="vertical-correction font-size-nano bold"
+					>
+						{{ skill.addProficiencyBonus(attributeValue) }}
 					</span>
 					<span
 						v-if="!skill.hasSkill"
-						class="vertical-correction font-size-nano">
-							{{ traitValue }}
+						class="vertical-correction font-size-nano"
+					>
+						{{ attributeValue }}
 					</span>
 				</div>
 				<div class="padding-nano italic padding-right-medium">
 					<span
 						v-if="skill.hasSkill"
 						class="vertical-correction font-size-nano align-right bold"
-						:class="{ 'font-contrast-low': addProficiencyBonus(traitValue) < 5 }"
+						:class="{ 'font-contrast-low': addProficiencyBonus(attributeValue) < 5 }"
 					>
-						{{ setTraitValueName(skill.addProficiencyBonus(traitValue)) }}
+						{{ setAttributeValueName(skill.addProficiencyBonus(attributeValue)) }}
 					</span>
 					<span
 						v-if="!skill.hasSkill"
 						class="vertical-correction font-size-nano align-right"
-						:class="{ 'font-contrast-lowest': traitValue < 5 }"
+						:class="{ 'font-contrast-lowest': attributeValue < 5 }"
 					>
-							{{ setTraitValueName(traitValue) }}
+						{{ setAttributeValueName(attributeValue) }}
 					</span>
 				</div>
 			</div>
@@ -61,18 +64,18 @@
 </template>
 
 <script>
-	import { setTraitValueName } from '../rules/traits'
+	import { setAttributeValueName } from '../rules/attributes'
 	import { useStore } from '../stores/character'
 	import { addProficiencyBonus } from '../rules/mechanics'
 
 	export default {
-		props: ["trait", "skills"],
+		props: ["attribute", "attributeSkills"],
 		setup(props) {
 			const store = useStore()
-			const traitValue = store.characterTraits[props.trait.key]
+			const attributeValue = store.characterAttributes[props.attribute.key]
 			return {
-				setTraitValueName,
-				traitValue,
+				setAttributeValueName,
+				attributeValue,
 				store,
 				addProficiencyBonus
 			}
@@ -81,7 +84,7 @@
 </script>
 
 <style>
-	.trait {
+	.attribute {
 		flex-direction: column;
 	}
 	.skill-value {
@@ -90,7 +93,7 @@
 	.vertical-correction {
 		vertical-align: text-bottom;
 	}
-	.trait-value {
+	.attribute-value {
 		background: rgb(255,251,246);
 		background: linear-gradient(90deg, rgba(255,251,246,0) 0%, rgba(255,251,246,1) 50%, rgba(255,251,246,0) 100%);
 	}

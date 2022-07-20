@@ -1,9 +1,13 @@
-const steady = {
+
+
+// * * * Exports * * * //
+
+export const steady = {
     key: "steady",
     name: "Stadig",
     isOwned: false,
     requirements: {
-        traits: {
+        attributes: {
             battle: 5,
             physique: 5
         }
@@ -12,12 +16,12 @@ const steady = {
     reduceincommingDamageBonus: (damageBonus) => damageBonus - 1
 }
 
-const quick = {
+export const quick = {
     key: "quick",
     name: "Kvick",
     isOwned: false,
     requirements: {
-        traits: {
+        attributes: {
             battle: 5,
             agility: 5
         }
@@ -25,8 +29,6 @@ const quick = {
     usageRequirements: ['healthy'],
     addAction: (actionPoints) => actionPoints + 1
 }
-
-
 
 export default {
     steady,

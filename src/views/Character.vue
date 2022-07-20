@@ -1,16 +1,16 @@
 <template>
 	<div class="character">Character</div>
-	<Traits />
+	<Attributes />
 	<LevelLadder />
 </template>
 
 <script>
-	import Traits from '../components/Traits.vue';
+	import Attributes from '../components/Attributes.vue';
 	//import LevelLadder from '../components/LevelLadder.vue';
 
 	export default {
 		components: {
-			Traits
+			Attributes
 			//LevelLadder
 		},
 		setup() {

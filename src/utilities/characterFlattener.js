@@ -1,5 +1,5 @@
-import { allSkills } from '../rules/skills'
-import { traits, baseValue } from '../rules/traits'
+import { allSkills } from '../rules/traits'
+import { attributes, baseValue } from '../rules/attributes'
 
 const flattenCharacter = (characterHistory) => {
 	const levelHistory = characterHistory.history
@@ -9,7 +9,7 @@ const flattenCharacter = (characterHistory) => {
 
 	let baseCharacter = {
 		metadata: metadata,
-		traits: {
+		attributes: {
 			battle: baseValue,
 			agility: baseValue,
 			spirit: baseValue,
@@ -23,10 +23,11 @@ const flattenCharacter = (characterHistory) => {
 	for (let i = 1; i <= metadata.currentLevel; i++) {
 		const chosenBonus = levelHistory[i].choice
 		const skillList = allSkills()
+		// const talentList = allTalents()
 
-		for (const trait in traits) {
-			if (trait === chosenBonus) {
-				baseCharacter.traits[chosenBonus]++
+		for (const attribute in attributes) {
+			if (attribute === chosenBonus) {
+				baseCharacter.attributes[chosenBonus]++
 			}
 		}
 

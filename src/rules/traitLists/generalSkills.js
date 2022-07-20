@@ -30,7 +30,7 @@ const bookworm = {
     name: "Bokmal",
     isOwned: false,
     requirements: {
-        traits: {
+        attributes: {
             knowledge: 5
         }
     },
@@ -44,7 +44,7 @@ const brawling = {
     isOwned: false,
     requirements: {
         skills: ['melee'],
-        traits: {
+        attributes: {
             battle: 5
         }
     },
@@ -83,7 +83,7 @@ const cutthroat = {
     name: "Överfall",
     isOwned: false,
     requirements: {
-        traits: {
+        attributes: {
             agility: 5
         }
     },
@@ -98,7 +98,7 @@ const fast = {
     name: "Flyfotad",
     isOwned: false,
     requirements: {
-        traits: {
+        attributes: {
             agility: 7
         }
     },
