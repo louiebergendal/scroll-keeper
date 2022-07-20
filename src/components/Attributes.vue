@@ -3,19 +3,19 @@
     <h3 class="attributes margin-top-nano align-center">Attributes</h3>
     <Attribute
       :attribute="attributes.battle"
-      :attributeSkills="[skillsWithOwnership.melee, skillsWithOwnership.accuracy]"
+      :attributeSkills="[attributeSkillsWithOwnership.melee, attributeSkillsWithOwnership.accuracy]"
     />
     <Attribute
       :attribute="attributes.agility"
-      :attributeSkills="[skillsWithOwnership.stealth, skillsWithOwnership.athletics]"
+      :attributeSkills="[attributeSkillsWithOwnership.stealth, attributeSkillsWithOwnership.athletics]"
     />
     <Attribute
       :attribute="attributes.spirit"
-      :attributeSkills="[skillsWithOwnership.extrasensation, skillsWithOwnership.force]"
+      :attributeSkills="[attributeSkillsWithOwnership.extrasensation, attributeSkillsWithOwnership.force]"
     />
     <Attribute
       :attribute="attributes.knowledge"
-      :attributeSkills="[skillsWithOwnership.lore, skillsWithOwnership.alchemy]"
+      :attributeSkills="[attributeSkillsWithOwnership.lore, attributeSkillsWithOwnership.alchemy]"
     />
     <Attribute
       :attribute="attributes.physique"
@@ -26,7 +26,7 @@
 <script>
   import Attribute from './Attribute.vue';
 	import { attributes } from '../rules/attributes.js'
-  import { attributeSkills, canChooseSkill } from '../rules/traits.js'
+  import { attributeSkills, canChooseTrait } from '../rules/traits.js'
 	import { useStore } from '../stores/character'
 
   export default {
@@ -35,13 +35,11 @@
     },
     setup() {
       const store = useStore()
-      const skillsWithOwnership = attributeSkills(store.characterSkills)
-
-      console.log('canChooseSkill: ', canChooseSkill('brawling', store));
+      const attributeSkillsWithOwnership = attributeSkills(store.characterTraits)
 
       return {
         attributes,
-        skillsWithOwnership,
+        attributeSkillsWithOwnership,
         store
       }
     },

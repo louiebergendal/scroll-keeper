@@ -22,7 +22,7 @@ const advancedKnowledgeDavand = {
     name: "Fördjupad kunskap (Davand)",
     isOwned: false,
     requirements: {
-        skills: ['basicKnowledgeDavand']
+        traits: ['basicKnowledgeDavand']
     },
     addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
@@ -39,7 +39,7 @@ const advancedKnowledgeVend = {
     name: "Fördjupad kunskap (Vend)",
     isOwned: false,
     requirements: {
-        skills: ['basicKnowledgeVend']
+        traits: ['basicKnowledgeVend']
     },
     addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
@@ -56,7 +56,7 @@ const advancedKnowledgeSodor = {
     name: "Fördjupad kunskap (Sodor)",
     isOwned: false,
     requirements: {
-        skills: ['basicKnowledgeSodor']
+        traits: ['basicKnowledgeSodor']
     },
     addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
@@ -73,7 +73,7 @@ const advancedKnowledgeSidra = {
     name: "Fördjupad kunskap (Sidra)",
     isOwned: false,
     requirements: {
-        skills: ['basicKnowledgeSidra']
+        traits: ['basicKnowledgeSidra']
     },
     addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
@@ -91,7 +91,7 @@ const advancedKnowledgeChemistry = { // placeholder name
     name: "Fördjupad kunskap (Extrakt)",
     isOwned: false,
     requirements: {
-        skills: ['basicKnowledgeChemistry']
+        traits: ['basicKnowledgeChemistry']
     },
     addAdvantage: (sucRoll) => addAdvantage(sucRoll),
     canChoseExtraEffects: () => canChoseExtraEffects()
@@ -111,7 +111,7 @@ const advancedKnowledgeArcane = {
     name: "Fördjupad kunskap (Magi)",
     isOwned: false,
     requirements: {
-        skills: ['basicKnowledgeArcane']
+        traits: ['basicKnowledgeArcane']
     },
     addAdvantage: (sucRoll) => addAdvantage(sucRoll),
     addSpellbookPoint: (spellbookPoints) => spellbookPoints + 1

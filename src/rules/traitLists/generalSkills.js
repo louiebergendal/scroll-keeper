@@ -43,7 +43,7 @@ const brawling = {
     name: "Slagsmål",
     isOwned: false,
     requirements: {
-        skills: ['melee'],
+        traits: ['melee'],
         attributes: {
             battle: 5
         }
@@ -132,7 +132,7 @@ const meticulous = {
     key: "meticulous",
     name: "noggrann",
     isOwned: false,
-    usageRequirements: ['formation'],
+    usageRequirements: ['extendedAction'],
     freeReroll: (roll) => freeReroll(roll)
 }
 
@@ -148,7 +148,7 @@ const physician = {
     name: "Omvårdnad",
     isOwned: false,
     requirements: {
-        skills: ['alchemy']
+        traits: ['alchemy']
     },
     increaseHealCealingForRestingCarachtersInGroup: (cealing) => cealing + 2
 }
@@ -165,7 +165,7 @@ const riding = {
     key: "riding",
     name: "Rida",
     isOwned: false,
-    usageRequirements: ['normal terrain', 'road'],
+    usageRequirements: ['normalTerrain', 'road', 'mounted'],
     increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.5
 }
 
@@ -216,7 +216,7 @@ const wayfinding = {
     key: "wayfinding",
     name: "Orientera",
     isOwned: false,
-    usageRequirements: ['rough terrain', 'miserable terrain'],
+    usageRequirements: ['roughTerrain', 'miserableTerrain'],
     increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.25
 }
 

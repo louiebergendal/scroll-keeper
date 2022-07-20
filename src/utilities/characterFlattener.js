@@ -1,11 +1,11 @@
-import { allSkills } from '../rules/traits'
+import { allTraits } from '../rules/traits'
 import { attributes, baseValue } from '../rules/attributes'
 
 const flattenCharacter = (characterHistory) => {
 	const levelHistory = characterHistory.history
 	const metadata = characterHistory.metadata
 
-	let characterSkillList = []
+	let characterTraitList = []
 
 	let baseCharacter = {
 		metadata: metadata,
@@ -16,13 +16,13 @@ const flattenCharacter = (characterHistory) => {
 			knowledge: baseValue,
 			physique: baseValue
 		},
-		skills: []
+		traits: []
 	}
 
 	// one-index because level starts at one
 	for (let i = 1; i <= metadata.currentLevel; i++) {
 		const chosenBonus = levelHistory[i].choice
-		const skillList = allSkills()
+		const traitList = allTraits()
 		// const talentList = allTalents()
 
 		for (const attribute in attributes) {
@@ -31,16 +31,16 @@ const flattenCharacter = (characterHistory) => {
 			}
 		}
 
-		for (const skill in skillList) {
+		for (const skill in traitList) {
 			if (skill === chosenBonus) {
-				characterSkillList.push(skill)
+				characterTraitList.push(skill)
 			}
 		}
 	}
 
 	const flattenedCharacter = {
 		...baseCharacter,
-		skills: characterSkillList
+		traits: characterTraitList
 	}
 	return flattenedCharacter
 }

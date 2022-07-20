@@ -15,13 +15,13 @@
 		>
 			<div class="width-half card medium padding-nano italic align-center">
 				<span
-					v-if="skill.hasSkill"
+					v-if="skill.isOwned"
 					class="font-size-nano bold"
 				>
 					- {{ skill.name }} -
 				</span>
 				<span
-					v-if="!skill.hasSkill"
+					v-if="!skill.isOwned"
 					class="font-size-nano"
 				>
 					{{ skill.name }}
@@ -30,13 +30,13 @@
 			<div class="skill-value card light padding-nano flex width-half margin-left-tiny">
 				<div class="padding-left-small padding-nano width-fourth padding-left-huge">
 					<span
-						v-if="skill.hasSkill"
+						v-if="skill.isOwned"
 						class="vertical-correction font-size-nano bold"
 					>
 						{{ skill.addProficiencyBonus(attributeValue) }}
 					</span>
 					<span
-						v-if="!skill.hasSkill"
+						v-if="!skill.isOwned"
 						class="vertical-correction font-size-nano"
 					>
 						{{ attributeValue }}
@@ -44,16 +44,16 @@
 				</div>
 				<div class="padding-nano italic padding-right-medium">
 					<span
-						v-if="skill.hasSkill"
+						v-if="skill.isOwned"
 						class="vertical-correction font-size-nano align-right bold"
-						:class="{ 'font-contrast-low': addProficiencyBonus(attributeValue) < 5 }"
+						:class="{ 'font-contrast-low': addProficiencyBonus(attributeValue) < (addProficiencyBonus(baseValue)) }"
 					>
 						{{ setAttributeValueName(skill.addProficiencyBonus(attributeValue)) }}
 					</span>
 					<span
-						v-if="!skill.hasSkill"
+						v-if="!skill.isOwned"
 						class="vertical-correction font-size-nano align-right"
-						:class="{ 'font-contrast-lowest': attributeValue < 5 }"
+						:class="{ 'font-contrast-lowest': attributeValue < (addProficiencyBonus(baseValue)) }"
 					>
 						{{ setAttributeValueName(attributeValue) }}
 					</span>
@@ -64,7 +64,7 @@
 </template>
 
 <script>
-	import { setAttributeValueName } from '../rules/attributes'
+	import { setAttributeValueName, baseValue } from '../rules/attributes'
 	import { useStore } from '../stores/character'
 	import { addProficiencyBonus } from '../rules/mechanics'
 
@@ -76,6 +76,7 @@
 			return {
 				setAttributeValueName,
 				attributeValue,
+				baseValue,
 				store,
 				addProficiencyBonus
 			}
