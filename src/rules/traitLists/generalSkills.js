@@ -8,8 +8,6 @@ import {
     increaseCarryingCapacity
 } from "../mechanics.js"
 
-
-
 const animalHusbandry = {
     key: "animalHusbandry", // should the key have the same spelling as the object?
     name: "Djurskötsel",
@@ -43,10 +41,7 @@ const brawling = {
     name: "Slagsmål",
     isOwned: false,
     requirements: {
-        traits: ['melee'],
-        attributes: {
-            battle: 5
-        }
+        traits: ['melee']
     },
     usageRequirements: ['unarmed'],
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),

@@ -17,7 +17,10 @@ import { Logger } from 'sass'
 const name = "Färdigheter och Talanger"
 
 const allTraitsList = {
-  ...attributeSkillsList,
+  ...attributeSkillsList.battle,
+  ...attributeSkillsList.agility,
+  ...attributeSkillsList.spirit,
+  ...attributeSkillsList.knowledge,
   ...generalSkillsList,
   ...knowledgeSkillsList,
   ...favouredTerrainSkillsList,
@@ -42,7 +45,7 @@ function assignOwnershipToTraits(traitList, characterTraits) {
   return traitListWithOwnership
 }
 
-function traitWithOwnershipFromTrait(trait, characterTraits = []) {
+function assignOwnershipToTrait(trait, characterTraits = []) {
   let traitWithOwnership = {}
   Object.assign(traitWithOwnership, trait)
   characterTraits.forEach(characterTrait => {
@@ -64,13 +67,33 @@ export const traitsName = name
 * Returns a 'attributeSkills' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterSkills' value
 * will return a list where all traits have 'isOwned: false'
+* @param {string[]} [characterSkills] - An array containing skills owned by the character
 */
+
 export function attributeSkills(characterSkills = []) {
-  let list = attributeSkillsList
-  if (characterSkills.length) return assignOwnershipToTraits(list, characterSkills)
-    return list
+  let explodedList = {}
+  Object.keys(list, (attributeKey) => {
+    explodedList = {
+      ...explodedList,
+      ...list[attributeKey]
+    }
+  })
+  if (characterSkills.length) return assignOwnershipToTraits(explodedList, characterSkills)
+  return explodedList
 }
 export const attributeSkillListKeys = () => Object.keys(attributeSkillsList)
+
+/**
+* Returns an 'attributeSkill' list with 'isOwned: true' assigned to
+* the appropriate character skills. Providing no 'characterSkills' value
+* will return a list where all skills have 'isOwned: false'
+* @param {string} specificAttributeKey - Returns skills associated with a specific attribute
+* @param {string[]} [characterSkills] - An array containing skills owned by the character
+*/
+export function specificAttributeSkills(specificAttributeKey, characterSkills = []) {
+  let list = attributeSkillsList
+  return assignOwnershipToTraits(list[specificAttributeKey], characterSkills)
+}
 
 /**
 * Returns a 'generalSkills' list with 'isOwned: true' assigned to
@@ -80,7 +103,7 @@ export const attributeSkillListKeys = () => Object.keys(attributeSkillsList)
 export function generalSkills(characterSkills = []) {
   const list = generalSkillsList
   if (characterSkills.length) return assignOwnershipToTraits(list, characterSkills)
-    return list
+  return list
 }
 /**
 * Returns an array containing the keys of generalSkillsList
@@ -95,7 +118,7 @@ export const generalSkillListKeys = () => Object.keys(generalSkillsList)
 export function knowledgeSkills(characterSkills = []) {
   const list = knowledgeSkillsList
   if (characterSkills.length) return assignOwnershipToTraits(list, characterSkills)
-    return list
+  return list
 }
 /**
 * Returns an array containing the keys of knowledgeSkillsList
@@ -110,7 +133,7 @@ export const knowledgeSkillListKeys = () => Object.keys(knowledgeSkillsList)
 export function favouredTerrainSkills(characterSkills = []) {
   const list = favouredTerrainSkillsList
   if (characterSkills.length) return assignOwnershipToTraits(list, characterSkills)
-    return list
+  return list
 }
 /**
 * Returns an array containing the keys of favouredTerrainSkillsList
@@ -144,7 +167,7 @@ export const talentsListKeys = () => Object.keys(talentsList)
 export function allTraits(characterTraits = []) {
   const list = allTraitsList
   if (characterTraits.length) return assignOwnershipToTraits(list, characterTraits)
-    return list
+  return list
 }
 /**
 * Returns an array containing the keys of allTraitsList
@@ -157,7 +180,7 @@ export const allTraitListKeys = () => Object.keys(allTraitsList)
 */
 export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
   const trait = allTraitsList[traitKey]
-  const traitWithOwnership = traitWithOwnershipFromTrait(trait, characterTraits)
+  const traitWithOwnership = assignOwnershipToTrait(trait, characterTraits)
   return traitWithOwnership
 }
 
@@ -167,9 +190,11 @@ export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
 
 // TODO:
 
-// canChooseTrait(flatCharacter, traitKey) => return boolean,
 // Does the character fill the requirements for choosing a specific trait?
-
+/**
+* Compares a characterTraits array to a single trait and assigns 'isOwned: true'
+* to the trait if it has been chosen by the character.
+*/
 export function canChooseTrait(traitKey, flatCharacter) {
   
   // access target trait requirements

@@ -1,7 +1,5 @@
 import { addProficiencyBonus } from "../mechanics.js"
 
-
-
 const melee = {
     key: "melee",
     name: "Närkamp",
@@ -58,15 +56,21 @@ const alchemy = {
     addProficiencyBonus: (fv) => addProficiencyBonus(fv)
 }
 
-
-
 export default {
-    melee,
-    accuracy,
-    stealth,
-    athletics,
-    extrasensation,
-    force,
-    lore,
-    alchemy
+    battle: {
+        melee,
+        accuracy,
+    },
+    agility: {
+        stealth,
+        athletics,
+    },
+    spirit: {
+        extrasensation,
+        force,
+    },
+    knowledge: {
+        lore,
+        alchemy
+    }
 }

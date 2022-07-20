@@ -26,7 +26,7 @@ export const quick = {
             agility: 5
         }
     },
-    usageRequirements: ['healthy'],
+    usageRequirements: ['well'],
     addAction: (actionPoints) => actionPoints + 1
 }
 

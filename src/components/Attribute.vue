@@ -65,23 +65,27 @@
 
 <script>
 	import { setAttributeValueName, baseValue } from '../rules/attributes'
-	import { useStore } from '../stores/character'
+	import { specificAttributeSkills } from '../rules/traits'
 	import { addProficiencyBonus } from '../rules/mechanics'
+	import { useStore } from '../stores/character'
 
 	export default {
-		props: ["attribute", "attributeSkills"],
+		props: ["attribute"],
 		setup(props) {
 			const store = useStore()
 			const attributeValue = store.characterAttributes[props.attribute.key]
+			const attributeSkills = specificAttributeSkills(props.attribute.key, store.characterTraits)
 			return {
 				setAttributeValueName,
 				attributeValue,
+				attributeSkills,
 				baseValue,
 				store,
 				addProficiencyBonus
 			}
 		}
 	}
+
 </script>
 
 <style>

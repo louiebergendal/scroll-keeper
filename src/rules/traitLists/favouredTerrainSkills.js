@@ -1,7 +1,5 @@
 import { addProficiencyBonus, increaseForagingByOne } from "../mechanics.js"
 
-
-
 const favouredTerrainForest = {
   key: "favouredTerrainForest",
   name: "Vana (Skog)",
@@ -33,8 +31,6 @@ const favouredTerrainUrban = {
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
   increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
 }
-
-
 
 export default {
   favouredTerrainForest,
