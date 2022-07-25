@@ -21,13 +21,6 @@
     },
     setup() {
       const character = useStore()
-
-/*       sucRoll(3, 2, 1)
-      sucRoll(3, 2, 1)
-      sucRoll(3, 2, 1)
-      sucRoll(3, 2, 1)
-      sucRoll(3, 2, 1) */
-
       return {
         attributes,
         character

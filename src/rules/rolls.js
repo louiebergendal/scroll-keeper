@@ -1,42 +1,58 @@
+// * * * R O L L S  /  T Ä R N I N G S S L A G * * * //
+
+
+// * * * C O N T E N T * * * //
+
 import { Logger } from "sass"
 
-export function sucRoll(fv, sv, mv = 0) {
-  let result = d8(2)
-	console.log("result: ", result)
-}
+// * * * Internal functions * * * //
 
-export function d8(dieAmount, advantage = 1) {
+/**
+* diceRoll:
+* - Rolls a set of identical dice and returns an object containg the result of each individual roll and their total value.
+* @param {number} diceSides - The amount of sides on each die
+* @param {number} diceAmount - The amount of dice to be rolled
+* @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'
+*/
+function diceRoll(diceSides, diceAmount, advantage = 0) {
 	const advantageDiceAmount = Math.abs(advantage)
-	const totalDieAmount = (dieAmount + advantageDiceAmount)
+	const totalDiceAmount = (diceAmount + advantageDiceAmount)
 	let rollsArray = []
-	let rollTotal = 0;
+	let rollResult = 0;
 
 	// roll the dice
-	for (let i = 0; i < totalDieAmount; i++) {
-		const roll = Math.floor(Math.random() * 8) + 1
-		console.log('- roll: ', roll);
+	for (let i = 0; i < totalDiceAmount; i++) {
+		const roll = Math.floor(Math.random() * diceSides) + 1
 		rollsArray.push(roll)
 	}
-	rollsArray = accountForAdvantage(rollsArray, advantage)
+
+	console.log('raw rollsArray: ', rollsArray);
+
+	// account for advantage
+	rollsArray = removeAdvantageDice(rollsArray, advantage)
+
+	// sum up the result
+	rollsArray.forEach(roll => {
+		rollResult += roll
+	})
 
 	return {
 		rolls: rollsArray,
-		rollTotal
+		rollResult
 	}
 }
 
-function accountForAdvantage(rollsArray, advantage = 0) {
-	console.log('rollsArray before: ', rollsArray);
+/**
+* removeAdvantageDice:
+* - Removes an amount of lowest or highest results from a diceRoll
+* @param {number} rollsArray - The amount of dice to be rolled
+* @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'
+*/
+function removeAdvantageDice(rollsArray, advantage = 0) {
 	const advantageDiceAmount = Math.abs(advantage)
 	let newRollsArray = [...rollsArray] // copy array, to make sure the original is not mutated
-
-	// account for advantage
 	if (advantage > 0) { newRollsArray = removeLowest(newRollsArray, advantageDiceAmount) }
-
-	// account for disadvantage
 	if (advantage < 0) { newRollsArray = removeHighest(newRollsArray, advantageDiceAmount) }
-
-	console.log('rollsArray after: ', newRollsArray);
 	return newRollsArray
 }
 
@@ -60,5 +76,74 @@ function removeHighest(rollsArray, amount) {
 	return newRollsArray
 }
 
-// test
-console.log('d8(2, -3): ', d8(2, 4));
+
+// * * * Exports * * * //
+
+/**
+* d8:
+* - Rolls a set of D8 and returns an object containg the result of each individual roll and their total value.
+* @param {number} diceAmount - The amount of d8 to be rolled
+* @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'
+*/
+export function d8(diceAmount, advantage = 0) {
+	return diceRoll(8, diceAmount, advantage)
+}
+
+/**
+* d6:
+* - Rolls a set of D6 and returns an object containg the result of each individual roll and their total value.
+* @param {number} diceAmount - The amount of d6 to be rolled
+* @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'
+*/
+export function d6(diceAmount, advantage = 0) {
+	return diceRoll(6, diceAmount, advantage)
+}
+
+/**
+* sucRoll:
+* - Makes a 'Success roll' and returns an object containing the a 'key' and 'rollResult'.
+* @param {number} fv - the characters value
+* @param {number} sv - the situations value
+* @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'.
+* @param {number[]} [mv] - the opposing characters value
+*/
+export function sucRoll(fv, sv, advantage = 0, mv = 0) {
+	const diceRollObject = d8(2, advantage)
+	const rollResult = diceRollObject.rollResult
+	const finalResult = (rollResult + fv + sv - mv)
+
+	if (finalResult >= 23) {
+		return {
+			key: 'triumph',
+			rollResult: finalResult // in case we will need access to this in order to apply retroactive changes
+		}
+	} else if (finalResult >= 20) {
+		return {
+			key: 'success',
+			rollResult: finalResult
+		}
+	} else if (finalResult >= 17) {
+		return {
+			key: 'partialSuccess',
+			rollResult: finalResult
+		}
+	} else if (finalResult >= 14) {
+		return {
+			key: 'failure',
+			rollResult: finalResult
+		}
+	} else if (finalResult <= 13) {
+		return {
+			key: 'totalFailure',
+			rollResult: finalResult
+		}
+	}
+
+}
+
+// test sucRoll
+console.log('     ---------------      ');
+const test = sucRoll(19, 0, -1, 10)
+console.log('Roll result: ', test.rollResult);
+console.log('Performance: ', test.key);
+console.log('     ---------------      ');

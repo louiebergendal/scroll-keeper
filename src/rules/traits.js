@@ -1,4 +1,4 @@
-// * * * S K I L L S  /  F Ä R D I G H E T E R * * * //
+// * * * T R A I T S  /  K A R A K T Ä R S E G E N S K A P E R * * * //
 
 // * * * N O T E P A D * * * //
 
@@ -140,8 +140,6 @@ export function favouredTerrainSkills(characterSkills = []) {
 */
 export const favouredTerrainSkillListKeys = () => Object.keys(favouredTerrainSkillsList)
 
-
-
 /**
 * Returns a 'talents' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterSkills' value
@@ -156,8 +154,6 @@ export function talents(characterSkills = []) {
 * Returns an array containing the keys of talentsList
 */
 export const talentsListKeys = () => Object.keys(talentsList)
-
-
 
 /**
 * Returns an 'allTraits' list with 'isOwned: true' assigned to
@@ -184,13 +180,11 @@ export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
   return traitWithOwnership
 }
 
+
 // * * * I N D E P E N D E N T  U T I L I T I E S * * * //
 // Functions that are trait related and should be served by the traits module,
 // but that do not rely on the contents of this file or its imports.
 
-// TODO:
-
-// Does the character fill the requirements for choosing a specific trait?
 /**
 * Compares a characterTraits array to a single trait and assigns 'isOwned: true'
 * to the trait if it has been chosen by the character.
