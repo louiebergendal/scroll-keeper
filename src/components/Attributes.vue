@@ -13,7 +13,7 @@
   import Attribute from './Attribute.vue'
 	import { attributes } from '../rules/attributes'
 	import { useStore } from '../stores/character'
-  import { sucRoll } from '../rules/rolls'
+  import melee from '../rules/successTables/melee'
 
   export default {
 		components: {

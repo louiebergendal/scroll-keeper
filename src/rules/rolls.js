@@ -112,38 +112,18 @@ export function sucRoll(fv, sv, advantage = 0, mv = 0) {
 	const rollResult = diceRollObject.rollResult
 	const finalResult = (rollResult + fv + sv - mv)
 
-	if (finalResult >= 23) {
-		return {
-			key: 'triumph',
-			rollResult: finalResult // in case we will need access to this in order to apply retroactive changes
-		}
-	} else if (finalResult >= 20) {
-		return {
-			key: 'success',
-			rollResult: finalResult
-		}
-	} else if (finalResult >= 17) {
-		return {
-			key: 'partialSuccess',
-			rollResult: finalResult
-		}
-	} else if (finalResult >= 14) {
-		return {
-			key: 'failure',
-			rollResult: finalResult
-		}
-	} else if (finalResult <= 13) {
-		return {
-			key: 'totalFailure',
-			rollResult: finalResult
-		}
-	}
-
+	if (finalResult >= 23) return { key: 'triumph', 		rollResult: finalResult }
+	if (finalResult >= 20) return { key: 'success', 		rollResult: finalResult }
+	if (finalResult >= 17) return { key: 'partialSuccess', 	rollResult: finalResult }
+	if (finalResult >= 14) return { key: 'failure', 		rollResult: finalResult }
+	if (finalResult <= 13) return { key: 'totalFailure', 	rollResult: finalResult }
 }
 
+
+
 // test sucRoll
-console.log('     ---------------      ');
+/* console.log('     ---------------      ')
 const test = sucRoll(19, 0, -1, 10)
-console.log('Roll result: ', test.rollResult);
-console.log('Performance: ', test.key);
-console.log('     ---------------      ');
+console.log('Roll result: ', test.rollResult)
+console.log('Performance: ', test.key)
+console.log('     ---------------      ') */

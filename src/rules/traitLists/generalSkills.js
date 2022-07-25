@@ -222,8 +222,6 @@ const weatherBeaten = {
     increaseMorale: (morale) => morale + 1
 }
 
-
-
 export default {
     animalHusbandry,
     beastOfBurden,

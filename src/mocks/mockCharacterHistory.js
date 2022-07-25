@@ -6,6 +6,9 @@ const VilleVakt = {
 		name: "Ville Vakt",
 		currentLevel: 11
 	},
+	state: {
+		currentStrain: 5
+	},
 	history: {
 		1: {
 			bonusType: "talent",
