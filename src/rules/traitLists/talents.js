@@ -13,7 +13,7 @@ export const steady = {
         }
     },
     addOutgoingDamagebonus: (damageBonus) => damageBonus + 1,
-    reduceincommingDamageBonus: (damageBonus) => damageBonus - 1
+    addDamageBonusReduction: (damageBonusReduction) => damageBonusReduction + 1
 }
 
 export const quick = {

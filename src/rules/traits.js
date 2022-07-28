@@ -5,6 +5,7 @@
 // RULE CHANGES:
 // - Removed "night owl"
 
+
 // * * * C O N T E N T * * * //
 
 import attributeSkillsList from './traitLists/attributeSkills'
@@ -27,9 +28,11 @@ const allTraitsList = {
   ...talentsList
 }
 
+
 // * * * Internal functions * * * //
 /**
-* compares a characterTraits array to traitList and assigns 'isOwned: true'
+* assignOwnershipToTraits:
+* - compares a characterTraits array to traitList and assigns 'isOwned: true'
 * to the traits that have been chosen by the character
 */
 function assignOwnershipToTraits(traitList, characterTraits) {
@@ -56,6 +59,7 @@ function assignOwnershipToTrait(trait, characterTraits = []) {
   return traitWithOwnership
 }
 
+
 // * * * Exports * * * //
 
 /**
@@ -64,12 +68,12 @@ function assignOwnershipToTrait(trait, characterTraits = []) {
 export const traitsName = name
 
 /**
-* Returns a 'attributeSkills' list with 'isOwned: true' assigned to
+* attributeSkills:
+* - Returns a 'attributeSkills' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterSkills' value
 * will return a list where all traits have 'isOwned: false'
 * @param {string[]} [characterSkills] - An array containing skills owned by the character
 */
-
 export function attributeSkills(characterSkills = []) {
   let explodedList = {}
   Object.keys(list, (attributeKey) => {
@@ -81,10 +85,15 @@ export function attributeSkills(characterSkills = []) {
   if (characterSkills.length) return assignOwnershipToTraits(explodedList, characterSkills)
   return explodedList
 }
+/**
+* Returns an array containing the keys of attributeSkillListKeys
+*/
 export const attributeSkillListKeys = () => Object.keys(attributeSkillsList)
 
+
 /**
-* Returns an 'attributeSkill' list with 'isOwned: true' assigned to
+* specificAttributeSkills:
+* - Returns an 'attributeSkill' list with 'isOwned: true' assigned to
 * the appropriate character skills. Providing no 'characterSkills' value
 * will return a list where all skills have 'isOwned: false'
 * @param {string} specificAttributeKey - Returns skills associated with a specific attribute
@@ -95,8 +104,10 @@ export function specificAttributeSkills(specificAttributeKey, characterSkills = 
   return assignOwnershipToTraits(list[specificAttributeKey], characterSkills)
 }
 
+
 /**
-* Returns a 'generalSkills' list with 'isOwned: true' assigned to
+* generalSkills.
+* - Returns a 'generalSkills' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterSkills' value
 * will return a list where all traits have 'isOwned: false'
 */
@@ -110,8 +121,10 @@ export function generalSkills(characterSkills = []) {
 */
 export const generalSkillListKeys = () => Object.keys(generalSkillsList)
 
+
 /**
-* Returns a 'knowledgeSkills' list with 'isOwned: true' assigned to
+* knowledgeSkills:
+* - Returns a 'knowledgeSkills' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterSkills' value
 * will return a list where all traits have 'isOwned: false'
 */
@@ -125,8 +138,10 @@ export function knowledgeSkills(characterSkills = []) {
 */
 export const knowledgeSkillListKeys = () => Object.keys(knowledgeSkillsList)
 
+
 /**
-* Returns a 'favouredTerrainSkills' list with 'isOwned: true' assigned to
+* favouredTerrainSkills:
+* - Returns a 'favouredTerrainSkills' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterSkills' value
 * will return a list where all traits have 'isOwned: false'
 */
@@ -140,8 +155,10 @@ export function favouredTerrainSkills(characterSkills = []) {
 */
 export const favouredTerrainSkillListKeys = () => Object.keys(favouredTerrainSkillsList)
 
+
 /**
-* Returns a 'talents' list with 'isOwned: true' assigned to
+* talents:
+* - Returns a 'talents' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterSkills' value
 * will return a list where all traits have 'isOwned: false'
 */
@@ -155,8 +172,10 @@ export function talents(characterSkills = []) {
 */
 export const talentsListKeys = () => Object.keys(talentsList)
 
+
 /**
-* Returns an 'allTraits' list with 'isOwned: true' assigned to
+* allTraits:
+* - Returns an 'allTraits' list with 'isOwned: true' assigned to
 * the appropriate character traits. Providing no 'characterTraits' value
 * will return a list where all traits have 'isOwned: false'
 */
@@ -170,9 +189,11 @@ export function allTraits(characterTraits = []) {
 */
 export const allTraitListKeys = () => Object.keys(allTraitsList)
 
+
 /**
-* Compares a characterTraits array to a single trait and assigns 'isOwned: true'
-* to the trait if it has been chosen by the character.
+* traitWithOwnershipFromKey:
+* - Compares a characterTraits array to a single trait. 
+* Assigns 'isOwned: true' to the trait if it has been chosen by the character.
 */
 export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
   const trait = allTraitsList[traitKey]
@@ -186,7 +207,8 @@ export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
 // but that do not rely on the contents of this file or its imports.
 
 /**
-* Compares a characterTraits array to a single trait and assigns 'isOwned: true'
+* 
+* - Compares a characterTraits array to a single trait and assigns 'isOwned: true'
 * to the trait if it has been chosen by the character.
 */
 export function canChooseTrait(traitKey, flatCharacter) {
@@ -200,7 +222,6 @@ export function canChooseTrait(traitKey, flatCharacter) {
     // check required traits
     if (trait.requirements.traits) {
       const requiredTraits = trait.requirements.traits
-
       requiredTraits.forEach(requiredTrait => {
         if(!hasTrait(requiredTrait, flatCharacter.characterTraits)) {
           requirementsAreMet = false
@@ -211,11 +232,9 @@ export function canChooseTrait(traitKey, flatCharacter) {
     // check required attributes
     if (trait.requirements.attributes) {
       const requiredAttributeKeys = Object.keys(trait.requirements.attributes)
-
       requiredAttributeKeys.forEach(requiredAttributeKey => {
         const requiredAttributeValue = trait.requirements.attributes[requiredAttributeKey]
         const characterAttributeValue = flatCharacter.characterAttributes[requiredAttributeKey]
-
         if (requiredAttributeValue > characterAttributeValue) {
           requirementsAreMet = false
         }

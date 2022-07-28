@@ -13,7 +13,10 @@
   import Attribute from './Attribute.vue'
 	import { attributes } from '../rules/attributes'
 	import { useStore } from '../stores/character'
-  import melee from '../rules/successTables/melee'
+  //import { diceRoll } from '../rules/rolls'
+  //import { damageRoll } from '../rules/health'
+
+  // console.log('diceRoll(6, 3, 1, 2): ', diceRoll(6, 3, 1, -1));
 
   export default {
 		components: {
@@ -25,7 +28,7 @@
         attributes,
         character
       }
-    },
+    }
   }
 </script>
 

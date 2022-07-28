@@ -3,6 +3,10 @@ import { defineStore, mapState, mapStores } from 'pinia'
 import { VilleVakt } from '../mocks/mockCharacterHistory';
 import { flattenCharacter } from '../utilities/characterFlattener';
 
+/* 
+  to be used in views 
+*/
+
 export const useStore = defineStore('activeCharacter', {
   state: () => {
     const characterHistory = VilleVakt // HÅRDKODAD MOCK

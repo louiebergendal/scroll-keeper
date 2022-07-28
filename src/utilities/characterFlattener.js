@@ -1,6 +1,9 @@
 import { allTraits } from '../rules/traits'
 import { attributes, baseValue } from '../rules/attributes'
 
+import { calculateMaxHealth, damageRoll } from '../rules/health'
+
+
 const flattenCharacter = (characterHistory) => {
 	const levelHistory = characterHistory.history
 	const metadata = characterHistory.metadata
@@ -25,7 +28,6 @@ const flattenCharacter = (characterHistory) => {
 	for (let i = 1; i <= metadata.currentLevel; i++) {
 		const chosenBonus = levelHistory[i].choice
 		const traitList = allTraits()
-		// const talentList = allTalents()
 
 		for (const attribute in attributes) {
 			if (attribute === chosenBonus) {
@@ -33,25 +35,30 @@ const flattenCharacter = (characterHistory) => {
 			}
 		}
 
-		for (const skill in traitList) {
-			if (skill === chosenBonus) {
-				characterTraitList.push(skill)
+		for (const trait in traitList) {
+			if (trait === chosenBonus) {
+				characterTraitList.push(trait)
 			}
 		}
+
+		baseCharacter.maxHealth =
+			calculateMaxHealth(baseCharacter.attributes.physique, characterTraitList)
 	}
 
-	// secondary stats
-	const calculateMaxHealth = (physique, characterTraitList) => {
-		let maxHealth =  2// physique calculation
-		if (characterTraitList.includes("skill name")) {
 
-		}
-	}
 
 	const flattenedCharacter = {
 		...baseCharacter,
 		traits: characterTraitList
 	}
+
+	console.log('OJOJOJOJ');
+	console.log('DAMAGE ROLL: ', damageRoll(flattenedCharacter, 0, 0, 0));
+
+
+
+
+
 	return flattenedCharacter
 }
 
