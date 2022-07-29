@@ -1,15 +1,9 @@
-import { allTraits } from './traits'
+import { tryApplyTraitEffectOnValue } from './traits'
 
 export const baseValue = 2
 
 export const calculateCarryingCapacity = (physiqueValue, characterTraitList) => {
-	const traitList = allTraits(characterTraitList)
     let maxCarryingCapacity = physiqueValue + baseValue
-    for (const trait in traitList) {
-        const traitObject = traitList[trait]
-        if (traitObject.isOwned && traitObject.addCarryingCapacityBonus) {
-            maxCarryingCapacity = traitList[trait].addCarryingCapacityBonus(maxCarryingCapacity)
-        }
-    } 
+    maxCarryingCapacity = tryApplyTraitEffectOnValue(maxCarryingCapacity, 'addMaxCarryingCapacityBonus', characterTraitList)
     return maxCarryingCapacity = maxCarryingCapacity * 4
 }

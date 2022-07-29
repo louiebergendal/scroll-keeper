@@ -5,7 +5,7 @@ import {
     freeReroll,
     multiplyActionTime,
     refineProvisions,
-    addCarryingCapacityBonus
+    addMaxCarryingCapacityBonus
 } from '../../mechanics.js'
 
 const animalHusbandry = {
@@ -20,7 +20,7 @@ const beastOfBurden = {
     key: "beastOfBurden",
     name: "Packåsna",
     isOwned: false,
-    addCarryingCapacityBonus: (carryingCapacity) => addCarryingCapacityBonus(carryingCapacity)
+    addMaxCarryingCapacityBonus: (carryingCapacity) => addMaxCarryingCapacityBonus(carryingCapacity)
 }
 
 const bookworm = {
@@ -45,7 +45,7 @@ const brawling = {
     },
     usageRequirements: ['unarmed'],
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-    retroactivelyLowerDamageBonus: (damageBonus) => damageBonus - 2,
+    retroactivelyLowerOffensivePower: (power) => power - 2,
     retroactivelyLowerCritRoll: (critRoll) => critRoll - 2
 }
 
@@ -62,7 +62,7 @@ const cook = {
     name: "kok-konst",
     isOwned: false,
     usageRequirements: ['fire'],
-    increaseGroupMorale: (morale) => morale + 1,
+    addGroupMoraleBonus: (morale) => morale + 1,
     refineProvisions: (provisions) => refineProvisions(provisions)
 }
 
@@ -83,7 +83,7 @@ const cutthroat = {
         }
     },
     usageRequirements: ['unnoticed'],
-    increaseDamage: (dmg) => dmg + 6,
+    addDamageBonus: (dmg) => dmg + 6,
     retroactivelyLowerCritRoll: (critRoll) => critRoll - 2,
     retroactivelyIncreaseCritRoll: (critRoll) => critRoll + 2
 }
@@ -98,29 +98,29 @@ const fast = {
         }
     },
     usageRequirements: ['standing'],
-    increaseFastMovement: (movement) => movement + 1,
-    increaseSprintMovement:  (movement) => movement + 2
+    addFastMovementBonus: (movement) => movement + 1,
+    addSprintMovementBonus:  (movement) => movement + 2
 }
 
 const forager = {
     key: "forager",
     name: "Överlevnad",
     isOwned: false,
-    IncreaseForaging: (provisions) => provisions + 2
+    addForagingBonus: (provisions) => provisions + 2
 }
 
 const hardy = {
     key: "hardy",
     name: "Härdad",
     isOwned: false,
-    addHealthBonus: (health) => health + 2
+    addMaxHealthBonus: (health) => health + 2
 }
 
 const intrusion = {
     key: "intrusion",
     name: "Inbrott",
     isOwned: false,
-    actionTimeRollPick: () => 1
+    actionTimeLockpick: () => 1
 }
 
 const meticulous = {
@@ -135,7 +135,7 @@ const performer = {
     key: "performer",
     name: "Underhållning",
     isOwned: false,
-    increaseGroupMorale: (morale) => morale + 1
+    addGroupMoraleBonus: (morale) => morale + 1
 }
 
 const physician = {
@@ -145,7 +145,7 @@ const physician = {
     requirements: {
         traits: ['alchemy']
     },
-    increaseHealCealingForRestingCarachtersInGroup: (cealing) => cealing + 2
+    addHealCeilingBonus: (ceiling) => ceiling + 2
 }
 
 const resolve = {
@@ -161,7 +161,8 @@ const riding = {
     name: "Rida",
     isOwned: false,
     usageRequirements: ['normalTerrain', 'road', 'mounted'],
-    increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.5
+    increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.5,
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv),
 }
 
 const seamanship = {
@@ -189,7 +190,7 @@ const unarmouredFighting = {
     isOwned: false,
     usageRequirements: ['unarmoured'],
     addInitiativeBonus: (initiative) => initiative + 1,
-    addFateAtBeginningOfCombat: (fate) => fate + 2
+    addFateBonus: (fate) => fate + 2
 }
 
 const vigilant = {
@@ -212,14 +213,14 @@ const wayfinding = {
     name: "Orientera",
     isOwned: false,
     usageRequirements: ['roughTerrain', 'miserableTerrain'],
-    increaseGroupNarrativeMovementSpeed: (speed) => speed * 1.25
+    addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25
 }
 
 const weatherBeaten = {
     key: "weatherBeaten",
     name: "Väderbiten",
     isOwned: false,
-    increaseMorale: (morale) => morale + 1
+    addMoraleBonus: (morale) => morale + 1
 }
 
 export default {

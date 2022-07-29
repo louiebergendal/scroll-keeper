@@ -20,5 +20,5 @@ export const canUseVia = () => console.log('can use via!');
 export const canUseSigns = () => console.log('can use signs!');
 export const multiplyActionTime = (actionTime, factor) => actionTime * factor
 export const refineProvisions = (provisions) => console.log(provisions) // <--- this needs gear
-export const addCarryingCapacityBonus = (carryingCapacity) => console.log(carryingCapacity) // <--- this needs carryingCapacity
+export const addMaxCarryingCapacityBonus = (carryingCapacity) => console.log(carryingCapacity) // <--- this needs carryingCapacity
 export const increaseForagingByOne = (provisions) => provisions + 1

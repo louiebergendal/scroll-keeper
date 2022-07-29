@@ -12,8 +12,11 @@ export const steady = {
             physique: 5
         }
     },
-    addOutgoingDamagebonus: (damageBonus) => damageBonus + 1,
-    addDamageBonusReduction: (damageBonusReduction) => damageBonusReduction + 1
+    addPowerBonus: (power) => {
+        power.offensive += 1
+        power.defensive += 1
+        return power
+    }
 }
 
 export const quick = {
@@ -27,8 +30,12 @@ export const quick = {
         }
     },
     usageRequirements: ['well'],
-    addAction: (actionPoints) => actionPoints + 1
+    addBasicActionPointsBonus: (actionPoints) => {
+        actionPoints.basic += 1
+        return actionPoints
+    }
 }
+
 
 export default {
     steady,

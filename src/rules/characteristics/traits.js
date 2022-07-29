@@ -90,7 +90,6 @@ export function attributeSkills(characterSkills = []) {
 */
 export const attributeSkillListKeys = () => Object.keys(attributeSkillsList)
 
-
 /**
 * specificAttributeSkills:
 * - Returns an 'attributeSkill' list with 'isOwned: true' assigned to
@@ -103,7 +102,6 @@ export function specificAttributeSkills(specificAttributeKey, characterSkills = 
   let list = attributeSkillsList
   return assignOwnershipToTraits(list[specificAttributeKey], characterSkills)
 }
-
 
 /**
 * generalSkills.
@@ -121,7 +119,6 @@ export function generalSkills(characterSkills = []) {
 */
 export const generalSkillListKeys = () => Object.keys(generalSkillsList)
 
-
 /**
 * knowledgeSkills:
 * - Returns a 'knowledgeSkills' list with 'isOwned: true' assigned to
@@ -137,7 +134,6 @@ export function knowledgeSkills(characterSkills = []) {
 * Returns an array containing the keys of knowledgeSkillsList
 */
 export const knowledgeSkillListKeys = () => Object.keys(knowledgeSkillsList)
-
 
 /**
 * favouredTerrainSkills:
@@ -155,7 +151,6 @@ export function favouredTerrainSkills(characterSkills = []) {
 */
 export const favouredTerrainSkillListKeys = () => Object.keys(favouredTerrainSkillsList)
 
-
 /**
 * talents:
 * - Returns a 'talents' list with 'isOwned: true' assigned to
@@ -171,7 +166,6 @@ export function talents(characterSkills = []) {
 * Returns an array containing the keys of talentsList
 */
 export const talentsListKeys = () => Object.keys(talentsList)
-
 
 /**
 * allTraits:
@@ -189,6 +183,13 @@ export function allTraits(characterTraits = []) {
 */
 export const allTraitListKeys = () => Object.keys(allTraitsList)
 
+export function characterTraitsWithOwnership(characterTraits) {
+  let traits = {}
+  characterTraits.forEach(traitKey => {
+    traits[traitKey] = traitWithOwnershipFromKey(traitKey, characterTraits)
+  })
+  return traits
+}
 
 /**
 * traitWithOwnershipFromKey:
@@ -207,7 +208,26 @@ export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
 // but that do not rely on the contents of this file or its imports.
 
 /**
-* 
+* tryApplyTraitEffectOnValue:
+* - takes in as parameters, a 'value', a string by the name of [traitEffect] and a string[] of
+* character traitKeys. It will identify traits in characterTraitList that have a function by
+* the name of [traitEffect] and then apply [traitEffect] on 'value'. Then 'value' will be returned.
+* The returned value will have the same format as the input 'value' param.
+*/
+export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitList) {
+  const traitList = characterTraitsWithOwnership(characterTraitList)
+  let modifiedValue = value
+  for (const traitKey in traitList) {
+    const traitObject = traitList[traitKey]
+    if (traitObject[traitEffect]) {
+      modifiedValue = traitObject[traitEffect](modifiedValue)
+    }
+  }
+  return modifiedValue
+}
+
+/**
+* canChooseTrait:
 * - Compares a characterTraits array to a single trait and assigns 'isOwned: true'
 * to the trait if it has been chosen by the character.
 */

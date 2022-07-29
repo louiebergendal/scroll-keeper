@@ -9,6 +9,8 @@ import { baseValue as fateBaseValue } from '../rules/characteristics/fate'
 import { calculateMaxHealth } from '../rules/characteristics/health'
 import { calculateCarryingCapacity } from '../rules/characteristics/carryingCapacity'
 import { calculateInitiative } from '../rules/characteristics/initiative'
+import { calculatePower } from '../rules/characteristics/power'
+import { calculateMaxActionPoints } from '../rules/characteristics/actionPoints'
 
 
 const flattenCharacter = (characterHistory) => {
@@ -28,7 +30,7 @@ const flattenCharacter = (characterHistory) => {
 			physique: attributeBaseValue
 		},
 		traits: [],
-		damageBonus: {
+		power: {
 			offensive: 0,
 			defensive: 0
 		},
@@ -47,27 +49,53 @@ const flattenCharacter = (characterHistory) => {
 		const bonusType = levelHistory[i].bonusType
 		const traitList = allTraits()
 
-		baseCharacter.maxHealth =
-			calculateMaxHealth(baseCharacter.attributes.physique, characterTraitList) // maxHealth baseValue is set here
-		baseCharacter.carryingCapacity =
-			calculateCarryingCapacity(baseCharacter.attributes.physique, characterTraitList)
-		baseCharacter.initiative =
-			calculateInitiative(baseCharacter.attributes.battle, characterTraitList, baseCharacter.metadata.currentLevel)
-
+		// COMPETENCE
 		if (bonusType === 'competence')
 			baseCharacter.competence++
+
+		// FATE
 		if (bonusType === 'fate')
 			baseCharacter.fate += 3
 
+		// ATTRIBUTES
 		for (const attribute in attributes) {
 			if (attribute === chosenBonus)
 				baseCharacter.attributes[chosenBonus]++
 		}
 
+		// TRAITS
 		for (const trait in traitList) {
 			if (trait === chosenBonus)
 				characterTraitList.push(trait)
 		}
+
+		// * * * SECONDARY CHARACTERISTICS * * * //
+
+		// MAX HEALTH
+		baseCharacter.maxHealth = calculateMaxHealth(
+			baseCharacter.attributes.physique,
+			characterTraitList
+		) // maxHealth baseValue is set here
+
+		// CARRYING CAPACITY
+		baseCharacter.carryingCapacity = calculateCarryingCapacity(
+			baseCharacter.attributes.physique,
+			characterTraitList
+		)
+
+		// INITIATIVE
+		baseCharacter.initiative = calculateInitiative(
+			baseCharacter.attributes.battle,
+			characterTraitList,
+			baseCharacter.metadata.currentLevel
+		)
+
+		// POWER
+		baseCharacter.power = calculatePower(characterTraitList)
+
+		// ACTION POINTS
+		baseCharacter.actionPoints = calculateMaxActionPoints(characterTraitList)
+
 	}
 
 	const flattenedCharacter = {
