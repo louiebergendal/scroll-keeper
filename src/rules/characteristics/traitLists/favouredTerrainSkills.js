@@ -1,4 +1,4 @@
-import { addProficiencyBonus, increaseForagingByOne } from "../mechanics.js"
+import { addProficiencyBonus, increaseForagingByOne } from '../../mechanics.js'
 
 const favouredTerrainForest = {
   key: "favouredTerrainForest",

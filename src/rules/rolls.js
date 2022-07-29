@@ -107,7 +107,10 @@ export function d6(diceAmount, advantage = 0) {
 * @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'.
 * @param {number[]} [mv] - the opposing characters value
 */
-export function sucRoll(fv, sv, advantage = 0, mv = 0) {
+export function sucRoll(fv, sv, options = {}) {
+	const advantage = options.advantage ? options.advantage : 0
+	const mv = options.mv ? options.mv : 0
+
 	const diceRollObject = d8(2, advantage)
 	const rollResult = diceRollObject.rollResult
 	const finalResult = (rollResult + fv + sv - mv)
@@ -119,11 +122,6 @@ export function sucRoll(fv, sv, advantage = 0, mv = 0) {
 	if (finalResult <= 13) return { key: 'totalFailure', 	rollResult: finalResult }
 }
 
+export function damageRoll(targetCharacter, diceAmount, damageBonus, advantage = 0) {
 
-
-// test sucRoll
-/* console.log('     ---------------      ')
-const test = sucRoll(19, 0, -1, 10)
-console.log('Roll result: ', test.rollResult)
-console.log('Performance: ', test.key)
-console.log('     ---------------      ') */
+}

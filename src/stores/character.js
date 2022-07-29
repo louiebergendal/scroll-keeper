@@ -11,6 +11,8 @@ export const useStore = defineStore('activeCharacter', {
   state: () => {
     const characterHistory = VilleVakt // HÅRDKODAD MOCK
     const characterSheet = flattenCharacter(characterHistory)
+
+    console.log('characterSheet: ', characterSheet);
     return {
       metadata: characterHistory.metadata,
       sheet: characterSheet,

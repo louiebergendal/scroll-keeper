@@ -6,7 +6,7 @@ import {
     canChoseExtraEffects,
     canUseVia,
     canUseSigns
-} from "../mechanics.js"
+} from '../../mechanics.js'
 
 
 

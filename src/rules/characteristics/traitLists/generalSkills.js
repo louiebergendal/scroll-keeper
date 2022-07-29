@@ -5,8 +5,8 @@ import {
     freeReroll,
     multiplyActionTime,
     refineProvisions,
-    increaseCarryingCapacity
-} from "../mechanics.js"
+    addCarryingCapacityBonus
+} from '../../mechanics.js'
 
 const animalHusbandry = {
     key: "animalHusbandry", // should the key have the same spelling as the object?
@@ -20,7 +20,7 @@ const beastOfBurden = {
     key: "beastOfBurden",
     name: "Packåsna",
     isOwned: false,
-    increaseCarryingCapacity: (carryingCapacity) => increaseCarryingCapacity(carryingCapacity)
+    addCarryingCapacityBonus: (carryingCapacity) => addCarryingCapacityBonus(carryingCapacity)
 }
 
 const bookworm = {
@@ -188,7 +188,7 @@ const unarmouredFighting = {
     name: "Bar bringa",
     isOwned: false,
     usageRequirements: ['unarmoured'],
-    addInitiative: (initiative) => initiative + 1,
+    addInitiativeBonus: (initiative) => initiative + 1,
     addFateAtBeginningOfCombat: (fate) => fate + 2
 }
 

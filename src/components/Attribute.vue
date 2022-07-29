@@ -64,8 +64,8 @@
 </template>
 
 <script>
-	import { setAttributeValueName, baseValue } from '../rules/attributes'
-	import { specificAttributeSkills } from '../rules/traits'
+	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
+	import { specificAttributeSkills } from '../rules/characteristics/traits'
 	import { addProficiencyBonus } from '../rules/mechanics'
 	import { useStore } from '../stores/character'
 

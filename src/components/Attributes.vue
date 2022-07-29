@@ -11,7 +11,7 @@
 
 <script>
   import Attribute from './Attribute.vue'
-	import { attributes } from '../rules/attributes'
+	import { attributes } from '../rules/characteristics/attributes'
 	import { useStore } from '../stores/character'
   //import { diceRoll } from '../rules/rolls'
   //import { damageRoll } from '../rules/health'

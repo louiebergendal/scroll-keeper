@@ -1,4 +1,4 @@
-import { addProficiencyBonus } from "../mechanics.js"
+import { addProficiencyBonus } from "../../mechanics.js"
 
 const melee = {
     key: "melee",
