@@ -1,4 +1,4 @@
-import { tryApplyTraitEffectOnValue } from './traits'
+import { tryApplyTraitEffectOnValue } from '../traits'
 
 export const baseValue = {
     basic: 2,

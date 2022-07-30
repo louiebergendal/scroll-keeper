@@ -36,8 +36,37 @@ export const quick = {
     }
 }
 
+export const scholar = {
+    key: "scholar",
+    name: "Lärd",
+    isOwned: false,
+    requirements: {
+        attributes: {
+            knowledge: 5
+        }
+    },
+    retroactivelyAddInformationRollBonus: (informationRollResult) => informationRollResult += 2,
+    appendToTraitList: (characterTraitList, traitsToAppend) => characterTraitList.concat(traitsToAppend)
+}
+
+export const quiet = {
+    key: "quiet",
+    name: "Tyst",
+    isOwned: false,
+    requirements: {
+        attributes: {
+            agility: 5
+        },
+        traits: ['stealth']
+    },
+    retroactivelyAddStealthMVBonus: (mv) => mv += 2,
+    decreasePartialSuccessRisk: (roll) => roll - 1 
+}
+
 
 export default {
     steady,
-    quick
+    quick,
+    scholar,
+    quiet
 }

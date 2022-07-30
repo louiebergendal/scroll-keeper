@@ -1,4 +1,3 @@
-
 // Bonus type saved to db for comparison if rules are updated
 
 const VilleVakt = {
@@ -7,7 +6,10 @@ const VilleVakt = {
 		currentLevel: 11
 	},
 	state: {
-		currentStrain: 5
+		currentStrain: {
+			damage: 10,
+			fatigue: 7
+		}
 	},
 	history: {
 		1: {
@@ -56,7 +58,6 @@ const VilleVakt = {
 		}
 	}
 }
-
 
 export {
     VilleVakt

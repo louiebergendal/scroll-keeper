@@ -1,5 +1,5 @@
 
-import { tryApplyTraitEffectOnValue } from './traits'
+import { tryApplyTraitEffectOnValue } from '../traits'
 const baseValue = {
     offensive: 0,
     defensive: 0

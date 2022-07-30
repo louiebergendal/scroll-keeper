@@ -1,0 +1,125 @@
+// * * * N O T E P A D * * * //
+/* 
+    later:
+    - size base health
+    - towering.addHealthBonus
+*/
+
+import { tryApplyTraitEffectOnValue } from '../traits'
+
+const baseValue = 2
+
+const tryReduceToZeroAndReturnOverflow = (healthValue, strainValue) => {
+    let result = {
+        strainOverflow: 0,
+        healthRemainder: 0
+    }
+    let healthRemainder = healthValue - strainValue
+    if (healthRemainder < 0) {
+        result.strainOverflow = -healthRemainder
+        healthRemainder = 0
+    } else {
+        result.healthRemainder = healthRemainder
+    }
+    return result
+}
+
+export const applyStrainToHealthLevelAndReturnOverflow = (healthLevelMaxValue, strain) => {
+    // does damage overflow max health on this level?
+    let newHealthLevelState = tryReduceToZeroAndReturnOverflow(healthLevelMaxValue, strain.damage)
+    let overflowedStrain = {
+        damage: newHealthLevelState.strainOverflow,
+        fatigue: strain.fatigue
+    }
+    // EARLY RETURN: damage did overflow
+    if (newHealthLevelState.strainOverflow) {
+        return {
+            healthLevel: {
+                max: healthLevelMaxValue,
+                currentStrain: {
+                    damage: healthLevelMaxValue 
+                }
+            },
+            overflowedStrain
+        }
+    }
+    // it didn't.
+    // does fatigue overflow max health on this level?
+    newHealthLevelState = tryReduceToZeroAndReturnOverflow(
+        newHealthLevelState.healthRemainder,
+        overflowedStrain.fatigue
+    )
+    overflowedStrain.fatigue = newHealthLevelState.strainOverflow
+    // EARLY RETURN: damage did not overflow but fatigue did
+    if (newHealthLevelState.strainOverflow) {
+        return {
+            healthLevel: {
+                max: healthLevelMaxValue,
+                currentStrain: {
+                    damage: strain.damage,
+                    fatigue: healthLevelMaxValue - strain.damage
+                }
+            },
+            overflowedStrain
+        }
+    }
+    // it didn't.
+    // no overflow case, triggers if damage and fatigue combined
+    // fail to exceed this level's max health
+    return {
+        healthLevel: {
+            max: healthLevelMaxValue,
+            currentStrain: {
+                damage: strain.damage,
+                fatigue: strain.fatigue
+            }
+        },
+        overflowedStrain
+    }
+}
+
+const createHealthLevels = (maxHealthValue, strain) => {
+    let healthObject = {}
+    const healthLevelMaxValue = maxHealthValue / 3
+    let remainder = applyStrainToHealthLevelAndReturnOverflow(healthLevelMaxValue, strain)
+    healthObject['well'] = remainder.healthLevel
+    remainder = applyStrainToHealthLevelAndReturnOverflow(healthLevelMaxValue, remainder.overflowedStrain)
+    healthObject['strained'] = remainder.healthLevel
+    remainder = applyStrainToHealthLevelAndReturnOverflow(healthLevelMaxValue, remainder.overflowedStrain)
+    healthObject['incapacitated'] = remainder.healthLevel
+    return healthObject
+}
+
+export const sumStrains = (oldStrain, newStrain) => {
+    return {
+        damage: oldStrain.damage + newStrain.damage,
+        fatigue: oldStrain.fatigue + newStrain.fatigue
+    }
+}
+
+export const calculateMaxHealthValue = (physiqueValue, characterTraitList) => {
+    let maxHealthValue = physiqueValue + baseValue // baseValue added here to be included in multiplication at return
+    maxHealthValue = tryApplyTraitEffectOnValue(maxHealthValue, 'addMaxHealthBonus', characterTraitList)
+    // Everything that modifies maxHealth should be added before final multiplication
+    return maxHealthValue = maxHealthValue * 3
+}
+
+export const createHealthObject = (
+    maxHealthValue,
+    currentStrain,
+    newStrain = undefined
+) => {
+    let healthObject = {}
+    let strain = currentStrain
+    if (newStrain) strain = sumStrains(currentStrain, newStrain)
+    return createHealthLevels(maxHealthValue, strain)
+}
+
+export const receiveStrain = (maxHealthValue, currentStrain, newStrain) => {
+    const newHealthValue = maxHealthValue - currentStrain - newStrain
+    const strain = {
+        fatigue: currentStrain.fatigue + newStrain.fatigue,
+        damage: currentStrain.damage + newStrain.damage
+    }
+}
+

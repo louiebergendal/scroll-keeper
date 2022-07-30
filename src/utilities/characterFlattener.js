@@ -1,16 +1,16 @@
 import { allTraits } from '../rules/characteristics/traits'
 import { attributes, baseValue as attributeBaseValue } from '../rules/characteristics/attributes'
-import { baseValue as movementBaseValue } from '../rules/characteristics/movement'
-import { baseValue as actionPointBaseValue } from '../rules/characteristics/actionPoints'
-import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics/carryingCapacity'
-import { baseValue as competenceBaseValue } from '../rules/characteristics/competence'
-import { baseValue as fateBaseValue } from '../rules/characteristics/fate'
+import { baseValue as movementBaseValue } from '../rules/characteristics/secondaryCharacteristics/movement'
+import { baseValue as actionPointBaseValue } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
+import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
+import { baseValue as competenceBaseValue } from '../rules/characteristics/secondaryCharacteristics/competence'
+import { baseValue as fateBaseValue } from '../rules/characteristics/secondaryCharacteristics/fate'
 
-import { calculateMaxHealth } from '../rules/characteristics/health'
-import { calculateCarryingCapacity } from '../rules/characteristics/carryingCapacity'
-import { calculateInitiative } from '../rules/characteristics/initiative'
-import { calculatePower } from '../rules/characteristics/power'
-import { calculateMaxActionPoints } from '../rules/characteristics/actionPoints'
+import { calculateMaxHealthValue, createHealthObject } from '../rules/characteristics/secondaryCharacteristics/health'
+import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
+import { calculateInitiative } from '../rules/characteristics/secondaryCharacteristics/initiative'
+import { calculatePower } from '../rules/characteristics/secondaryCharacteristics/power'
+import { calculateMaxActionPoints } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
 
 
 const flattenCharacter = (characterHistory) => {
@@ -22,6 +22,7 @@ const flattenCharacter = (characterHistory) => {
 
 	let baseCharacter = {
 		metadata: metadata,
+		state: state,
 		attributes: {
 			battle: attributeBaseValue,
 			agility: attributeBaseValue,
@@ -36,7 +37,8 @@ const flattenCharacter = (characterHistory) => {
 		},
 		movement: movementBaseValue,
 		carryingCapacity: carryingCapacityBaseValue,
-		maxHealth: 0, // baseValue included in calculateMaxHealth()
+		maxHealthValue: 0,
+		health: {},
 		fate: fateBaseValue,
 		competence: competenceBaseValue,
 		initiative: {},
@@ -71,11 +73,18 @@ const flattenCharacter = (characterHistory) => {
 
 		// * * * SECONDARY CHARACTERISTICS * * * //
 
-		// MAX HEALTH
-		baseCharacter.maxHealth = calculateMaxHealth(
+		// MAX HEALTH VALUE
+		baseCharacter.maxHealthValue = calculateMaxHealthValue(
 			baseCharacter.attributes.physique,
 			characterTraitList
-		) // maxHealth baseValue is set here
+		) // maxHealthValue baseValue is set here
+
+		// HEALTH ( Relies on maxHealthValue being set )
+		baseCharacter.health = createHealthObject(
+			baseCharacter.maxHealthValue,
+			baseCharacter.state.currentStrain,
+			{damage: 6, fatigue: 1}
+		)
 
 		// CARRYING CAPACITY
 		baseCharacter.carryingCapacity = calculateCarryingCapacity(
@@ -102,7 +111,6 @@ const flattenCharacter = (characterHistory) => {
 		...baseCharacter,
 		traits: characterTraitList
 	}
-
 	return flattenedCharacter
 }
 
