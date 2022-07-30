@@ -6,7 +6,7 @@ import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics
 import { baseValue as competenceBaseValue } from '../rules/characteristics/secondaryCharacteristics/competence'
 import { baseValue as fateBaseValue } from '../rules/characteristics/secondaryCharacteristics/fate'
 
-import { calculateMaxHealthValue, createHealthObject } from '../rules/characteristics/secondaryCharacteristics/health'
+import { calculateMaxHealthValue, createHealth } from '../rules/characteristics/secondaryCharacteristics/health'
 import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { calculateInitiative } from '../rules/characteristics/secondaryCharacteristics/initiative'
 import { calculatePower } from '../rules/characteristics/secondaryCharacteristics/power'
@@ -80,10 +80,10 @@ const flattenCharacter = (characterHistory) => {
 		) // maxHealthValue baseValue is set here
 
 		// HEALTH ( Relies on maxHealthValue being set )
-		baseCharacter.health = createHealthObject(
+		baseCharacter.health = createHealth(
 			baseCharacter.maxHealthValue,
 			baseCharacter.state.currentStrain,
-			{damage: 6, fatigue: 1}
+			{ damage: 6, fatigue: 1 }
 		)
 
 		// CARRYING CAPACITY
