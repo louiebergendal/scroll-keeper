@@ -82,8 +82,7 @@ const flattenCharacter = (characterHistory) => {
 		// HEALTH ( Relies on maxHealthValue being set )
 		baseCharacter.health = createHealth(
 			baseCharacter.maxHealthValue,
-			baseCharacter.state.currentStrain,
-			{ damage: 6, fatigue: 1 }
+			baseCharacter.state.currentStrain
 		)
 
 		// CARRYING CAPACITY

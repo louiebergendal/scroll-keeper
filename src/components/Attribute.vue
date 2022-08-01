@@ -72,15 +72,17 @@
 	export default {
 		props: ["attribute"],
 		setup(props) {
-			const store = useStore()
-			const attributeValue = store.characterAttributes[props.attribute.key]
-			const attributeSkills = specificAttributeSkills(props.attribute.key, store.characterTraits)
+			const character = useStore()
+			const health = character.getHealth
+			console.log("health: ", health)
+			const attributeValue = character.getAttributes[props.attribute.key]
+			const attributeSkills = specificAttributeSkills(props.attribute.key, character.getTraits)
 			return {
 				setAttributeValueName,
 				attributeValue,
 				attributeSkills,
 				baseValue,
-				store,
+				character,
 				addProficiencyBonus
 			}
 		}

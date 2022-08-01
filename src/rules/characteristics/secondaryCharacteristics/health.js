@@ -44,7 +44,8 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
       healthLevel: {
         max: healthLevelMaxValue,
         currentStrain: {
-          damage: healthLevelMaxValue
+          damage: healthLevelMaxValue,
+          fatigue: 0
         }
       },
       overflowedStrain
@@ -63,7 +64,7 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
       healthLevel: {
         max: healthLevelMaxValue,
         currentStrain: {
-          damage: strain.damage,
+          damage: strain.damage | 0,
           fatigue: healthLevelMaxValue - strain.damage
         }
       },
@@ -86,15 +87,15 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
 }
 
 const createHealthLevels = (maxHealthValue, strain) => {
-  let healthObject = {}
+  let health = {}
   const healthLevelMaxValue = maxHealthValue / 3
   let remainder = createHealthLevelWithOverflow(healthLevelMaxValue, strain)
-  healthObject['well'] = remainder.healthLevel
+  health['well'] = remainder.healthLevel
   remainder = createHealthLevelWithOverflow(healthLevelMaxValue, remainder.overflowedStrain)
-  healthObject['strained'] = remainder.healthLevel
+  health['strained'] = remainder.healthLevel
   remainder = createHealthLevelWithOverflow(healthLevelMaxValue, remainder.overflowedStrain)
-  healthObject['incapacitated'] = remainder.healthLevel
-  return healthObject
+  health['incapacitated'] = remainder.healthLevel
+  return health
 }
 
 export const calculateMaxHealthValue = (physiqueValue, characterTraitList) => {

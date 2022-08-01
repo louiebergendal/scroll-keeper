@@ -1,8 +1,10 @@
 <template>
-	<div class="character">Character</div>
-	<Attributes />
-	<Health />
-	<LevelLadder />
+	<div class="character padding-medium">
+		<Attributes />
+		<div class="padding-bottom-medium"></div>
+		<Health />
+		<LevelLadder />
+	</div>
 </template>
 
 <script>
@@ -24,5 +26,6 @@
 <style>
 	.character {
 		position: relative;
+
 	}
 </style>

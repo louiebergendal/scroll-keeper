@@ -17,16 +17,22 @@ import { Logger } from 'sass'
 
 const name = "Färdigheter och Talanger"
 
-const allTraitsList = {
+const allSkillsList = {
   ...attributeSkillsList.battle,
   ...attributeSkillsList.agility,
   ...attributeSkillsList.spirit,
   ...attributeSkillsList.knowledge,
   ...generalSkillsList,
   ...knowledgeSkillsList,
-  ...favouredTerrainSkillsList,
+  ...favouredTerrainSkillsList
+}
+
+const allTraitsList = {
+  ...allSkillsList,
   ...talentsList
 }
+
+
 
 
 // * * * Internal functions * * * //
@@ -143,7 +149,7 @@ export const knowledgeSkillListKeys = () => Object.keys(knowledgeSkillsList)
 */
 export function favouredTerrainSkills(characterSkills = []) {
   const list = favouredTerrainSkillsList
-  if (characterSkills.length) return assignOwnershipToTraits(list, characterSkills)
+  if (characterSkills.length) return assigsnOwnershipToTraits(list, characterSkills)
   return list
 }
 /**
@@ -157,7 +163,7 @@ export const favouredTerrainSkillListKeys = () => Object.keys(favouredTerrainSki
 * the appropriate character traits. Providing no 'characterSkills' value
 * will return a list where all traits have 'isOwned: false'
 */
-export function talents(characterSkills = []) {
+export function allTalents(characterSkills = []) {
   const list = talentsList
   if (characterSkills.length) return assignOwnershipToTraits(list, characterSkills)
     return list
@@ -182,6 +188,23 @@ export function allTraits(characterTraits = []) {
 * Returns an array containing the keys of allTraitsList
 */
 export const allTraitListKeys = () => Object.keys(allTraitsList)
+
+/**
+* skills:
+* - Returns an 'skills' list with 'isOwned: true' assigned to
+* the appropriate character traits. Providing no 'characterTraits' value
+* will return a list where all traits have 'isOwned: false'
+*/
+export function allSkills(characterTraits = []) {
+  const list = allSkillsList
+  if (characterTraits.length) return assignOwnershipToTraits(list, characterTraits)
+  return list
+}
+/**
+* Returns an array containing the keys of allSkillsList
+*/
+export const skillsListKeys = () => Object.keys(allSkillsList)
+
 
 export function characterTraitsWithOwnership(characterTraits) {
   let traits = {}

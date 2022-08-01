@@ -12,7 +12,6 @@ export const useStore = defineStore('activeCharacter', {
     const characterHistory = VilleVakt // HÅRDKODAD MOCK
     const characterSheet = flattenCharacter(characterHistory)
 
-    console.log('characterSheet: ', characterSheet);
     return {
       metadata: characterHistory.metadata,
       sheet: characterSheet,
@@ -20,12 +19,16 @@ export const useStore = defineStore('activeCharacter', {
     }
   },
   getters: {
-    characterHistory: (state) => state.history,
-    characterSheet: (state) =>  state.sheet,
-    characterAttributes: (state) => state.sheet.attributes,
-    characterTraits: (state) => state.sheet.traits,
-    characterLevel: (state) => state.metadata.currentLevel,
-    characterName: (state) => state.metadata.name
+    getHistory: (state) => state.history,
+    getSheet: (state) =>  state.sheet,
+    getAttributes: (state) => state.sheet.attributes,
+    getTraits: (state) => state.sheet.traits,
+    getLevel: (state) => state.metadata.currentLevel,
+    getName: (state) => state.metadata.name,
+    getState: (state) => state.sheet.state,
+    getMaxHealth: (state) => state.maxHealthValue,
+    getHealth: (state) => state.sheet.health,
+    getCurrentStrain: (state) => state.sheet.state.currentStrain
   }
 })
 
@@ -33,12 +36,16 @@ export default {
   computed: {
     ...mapStores(useStore),
     ...mapState(useStore, [
-      'characterHistory',
-      'characterSheet',
-      'characterAttributes',
-      'characterTraits',
-      'characterLevel',
-      'characterName'
+      'getHistory',
+      'getSheet',
+      'getAttributes',
+      'getTraits',
+      'getLevel',
+      'getName',
+      'getState',
+      'getMaxHealth',
+      'getHealth',
+      'getCurrentStrain'
     ]),
   }
 }

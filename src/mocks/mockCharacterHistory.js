@@ -7,8 +7,8 @@ const VilleVakt = {
 	},
 	state: {
 		currentStrain: {
-			damage: 10,
-			fatigue: 7
+			damage: 3,
+			fatigue: 6
 		}
 	},
 	history: {

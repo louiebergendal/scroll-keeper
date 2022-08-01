@@ -28,9 +28,9 @@
       Drawer
 		},
 		setup() {
-			const store = useStore()
-			const characterHistory = store.characterHistory
-			const currentLevel = store.characterLevel
+			const character = useStore()
+			const characterHistory = character.getHistory
+			const currentLevel = character.getLevel
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const currentExperienceTable = experienceTableMaker(currentLevel)
 
