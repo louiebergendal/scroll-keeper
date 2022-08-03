@@ -3,7 +3,7 @@
 
 // * * * C O N T E N T * * * //
 
-import { Logger } from "sass"
+import { Logger } from 'sass'
 
 // * * * Internal functions * * * //
 

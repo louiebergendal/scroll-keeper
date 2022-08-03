@@ -5,7 +5,7 @@
 
 // * * * C O N T E N T * * * //
 
-export const mechanicsName = "Spelmekanik"
+export const mechanicsName = 'Spelmekanik'
 
 const proficiencyBonus = 2
 const softUnlockBonus = 6

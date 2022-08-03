@@ -38,9 +38,9 @@ export const baseValue = 3
 
 export const setAttributeValueName = (attributeValue) => {
 	const chosenPoints = attributeValue - baseValue
-	if (chosenPoints <= 1) return "Kass"
-	if (chosenPoints <= 3) return "Halvdan"
-	if (chosenPoints <= 5) return "Duglig"
-	if (chosenPoints <= 7) return "Skicklig"
-	return "Ypperlig"
+	if (chosenPoints <= 1) return 'Kass'
+	if (chosenPoints <= 3) return 'Halvdan'
+	if (chosenPoints <= 5) return 'Duglig'
+	if (chosenPoints <= 7) return 'Skicklig'
+	return 'Ypperlig'
 }

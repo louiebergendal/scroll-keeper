@@ -1,6 +1,6 @@
 <template>
   <div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small width-half align-center'>
-    <h3 class='health margin-top-nano align-center'>Health</h3>
+    <h3 class='health margin-top-nano align-center'>Hälsa</h3>
     <div class='health-wrapper flex'>
         <div v-for='healthLevel in health' :key='healthLevel' class='health-level-wrapper flex'>
             <div class='health-level-title padding-right-tiny'>{{ healthLevel._frontend_title }}</div>
@@ -25,6 +25,7 @@
         </div>
     </div>
   </div>
+  <div class='padding-bottom-medium'></div>
 </template>
 
 <script>

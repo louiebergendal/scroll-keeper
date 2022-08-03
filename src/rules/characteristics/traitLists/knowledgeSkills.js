@@ -11,15 +11,15 @@ import {
 
 
 const basicKnowledgeDavand = {
-    key: "basicKnowledgeDavand",
-    name: "Ytlig kunskap (Davand)",
+    key: 'basicKnowledgeDavand',
+    name: 'Ytlig kunskap (Davand)',
     isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
 const advancedKnowledgeDavand = {
-    key: "advancedKnowledgeDavand",
-    name: "Fördjupad kunskap (Davand)",
+    key: 'advancedKnowledgeDavand',
+    name: 'Fördjupad kunskap (Davand)',
     isOwned: false,
     requirements: {
         traits: ['basicKnowledgeDavand']
@@ -28,15 +28,15 @@ const advancedKnowledgeDavand = {
 }
 
 const basicKnowledgeVend = {
-    key: "basicKnowledgeVend",
-    name: "Ytlig kunskap (Vend)",
+    key: 'basicKnowledgeVend',
+    name: 'Ytlig kunskap (Vend)',
     isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
 const advancedKnowledgeVend = {
-    key: "advancedKnowledgeVend",
-    name: "Fördjupad kunskap (Vend)",
+    key: 'advancedKnowledgeVend',
+    name: 'Fördjupad kunskap (Vend)',
     isOwned: false,
     requirements: {
         traits: ['basicKnowledgeVend']
@@ -45,15 +45,15 @@ const advancedKnowledgeVend = {
 }
 
 const basicKnowledgeSodor = {
-    key: "basicKnowledgeSodor",
-    name: "Ytlig kunskap (Sodor)",
+    key: 'basicKnowledgeSodor',
+    name: 'Ytlig kunskap (Sodor)',
     isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
 const advancedKnowledgeSodor = {
-    key: "advancedKnowledgeSodor",
-    name: "Fördjupad kunskap (Sodor)",
+    key: 'advancedKnowledgeSodor',
+    name: 'Fördjupad kunskap (Sodor)',
     isOwned: false,
     requirements: {
         traits: ['basicKnowledgeSodor']
@@ -62,15 +62,15 @@ const advancedKnowledgeSodor = {
 }
 
 const basicKnowledgeSidra = {
-    key: "basicKnowledgeSidra",
-    name: "Ytlig kunskap (Sidra)",
+    key: 'basicKnowledgeSidra',
+    name: 'Ytlig kunskap (Sidra)',
     isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
 const advancedKnowledgeSidra = {
-    key: "advancedKnowledgeSidra",
-    name: "Fördjupad kunskap (Sidra)",
+    key: 'advancedKnowledgeSidra',
+    name: 'Fördjupad kunskap (Sidra)',
     isOwned: false,
     requirements: {
         traits: ['basicKnowledgeSidra']
@@ -79,16 +79,16 @@ const advancedKnowledgeSidra = {
 }
 
 const basicKnowledgeChemistry = { // placeholder name
-    key: "basicKnowledgeChemistry",
-    name: "Ytlig kunskap (Extrakt)",
+    key: 'basicKnowledgeChemistry',
+    name: 'Ytlig kunskap (Extrakt)',
     isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv),
     canPickExtractsOnForageRoll: (roll) => canPickExtractsOnForageRoll(roll)
 }
 
 const advancedKnowledgeChemistry = { // placeholder name
-    key: "advancedKnowledgeChemistry",
-    name: "Fördjupad kunskap (Extrakt)",
+    key: 'advancedKnowledgeChemistry',
+    name: 'Fördjupad kunskap (Extrakt)',
     isOwned: false,
     requirements: {
         traits: ['basicKnowledgeChemistry']
@@ -98,8 +98,8 @@ const advancedKnowledgeChemistry = { // placeholder name
 }
 
 const basicKnowledgeArcane = {
-    key: "basicKnowledgeArcane",
-    name: "Ytlig kunskap (Magi)",
+    key: 'basicKnowledgeArcane',
+    name: 'Ytlig kunskap (Magi)',
     isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv),
     canUseVia: () => canUseVia(),
@@ -107,8 +107,8 @@ const basicKnowledgeArcane = {
 }
 
 const advancedKnowledgeArcane = {
-    key: "advancedKnowledgeArcane",
-    name: "Fördjupad kunskap (Magi)",
+    key: 'advancedKnowledgeArcane',
+    name: 'Fördjupad kunskap (Magi)',
     isOwned: false,
     requirements: {
         traits: ['basicKnowledgeArcane']

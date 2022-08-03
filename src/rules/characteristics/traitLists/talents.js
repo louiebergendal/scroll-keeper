@@ -3,8 +3,8 @@
 // * * * Exports * * * //
 
 export const steady = {
-    key: "steady",
-    name: "Stadig",
+    key: 'steady',
+    name: 'Stadig',
     isOwned: false,
     requirements: {
         attributes: {
@@ -20,8 +20,8 @@ export const steady = {
 }
 
 export const quick = {
-    key: "quick",
-    name: "Kvick",
+    key: 'quick',
+    name: 'Kvick',
     isOwned: false,
     requirements: {
         attributes: {
@@ -37,8 +37,8 @@ export const quick = {
 }
 
 export const scholar = {
-    key: "scholar",
-    name: "Lärd",
+    key: 'scholar',
+    name: 'Lärd',
     isOwned: false,
     requirements: {
         attributes: {
@@ -50,8 +50,8 @@ export const scholar = {
 }
 
 export const quiet = {
-    key: "quiet",
-    name: "Tyst",
+    key: 'quiet',
+    name: 'Tyst',
     isOwned: false,
     requirements: {
         attributes: {

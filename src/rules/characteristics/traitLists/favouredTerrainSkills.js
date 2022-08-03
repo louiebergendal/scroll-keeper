@@ -1,32 +1,32 @@
 import { addProficiencyBonus, increaseForagingByOne } from '../../mechanics.js'
 
 const favouredTerrainForest = {
-  key: "favouredTerrainForest",
-  name: "Vana (Skog)",
+  key: 'favouredTerrainForest',
+  name: 'Vana (Skog)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
   increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
 }
 
 const favouredTerrainMountains = {
-  key: "favouredTerrainMountains",
-  name: "Vana (Berg)",
+  key: 'favouredTerrainMountains',
+  name: 'Vana (Berg)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
   increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
 }
 
 const favouredTerrainPlains = {
-  key: "favouredTerrainPlains",
-  name: "Vana (Slätt)",
+  key: 'favouredTerrainPlains',
+  name: 'Vana (Slätt)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
   increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
 }
 
 const favouredTerrainUrban = {
-  key: "favouredTerrainUrban",
-  name: "Vana (Stad)",
+  key: 'favouredTerrainUrban',
+  name: 'Vana (Stad)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
   increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)

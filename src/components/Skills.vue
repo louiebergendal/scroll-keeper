@@ -1,0 +1,38 @@
+<template>
+    <div class='skills-wrapper card dark padding-tiny margin-bottom-nano width-fourth flex'>
+        <h3 class='attributes margin-top-nano align-center'>Färdigheter</h3>
+		<div
+			v-for='skill in displayedSkillsList'
+			:key='skill.key'
+			class='width-whole flex'
+		>
+			<div class='width-whole card medium padding-nano margin-nano italic align-center'>
+				<span class='font-size-nano'>
+					{{ skill.name }}
+				</span>
+			</div>
+		</div>
+    </div>
+	<div class='padding-bottom-medium'></div>
+</template>
+
+<script>
+	import { useStore } from '../stores/character'
+    import { displayedCharacterSkillsOwnership } from '../rules/characteristics/traits';
+	export default {
+        setup() {
+			const character = useStore()
+            const characterSkillKeys = character.getTraits
+            const displayedSkillsList = displayedCharacterSkillsOwnership(characterSkillKeys)
+			return {
+                displayedSkillsList
+			}
+		}
+	}
+</script>
+
+<style>
+	.skills-wrapper {
+		flex-direction: column;
+	}
+</style>
