@@ -15,7 +15,7 @@ import favouredTerrainSkillsList from './traitLists/favouredTerrainSkills'
 import talentsList from './traitLists/talents'
 import { Logger } from 'sass'
 
-const name = 'Färdigheter och Talanger'
+const name = "Färdigheter och Talanger"
 
 const allSkillsList = {
 	...attributeSkillsList.battle,
@@ -227,42 +227,41 @@ export function characterTraitsWithOwnership(characterTraits) {
 }
 
 /**
-* displayedCharacterSkillsOwnership:
+* characterSkillsWithOwnership:
 * - Compares a characterTraits array to attributeSkills and talents. 
 * returns a traitlist without attributeSkills or talents.
 */
-export function displayedCharacterSkillsOwnership(characterTraits) {
+export function independentCharacterSkillsWithOwnership(characterTraits) {
 	let traits = {}
 	const attributeSkillKeys = attributeSkillListKeys()
 	const talentKeys = talentsListKeys()
 	characterTraits.forEach(traitKey => {
-		let shouldBeDisplayed = true
+		let traitIsValid = true
 		attributeSkillKeys.forEach(attributeSkillKey => {
-			if (traitKey === attributeSkillKey) { shouldBeDisplayed = false }
+			if (traitKey === attributeSkillKey) { traitIsValid = false }
 		})
 		talentKeys.forEach(talentKey => {
-			if (traitKey === talentKey) { shouldBeDisplayed = false }
+			if (traitKey === talentKey) { traitIsValid = false }
 		})
-		if (shouldBeDisplayed) { traits[traitKey] = traitWithOwnershipFromKey(traitKey, characterTraits) }
+		if (traitIsValid) { traits[traitKey] = traitWithOwnershipFromKey(traitKey, characterTraits) }
 	})
-
 	return traits
 }
 
 /**
-* displayedCharacterTalentsOwnership:
-* - Compares a characterTraits array to talents. 
+* characterTalentsOwnership:
+* - Compares a characterTraits array to talents.
 * returns a traitlist with owned talents.
 */
-export function displayedCharacterTalentsOwnership(characterTraits) {
+export function independentCharacterTalentsWithOwnership(characterTraits) {
 	let traits = {}
 	const talentKeys = talentsListKeys()
 	characterTraits.forEach(traitKey => {
-		let shouldBeDisplayed = false
+		let traitIsValid = false
 		talentKeys.forEach(talentKey => {
-			if (traitKey === talentKey) { shouldBeDisplayed = true }
+			if (traitKey === talentKey) { traitIsValid = true }
 		})
-		if (shouldBeDisplayed) { traits[traitKey] = traitWithOwnershipFromKey(traitKey, characterTraits) }
+		if (traitIsValid) { traits[traitKey] = traitWithOwnershipFromKey(traitKey, characterTraits) }
 	})
 	return traits
 }
@@ -293,12 +292,23 @@ export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
 export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitList) {
   const traitList = characterTraitsWithOwnership(characterTraitList)
   let modifiedValue = value
+
+  //console.log('traitList: ', traitList);
+  //console.log('modifiedValue 1: ', modifiedValue);
+
   for (const traitKey in traitList) {
     const traitObject = traitList[traitKey]
     if (traitObject[traitEffect]) {
+
+
+		console.log('traitObject[traitEffect]: ', traitObject[traitEffect]);
+
       modifiedValue = traitObject[traitEffect](modifiedValue)
+	  console.log('modifiedValue 2: ', modifiedValue);
     }
   }
+
+  //console.log('modifiedValue 3: ', modifiedValue);
   return modifiedValue
 }
 

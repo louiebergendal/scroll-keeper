@@ -12,16 +12,20 @@ export const useStore = defineStore('activeCharacter', {
     const characterHistory = VilleVakt // HÅRDKODAD MOCK
     const characterSheet = flattenCharacter(characterHistory)
 
+    console.log('characterSheet: ', characterSheet);
+
     return {
       metadata: characterHistory.metadata,
       sheet: characterSheet,
       history: characterHistory.history
     }
   },
+
   getters: {
     getHistory: (state) => state.history,
     getSheet: (state) =>  state.sheet,
     getAttributes: (state) => state.sheet.attributes,
+    getCompetence: (state) => state.sheet.competence,
     getTraits: (state) => state.sheet.traits,
     getLevel: (state) => state.metadata.currentLevel,
     getName: (state) => state.metadata.name,
@@ -39,6 +43,7 @@ export default {
       'getHistory',
       'getSheet',
       'getAttributes',
+      'getCompetence',
       'getTraits',
       'getLevel',
       'getName',

@@ -3,8 +3,8 @@ import { attributes, baseValue as attributeBaseValue } from '../rules/characteri
 import { baseValue as movementBaseValue } from '../rules/characteristics/secondaryCharacteristics/movement'
 import { baseValue as actionPointBaseValue } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
 import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
-import { baseValue as competenceBaseValue } from '../rules/characteristics/secondaryCharacteristics/competence'
-import { baseValue as fateBaseValue } from '../rules/characteristics/secondaryCharacteristics/fate'
+import { baseValue as competenceBaseValue } from '../rules/characteristics/competence'
+import { baseValue as fateBaseValue } from '../rules/characteristics/fate'
 
 import { calculateMaxHealthValue, createHealth } from '../rules/characteristics/secondaryCharacteristics/health'
 import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'

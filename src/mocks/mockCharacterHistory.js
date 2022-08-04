@@ -94,7 +94,7 @@ const VilleVakt = {
 		},
 		21: {
 			bonusType: 'talent',
-			choice: 'quiet'
+			choice: 'quick'
 		},
 	}
 }

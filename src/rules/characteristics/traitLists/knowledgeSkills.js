@@ -114,7 +114,7 @@ const advancedKnowledgeArcane = {
         traits: ['basicKnowledgeArcane']
     },
     addAdvantage: (sucRoll) => addAdvantage(sucRoll),
-    addSpellbookPoint: (spellbookPoints) => spellbookPoints + 1
+    addSpellbookPointsBonus: (spellbookPoints) => spellbookPoints + 1
 }
 
 export default {

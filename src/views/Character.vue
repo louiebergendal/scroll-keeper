@@ -1,9 +1,13 @@
 <template>
 	<div class="character padding-medium">
 		<Attributes />
+		<div class="padding-bottom-tiny"></div>
+		<Competence />
 		<div class="padding-bottom-medium"></div>
 		<Health />
+		<div class="padding-bottom-medium"></div>
 		<Skills />
+		<div class="padding-bottom-medium"></div>
 		<Talents />
 
 		<LevelLadder />
@@ -15,6 +19,7 @@
 	import Health from '../components/Health.vue'
 	import Skills from '../components/Skills.vue'
 	import Talents from '../components/Talents.vue'
+	import Competence from '../components/Competence.vue'
 	//import LevelLadder from '../components/LevelLadder.vue';
 
 	export default {
@@ -22,7 +27,8 @@
 			Attributes,
 			Health,
 			Skills,
-			Talents
+			Talents,
+			Competence
 			//LevelLadder
 		},
 		setup() {

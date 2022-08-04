@@ -6,7 +6,7 @@ export const baseValue = {
 }
 
 export const calculateMaxActionPoints = (characterTraitList) => {
-    let maxActionPoints = baseValue
+    let maxActionPoints = { ...baseValue }
     maxActionPoints = tryApplyTraitEffectOnValue(maxActionPoints, 'addBasicActionPointsBonus', characterTraitList)
     return maxActionPoints
 }

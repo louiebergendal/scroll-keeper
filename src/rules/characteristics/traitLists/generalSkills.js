@@ -54,7 +54,8 @@ const carouse = {
     name: 'Berusningsvana',
     isOwned: false,
     usageRequirements: ['drunk'],
-    addProficiencyBonus: (fv) => addProficiencyBonus(fv)
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv),
+    freeReroll: (roll) => freeReroll(roll)
 }
 
 const cook = {
@@ -85,7 +86,7 @@ const cutthroat = {
     usageRequirements: ['unnoticed'],
     addDamageBonus: (dmg) => dmg + 6,
     retroactivelyLowerCritRoll: (critRoll) => critRoll - 2,
-    retroactivelyIncreaseCritRoll: (critRoll) => critRoll + 2
+    retroactivelyIncreaseCritRoll: (critRoll) => critRoll += 2
 }
 
 const fast = {
@@ -98,15 +99,15 @@ const fast = {
         }
     },
     usageRequirements: ['standing'],
-    addFastMovementBonus: (movement) => movement + 1,
-    addSprintMovementBonus:  (movement) => movement + 2
+    addFastMovementBonus: (movement) => movement++,
+    addSprintMovementBonus:  (movement) => movement += 2
 }
 
 const hardy = {
     key: 'hardy',
     name: 'Härdad',
     isOwned: false,
-    addMaxHealthBonus: (health) => health + 2
+    addMaxHealthBonus: (health) => health += 2
 }
 
 const intrusion = {
@@ -128,7 +129,7 @@ const performer = {
     key: 'performer',
     name: 'Underhållning',
     isOwned: false,
-    addGroupMoraleBonus: (morale) => morale + 1
+    addGroupMoraleBonus: (morale) => morale += 1
 }
 
 const physician = {
@@ -138,7 +139,7 @@ const physician = {
     requirements: {
         traits: ['alchemy']
     },
-    addHealCeilingBonus: (ceiling) => ceiling + 2
+    addHealCeilingBonus: (ceiling) => ceiling += 2
 }
 
 const resolve = {
@@ -166,7 +167,7 @@ const seamanship = {
     usageRequirements: ['boat'],
     addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-    addMoraleBonus: (morale) => morale + 2
+    addMoraleBonus: (morale) => morale += 2
 }
 
 const tracking = {
@@ -184,7 +185,7 @@ const unarmouredFighting = {
     isOwned: false,
     usageRequirements: ['unarmoured'],
     addInitiativeBonus: (initiative) => initiative + 1,
-    addFateBonus: (fate) => fate + 4
+    addFateBonus: (fate) => fate += 4
 }
 
 const vigilant = {
@@ -199,7 +200,7 @@ const warfare = {
     name: 'Fältslag',
     isOwned: false,
     usageRequirements: ['formation'],
-    addFormationBonus: (fv) => fv + 1
+    addFormationBonus: (fv) => fv += 1
 }
 
 const wayfinding = {
@@ -208,14 +209,14 @@ const wayfinding = {
     isOwned: false,
     usageRequirements: ['roughTerrain', 'miserableTerrain'],
     addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
-    addForagingBonus: (provisions) => provisions + 1
+    addForagingBonus: (provisions) => provisions += 1
 }
 
 const weatherBeaten = {
     key: 'weatherBeaten',
     name: 'Väderbiten',
     isOwned: false,
-    addMoraleBonus: (morale) => morale + 1
+    addMoraleBonus: (morale) => morale += 1
 }
 
 export default {

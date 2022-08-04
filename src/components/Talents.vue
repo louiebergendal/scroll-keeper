@@ -2,7 +2,7 @@
     <div class='skills-wrapper card dark padding-tiny margin-bottom-nano width-fourth flex'>
         <h3 class='attributes margin-top-nano align-center'>Talanger</h3>
 		<div
-			v-for='talent in displayedTalentsList'
+			v-for='talent in independentTalentsList'
 			:key='talent.key'
 			class='width-whole flex'
 		>
@@ -17,14 +17,14 @@
 
 <script>
 	import { useStore } from '../stores/character'
-    import { displayedCharacterTalentsOwnership } from '../rules/characteristics/traits';
+    import { independentCharacterTalentsWithOwnership } from '../rules/characteristics/traits';
 	export default {
         setup() {
 			const character = useStore()
             const characterTraitKeys = character.getTraits
-            const displayedTalentsList = displayedCharacterTalentsOwnership(characterTraitKeys)
+            const independentTalentsList = independentCharacterTalentsWithOwnership(characterTraitKeys)
 			return {
-                displayedTalentsList
+                independentTalentsList
 			}
 		}
 	}

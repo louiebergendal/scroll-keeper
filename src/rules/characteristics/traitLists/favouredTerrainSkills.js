@@ -5,7 +5,7 @@ const favouredTerrainForest = {
   name: 'Vana (Skog)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-  increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
+  addForagingBonus: (provisions) => provisions += 1
 }
 
 const favouredTerrainMountains = {
@@ -13,7 +13,7 @@ const favouredTerrainMountains = {
   name: 'Vana (Berg)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-  increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
+  addForagingBonus: (provisions) => provisions += 1
 }
 
 const favouredTerrainPlains = {
@@ -21,7 +21,7 @@ const favouredTerrainPlains = {
   name: 'Vana (Slätt)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-  increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
+  addForagingBonus: (provisions) => provisions += 1
 }
 
 const favouredTerrainUrban = {
@@ -29,7 +29,7 @@ const favouredTerrainUrban = {
   name: 'Vana (Stad)',
   isOwned: false,
   addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-  increaseForagingByOne: (provisions) => increaseForagingByOne(provisions)
+  addForagingBonus: (provisions) => provisions += 1
 }
 
 export default {

@@ -25,7 +25,6 @@
         </div>
     </div>
   </div>
-  <div class='padding-bottom-medium'></div>
 </template>
 
 <script>
