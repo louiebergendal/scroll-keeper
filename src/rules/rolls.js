@@ -18,7 +18,7 @@ function diceRoll(diceSides, diceAmount, advantage = 0) {
 	const advantageDiceAmount = Math.abs(advantage)
 	const totalDiceAmount = (diceAmount + advantageDiceAmount)
 	let rollsArray = []
-	let rollResult = 0;
+	let rollResult = 0
 
 	// roll the dice
 	for (let i = 0; i < totalDiceAmount; i++) {
@@ -26,7 +26,7 @@ function diceRoll(diceSides, diceAmount, advantage = 0) {
 		rollsArray.push(roll)
 	}
 
-	console.log('raw rollsArray: ', rollsArray);
+	console.log('raw rollsArray(', 'd', diceSides, '): ', rollsArray)
 
 	// account for advantage
 	rollsArray = removeAdvantageDice(rollsArray, advantage)
@@ -122,6 +122,22 @@ export function sucRoll(fv, sv, options = {}) {
 	if (finalResult <= 13) return { key: 'totalFailure', 	rollResult: finalResult }
 }
 
-export function damageRoll(targetCharacter, diceAmount, damageBonus, advantage = 0) {
+export function damageRoll(targetCharacter, diceAmount, offensivePower, advantage = 0) {
+	const power = offensivePower - targetCharacter.getPower.defensive
 
+	// roll d6
+	let rollsList = d6(diceAmount, advantage).rolls
+
+	// account for offensive and defensive power
+	const modifiedRollsList = rollsList.map(roll => {
+		roll += power
+		if (roll < 0) { roll = 0 }
+		return roll 
+	})
+
+	// sumup
+	const sum = modifiedRollsList.reduce((a, b) => a + b)
+
+	return sum
 }
+

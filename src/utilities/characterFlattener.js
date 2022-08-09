@@ -12,7 +12,6 @@ import { calculateInitiative } from '../rules/characteristics/secondaryCharacter
 import { calculatePower } from '../rules/characteristics/secondaryCharacteristics/power'
 import { calculateMaxActionPoints } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
 
-
 const flattenCharacter = (characterHistory) => {
 	const levelHistory = characterHistory.history
 	const metadata = characterHistory.metadata
@@ -73,6 +72,9 @@ const flattenCharacter = (characterHistory) => {
 
 		// * * * SECONDARY CHARACTERISTICS * * * //
 
+		// POWER
+		baseCharacter.power = calculatePower(characterTraitList)
+
 		// MAX HEALTH VALUE
 		baseCharacter.maxHealthValue = calculateMaxHealthValue(
 			baseCharacter.attributes.physique,
@@ -97,9 +99,6 @@ const flattenCharacter = (characterHistory) => {
 			characterTraitList,
 			baseCharacter.metadata.currentLevel
 		)
-
-		// POWER
-		baseCharacter.power = calculatePower(characterTraitList)
 
 		// ACTION POINTS
 		baseCharacter.actionPoints = calculateMaxActionPoints(characterTraitList)

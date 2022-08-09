@@ -1,16 +1,20 @@
 <template>
-	<div class="character padding-medium">
-		<Attributes />
-		<div class="padding-bottom-tiny"></div>
-		<Competence />
-		<div class="padding-bottom-medium"></div>
+	<div class='character padding-medium'>
+		<div class='padding-bottom-medium'></div>
+		<div class='width-whole flex'>
+			<span class='wrapper flex width-whole'>
+				<Attributes />
+				<div class='padding-bottom-medium'></div>
+				<Competence />
+				<div class='padding-bottom-medium'></div>
+			</span>
+			<span class='wrapper flex -v-center width-half margin-left-medium'>
+				<Skills />
+				<div class='padding-bottom-medium'></div>
+				<Talents />
+			</span>
+		</div>
 		<Health />
-		<div class="padding-bottom-medium"></div>
-		<Skills />
-		<div class="padding-bottom-medium"></div>
-		<Talents />
-
-		<LevelLadder />
 	</div>
 </template>
 
@@ -20,15 +24,15 @@
 	import Skills from '../components/Skills.vue'
 	import Talents from '../components/Talents.vue'
 	import Competence from '../components/Competence.vue'
-	//import LevelLadder from '../components/LevelLadder.vue';
 
 	export default {
+		
 		components: {
 			Attributes,
 			Health,
 			Skills,
 			Talents,
-			Competence
+			Competence,
 			//LevelLadder
 		},
 		setup() {
@@ -40,4 +44,8 @@
 	.character {
 		position: relative;
 	}
+	.wrapper {
+		flex-direction: column;
+	}
 </style>
+

@@ -13,7 +13,7 @@ const animalHusbandry = {
     name: 'Djurskötsel',
     isOwned: false,
     addAdvantage: (advantage) => addAdvantage(advantage),
-    loyalAnimal: (beast) => beast.loyal = true
+    addLoyalAnimal: (beast) => beast.loyal = true
 }
 
 const beastOfBurden = {

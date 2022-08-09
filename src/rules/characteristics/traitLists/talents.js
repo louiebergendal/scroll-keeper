@@ -1,4 +1,14 @@
 
+// * * * N O T E P A D * * * //
+/* 
+	- "medicus" is WIP
+
+	todo:
+	- hitta sätt att hantera mechanics. 
+		Är "increaseForagingByOne" korrekt? För då ska jag också ha "increaseForagingByTwo".
+		Är det bättre är att bara ha "addForagingBonus" och sen bara skriva in värdet?
+	- standardisera trait-effekter och forsla in dem i "mechanics"
+*/
 
 // * * * Exports * * * //
 
@@ -140,6 +150,9 @@ export const lightningReflexes = {
 	drawItemIsResponsiveAction: () => drawItemIsResponsiveAction()
 }
 
+
+/* advanced talents */
+
 export const masterSpellCaster = {
 	key: 'masterSpellCaster',
 	name: 'Besvärjelsemästare',
@@ -193,24 +206,55 @@ export const massive = {
 	addMaxHealthBonus: (health) => health += 4,
 }
 
-/*
-	artisan
-	medicus
-	trustedHenchmen
-*/
+export const artisan = {
+	key: 'artisan',
+	name: 'Hantverkig',
+	isOwned: false,
+	requirements: {
+		metadata: {
+			level: 21
+		},
+		attributes: {
+			knowledge: 4,
+		},
+		traits: ['crafting']
+	},
+	addAdvantage: (advantage) => addAdvantage(advantage),
+	addQualityBonus: (quality) => addQualityBonus(quality),
+	canPickMaterialsOnForageRoll: (roll) => canPickMaterialsOnForageRoll(roll),
+	addHardnessBonus: (hardnessValue) => addHardnessBonus(hardnessValue),
+}
+
+export const trustedHenchmen = {
+	key: 'trustedHenchmen',
+	name: 'Trogna underhuggare',
+	isOwned: false,
+	requirements: {
+		metadata: {
+			level: 21
+		}
+	},
+	addLoyalMook: (mooksList) => addLoyalMook(mooksList)
+}
+
 
 export default {
+	// basic talents
+	scrutiny,
 	steady,
 	quick,
-	scholar,
-	quiet,
-	scrutiny,
 	pathFinder,
 	silverTongued,
+	scholar,
 	spellCaster,
+	quiet,
 	marksman,
 	lightningReflexes,
+
+	// advanced talents
 	masterSpellCaster,
 	brutal,
-	massive
+	massive,
+	artisan,
+	trustedHenchmen
 }

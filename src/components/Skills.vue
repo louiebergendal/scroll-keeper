@@ -1,6 +1,6 @@
 <template>
-    <div class='skills-wrapper card dark padding-tiny margin-bottom-nano width-fourth flex'>
-        <h3 class='attributes margin-top-nano align-center'>Färdigheter</h3>
+	<div class='skills-wrapper card dark padding-tiny margin-bottom-nano width-whole flex'>
+		<h3 class='attributes margin-top-nano align-center'>Färdigheter</h3>
 		<div
 			v-for='skill in independentSkillsList'
 			:key='skill.key'
@@ -12,19 +12,19 @@
 				</span>
 			</div>
 		</div>
-    </div>
+	</div>
 </template>
 
 <script>
 	import { useStore } from '../stores/character'
-    import { independentCharacterSkillsWithOwnership } from '../rules/characteristics/traits';
+	import { independentCharacterSkillsWithOwnership } from '../rules/characteristics/traits'
 	export default {
-        setup() {
+		setup() {
 			const character = useStore()
-            const characterSkillKeys = character.getTraits
-            const independentSkillsList = independentCharacterSkillsWithOwnership(characterSkillKeys)
+			const characterSkillKeys = character.getTraits
+			const independentSkillsList = independentCharacterSkillsWithOwnership(characterSkillKeys)
 			return {
-                independentSkillsList
+				independentSkillsList
 			}
 		}
 	}

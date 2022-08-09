@@ -7,8 +7,8 @@ const VilleVakt = {
 	},
 	state: {
 		currentStrain: {
-			damage: 6,
-			fatigue: 2
+			damage: 8,
+			fatigue: 4
 		}
 	},
 	history: {
@@ -94,7 +94,7 @@ const VilleVakt = {
 		},
 		21: {
 			bonusType: 'talent',
-			choice: 'quick'
+			choice: 'brutal'
 		},
 	}
 }

@@ -290,26 +290,13 @@ export function traitWithOwnershipFromKey(traitKey, characterTraits = []) {
 * The returned value will have the same format as the input 'value' param.
 */
 export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitList) {
-  const traitList = characterTraitsWithOwnership(characterTraitList)
-  let modifiedValue = value
-
-  //console.log('traitList: ', traitList);
-  //console.log('modifiedValue 1: ', modifiedValue);
-
-  for (const traitKey in traitList) {
-    const traitObject = traitList[traitKey]
-    if (traitObject[traitEffect]) {
-
-
-		console.log('traitObject[traitEffect]: ', traitObject[traitEffect]);
-
-      modifiedValue = traitObject[traitEffect](modifiedValue)
-	  console.log('modifiedValue 2: ', modifiedValue);
-    }
-  }
-
-  //console.log('modifiedValue 3: ', modifiedValue);
-  return modifiedValue
+	const traitList = characterTraitsWithOwnership(characterTraitList)
+	let modifiedValue = value
+	for (const traitKey in traitList) {
+		const traitObject = traitList[traitKey]
+		if (traitObject[traitEffect]) { modifiedValue = traitObject[traitEffect](modifiedValue) }
+	}
+	return modifiedValue
 }
 
 /**
@@ -318,40 +305,36 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 * to the trait if it has been chosen by the character.
 */
 export function canChooseTrait(traitKey, flatCharacter) {
-  
-  // access target trait requirements
-  const trait = allTraitsList[traitKey] // <-- is this relying on the contents of this file or its imports?
+	
+	// access target trait requirements
+	const trait = allTraitsList[traitKey] // <-- is this relying on the contents of this file or its imports?
 
-  if (trait.requirements) {
-    let requirementsAreMet = true
+	if (trait.requirements) {
+		let requirementsAreMet = true
 
-    // check required traits
-    if (trait.requirements.traits) {
-      const requiredTraits = trait.requirements.traits
-      requiredTraits.forEach(requiredTrait => {
-        if(!hasTrait(requiredTrait, flatCharacter.characterTraits)) {
-          requirementsAreMet = false
-        }
-      })
-    }
+		// check required traits
+		if (trait.requirements.traits) {
+			const requiredTraits = trait.requirements.traits
+			requiredTraits.forEach(requiredTrait => {
+				if(!hasTrait(requiredTrait, flatCharacter.characterTraits)) { requirementsAreMet = false }
+			})
+		}
 
-    // check required attributes
-    if (trait.requirements.attributes) {
-      const requiredAttributeKeys = Object.keys(trait.requirements.attributes)
-      requiredAttributeKeys.forEach(requiredAttributeKey => {
-        const requiredAttributeValue = trait.requirements.attributes[requiredAttributeKey]
-        const characterAttributeValue = flatCharacter.characterAttributes[requiredAttributeKey]
-        if (requiredAttributeValue > characterAttributeValue) {
-          requirementsAreMet = false
-        }
-      })
-    }
+		// check required attributes
+		if (trait.requirements.attributes) {
+			const requiredAttributeKeys = Object.keys(trait.requirements.attributes)
+			requiredAttributeKeys.forEach(requiredAttributeKey => {
+				const requiredAttributeValue = trait.requirements.attributes[requiredAttributeKey]
+				const characterAttributeValue = flatCharacter.characterAttributes[requiredAttributeKey]
+				if (requiredAttributeValue > characterAttributeValue) { requirementsAreMet = false }
+			})
+		}
 
-    return requirementsAreMet
-  }
+		return requirementsAreMet
+	}
 }
 
 
 export function hasTrait(traitKey, characterTraits) {
-  return characterTraits.includes(traitKey) ? true : false
+ 	return characterTraits.includes(traitKey) ? true : false
 }

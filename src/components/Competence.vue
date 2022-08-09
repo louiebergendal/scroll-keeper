@@ -1,5 +1,5 @@
 <template>
-	<div class='card dark competence width-half padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
+	<div class='card dark competence padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half align-center'>
 				<span class='font-size-tiny bold'>Competence</span>
