@@ -5,7 +5,7 @@
 				<span class='font-size-tiny bold'>Competence</span>
 			</div>
 			<div class='attribute-value padding-left-tiny padding-nano margin-left-tiny align-center width-half'>
-				<span class='font-size-tiny bold'> {{ baseValue }} </span>
+				<span class='font-size-tiny bold'> {{ competence }} </span>
 			</div>
 		</div>
 	</div>

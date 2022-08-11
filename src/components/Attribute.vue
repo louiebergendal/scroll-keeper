@@ -15,13 +15,13 @@
 		>
 			<div class='width-half card medium padding-nano italic align-center'>
 				<span
-					v-if='skill.isOwned'
+					v-if='contains(characterTraits, skill.key)'
 					class='font-size-nano bold'
 				>
 					- {{ skill.name }} -
 				</span>
 				<span
-					v-if='!skill.isOwned'
+					v-if='!contains(characterTraits, skill.key)'
 					class='font-size-nano'
 				>
 					{{ skill.name }}
@@ -30,13 +30,13 @@
 			<div class='skill-value card light padding-nano flex width-half margin-left-tiny'>
 				<div class='padding-left-small padding-nano width-fourth padding-left-huge'>
 					<span
-						v-if='skill.isOwned'
+						v-if='contains(characterTraits, skill.key)'
 						class='vertical-correction font-size-nano bold'
 					>
 						{{ skill.addProficiencyBonus(attributeValue) }}
 					</span>
 					<span
-						v-if='!skill.isOwned'
+						v-if='!contains(characterTraits, skill.key)'
 						class='vertical-correction font-size-nano'
 					>
 						{{ attributeValue }}
@@ -44,16 +44,16 @@
 				</div>
 				<div class='padding-nano italic padding-right-medium'>
 					<span
-						v-if='skill.isOwned'
+						v-if='contains(characterTraits, skill.key)'
 						class='vertical-correction font-size-nano align-right bold'
-						:class='{ "font-contrast-low": addProficiencyBonus(attributeValue) < (addProficiencyBonus(baseValue)) }'
+						:class='{ "font-contrast-low": skill.addProficiencyBonus(attributeValue) < (skill.addProficiencyBonus(baseValue)) }'
 					>
 						{{ setAttributeValueName(skill.addProficiencyBonus(attributeValue)) }}
 					</span>
 					<span
-						v-if='!skill.isOwned'
+						v-if='!contains(characterTraits, skill.key)'
 						class='vertical-correction font-size-nano align-right'
-						:class='{ "font-contrast-lowest": attributeValue < (addProficiencyBonus(baseValue)) }'
+						:class='{ "font-contrast-lowest": attributeValue < (skill.addProficiencyBonus(baseValue)) }'
 					>
 						{{ setAttributeValueName(attributeValue) }}
 					</span>
@@ -66,7 +66,7 @@
 <script>
 	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
-	import { addProficiencyBonus } from '../rules/mechanics'
+	import { contains } from '../rules/utils'
 	import { useStore } from '../stores/character'
 	
 
@@ -76,14 +76,15 @@
 			const character = useStore()
 			const attributeValue = character.getAttributes[props.attribute.key]
 			const attributeSkills = specificAttributeSkills(props.attribute.key, character.getTraits)
+			const characterTraits = character.getTraits
 
 			return {
 				setAttributeValueName,
 				attributeValue,
 				attributeSkills,
 				baseValue,
-				character,
-				addProficiencyBonus
+				characterTraits,
+				contains
 			}
 		}
 	}

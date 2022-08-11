@@ -242,7 +242,6 @@ export default {
       const ref = fbRef(this.db, this.dictionaryRefString + "/" + key);
       get(ref).then((snapshot) => {
         if (snapshot.exists()) {
-          console.log("snapshot.val(): ", snapshot.val());
           this.selectedWordFull = snapshot.val();
         }
       });

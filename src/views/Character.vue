@@ -1,6 +1,5 @@
 <template>
 	<div class='character padding-medium'>
-		<div class='padding-bottom-medium'></div>
 		<div class='width-whole flex'>
 			<span class='wrapper flex width-whole'>
 				<Attributes />
@@ -16,6 +15,7 @@
 		</div>
 		<Health />
 	</div>
+	<LevelLadder />
 </template>
 
 <script>
@@ -24,25 +24,25 @@
 	import Skills from '../components/Skills.vue'
 	import Talents from '../components/Talents.vue'
 	import Competence from '../components/Competence.vue'
+	import LevelLadder from '../components/LevelLadder.vue'
 
 	export default {
-		
 		components: {
 			Attributes,
 			Health,
 			Skills,
 			Talents,
 			Competence,
-			//LevelLadder
+			LevelLadder
 		},
-		setup() {
-		}
+		setup() {}
 	}
 </script>
 
 <style>
 	.character {
 		position: relative;
+		margin-left: 5rem;
 	}
 	.wrapper {
 		flex-direction: column;

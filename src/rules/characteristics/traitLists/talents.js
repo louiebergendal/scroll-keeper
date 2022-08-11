@@ -15,7 +15,6 @@
 export const steady = {
 	key: 'steady',
 	name: 'Stadig',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			battle: 5,
@@ -32,7 +31,6 @@ export const steady = {
 export const quick = {
 	key: 'quick',
 	name: 'Kvick',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			battle: 5,
@@ -49,7 +47,6 @@ export const quick = {
 export const scholar = {
 	key: 'scholar',
 	name: 'Lärd',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			knowledge: 5
@@ -62,7 +59,6 @@ export const scholar = {
 export const quiet = {
 	key: 'quiet',
 	name: 'Tyst',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			agility: 5
@@ -76,7 +72,6 @@ export const quiet = {
 export const scrutiny = {
 	key: 'scrutiny',
 	name: 'Skärskåda',
-	isOwned: false,
 	requirements: {
 		isChosenByFate: true
 	},
@@ -87,7 +82,6 @@ export const scrutiny = {
 export const pathFinder = {
 	key: 'pathFinder',
 	name: 'Stigfinnare',
-	isOwned: false,
 	requirements: {
 		traits: ['wayfinding']
 	},
@@ -100,7 +94,6 @@ export const pathFinder = {
 export const silverTongued = {
 	key: 'silverTongued',
 	name: 'Silvertunga',
-	isOwned: false,
 	retroactivelyAddInfluenceRollBonus: (influenceRollResult) => influenceRollResult += 2,
 	addProficiencyBonus: (fv) => addProficiencyBonus(fv),
 	addProficiencyBonus: (mv) => addProficiencyBonus(mv),
@@ -109,7 +102,6 @@ export const silverTongued = {
 export const spellCaster = {
 	key: 'spellCaster',
 	name: 'Besvärjare',
-	isOwned: false,
 	requirements: {
 		isChosenByFate: true,
 		attributes: {
@@ -124,7 +116,6 @@ export const spellCaster = {
 export const marksman = {
 	key: 'marksman',
 	name: 'Skarpskytt',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			battle: 5
@@ -140,7 +131,6 @@ export const marksman = {
 export const lightningReflexes = {
 	key: 'lightningReflexes',
 	name: 'Blixtsnabba reflexer',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			agility: 5
@@ -156,7 +146,6 @@ export const lightningReflexes = {
 export const masterSpellCaster = {
 	key: 'masterSpellCaster',
 	name: 'Besvärjelsemästare',
-	isOwned: false,
 	requirements: {
 		metadata: {
 			level: 31
@@ -173,7 +162,6 @@ export const masterSpellCaster = {
 export const brutal = {
 	key: 'brutal',
 	name: 'Brutal',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			battle: 7,
@@ -190,7 +178,6 @@ export const brutal = {
 export const massive = {
 	key: 'massive',
 	name: 'Massiv',
-	isOwned: false,
 	requirements: {
 		attributes: {
 			battle: 5,
@@ -209,7 +196,6 @@ export const massive = {
 export const artisan = {
 	key: 'artisan',
 	name: 'Hantverkig',
-	isOwned: false,
 	requirements: {
 		metadata: {
 			level: 21
@@ -228,7 +214,6 @@ export const artisan = {
 export const trustedHenchmen = {
 	key: 'trustedHenchmen',
 	name: 'Trogna underhuggare',
-	isOwned: false,
 	requirements: {
 		metadata: {
 			level: 21

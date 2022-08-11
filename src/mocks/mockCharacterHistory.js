@@ -46,7 +46,7 @@ const VilleVakt = {
 		},
 		9: {
 			bonusType: 'skill',
-			choice: 'melee'
+			choice: 'accuracy'
 		},
 		10: {
 			bonusType: 'attribute',

@@ -11,7 +11,6 @@ import {
 const animalHusbandry = {
     key: 'animalHusbandry', // should the key have the same spelling as the object?
     name: 'Djurskötsel',
-    isOwned: false,
     addAdvantage: (advantage) => addAdvantage(advantage),
     addLoyalAnimal: (beast) => beast.loyal = true
 }
@@ -19,14 +18,12 @@ const animalHusbandry = {
 const beastOfBurden = {
     key: 'beastOfBurden',
     name: 'Packåsna',
-    isOwned: false,
     addMaxCarryingCapacityBonus: (carryingCapacity) => addMaxCarryingCapacityBonus(carryingCapacity)
 }
 
 const bookworm = {
     key: 'bookworm',
     name: 'Bokmal',
-    isOwned: false,
     requirements: {
         attributes: {
             knowledge: 5
@@ -39,7 +36,6 @@ const bookworm = {
 const brawling = {
     key: 'brawling',
     name: 'Slagsmål',
-    isOwned: false,
     requirements: {
         traits: ['melee']
     },
@@ -52,7 +48,6 @@ const brawling = {
 const carouse = {
     key: 'carouse',
     name: 'Berusningsvana',
-    isOwned: false,
     usageRequirements: ['drunk'],
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),
     freeReroll: (roll) => freeReroll(roll)
@@ -61,7 +56,6 @@ const carouse = {
 const cook = {
     key: 'cook',
     name: 'kok-konst',
-    isOwned: false,
     usageRequirements: ['fire'],
     addGroupMoraleBonus: (morale) => morale + 1,
     refineProvisions: (provisions) => refineProvisions(provisions)
@@ -70,14 +64,12 @@ const cook = {
 const crafting = {
     key: 'crafting',
     name: 'Hantverk',
-    isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
 const cutthroat = {
     key: 'cutthroat',
     name: 'Överfall',
-    isOwned: false,
     requirements: {
         attributes: {
             agility: 5
@@ -92,7 +84,6 @@ const cutthroat = {
 const fast = {
     key: 'fast',
     name: 'Flyfotad',
-    isOwned: false,
     requirements: {
         attributes: {
             agility: 7
@@ -106,21 +97,18 @@ const fast = {
 const hardy = {
     key: 'hardy',
     name: 'Härdad',
-    isOwned: false,
     addMaxHealthBonus: (health) => health += 2
 }
 
 const intrusion = {
     key: 'intrusion',
     name: 'Inbrott',
-    isOwned: false,
     actionTimeLockpick: () => 1
 }
 
 const meticulous = {
     key: 'meticulous',
     name: 'noggrann',
-    isOwned: false,
     usageRequirements: ['extendedAction'],
     freeReroll: (roll) => freeReroll(roll)
 }
@@ -128,14 +116,12 @@ const meticulous = {
 const performer = {
     key: 'performer',
     name: 'Underhållning',
-    isOwned: false,
     addGroupMoraleBonus: (morale) => morale += 1
 }
 
 const physician = {
     key: 'physician',
     name: 'Omvårdnad',
-    isOwned: false,
     requirements: {
         traits: ['alchemy']
     },
@@ -145,7 +131,6 @@ const physician = {
 const resolve = {
     key: 'resolve',
     name: 'Beslutsamhet',
-    isOwned: false,
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),
     addAdvantage: (advantage) => addAdvantage(advantage)
 }
@@ -153,7 +138,6 @@ const resolve = {
 const riding = {
     key: 'riding',
     name: 'Rida',
-    isOwned: false,
     usageRequirements: ['normalTerrain', 'road', 'mounted'],
     addNarrativeMovementSpeedBonus: (speed) => speed * 1.5,
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),
@@ -163,7 +147,6 @@ const riding = {
 const seamanship = {
     key: 'seamanship',
     name: 'Sjövana',
-    isOwned: false,
     usageRequirements: ['boat'],
     addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
     addProficiencyBonus: (fv) => addProficiencyBonus(fv),
@@ -173,7 +156,6 @@ const seamanship = {
 const tracking = {
     key: 'tracking',
     name: 'Spåra',
-    isOwned: false,
     softUnlock: (fv) => removeSucRollPenalty(fv),
     addForagingBonus: (provisions) => provisions + 1,
     addForagingBonusIfWinter: (provisions) => provisions + 1
@@ -182,7 +164,6 @@ const tracking = {
 const unarmouredFighting = {
     key: 'unarmouredFighting',
     name: 'Bar bringa',
-    isOwned: false,
     usageRequirements: ['unarmoured'],
     addInitiativeBonus: (initiative) => initiative + 1,
     addFateBonus: (fate) => fate += 4
@@ -191,14 +172,12 @@ const unarmouredFighting = {
 const vigilant = {
     key: 'vigilant',
     name: 'Vaksam',
-    isOwned: false,
     addProficiencyBonus: (fv) => addProficiencyBonus(fv)
 }
 
 const warfare = {
     key: 'warfare',
     name: 'Fältslag',
-    isOwned: false,
     usageRequirements: ['formation'],
     addFormationBonus: (fv) => fv += 1
 }
@@ -206,7 +185,6 @@ const warfare = {
 const wayfinding = {
     key: 'wayfinding',
     name: 'Orientera',
-    isOwned: false,
     usageRequirements: ['roughTerrain', 'miserableTerrain'],
     addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
     addForagingBonus: (provisions) => provisions += 1
@@ -215,7 +193,6 @@ const wayfinding = {
 const weatherBeaten = {
     key: 'weatherBeaten',
     name: 'Väderbiten',
-    isOwned: false,
     addMoraleBonus: (morale) => morale += 1
 }
 

@@ -1,76 +1,129 @@
 <template>
-	<div class="level-ladder card dark padding-small width-half">
-		<div
-			v-for="level in levelArray"
-			:key="level.level"
-			class="card medium padding-top-nano margin-bottom-tiny"
-		>
-			<Level
-				:level="level.level"
-				:levelBonus="level.levelBonus"
-				:hasChosen="level.hasChosen"
-				:choice="level.choice"
-			/>
+	<div :class="{ closed: isClosed, 'level-ladder': true, flex: true, slideInLeft: true }">
+		<div class="levels">
+			<Wizard
+				squared-tabs
+				navigable-tabs
+				vertical-tabs
+				:custom-tabs="levelTabDataList"
+				@change="onChangeCurrentTab"
+			>
+				<div v-for='level in levelList' :key='level.level'>
+					<div v-if="currentTabIndex === level.level">
+						{{ level.levelBonus }}
+						<div v-if="level.levelBonus === 'skill'">
+							<SkillLevel :selectedLevel="currentTabIndex" />
+						</div>
+					</div>
+				</div>
+			</Wizard>
 		</div>
+		<div class="drawer-handle" @click='toggleFoldOut'></div>
 	</div>
-  <Drawer />
 </template>
 
 <script>
+
+	import { ref } from "vue";
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
 	import Level from './Level.vue'
-  import Drawer from './Drawer.vue'
 	import { useStore } from '../stores/character'
+	import Wizard from 'form-wizard-vue3'
+	import SkillLevel from '../components/levelChoices/SkillLevel.vue';
 
 	export default {
 		components: {
 			Level,
-      Drawer
+			Wizard,
+			SkillLevel
 		},
 		setup() {
 			const character = useStore()
 			const characterHistory = character.getHistory
 			const currentLevel = character.getLevel
+
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const currentExperienceTable = experienceTableMaker(currentLevel)
 
-			let levelArray = []
+			let isClosed = ref(true)
+			let currentTabIndex = ref(0)
+
+			const toggleFoldOut = function(_event) {
+				isClosed.value = !isClosed.value
+			}
+
+			const onChangeCurrentTab = function(index, currentIndex) {
+				currentTabIndex.value = index + 1
+				console.log("currentTabIndex.value in onChangeCurrentTab: ", currentTabIndex.value) // CURRENTLY SELECTED LEVEL IN PARENT
+			}
+
+			let levelList = []
+			let levelTabDataList = []
+
 			for (let i = 0; i < fullExperienceTable.length; i++) {
 				const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
-
 				const hasChosen = characterHistory[levelIndex] !== undefined
-				let choice = ""
-
-				if (hasChosen) {
-					choice = characterHistory[levelIndex].choice
-				}
-
+				let choice = ''
+				if (hasChosen) { choice = characterHistory[levelIndex].choice }
 				const level = {
 					level: levelIndex,
 					levelBonus: fullExperienceTable[i], // fullExperienceTable is 0-indexed
 					hasChosen: hasChosen,
 					choice: choice
 				}
-
-				levelArray.push(level)
+				let levelTabData = level.levelBonus
+				if (level.hasChosen) { levelTabData = level.levelBonus + ': ' + level.choice }
+				levelTabDataList.push({ title: levelTabData })
+				levelList.push(level)
 			}
 
 			return {
+				Wizard,
 				currentExperienceTable,
 				fullExperienceTable,
 				characterHistory,
-				levelArray,
-				store
+				levelList,
+				isClosed,
+				levelTabDataList,
+				currentTabIndex,
+				toggleFoldOut,
+				onChangeCurrentTab
 			}
 		},
 	}
 </script>
 
-<style>
+<style lang="scss">
+	@import '../style/themes/_variables-warm.scss';
+	@import '../assets/wizard/form-wizard-vue3.scss';
+
 	.level-ladder {
 		position: absolute;
 		top: 0;
-		max-height: 100vh;
+		left: 0;
+		height: fit-content;
+		min-height: 100vh;
+		max-width: 100vw;
+		min-width: 100vw;
+		width: 100vw;
 		overflow: scroll;
+		background-color: $background-brightness-low;
+	}
+	.levels {
+		height: 100%;
+		max-width: calc(100vw - 5rem);
+		min-width: calc(100vw - 5rem);
+		width: calc(100vw - 5rem);
+	}
+	.drawer-handle {
+		width: 5rem;
+		min-height: 100vh;
+		max-height: fit-content;
+		background-color: rgba(0, 0, 0, 0.185);
+	}
+	.closed {
+		margin-left: calc(-100vw + 5rem);
+		height: 100vh;
+		overflow: hidden;
 	}
 </style>

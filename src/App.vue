@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav class="main-nav">
     <router-link class="margin-small" :to="{ name: 'Vendic Dictionary' }">
       Vendic Dictionary
     </router-link>
@@ -94,4 +94,7 @@ export default {
 
 <style lang="scss">
 @import "./style/themes/_warm.scss";
+.main-nav {
+  margin-left: 5rem;
+}
 </style>

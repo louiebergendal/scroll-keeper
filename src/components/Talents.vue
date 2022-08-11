@@ -17,12 +17,12 @@
 
 <script>
 	import { useStore } from '../stores/character'
-	import { independentCharacterTalentsWithOwnership } from '../rules/characteristics/traits'
+	import { independentCharacterTalents } from '../rules/characteristics/traits'
 	export default {
 		setup() {
 			const character = useStore()
 			const characterTraitKeys = character.getTraits
-			const independentTalentsList = independentCharacterTalentsWithOwnership(characterTraitKeys)
+			const independentTalentsList = independentCharacterTalents(characterTraitKeys)
 			return {
 				independentTalentsList
 			}
