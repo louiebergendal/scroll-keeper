@@ -23,17 +23,17 @@
 	import { useStore } from '../../stores/character'
 	import { allSkills, canChooseTrait, specificAttributeSkills } from '../../rules/characteristics/traits'
 	import { contains } from '../../rules/utils'
-	import { flattenCharacter } from '../../utilities/characterFlattener' // FLATTENER IS FOR FLATTENING
+	import { flattenCharacter } from '../../utilities/characterFlattener'
 
 	export default {
 		props: ['selectedLevel'],
 		setup(props) {
 			const character = useStore()
-			const characterTraits = character.getTraits
+			const characterHistory = character.getHistory
 			const selectedSkillLevel = props.selectedLevel
+			const tempCharacterSheet = flattenCharacter(characterHistory, selectedSkillLevel)
+			const characterTraits = tempCharacterSheet.traits
 			const skills = allSkills()
-
-			console.log("selectedSkillLevel: ", selectedSkillLevel) // CURRENTLY SELECTED LEVEL
 
 			return {
 				skills,
@@ -44,12 +44,6 @@
 			}
 		}
 	}
-
-/* 
-fundering:
-ska man flattena ett formulär fram till currentLevel i levelLadder??
-sedan utgå ifrån det formuläret
-*/
 </script>
 
 

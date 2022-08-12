@@ -12,11 +12,10 @@ import { calculateInitiative } from '../rules/characteristics/secondaryCharacter
 import { calculatePower } from '../rules/characteristics/secondaryCharacteristics/power'
 import { calculateMaxActionPoints } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
 
-const flattenCharacter = (characterHistory) => {
-	const levelHistory = characterHistory.history
+const flattenCharacter = (characterHistory, targetLevel) => {
+	const levelHistoryList = characterHistory.history
 	const metadata = characterHistory.metadata
 	const state = characterHistory.state
-
 	let characterTraitList = []
 
 	let baseCharacter = {
@@ -45,9 +44,11 @@ const flattenCharacter = (characterHistory) => {
 	}
 
 	// one-index because level starts at one
-	for (let i = 1; i <= metadata.currentLevel; i++) {
-		const chosenBonus = levelHistory[i].choice
-		const bonusType = levelHistory[i].bonusType
+	for (let i = 1; i <= targetLevel; i++) {
+		if (levelHistoryList[i]=== undefined) { break }
+		const currentLevel = levelHistoryList[i]
+		const bonusType = currentLevel.bonusType
+		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
 
 		// COMPETENCE
@@ -102,7 +103,6 @@ const flattenCharacter = (characterHistory) => {
 
 		// ACTION POINTS
 		baseCharacter.actionPoints = calculateMaxActionPoints(characterTraitList)
-
 	}
 
 	const flattenedCharacter = {

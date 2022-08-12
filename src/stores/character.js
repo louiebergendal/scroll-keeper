@@ -12,14 +12,15 @@ import { flattenCharacter } from '../utilities/characterFlattener'
 export const useStore = defineStore('activeCharacter', {
 	state: () => {
 		const characterHistory = VilleVakt // HÅRDKODAD MOCK
-		const characterSheet = flattenCharacter(characterHistory)
+		const currentLevel = characterHistory.metadata.currentLevel
+		const characterSheet = flattenCharacter(characterHistory, currentLevel)
 
 		console.log('characterSheet: ', characterSheet);
 
 		return {
 			metadata: characterHistory.metadata,
 			sheet: characterSheet,
-			history: characterHistory.history
+			history: characterHistory
 		}
 	},
 

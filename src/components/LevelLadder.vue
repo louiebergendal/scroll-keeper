@@ -12,7 +12,7 @@
 					<div v-if="currentTabIndex === level.level">
 						{{ level.levelBonus }}
 						<div v-if="level.levelBonus === 'skill'">
-							<SkillLevel :selectedLevel="currentTabIndex" />
+							<SkillLevel :characterSheet="tempCharacterSheet" :selectedLevel="currentTabIndex"  />
 						</div>
 					</div>
 				</div>
@@ -29,7 +29,8 @@
 	import Level from './Level.vue'
 	import { useStore } from '../stores/character'
 	import Wizard from 'form-wizard-vue3'
-	import SkillLevel from '../components/levelChoices/SkillLevel.vue';
+	import SkillLevel from '../components/levelChoices/SkillLevel.vue'
+	import { flattenCharacter } from '../utilities/characterFlattener'
 
 	export default {
 		components: {
@@ -40,31 +41,31 @@
 		setup() {
 			const character = useStore()
 			const characterHistory = character.getHistory
+			const levelHistoryList = characterHistory.history
 			const currentLevel = character.getLevel
-
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const currentExperienceTable = experienceTableMaker(currentLevel)
 
 			let isClosed = ref(true)
 			let currentTabIndex = ref(0)
-
 			const toggleFoldOut = function(_event) {
 				isClosed.value = !isClosed.value
 			}
 
-			const onChangeCurrentTab = function(index, currentIndex) {
+			let tempCharacterSheet
+			const onChangeCurrentTab = function(index) {
 				currentTabIndex.value = index + 1
-				console.log("currentTabIndex.value in onChangeCurrentTab: ", currentTabIndex.value) // CURRENTLY SELECTED LEVEL IN PARENT
+				tempCharacterSheet = flattenCharacter(characterHistory, currentTabIndex.value)
+				console.log('tempCharacterSheet: ', tempCharacterSheet);
 			}
 
 			let levelList = []
 			let levelTabDataList = []
-
 			for (let i = 0; i < fullExperienceTable.length; i++) {
 				const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
-				const hasChosen = characterHistory[levelIndex] !== undefined
+				const hasChosen = levelHistoryList[levelIndex] !== undefined
 				let choice = ''
-				if (hasChosen) { choice = characterHistory[levelIndex].choice }
+				if (hasChosen) { choice = levelHistoryList[levelIndex].choice }
 				const level = {
 					level: levelIndex,
 					levelBonus: fullExperienceTable[i], // fullExperienceTable is 0-indexed
@@ -79,6 +80,7 @@
 
 			return {
 				Wizard,
+				tempCharacterSheet,
 				currentExperienceTable,
 				fullExperienceTable,
 				characterHistory,
