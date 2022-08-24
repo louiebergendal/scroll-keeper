@@ -1,11 +1,11 @@
 <template>
 	<div class='card dark padding-right-tiny padding-top-tiny padding-left-tiny'>
 		<h3 class='attributes margin-top-nano align-center'>{{characterName}}</h3>
-		<Attribute :attribute='attributes.battle' />
-		<Attribute :attribute='attributes.agility' />
-		<Attribute :attribute='attributes.spirit' />
-		<Attribute :attribute='attributes.knowledge' />
-		<Attribute :attribute='attributes.physique' />
+		<Attribute :attribute='attributes.battle' :showAttributeSkills='true'/>
+		<Attribute :attribute='attributes.agility' :showAttributeSkills='true'/>
+		<Attribute :attribute='attributes.spirit' :showAttributeSkills='true'/>
+		<Attribute :attribute='attributes.knowledge' :showAttributeSkills='true'/>
+		<Attribute :attribute='attributes.physique' :showAttributeSkills='true'/>
 	</div>
 </template>
 

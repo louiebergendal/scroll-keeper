@@ -8,55 +8,57 @@
 				<span class='font-size-tiny bold'>{{ attributeValue }}</span>
 			</div>
 		</div>
-		<div
-			v-for='skill in attributeSkills'
-			:key='skill.key'
-			class='width-whole flex'
-		>
-			<div class='width-half card medium padding-nano italic align-center'>
-				<span
-					v-if='contains(characterTraits, skill.key)'
-					class='font-size-nano bold'
-				>
-					- {{ skill.name }} -
-				</span>
-				<span
-					v-if='!contains(characterTraits, skill.key)'
-					class='font-size-nano'
-				>
-					{{ skill.name }}
-				</span>
-			</div>
-			<div class='skill-value card light padding-nano flex width-half margin-left-tiny'>
-				<div class='padding-left-small padding-nano width-fourth padding-left-huge'>
+		<div v-if='showAttributeSkills'>
+			<div
+				v-for='skill in attributeSkills'
+				:key='skill.key'
+				class='width-whole flex'
+			>
+				<div class='width-half card medium padding-nano italic align-center'>
 					<span
 						v-if='contains(characterTraits, skill.key)'
-						class='vertical-correction font-size-nano bold'
+						class='font-size-nano bold'
 					>
-						{{ skill.addProficiencyBonus(attributeValue) }}
+						- {{ skill.name }} -
 					</span>
 					<span
 						v-if='!contains(characterTraits, skill.key)'
-						class='vertical-correction font-size-nano'
+						class='font-size-nano'
 					>
-						{{ attributeValue }}
+						{{ skill.name }}
 					</span>
 				</div>
-				<div class='padding-nano italic padding-right-medium'>
-					<span
-						v-if='contains(characterTraits, skill.key)'
-						class='vertical-correction font-size-nano align-right bold'
-						:class='{ "font-contrast-low": skill.addProficiencyBonus(attributeValue) < (skill.addProficiencyBonus(baseValue)) }'
-					>
-						{{ setAttributeValueName(skill.addProficiencyBonus(attributeValue)) }}
-					</span>
-					<span
-						v-if='!contains(characterTraits, skill.key)'
-						class='vertical-correction font-size-nano align-right'
-						:class='{ "font-contrast-lowest": attributeValue < (skill.addProficiencyBonus(baseValue)) }'
-					>
-						{{ setAttributeValueName(attributeValue) }}
-					</span>
+				<div class='skill-value card light padding-nano flex width-half margin-left-tiny'>
+					<div class='padding-left-small padding-nano width-fourth padding-left-huge'>
+						<span
+							v-if='contains(characterTraits, skill.key)'
+							class='vertical-correction font-size-nano bold'
+						>
+							{{ skill.addProficiencyBonus(attributeValue) }}
+						</span>
+						<span
+							v-if='!contains(characterTraits, skill.key)'
+							class='vertical-correction font-size-nano'
+						>
+							{{ attributeValue }}
+						</span>
+					</div>
+					<div class='padding-nano italic padding-right-medium'>
+						<span
+							v-if='contains(characterTraits, skill.key)'
+							class='vertical-correction font-size-nano align-right bold'
+							:class='{ "font-contrast-low": skill.addProficiencyBonus(attributeValue) < (skill.addProficiencyBonus(baseValue)) }'
+						>
+							{{ setAttributeValueName(skill.addProficiencyBonus(attributeValue)) }}
+						</span>
+						<span
+							v-if='!contains(characterTraits, skill.key)'
+							class='vertical-correction font-size-nano align-right'
+							:class='{ "font-contrast-lowest": attributeValue < (skill.addProficiencyBonus(baseValue)) }'
+						>
+							{{ setAttributeValueName(attributeValue) }}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -68,15 +70,15 @@
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
 	import { contains } from '../rules/utils'
 	import { useStore } from '../stores/character'
-	
 
 	export default {
-		props: ['attribute'],
+		props: ['attribute', 'showAttributeSkills' ],
 		setup(props) {
 			const character = useStore()
 			const attributeValue = character.getAttributes[props.attribute.key]
 			const attributeSkills = specificAttributeSkills(props.attribute.key, character.getTraits)
 			const characterTraits = character.getTraits
+			const showAttributeSkills = props.showAttributeSkills
 
 			return {
 				setAttributeValueName,
@@ -84,7 +86,8 @@
 				attributeSkills,
 				baseValue,
 				characterTraits,
-				contains
+				contains,
+				showAttributeSkills
 			}
 		}
 	}

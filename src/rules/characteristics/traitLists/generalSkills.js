@@ -40,7 +40,7 @@ const brawling = {
         traits: ['melee']
     },
     usageRequirements: ['unarmed'],
-    addProficiencyBonus: (fv) => addProficiencyBonus(fv),
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2),
     retroactivelyLowerOffensivePower: (power) => power - 2,
     retroactivelyLowerCritRoll: (critRoll) => critRoll - 2
 }
@@ -49,13 +49,13 @@ const carouse = {
     key: 'carouse',
     name: 'Berusningsvana',
     usageRequirements: ['drunk'],
-    addProficiencyBonus: (fv) => addProficiencyBonus(fv),
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2),
     freeReroll: (roll) => freeReroll(roll)
 }
 
 const cook = {
     key: 'cook',
-    name: 'kok-konst',
+    name: 'Kok-konst',
     usageRequirements: ['fire'],
     addGroupMoraleBonus: (morale) => morale + 1,
     refineProvisions: (provisions) => refineProvisions(provisions)
@@ -108,7 +108,7 @@ const intrusion = {
 
 const meticulous = {
     key: 'meticulous',
-    name: 'noggrann',
+    name: 'Noggrann',
     usageRequirements: ['extendedAction'],
     freeReroll: (roll) => freeReroll(roll)
 }
@@ -140,7 +140,7 @@ const riding = {
     name: 'Rida',
     usageRequirements: ['normalTerrain', 'road', 'mounted'],
     addNarrativeMovementSpeedBonus: (speed) => speed * 1.5,
-    addProficiencyBonus: (fv) => addProficiencyBonus(fv),
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2),
     addReducedActionTime: (actionPointsCost) => actionPointsCost - 1
 }
 
@@ -149,7 +149,7 @@ const seamanship = {
     name: 'Sjövana',
     usageRequirements: ['boat'],
     addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
-    addProficiencyBonus: (fv) => addProficiencyBonus(fv),
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2),
     addMoraleBonus: (morale) => morale += 2
 }
 
@@ -172,7 +172,7 @@ const unarmouredFighting = {
 const vigilant = {
     key: 'vigilant',
     name: 'Vaksam',
-    addProficiencyBonus: (fv) => addProficiencyBonus(fv)
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2),
 }
 
 const warfare = {

@@ -1,9 +1,6 @@
 import { defineStore, mapState, mapStores, mapActions } from 'pinia'
-
 import { VilleVakt } from '../mocks/mockCharacterHistory'
 import { flattenCharacter } from '../utilities/characterFlattener'
-
-
 
 /* 
 	to be used in views 
@@ -14,9 +11,6 @@ export const useStore = defineStore('activeCharacter', {
 		const characterHistory = VilleVakt // HÅRDKODAD MOCK
 		const currentLevel = characterHistory.metadata.currentLevel
 		const characterSheet = flattenCharacter(characterHistory, currentLevel)
-
-		console.log('characterSheet: ', characterSheet);
-
 		return {
 			metadata: characterHistory.metadata,
 			sheet: characterSheet,

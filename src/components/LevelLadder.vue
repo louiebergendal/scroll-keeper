@@ -1,6 +1,6 @@
 <template>
 	<div :class="{ closed: isClosed, 'level-ladder': true, flex: true, slideInLeft: true }">
-		<div class="levels">
+		<div class='levels'>
 			<Wizard
 				squared-tabs
 				navigable-tabs
@@ -8,11 +8,17 @@
 				:custom-tabs="levelTabDataList"
 				@change="onChangeCurrentTab"
 			>
-				<div v-for='level in levelList' :key='level.level'>
+				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level">
-						{{ level.levelBonus }}
+						{{ level.choiceName }} 
 						<div v-if="level.levelBonus === 'skill'">
-							<SkillLevel :characterSheet="tempCharacterSheet" :selectedLevel="currentTabIndex"  />
+							<TraitLevel  :selectedLevel="currentTabIndex"  :traitType="'skill'" />
+						</div>
+						<div v-if="level.levelBonus === 'attribute'">
+							<AttributeLevel :selectedLevel="currentTabIndex" />
+						</div>
+						<div v-if="level.levelBonus === 'talent'">
+							<TraitLevel  :selectedLevel="currentTabIndex" :traitType="'talent'" />
 						</div>
 					</div>
 				</div>
@@ -23,20 +29,22 @@
 </template>
 
 <script>
-
-	import { ref } from "vue";
+	import { ref } from 'vue';
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
 	import Level from './Level.vue'
 	import { useStore } from '../stores/character'
 	import Wizard from 'form-wizard-vue3'
-	import SkillLevel from '../components/levelChoices/SkillLevel.vue'
+	import TraitLevel from '../components/levelChoices/TraitLevel.vue'
+	import AttributeLevel from '../components/levelChoices/AttributeLevel.vue'
 	import { flattenCharacter } from '../utilities/characterFlattener'
+	import { getTraitNiceName } from '../rules/characteristics/traits'
 
 	export default {
 		components: {
 			Level,
 			Wizard,
-			SkillLevel
+			AttributeLevel,
+			TraitLevel
 		},
 		setup() {
 			const character = useStore()
@@ -48,6 +56,15 @@
 
 			let isClosed = ref(true)
 			let currentTabIndex = ref(0)
+
+			const getChoiceName = function(levelBonus) {
+				if (levelBonus === 'skill') return 'Färdighet'
+				if (levelBonus === 'attribute') return 'Grundegenskap'
+				if (levelBonus === 'talent') return 'Talang'
+				if (levelBonus === 'competence') return 'Kompetens'
+				if (levelBonus === 'fate') return 'Öde'
+			}
+
 			const toggleFoldOut = function(_event) {
 				isClosed.value = !isClosed.value
 			}
@@ -56,7 +73,6 @@
 			const onChangeCurrentTab = function(index) {
 				currentTabIndex.value = index + 1
 				tempCharacterSheet = flattenCharacter(characterHistory, currentTabIndex.value)
-				console.log('tempCharacterSheet: ', tempCharacterSheet);
 			}
 
 			let levelList = []
@@ -66,14 +82,26 @@
 				const hasChosen = levelHistoryList[levelIndex] !== undefined
 				let choice = ''
 				if (hasChosen) { choice = levelHistoryList[levelIndex].choice }
+				let levelBonus = fullExperienceTable[i] // fullExperienceTable is 0-indexed
 				const level = {
 					level: levelIndex,
-					levelBonus: fullExperienceTable[i], // fullExperienceTable is 0-indexed
+					levelBonus: levelBonus,
 					hasChosen: hasChosen,
 					choice: choice
 				}
 				let levelTabData = level.levelBonus
-				if (level.hasChosen) { levelTabData = level.levelBonus + ': ' + level.choice }
+				if (level.hasChosen) { 
+					const traitNiceName = getTraitNiceName(level.choice)
+					const attributeNiceName = '' //getAttributeNiceName()
+					if ((levelBonus === getChoiceName('skill') || levelBonus === getChoiceName('talent')) && traitNiceName ) {
+						levelTabData = getChoiceName(levelBonus) + ': ' + traitNiceName
+					} else if ((levelBonus === getChoiceName('attribute')) && attributeNiceName) {
+						levelTabData = getChoiceName(levelBonus) + ': ' + attributeNiceName
+					} else {
+						// Fate'n stuff
+					}
+
+				} // call getTraitNiceName here!
 				levelTabDataList.push({ title: levelTabData })
 				levelList.push(level)
 			}
@@ -95,7 +123,7 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang='scss'>
 	@import '../style/themes/_variables-warm.scss';
 	@import '../assets/wizard/form-wizard-vue3.scss';
 

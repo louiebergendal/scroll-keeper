@@ -3,7 +3,8 @@
 const VilleVakt = {
 	metadata: {
 		name: 'Ville Vakt',
-		currentLevel: 21
+		currentLevel: 21,
+		isChosenByFate: false
 	},
 	state: {
 		currentStrain: {
@@ -26,7 +27,7 @@ const VilleVakt = {
 		},
 		4: {
 			bonusType: 'attribute',
-			choice: 'battle'
+			choice: 'physique'
 		},
 		5: {
 			bonusType: 'fate',
@@ -34,7 +35,7 @@ const VilleVakt = {
 		},
 		6: {
 			bonusType: 'attribute',
-			choice: 'physique'
+			choice: 'agility'
 		},
 		7: {
 			bonusType: 'competence',
@@ -42,7 +43,7 @@ const VilleVakt = {
 		},
 		8: {
 			bonusType: 'attribute',
-			choice: 'physique'
+			choice: 'battle'
 		},
 		9: {
 			bonusType: 'skill',
@@ -50,7 +51,7 @@ const VilleVakt = {
 		},
 		10: {
 			bonusType: 'attribute',
-			choice: 'agility'
+			choice: 'physique'
 		},
 		11: {
 			bonusType: 'talent',
@@ -94,7 +95,11 @@ const VilleVakt = {
 		},
 		21: {
 			bonusType: 'talent',
-			choice: 'brutal'
+			choice: 'massive'
+		},
+		22: {
+			bonusType: 'attribute',
+			choice: 'battle'
 		},
 	}
 }

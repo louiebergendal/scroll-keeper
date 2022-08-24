@@ -14,7 +14,7 @@ import knowledgeSkillsImport from './traitLists/knowledgeSkills'
 import favouredTerrainSkillsImport from './traitLists/favouredTerrainSkills'
 import talentsListImport from './traitLists/talents'
 
-const name = "Färdigheter och Talanger"
+const name = 'Färdigheter och Talanger'
 
 const attributeSkillsList = Object.assign({}, attributeSkillsImport)
 const generalSkillsList = Object.assign({}, generalSkillsImport)
@@ -40,6 +40,8 @@ const allTraitsList = Object.assign({}, {
 
 // * * * Internal functions * * * //
 
+
+
 // * * * Exports * * * //
 
 /**
@@ -49,10 +51,7 @@ export const traitsName = name
 
 /**
 * attributeSkills:
-* - Returns a 'attributeSkills' list with 'isOwned: true' assigned to
-* the appropriate character traits. Providing no 'characterSkills' value
-* will return a list where all traits have 'isOwned: false'
-* @param {string[]} [characterSkills] - An array containing skills owned by the character
+* - Returns a 'attributeSkills' list.
 */
 export function attributeSkills() {
 	let explodedList = {}
@@ -80,11 +79,8 @@ export const attributeSkillListKeys = () => {
 
 /**
 * specificAttributeSkills:
-* - Returns an 'attributeSkill' list with 'isOwned: true' assigned to
-* the appropriate character skills. Providing no 'characterSkills' value
-* will return a list where all skills have 'isOwned: false'
+* - Returns an 'attributeSkill' list.
 * @param {string} specificAttributeKey - Returns skills associated with a specific attribute
-* @param {string[]} [characterSkills] - An array containing skills owned by the character
 */
 export function specificAttributeSkills(specificAttributeKey) {
 	return attributeSkillsList[specificAttributeKey]
@@ -104,9 +100,7 @@ export const generalSkillListKeys = () => Object.keys(generalSkillsList)
 
 /**
 * knowledgeSkills:
-* - Returns a 'knowledgeSkills' list with 'isOwned: true' assigned to
-* the appropriate character traits. Providing no 'characterSkills' value
-* will return a list where all traits have 'isOwned: false'
+* - Returns a 'knowledgeSkills' list.
 */
 export function knowledgeSkills() {
 	return knowledgeSkillsList
@@ -119,9 +113,7 @@ export const knowledgeSkillListKeys = () => Object.keys(knowledgeSkillsList)
 
 /**
 * favouredTerrainSkills:
-* - Returns a 'favouredTerrainSkills' list with 'isOwned: true' assigned to
-* the appropriate character traits. Providing no 'characterSkills' value
-* will return a list where all traits have 'isOwned: false'
+* - Returns a 'favouredTerrainSkills' list.
 */
 export function favouredTerrainSkills() {
 	return favouredTerrainSkillsList
@@ -133,9 +125,7 @@ export const favouredTerrainSkillListKeys = () => Object.keys(favouredTerrainSki
 
 /**
 * talents:
-* - Returns a 'talents' list with 'isOwned: true' assigned to
-* the appropriate character traits. Providing no 'characterSkills' value
-* will return a list where all traits have 'isOwned: false'
+* - Returns a 'talents' list.
 */
 export function allTalents() {
 	return talentsList
@@ -147,9 +137,7 @@ export const talentsListKeys = () => Object.keys(talentsList)
 
 /**
 * allTraits:
-* - Returns an 'allTraits' list with 'isOwned: true' assigned to
-* the appropriate character traits. Providing no 'characterTraits' value
-* will return a list where all traits have 'isOwned: false'
+* - Returns an 'allTraits' list.
 */
 export function allTraits() {
 	return allTraitsList
@@ -161,9 +149,7 @@ export const allTraitListKeys = () => Object.keys(allTraitsList)
 
 /**
 * skills:
-* - Returns an 'skills' list with 'isOwned: true' assigned to
-* the appropriate character traits. Providing no 'characterTraits' value
-* will return a list where all traits have 'isOwned: false'
+* - Returns an 'skills' list.
 */
 export function allSkills() {
 	return allSkillsList
@@ -215,9 +201,7 @@ export function independentCharacterTalents(characterTraits) {
 }
 
 
-export function traitFromKey(traitKey) {
-	return allTraitsList[traitKey]
-}
+
 
 
 // * * * I N D E P E N D E N T  U T I L I T I E S * * * //
@@ -244,41 +228,50 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 	return modifiedValue
 }
 
-/**
-* canChooseTrait:
-* - Compares a characterTraits array to a single trait and assigns 'isOwned: true'
-* to the trait if it has been chosen by the character.
-*/
 export function canChooseTrait(traitKey, flatCharacter) {
-	
 	// access target trait requirements
-	const trait = allTraitsList[traitKey] // <-- is this relying on the contents of this file or its imports?
+	const trait = allTraitsList[traitKey]
+	let requirementsAreMet = true
 
 	if (trait.requirements) {
-		let requirementsAreMet = true
-
 		// check required traits
 		if (trait.requirements.traits) {
 			const requiredTraits = trait.requirements.traits
 			requiredTraits.forEach(requiredTrait => {
-				if(!hasTrait(requiredTrait, flatCharacter.characterTraits)) { requirementsAreMet = false }
+				if(!hasTrait(requiredTrait, flatCharacter.traits)) { requirementsAreMet = false }
 			})
 		}
-
 		// check required attributes
 		if (trait.requirements.attributes) {
 			const requiredAttributeKeys = Object.keys(trait.requirements.attributes)
 			requiredAttributeKeys.forEach(requiredAttributeKey => {
 				const requiredAttributeValue = trait.requirements.attributes[requiredAttributeKey]
-				const characterAttributeValue = flatCharacter.characterAttributes[requiredAttributeKey]
+				const characterAttributeValue = flatCharacter.attributes[requiredAttributeKey]
 				if (requiredAttributeValue > characterAttributeValue) { requirementsAreMet = false }
 			})
 		}
-
-		return requirementsAreMet
+		// check required level
+		const requiredMetadata = {...trait.requirements.metadata}
+		const requiredLevel = (requiredMetadata.level -1) // -1 to account for current lvling
+		if (requiredLevel) {
+			if (requiredLevel > flatCharacter.metadata.selectedLevel) { requirementsAreMet = false }
+		}
+		// check if isChosenByFate
+		if (requiredMetadata.isChosenByFate) {
+			if (flatCharacter.metadata.isChosenByFate === false) { requirementsAreMet = false }
+		}
 	}
+	return requirementsAreMet
 }
 
+export function traitFromKey(traitKey) {
+	return allTraitsList[traitKey]
+}
+
+export function getTraitNiceName(traitKey) {
+	const trait = traitFromKey(traitKey)
+	if (trait) { return trait.name }
+}
 
 export function hasTrait(traitKey, characterTraits) {
  	return characterTraits.includes(traitKey) ? true : false

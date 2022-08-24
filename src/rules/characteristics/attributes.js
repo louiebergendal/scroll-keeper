@@ -44,3 +44,23 @@ export const setAttributeValueName = (attributeValue) => {
 	if (chosenPoints <= 7) return 'Skicklig'
 	return 'Ypperlig'
 }
+
+export const getAttributeShortName = (attributeKey) => {
+	return attributes[attributeKey].shortName
+}
+
+export const getAttributeLongName = (attributeKey) => {
+	return attributes[attributeKey].longName
+}
+
+export const canChooseAttribute = (attributeValue, characterLevel) => {
+	const levelEquivalenceClass = ((Math.trunc((characterLevel -1) / 10) * 2) +1)
+	const levelEquivalenceClassRepresentant = characterLevel % 10
+
+	let lvlCeil = levelEquivalenceClass + baseValue
+	if (levelEquivalenceClassRepresentant >= 8 || levelEquivalenceClassRepresentant === 0) { lvlCeil++ }
+
+	if (attributeValue >= lvlCeil) { return false }
+	return true
+}
+

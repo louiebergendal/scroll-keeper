@@ -10,20 +10,38 @@
 	- standardisera trait-effekter och forsla in dem i "mechanics"
 */
 
+ 
+
+import { 
+    addOffensivePowerBonus,
+	addDefensivePowerBonus,
+    addAdvantage,
+    addProficiencyBonus
+} from '../../mechanics.js'
+
 // * * * Exports * * * //
+
+export const background = {
+	key: 'background',
+	name: 'Bakgrund',
+	addBackground: () => addBackground()
+}
 
 export const steady = {
 	key: 'steady',
 	name: 'Stadig',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		attributes: {
 			battle: 5,
 			physique: 5
 		}
 	},
 	addPowerBonus: (power) => {
-		power.offensive += 1
-		power.defensive += 1
+		addOffensivePowerBonus(power, 1)
+		addDefensivePowerBonus(power, 1)
 		return power
 	}
 }
@@ -32,6 +50,9 @@ export const quick = {
 	key: 'quick',
 	name: 'Kvick',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		attributes: {
 			battle: 5,
 			agility: 5
@@ -48,11 +69,14 @@ export const scholar = {
 	key: 'scholar',
 	name: 'Lärd',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		attributes: {
 			knowledge: 5
 		}
 	},
-	retroactivelyAddInformationRollBonus: (informationRollResult) => informationRollResult += 2,
+	retroactivelyAddInformationRollBonus: (rollResult) => addProficiencyBonus(rollResult, 2),
 	appendToTraitList: (characterTraitList, traitsToAppend) => characterTraitList.concat(traitsToAppend)
 }
 
@@ -60,12 +84,15 @@ export const quiet = {
 	key: 'quiet',
 	name: 'Tyst',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		attributes: {
 			agility: 5
 		},
 		traits: ['stealth']
 	},
-	retroactivelyAddStealthMVBonus: (mv) => mv += 2,
+	retroactivelyAddStealthMVBonus: (mv) => addProficiencyBonus(mv, 2),
 	decreasePartialSuccessRisk: (roll) => roll - 1 
 }
 
@@ -73,16 +100,22 @@ export const scrutiny = {
 	key: 'scrutiny',
 	name: 'Skärskåda',
 	requirements: {
-		isChosenByFate: true
+		metadata: {
+			level: 11,
+			isChosenByFate: true
+		}
 	},
 	addScrutinyAction: () => addScrutinyAction(),
-	addProficiencyBonus: (mv) => addProficiencyBonus(mv),
+    addProficiencyBonus: (mv) => addProficiencyBonus(mv, 2),
 }
 
 export const pathFinder = {
 	key: 'pathFinder',
 	name: 'Stigfinnare',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		traits: ['wayfinding']
 	},
 	addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
@@ -94,15 +127,23 @@ export const pathFinder = {
 export const silverTongued = {
 	key: 'silverTongued',
 	name: 'Silvertunga',
-	retroactivelyAddInfluenceRollBonus: (influenceRollResult) => influenceRollResult += 2,
-	addProficiencyBonus: (fv) => addProficiencyBonus(fv),
-	addProficiencyBonus: (mv) => addProficiencyBonus(mv),
+	requirements: {
+		metadata: {
+			level: 11
+		}
+	},
+	retroactivelyAddInfluenceRollBonus: (rollResult) => addProficiencyBonus(rollResult, 2),
+    addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2),
+    addProficiencyBonus: (mv) => addProficiencyBonus(mv, 2),
 }
 
 export const spellCaster = {
 	key: 'spellCaster',
 	name: 'Besvärjare',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		isChosenByFate: true,
 		attributes: {
 			spirit: 5
@@ -117,6 +158,9 @@ export const marksman = {
 	key: 'marksman',
 	name: 'Skarpskytt',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		attributes: {
 			battle: 5
 		},
@@ -132,6 +176,9 @@ export const lightningReflexes = {
 	key: 'lightningReflexes',
 	name: 'Blixtsnabba reflexer',
 	requirements: {
+		metadata: {
+			level: 11
+		},
 		attributes: {
 			agility: 5
 		},
@@ -225,6 +272,7 @@ export const trustedHenchmen = {
 
 export default {
 	// basic talents
+	background,
 	scrutiny,
 	steady,
 	quick,
@@ -235,7 +283,6 @@ export default {
 	quiet,
 	marksman,
 	lightningReflexes,
-
 	// advanced talents
 	masterSpellCaster,
 	brutal,
