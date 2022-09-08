@@ -16,11 +16,11 @@
 </template>
 
 <script>
-	import { useStore } from '../stores/character'
+	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterSkills } from '../rules/characteristics/traits'
 	export default {
 		setup() {
-			const character = useStore()
+			const character = useCharacterStore()
 			const characterSkillKeys = character.getTraits
 			const independentSkillsList = independentCharacterSkills(characterSkillKeys)
 			return {

@@ -27,12 +27,17 @@ const routes = [
     component: () => import("../views/Login.vue"),
   },
   {
-    path: "/users/:userDisplayName/characters",
+    path: "/users/:userUid/characters/:characterUid",
     name: "Character",
     component: () => import("../views/Character.vue"),
   },
-  // Hard coded as there is just one conlang at the moment
   {
+    path: "/users/:userUid/characters",
+    name: "Characters",
+    component: () => import("../views/Characters.vue"),
+  },
+  {
+    // Hard coded as there is just one conlang at the moment
     path: "/dictionaries/vendi",
     name: "Vendic Dictionary",
     component: () => import("../views/Dictionary.vue"),
@@ -46,3 +51,4 @@ const router = createRouter({
 });
 
 export default router;
+

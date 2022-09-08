@@ -28,11 +28,11 @@
 </template>
 
 <script>
-	import { useStore } from '../stores/character'
+	import { useCharacterStore } from '../stores/character'
 
 	export default {
 		setup() {
-			const character = useStore()
+			const character = useCharacterStore()
 
 			const health = character.getHealth
 			for (let healthLevel in health) {

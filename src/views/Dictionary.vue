@@ -203,6 +203,7 @@ export default {
     setDictionaryListener() {
       // Vendi hardcoded applies here
       // Database contact onValue() updates at data renew
+      console.log("this.dictionaryRefString: ", this.dictionaryRefString)
       const dictionaryRef = fbRef(this.db, this.dictionaryRefString);
       onValue(dictionaryRef, (snapshot) => {
         this.dictionary = snapshot.val();

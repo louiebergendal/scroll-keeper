@@ -8,10 +8,6 @@
 import { tryApplyTraitEffectOnValue } from '../traits'
 import {  } from '../traits'
 
-import { meleeSuccessTable } from '../../successTables/melee'
-import { sucRoll } from '../../rolls'
-import { useStore } from '../../../stores/character'
-
 const baseValue = 2
 
 const createtHealthLevelState = (healthValue, strainValue) => {
@@ -53,7 +49,7 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
 					fatigue: 0
 				}
 			},
-		overflowedStrain
+			overflowedStrain
 		}
 	}
 	// it didn't.
@@ -66,14 +62,14 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
 	// EARLY RETURN: damage did not overflow but fatigue did
 	if (newHealthLevelState.strainOverflow) {
 		return {
-		healthLevel: {
-			max: healthLevelMaxValue,
-			currentStrain: {
-				damage: strain.damage | 0,
-				fatigue: healthLevelMaxValue - strain.damage
-			}
-		},
-		overflowedStrain
+			healthLevel: {
+				max: healthLevelMaxValue,
+				currentStrain: {
+					damage: strain.damage | 0,
+					fatigue: healthLevelMaxValue - strain.damage
+				}
+			},
+			overflowedStrain
 		}
 	}
 	// it didn't.

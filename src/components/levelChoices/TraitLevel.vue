@@ -1,5 +1,5 @@
 <template>
-    <div class='card medium padding-right-tiny padding-top-tiny padding-left-tiny'>
+    <div class='card medium padding-tiny'>
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Välj en grej!</h3>
 		Vald bonus: {{ getTraitNiceName(tempLevelChoiceKey) }}
 
@@ -22,11 +22,12 @@
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 			</div>
 		</div>
+		<button type="submit" class="margin-top-tiny margin-left-nano">Submitta!</button>
 	</div>
 </template>
 
 <script>
-	import { useStore } from '../../stores/character'
+	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue';
 	import { allSkills, allTalents, canChooseTrait, getTraitNiceName } from '../../rules/characteristics/traits'
 	import { contains } from '../../rules/utils'
@@ -35,7 +36,7 @@
 	export default {
 		props: ['selectedLevel', 'traitType'],
 		setup(props) {
-			const character = useStore()
+			const character = useCharacterStore()
 			const characterHistory = character.getHistory
 			const selectedLevel = props.selectedLevel
             const traitType = props.traitType

@@ -2,7 +2,6 @@
 	<div class='card medium padding-tiny'>
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Öka en grundegenskap!</h3>
 		Vald bonus: {{getAttributeLongName(tempLevelChoiceKey)}}
-
 		<div
 			v-for='attribute in attributes'
 			:key='attribute.key'
@@ -29,11 +28,12 @@
 				</div>
 			</div>
 		</div>
+		<button type="submit" class="margin-top-tiny margin-left-nano">Submitta!</button>
 	</div>
 </template>
 
 <script>
-	import { useStore } from '../../stores/character'
+	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue'
 	import { attributes, getAttributeShortName, getAttributeLongName, canChooseAttribute } from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
@@ -41,7 +41,7 @@
 	export default {
 		props: ['selectedLevel'],
 		setup(props) {
-			const character = useStore()
+			const character = useCharacterStore()
 			const characterHistory = character.getHistory
 			const selectedLevel = props.selectedLevel
 			const originalLevelChoiceKey = characterHistory.history[selectedLevel].choice

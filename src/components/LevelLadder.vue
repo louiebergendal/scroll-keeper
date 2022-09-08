@@ -12,14 +12,21 @@
 					<div v-if="currentTabIndex === level.level">
 						{{ level.choiceName }} 
 						<div v-if="level.levelBonus === 'skill'">
-							<TraitLevel  :selectedLevel="currentTabIndex"  :traitType="'skill'" />
+							<TraitLevel :selectedLevel="currentTabIndex"  :traitType="'skill'" />
 						</div>
 						<div v-if="level.levelBonus === 'attribute'">
 							<AttributeLevel :selectedLevel="currentTabIndex" />
 						</div>
 						<div v-if="level.levelBonus === 'talent'">
-							<TraitLevel  :selectedLevel="currentTabIndex" :traitType="'talent'" />
+							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'talent'" />
 						</div>
+						<div v-if="level.levelBonus === 'fate'">
+							<StaticLevel :characteristic="'fate'" />
+						</div>
+						<div v-if="level.levelBonus === 'competence'">
+							<StaticLevel :characteristic="'competence'" />
+						</div>
+
 					</div>
 				</div>
 			</Wizard>
@@ -32,10 +39,11 @@
 	import { ref } from 'vue';
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
 	import Level from './Level.vue'
-	import { useStore } from '../stores/character'
+	import { useCharacterStore } from '../stores/character'
 	import Wizard from 'form-wizard-vue3'
 	import TraitLevel from '../components/levelChoices/TraitLevel.vue'
 	import AttributeLevel from '../components/levelChoices/AttributeLevel.vue'
+	import StaticLevel from '../components/levelChoices/StaticLevel.vue'
 	import { flattenCharacter } from '../utilities/characterFlattener'
 	import { getTraitNiceName } from '../rules/characteristics/traits'
 
@@ -44,10 +52,11 @@
 			Level,
 			Wizard,
 			AttributeLevel,
-			TraitLevel
+			TraitLevel,
+			StaticLevel
 		},
 		setup() {
-			const character = useStore()
+			const character = useCharacterStore()
 			const characterHistory = character.getHistory
 			const levelHistoryList = characterHistory.history
 			const currentLevel = character.getLevel
@@ -99,6 +108,7 @@
 						levelTabData = getChoiceName(levelBonus) + ': ' + attributeNiceName
 					} else {
 						// Fate'n stuff
+
 					}
 
 				} // call getTraitNiceName here!

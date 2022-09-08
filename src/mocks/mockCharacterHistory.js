@@ -3,7 +3,7 @@
 const VilleVakt = {
 	metadata: {
 		name: 'Ville Vakt',
-		currentLevel: 21,
+		currentLevel: 3,
 		isChosenByFate: false
 	},
 	state: {

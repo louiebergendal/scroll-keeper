@@ -69,12 +69,12 @@
 	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
 	import { contains } from '../rules/utils'
-	import { useStore } from '../stores/character'
+	import { useCharacterStore } from '../stores/character'
 
 	export default {
 		props: ['attribute', 'showAttributeSkills' ],
 		setup(props) {
-			const character = useStore()
+			const character = useCharacterStore()
 			const attributeValue = character.getAttributes[props.attribute.key]
 			const attributeSkills = specificAttributeSkills(props.attribute.key, character.getTraits)
 			const characterTraits = character.getTraits
@@ -87,7 +87,8 @@
 				baseValue,
 				characterTraits,
 				contains,
-				showAttributeSkills
+				showAttributeSkills,
+				character
 			}
 		}
 	}

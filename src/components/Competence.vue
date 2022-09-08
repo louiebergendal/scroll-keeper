@@ -13,11 +13,11 @@
 
 <script>
 	import { baseValue } from '../rules/characteristics/competence'
-	import { useStore } from '../stores/character'
+	import { useCharacterStore } from '../stores/character'
 	
 	export default {
 		setup(props) {
-			const character = useStore()
+			const character = useCharacterStore()
 			const competence = character.getCompetence
 
 			return {

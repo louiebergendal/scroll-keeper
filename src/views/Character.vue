@@ -2,6 +2,7 @@
 	<div class='character padding-medium'>
 		<div class='width-whole flex'>
 			<span class='wrapper flex width-whole'>
+				<p>{{character.getName}}</p>
 				<Attributes />
 				<div class='padding-bottom-medium'></div>
 				<Competence />
@@ -25,6 +26,8 @@
 	import Talents from '../components/Talents.vue'
 	import Competence from '../components/Competence.vue'
 	import LevelLadder from '../components/LevelLadder.vue'
+	import { useCharacterStore } from '../stores/character'
+	import { useRoute } from 'vue-router'
 
 	export default {
 		components: {
@@ -35,7 +38,19 @@
 			Competence,
 			LevelLadder
 		},
-		setup() {}
+		setup() {
+			const route = useRoute()
+			const character = useCharacterStore()
+			console.log("characterUID: ", route.params.characterUid)
+			console.log("character name: ", character.getName)
+			character.retrieveAndSetDBCharacter(route.params.userUid, route.params.characterUid)
+			console.log("character: ", character)
+
+			return {
+				character,
+				route
+			}
+		}
 	}
 </script>
 

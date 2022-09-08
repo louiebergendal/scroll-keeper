@@ -15,11 +15,10 @@ import { calculateMaxActionPoints } from '../rules/characteristics/secondaryChar
 const flattenCharacter = (characterHistory, targetLevel) => {
 	const levelHistoryList = characterHistory.history
 	const metadata = characterHistory.metadata
-
-	metadata.selectedLevel = targetLevel
-
 	const state = characterHistory.state
 	let characterTraitList = []
+
+	metadata.selectedLevel = targetLevel
 
 	let baseCharacter = {
 		metadata: metadata,
