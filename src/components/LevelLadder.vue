@@ -57,9 +57,8 @@
 		},
 		setup() {
 			const character = useCharacterStore()
-			const characterHistory = character.getHistory
-			const levelHistoryList = characterHistory.history
-			const currentLevel = character.getLevel
+			const characterHistory = character.history
+			const currentLevel = character.metadata.currentLevel
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const currentExperienceTable = experienceTableMaker(currentLevel)
 
@@ -88,9 +87,9 @@
 			let levelTabDataList = []
 			for (let i = 0; i < fullExperienceTable.length; i++) {
 				const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
-				const hasChosen = levelHistoryList[levelIndex] !== undefined
+				const hasChosen = characterHistory[levelIndex] !== undefined
 				let choice = ''
-				if (hasChosen) { choice = levelHistoryList[levelIndex].choice }
+				if (hasChosen) { choice = characterHistory[levelIndex].choice }
 				let levelBonus = fullExperienceTable[i] // fullExperienceTable is 0-indexed
 				const level = {
 					level: levelIndex,

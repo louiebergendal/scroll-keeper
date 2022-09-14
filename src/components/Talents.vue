@@ -2,7 +2,7 @@
 	<div class='skills-wrapper card dark padding-tiny margin-bottom-nano width-whole flex'>
 		<h3 class='attributes margin-top-nano align-center'>Talanger</h3>
 		<div
-			v-for='talent in independentTalentsList'
+			v-for='talent in independentCharacterTalents(character.sheet.traits)'
 			:key='talent.key'
 			class='width-whole flex'
 		>
@@ -18,13 +18,14 @@
 <script>
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterTalents } from '../rules/characteristics/traits'
+
 	export default {
 		setup() {
 			const character = useCharacterStore()
-			const characterTraitKeys = character.getTraits
-			const independentTalentsList = independentCharacterTalents(characterTraitKeys)
+
 			return {
-				independentTalentsList
+				character,
+				independentCharacterTalents
 			}
 		}
 	}

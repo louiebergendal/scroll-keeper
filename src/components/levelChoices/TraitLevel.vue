@@ -37,7 +37,7 @@
 		props: ['selectedLevel', 'traitType'],
 		setup(props) {
 			const character = useCharacterStore()
-			const characterHistory = character.getHistory
+			const characterHistory = character.history
 			const selectedLevel = props.selectedLevel
             const traitType = props.traitType
 			const originalLevelChoiceKey = characterHistory.history[selectedLevel].choice

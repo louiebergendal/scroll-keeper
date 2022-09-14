@@ -2,7 +2,7 @@
 	<div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
 		<h3 class='health margin-top-nano align-center'>Hälsa</h3>
 		<div class='health-wrapper flex'>
-			<div v-for='healthLevel in health' :key='healthLevel' class='health-level-wrapper flex'>
+			<div v-for='healthLevel in character.sheet.health' :key='healthLevel' class='health-level-wrapper flex'>
 				<div class='health-level-title padding-right-tiny'>{{ healthLevel._frontend_title }}</div>
 				<div
 					v-for='index in healthLevel.currentStrain.damage'
@@ -32,24 +32,21 @@
 
 	export default {
 		setup() {
-			const character = useCharacterStore()
+			let character = useCharacterStore()	
 
-			const health = character.getHealth
-			for (let healthLevel in health) {
-				const currentHealthLevel = health[healthLevel]
-				currentHealthLevel._frontend_title = healthLevel
-				currentHealthLevel._frontend_remainder = 0
-				currentHealthLevel._frontend_remainder =
-					currentHealthLevel.max - (currentHealthLevel.currentStrain.damage + currentHealthLevel.currentStrain.fatigue)
+			for (let healthLevel in character.sheet.health) {
+				character.sheet.health[healthLevel]._frontend_title = healthLevel
+				character.sheet.health[healthLevel]._frontend_remainder = 0
+				character.sheet.health[healthLevel]._frontend_remainder =
+					character.sheet.health[healthLevel].max - (character.sheet.health[healthLevel].currentStrain.damage + character.sheet.health[healthLevel].currentStrain.fatigue)
 			}
 
 			return {
-				health
+				character
 			}
 		}
 	}
 </script>
-
 
 <style>
 	.health-wrapper {
@@ -59,25 +56,23 @@
 	.health-point {
 		width: 100%;
 		height: 1.5rem;
-		background-color: #34ebd2;
-		border: 1px solid #1e9c8a;
+		background-color: rgb(152, 204, 107);
+		border: 1px solid #559c1e;
 		border-radius: 5px;
 		margin-right: 5px;
 		margin-bottom: 1px;
 	}
 	.damage {
-		background-color: #eb3434;
+		background-color: rgb(218, 114, 95);
 		border: 1px solid #9c1e1e;
 	}
 	.fatigue {
-		background-color: #ebba34;
-		border: 1px solid #8b6415;
+		background-color: rgb(218, 208, 95);
+		border: 1px solid #a7884b;
 	}
 	.health-level-title {
 		min-width: 10rem;
 		text-align: right;
 		margin-top: -0.30rem;
 	}
-
-
 </style>

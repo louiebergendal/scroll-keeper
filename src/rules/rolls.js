@@ -123,7 +123,9 @@ export function sucRoll(fv, sv, options = {}) {
 }
 
 export function damageRoll(targetCharacter, diceAmount, offensivePower, advantage = 0) {
-	const power = offensivePower - targetCharacter.getPower.defensive
+
+	console.log('targetCharacter: ', {...targetCharacter}.sheet);
+	const power = offensivePower - targetCharacter.power.defensive
 
 	// roll d6
 	let rollsList = d6(diceAmount, advantage).rolls

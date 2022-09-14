@@ -6,7 +6,6 @@
 */
 
 import { tryApplyTraitEffectOnValue } from '../traits'
-import {  } from '../traits'
 
 const baseValue = 2
 
@@ -32,7 +31,7 @@ const sumStrains = (oldStrain, newStrain) => {
 	}
 }
 
-const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
+const createHealthLevelWithOverflow = (healthLevelMaxValue, strain, healthLevelTitle) => {
 	// does damage overflow max health on this level?
 	let newHealthLevelState = createtHealthLevelState(healthLevelMaxValue, strain.damage)
 	let overflowedStrain = {
@@ -47,7 +46,9 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
 				currentStrain: {
 					damage: healthLevelMaxValue,
 					fatigue: 0
-				}
+				}, // lagt till "_frontend_remainder" & "_frontend_title: healthLevelTitle"
+				_frontend_remainder: 0,
+				_frontend_title: healthLevelTitle
 			},
 			overflowedStrain
 		}
@@ -67,7 +68,9 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
 				currentStrain: {
 					damage: strain.damage | 0,
 					fatigue: healthLevelMaxValue - strain.damage
-				}
+				}, // lagt till "_frontend_remainder" & "_frontend_title: healthLevelTitle"
+				_frontend_remainder: 0,
+				_frontend_title: healthLevelTitle
 			},
 			overflowedStrain
 		}
@@ -77,11 +80,13 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
 	// fail to exceed this level's max health
 	return {
 		healthLevel: {
-		max: healthLevelMaxValue,
-		currentStrain: {
-			damage: strain.damage,
-			fatigue: strain.fatigue
-		}
+			max: healthLevelMaxValue,
+			currentStrain: {
+				damage: strain.damage,
+				fatigue: strain.fatigue
+			}, // lagt till "_frontend_remainder" & "_frontend_title: healthLevelTitle"
+			_frontend_remainder: healthLevelMaxValue - (strain.damage + strain.fatigue),
+			_frontend_title: healthLevelTitle
 		},
 		overflowedStrain
 	}
@@ -90,15 +95,16 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain) => {
 const createHealthLevels = (maxHealthValue, strain) => {
 	let health = {}
 	const healthLevelMaxValue = maxHealthValue / 3
-	let remainder = createHealthLevelWithOverflow(healthLevelMaxValue, strain)
+	let remainder = createHealthLevelWithOverflow(healthLevelMaxValue, strain, 'well')
 	health['well'] = remainder.healthLevel
-	remainder = createHealthLevelWithOverflow(healthLevelMaxValue, remainder.overflowedStrain)
+	remainder = createHealthLevelWithOverflow(healthLevelMaxValue, remainder.overflowedStrain, 'strained')
 	health['strained'] = remainder.healthLevel
-	remainder = createHealthLevelWithOverflow(healthLevelMaxValue, remainder.overflowedStrain)
+	remainder = createHealthLevelWithOverflow(healthLevelMaxValue, remainder.overflowedStrain, 'incapacitated')
 	health['incapacitated'] = remainder.healthLevel
+
 	return health
 }
-
+ 
 export const calculateMaxHealthValue = (physiqueValue, characterTraitList) => {
 	let maxHealthValue = physiqueValue + baseValue // baseValue added here to be included in multiplication at return
 	maxHealthValue = tryApplyTraitEffectOnValue(maxHealthValue, 'addMaxHealthBonus', characterTraitList)

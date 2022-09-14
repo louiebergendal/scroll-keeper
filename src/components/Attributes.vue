@@ -11,17 +11,12 @@
 <script>
 	import Attribute from './Attribute.vue'
 	import { attributes } from '../rules/characteristics/attributes'
-	import { useCharacterStore } from '../stores/character'
-
-
+	
 	export default {
 		components: {
 			Attribute
 		},
 		setup() {
-			const annan = useCharacterStore()
-			console.log('annan in special!: ', annan.sheet)
-
 			return {
 				attributes
 			}

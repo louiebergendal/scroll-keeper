@@ -87,7 +87,7 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		// HEALTH ( Relies on maxHealthValue being set )
 		baseCharacter.health = createHealth(
 			baseCharacter.maxHealthValue,
-			baseCharacter.state.currentStrain
+			baseCharacter.state.currentStrain 
 		)
 
 		// CARRYING CAPACITY
@@ -111,6 +111,7 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		...baseCharacter,
 		traits: characterTraitList
 	}
+
 	return flattenedCharacter
 }
 

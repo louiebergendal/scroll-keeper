@@ -5,28 +5,24 @@
 				<span class='font-size-tiny bold'>Competence</span>
 			</div>
 			<div class='attribute-value padding-left-tiny padding-nano margin-left-tiny align-center width-half'>
-				<span class='font-size-tiny bold'> {{ competence }} </span>
+				<span class='font-size-tiny bold'> {{ character.sheet.competence }} </span>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	import { baseValue } from '../rules/characteristics/competence'
 	import { useCharacterStore } from '../stores/character'
 	
 	export default {
 		setup(props) {
 			const character = useCharacterStore()
-			const competence = character.getCompetence
 
 			return {
-				baseValue,
-				competence
+				character
 			}
 		}
 	}
-
 </script>
 
 <style>

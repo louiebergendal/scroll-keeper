@@ -1,8 +1,10 @@
 <template>
 	<div class='character padding-medium'>
+		<div class="align-center bold">
+			<p>{{character.metadata.name}} ( {{character.metadata.currentLevel}} )</p>
+		</div>
 		<div class='width-whole flex'>
 			<span class='wrapper flex width-whole'>
-				<p>{{character.getName}}</p>
 				<Attributes />
 				<div class='padding-bottom-medium'></div>
 				<Competence />
@@ -15,6 +17,7 @@
 			</span>
 		</div>
 		<Health />
+
 	</div>
 	<LevelLadder />
 </template>
@@ -41,10 +44,7 @@
 		setup() {
 			const route = useRoute()
 			const character = useCharacterStore()
-			console.log("characterUID: ", route.params.characterUid)
-			console.log("character name: ", character.getName)
-			character.retrieveAndSetDBCharacter(route.params.userUid, route.params.characterUid)
-			console.log("character: ", character)
+			character.setCharacterPath(route.params.userUid, route.params.characterUid)
 
 			return {
 				character,

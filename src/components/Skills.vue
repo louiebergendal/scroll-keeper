@@ -2,7 +2,7 @@
 	<div class='skills-wrapper card dark padding-tiny margin-bottom-nano width-whole flex'>
 		<h3 class='attributes margin-top-nano align-center'>Färdigheter</h3>
 		<div
-			v-for='skill in independentSkillsList'
+			v-for='skill in independentCharacterSkills(character.sheet.traits)'
 			:key='skill.key'
 			class='width-whole flex'
 		>
@@ -21,10 +21,10 @@
 	export default {
 		setup() {
 			const character = useCharacterStore()
-			const characterSkillKeys = character.getTraits
-			const independentSkillsList = independentCharacterSkills(characterSkillKeys)
+
 			return {
-				independentSkillsList
+				character,
+				independentCharacterSkills
 			}
 		}
 	}

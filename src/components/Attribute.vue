@@ -5,7 +5,7 @@
 				<span class='font-size-tiny bold'>{{ attribute.shortName }}</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
-				<span class='font-size-tiny bold'>{{ attributeValue }}</span>
+				<span class='font-size-tiny bold'>{{ character.sheet.attributes[props.attribute.key] }}</span>
 			</div>
 		</div>
 		<div v-if='showAttributeSkills'>
@@ -16,13 +16,13 @@
 			>
 				<div class='width-half card medium padding-nano italic align-center'>
 					<span
-						v-if='contains(characterTraits, skill.key)'
+						v-if='contains(character.sheet.traits, skill.key)'
 						class='font-size-nano bold'
 					>
 						- {{ skill.name }} -
 					</span>
 					<span
-						v-if='!contains(characterTraits, skill.key)'
+						v-if='!contains(character.sheet.traits, skill.key)'
 						class='font-size-nano'
 					>
 						{{ skill.name }}
@@ -31,32 +31,32 @@
 				<div class='skill-value card light padding-nano flex width-half margin-left-tiny'>
 					<div class='padding-left-small padding-nano width-fourth padding-left-huge'>
 						<span
-							v-if='contains(characterTraits, skill.key)'
+							v-if='contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano bold'
 						>
-							{{ skill.addProficiencyBonus(attributeValue) }}
+							{{ skill.addProficiencyBonus(character.sheet.attributes[props.attribute.key]) }}
 						</span>
 						<span
-							v-if='!contains(characterTraits, skill.key)'
+							v-if='!contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano'
 						>
-							{{ attributeValue }}
+							{{ character.sheet.attributes[props.attribute.key] }}
 						</span>
 					</div>
 					<div class='padding-nano italic padding-right-medium'>
 						<span
-							v-if='contains(characterTraits, skill.key)'
+							v-if='contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano align-right bold'
-							:class='{ "font-contrast-low": skill.addProficiencyBonus(attributeValue) < (skill.addProficiencyBonus(baseValue)) }'
+							:class='{ "font-contrast-low": skill.addProficiencyBonus(character.sheet.attributes[props.attribute.key]) < (skill.addProficiencyBonus(baseValue)) }'
 						>
-							{{ setAttributeValueName(skill.addProficiencyBonus(attributeValue)) }}
+							{{ setAttributeValueName(skill.addProficiencyBonus(character.sheet.attributes[props.attribute.key])) }}
 						</span>
 						<span
-							v-if='!contains(characterTraits, skill.key)'
+							v-if='!contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano align-right'
-							:class='{ "font-contrast-lowest": attributeValue < (skill.addProficiencyBonus(baseValue)) }'
+							:class='{ "font-contrast-lowest": character.sheet.attributes[props.attribute.key] < (skill.addProficiencyBonus(baseValue)) }'
 						>
-							{{ setAttributeValueName(attributeValue) }}
+							{{ setAttributeValueName(character.sheet.attributes[props.attribute.key]) }}
 						</span>
 					</div>
 				</div>
@@ -75,20 +75,17 @@
 		props: ['attribute', 'showAttributeSkills' ],
 		setup(props) {
 			const character = useCharacterStore()
-			const attributeValue = character.getAttributes[props.attribute.key]
-			const attributeSkills = specificAttributeSkills(props.attribute.key, character.getTraits)
-			const characterTraits = character.getTraits
+			const attributeSkills = specificAttributeSkills(props.attribute.key, character.sheet.traits)
 			const showAttributeSkills = props.showAttributeSkills
 
 			return {
-				setAttributeValueName,
-				attributeValue,
 				attributeSkills,
 				baseValue,
-				characterTraits,
-				contains,
 				showAttributeSkills,
-				character
+				character,
+				props,
+				setAttributeValueName,
+				contains
 			}
 		}
 	}
