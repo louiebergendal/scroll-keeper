@@ -13,16 +13,14 @@ import { calculatePower } from '../rules/characteristics/secondaryCharacteristic
 import { calculateMaxActionPoints } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
 
 const flattenCharacter = (characterHistory, targetLevel) => {
-	const levelHistoryList = characterHistory.history
-	const metadata = characterHistory.metadata
-	const state = characterHistory.state
+	//console.log('characterHistory.history: ', characterHistory.history);
 	let characterTraitList = []
 
-	metadata.selectedLevel = targetLevel
+	characterHistory.metadata.selectedLevel = targetLevel
 
 	let baseCharacter = {
-		metadata: metadata,
-		state: state,
+		metadata: characterHistory.metadata,
+		state: characterHistory.state,
 		attributes: {
 			battle: attributeBaseValue,
 			agility: attributeBaseValue,
@@ -47,8 +45,8 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 
 	// one-index because level starts at one
 	for (let i = 1; i <= targetLevel; i++) {
-		if (levelHistoryList[i]=== undefined) { break }
-		const currentLevel = levelHistoryList[i]
+		if (characterHistory.history[i]=== undefined) { break }
+		const currentLevel = characterHistory.history[i]
 		const bonusType = currentLevel.bonusType
 		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
@@ -84,10 +82,13 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 			characterTraitList
 		) // maxHealthValue baseValue is set here
 
+		//console.log('baseCharacter: ', baseCharacter);
+
 		// HEALTH ( Relies on maxHealthValue being set )
 		baseCharacter.health = createHealth(
 			baseCharacter.maxHealthValue,
-			baseCharacter.state.currentStrain 
+			baseCharacter.state.currentStrain
+			// needs newStrain as argument
 		)
 
 		// CARRYING CAPACITY

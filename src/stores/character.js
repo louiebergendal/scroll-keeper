@@ -1,14 +1,10 @@
 // implementera i någon stabil vy
 
 import { defineStore } from 'pinia'
-import {
-	ref as fbRef,
-	getDatabase,
-	onValue,
-} from 'firebase/database'
+import { onValue } from 'firebase/database'
 import { blankCharacter } from '../mocks/blankCharacterHistory'
 import { flattenCharacter } from '../utilities/characterFlattener'
-import { createRefs } from '../api/firebaseApi'
+import { createRefs, updateData } from '../api/firebaseApi'
 
 export const useCharacterStore = defineStore('character', {
 	state: () => {
@@ -23,20 +19,33 @@ export const useCharacterStore = defineStore('character', {
 	},
 	actions: {
 		addStrain(addedStrain) {
+			
 			this.sheet.state.currentStrain.damage += addedStrain.damage
 			this.sheet.state.currentStrain.fatigue += addedStrain.fatigue
+
 		},
 		setCharacterPath(userUid, characterUid) {
-			const refString = 'users/' + userUid + '/characters/' + characterUid
+			const characterRefString = 'users/' + userUid + '/characters/' + characterUid
 
-			onValue(createRefs(refString), (snapshot) => {
+			onValue(createRefs(characterRefString), (snapshot) => {
+
 				const newCharacterState = snapshot.val()
-				const currentLevel = newCharacterState.metadata.currentLevel
-				const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)		
-				this.metadata = newCharacterState.metadata
-				this.sheet = newCharacterSheet
-				this.history = newCharacterState
+				//console.log('newCharacterState 1: ', newCharacterState);
+				newCharacterState.metadata.characterRefString = characterRefString
+				//console.log('newCharacterState 2: ', newCharacterState);
+
+				if (newCharacterState) {
+					const currentLevel = newCharacterState.metadata.currentLevel
+					const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel) // add new Strain here
+					this.metadata = newCharacterState.metadata
+					this.sheet = newCharacterSheet
+					this.history = newCharacterState	
+				}
 			})
 		},
+		updateCharacterField(refString, data) {
+			updateData(refString, data)
+		}
+
 	},
 })

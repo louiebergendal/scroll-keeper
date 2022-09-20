@@ -22,7 +22,7 @@
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 			</div>
 		</div>
-		<button type="submit" class="margin-top-tiny margin-left-nano">Submitta!</button>
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewChoice">Submitta!</button>
 	</div>
 </template>
 
@@ -49,6 +49,15 @@
             if (traitType === 'skill') { traits = allSkills() }
             if (traitType === 'talent') { traits = allTalents() }
 
+			const submitNewChoice = function() {
+				const refString = character.metadata.characterRefString + '/history/' + selectedLevel
+				const data = { 
+					bonusType: traitType,
+					choice: tempLevelChoiceKey.value
+				}
+				character.updateCharacterField(refString, data)
+			}
+
 			return {
                 traitType,
 				traits,
@@ -58,6 +67,7 @@
 				contains,
 				canChooseTrait,
 				getTraitNiceName,
+				submitNewChoice
 			}
 		}
 	}

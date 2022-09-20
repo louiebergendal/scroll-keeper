@@ -10,7 +10,7 @@
 			>
 				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level">
-						{{ level.choiceName }} 
+						{{ level }}
 						<div v-if="level.levelBonus === 'skill'">
 							<TraitLevel :selectedLevel="currentTabIndex"  :traitType="'skill'" />
 						</div>
@@ -57,7 +57,7 @@
 		},
 		setup() {
 			const character = useCharacterStore()
-			const characterHistory = character.history
+			const characterHistory = character.history // ska vara history.history
 			const currentLevel = character.metadata.currentLevel
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const currentExperienceTable = experienceTableMaker(currentLevel)
@@ -89,6 +89,7 @@
 				const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
 				const hasChosen = characterHistory[levelIndex] !== undefined
 				let choice = ''
+
 				if (hasChosen) { choice = characterHistory[levelIndex].choice }
 				let levelBonus = fullExperienceTable[i] // fullExperienceTable is 0-indexed
 				const level = {
@@ -98,7 +99,8 @@
 					choice: choice
 				}
 				let levelTabData = level.levelBonus
-				if (level.hasChosen) { 
+
+				if (level.hasChosen) { // hasChosen är alltid false
 					const traitNiceName = getTraitNiceName(level.choice)
 					const attributeNiceName = '' //getAttributeNiceName()
 					if ((levelBonus === getChoiceName('skill') || levelBonus === getChoiceName('talent')) && traitNiceName ) {
@@ -107,7 +109,6 @@
 						levelTabData = getChoiceName(levelBonus) + ': ' + attributeNiceName
 					} else {
 						// Fate'n stuff
-
 					}
 
 				} // call getTraitNiceName here!

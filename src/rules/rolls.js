@@ -80,7 +80,6 @@ function removeHighest(rollsArray, amount) {
 // * * * Exports * * * //
 
 /**
-* d8:
 * - Rolls a set of D8 and returns an object containg the result of each individual roll and their total value.
 * @param {number} diceAmount - The amount of d8 to be rolled
 * @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'
@@ -90,7 +89,6 @@ export function d8(diceAmount, advantage = 0) {
 }
 
 /**
-* d6:
 * - Rolls a set of D6 and returns an object containg the result of each individual roll and their total value.
 * @param {number} diceAmount - The amount of d6 to be rolled
 * @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'
@@ -100,12 +98,10 @@ export function d6(diceAmount, advantage = 0) {
 }
 
 /**
-* sucRoll:
 * - Makes a 'Success roll' and returns an object containing the a 'key' and 'rollResult'.
 * @param {number} fv - the characters value
 * @param {number} sv - the situations value
-* @param {number[]} [advantage] - A positive value represents 'advantage', and a negative value represnts 'disadvantage'.
-* @param {number[]} [mv] - the opposing characters value
+* @param {object} [options] - an object containg 'advantage' and 'mv'
 */
 export function sucRoll(fv, sv, options = {}) {
 	const advantage = options.advantage ? options.advantage : 0
@@ -122,12 +118,15 @@ export function sucRoll(fv, sv, options = {}) {
 	if (finalResult <= 13) return { key: 'totalFailure', 	rollResult: finalResult }
 }
 
+/**
+* - Makes a 'Damage roll' and returns the summed up value of all damage dice.
+* @param {object} targetCharacter - the character being damaged
+* @param {number} diceAmount - the amount of damage dice being rolled
+* @param {number} offensivePower - the offending force offesive power
+* @param {number} [advantage] - the amount of advantage dice
+*/
 export function damageRoll(targetCharacter, diceAmount, offensivePower, advantage = 0) {
-
-	console.log('targetCharacter: ', {...targetCharacter}.sheet);
 	const power = offensivePower - targetCharacter.power.defensive
-
-	// roll d6
 	let rollsList = d6(diceAmount, advantage).rolls
 
 	// account for offensive and defensive power
@@ -137,9 +136,7 @@ export function damageRoll(targetCharacter, diceAmount, offensivePower, advantag
 		return roll 
 	})
 
-	// sumup
 	const sum = modifiedRollsList.reduce((a, b) => a + b)
-
 	return sum
 }
 

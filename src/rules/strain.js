@@ -1,3 +1,8 @@
+
+/** 
+* @param {number} strainSum
+* @param {boolean} isViolent
+*/
 export const dealStrain = (strainSum, isViolent) => {
     return {
         fatigue: isViolent ? Math.floor(strainSum / 2) : 0,

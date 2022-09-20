@@ -6,6 +6,7 @@
 */
 
 import { tryApplyTraitEffectOnValue } from '../traits'
+import { useCharacterStore } from '../../../stores/character' // for test
 
 const baseValue = 2
 
@@ -113,7 +114,12 @@ export const calculateMaxHealthValue = (physiqueValue, characterTraitList) => {
 }
 
 /* TEST */
-/* const offensivePower = character.power.offensive + 2
+
+/* const character = useCharacterStore()
+
+console.log('----> character: ', character);
+
+const offensivePower = character.sheet.power.offensive + 2
 const sucRollResult = sucRoll(12, 0)
 console.log('sucRollResult: ', sucRollResult)
 const meleeAttack = meleeSuccessTable(sucRollResult, character, offensivePower)

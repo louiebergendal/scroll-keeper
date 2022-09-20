@@ -2,6 +2,16 @@
 	<div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
 		<h3 class='health margin-top-nano align-center'>Hälsa</h3>
 		<div class='health-wrapper flex'>
+			<div>{{character.sheet.health.well.max}}</div>
+			<div v-if="character.sheet.fate" class='flex'>
+				<div class='health-level-title padding-right-tiny'>fate</div>
+				<div
+					v-for='index in character.sheet.fate'
+					:key='index'
+					class='health-point fate margin-bottom-small'
+				>
+			</div>
+			</div>
 			<div v-for='healthLevel in character.sheet.health' :key='healthLevel' class='health-level-wrapper flex'>
 				<div class='health-level-title padding-right-tiny'>{{ healthLevel._frontend_title }}</div>
 				<div
@@ -69,6 +79,10 @@
 	.fatigue {
 		background-color: rgb(218, 208, 95);
 		border: 1px solid #a7884b;
+	}
+	.fate {
+		background-color: rgb(149, 178, 198);
+		border: 1px solid #58758a;
 	}
 	.health-level-title {
 		min-width: 10rem;

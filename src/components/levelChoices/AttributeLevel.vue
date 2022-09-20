@@ -26,9 +26,10 @@
 				<div v-if="tempLevelChoiceKey !== attribute.key" class="card dark width-fourth margin-left-tiny align-center">
 					{{tempCharacterAttributes[attribute.key]}}
 				</div>
+				
 			</div>
 		</div>
-		<button type="submit" class="margin-top-tiny margin-left-nano">Submitta!</button>
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewChoice">Submitta!</button>
 	</div>
 </template>
 
@@ -45,9 +46,16 @@
 			const characterHistory = character.history
 			const selectedLevel = props.selectedLevel
 			const originalLevelChoiceKey = characterHistory.history[selectedLevel].choice
-			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 			const tempCharacterSheet = flattenCharacter(characterHistory, selectedLevel - 1) // -1 to account for current lvling
 			const tempCharacterAttributes = tempCharacterSheet.attributes
+			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
+
+			const submitNewChoice = function() {
+				const refString = character.metadata.characterRefString + '/history/' + selectedLevel
+				const data = { choice: tempLevelChoiceKey.value }
+				character.updateCharacterField(refString, data)
+			}
+			
 
 			return {
 				attributes,
@@ -58,11 +66,14 @@
 				tempLevelChoiceKey,
 				getAttributeShortName,
 				getAttributeLongName,
-				canChooseAttribute
+				canChooseAttribute,
+				submitNewChoice
 			}
 		}
 	}
-
+/* "push lvl choise to db"
+	
+*/
 </script>
 
 

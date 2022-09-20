@@ -2,7 +2,7 @@
 	<div class='card dark competence padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half align-center'>
-				<span class='font-size-tiny bold'>Competence</span>
+				<span class='font-size-tiny bold'>Erfarenhetsbonus</span>
 			</div>
 			<div class='attribute-value padding-left-tiny padding-nano margin-left-tiny align-center width-half'>
 				<span class='font-size-tiny bold'> {{ character.sheet.competence }} </span>

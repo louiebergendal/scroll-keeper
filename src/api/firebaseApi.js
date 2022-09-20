@@ -15,6 +15,7 @@ export const pushDataToCollection = (refString, data) => {
 
 // updates provided data keys at path
 export const updateData = (refString, data) => {
+	console.log('ping!');
 	const reference = createRefs(refString)
 	update(reference, data)
 }
