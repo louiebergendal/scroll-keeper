@@ -209,8 +209,7 @@ export function independentCharacterTalents(characterTraits) {
 // but that do not rely on the contents of this file or its imports.
 
 /**
-* tryApplyTraitEffectOnValue:
-* - takes in as parameters, a 'value', a string by the name of [traitEffect] and a string[] of
+* takes in as parameters, a 'value', a string by the name of [traitEffect] and a string[] of
 * character traitKeys. It will identify traits in characterTraitList that have a function by
 * the name of [traitEffect] and then apply [traitEffect] on 'value'. Then 'value' will be returned.
 * The returned value will have the same format as the input 'value' param.
@@ -228,7 +227,9 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 	return modifiedValue
 }
 
-export function canChooseTrait(traitKey, flatCharacter) {
+
+export function canChooseTrait(traitKey, characterTraitList, characterAttributes, isChosenByFate, selectedLevel) {
+
 	// access target trait requirements
 	const trait = allTraitsList[traitKey]
 	let requirementsAreMet = true
@@ -238,15 +239,16 @@ export function canChooseTrait(traitKey, flatCharacter) {
 		if (trait.requirements.traits) {
 			const requiredTraits = trait.requirements.traits
 			requiredTraits.forEach(requiredTrait => {
-				if(!hasTrait(requiredTrait, flatCharacter.traits)) { requirementsAreMet = false }
+				if(!hasTrait(requiredTrait, characterTraitList)) { requirementsAreMet = false }
 			})
 		}
+
 		// check required attributes
 		if (trait.requirements.attributes) {
 			const requiredAttributeKeys = Object.keys(trait.requirements.attributes)
 			requiredAttributeKeys.forEach(requiredAttributeKey => {
 				const requiredAttributeValue = trait.requirements.attributes[requiredAttributeKey]
-				const characterAttributeValue = flatCharacter.attributes[requiredAttributeKey]
+				const characterAttributeValue = characterAttributes[requiredAttributeKey]
 				if (requiredAttributeValue > characterAttributeValue) { requirementsAreMet = false }
 			})
 		}
@@ -254,11 +256,11 @@ export function canChooseTrait(traitKey, flatCharacter) {
 		const requiredMetadata = {...trait.requirements.metadata}
 		const requiredLevel = (requiredMetadata.level -1) // -1 to account for current lvling
 		if (requiredLevel) {
-			if (requiredLevel > flatCharacter.metadata.selectedLevel) { requirementsAreMet = false }
+			if (requiredLevel > selectedLevel) { requirementsAreMet = false }
 		}
 		// check if isChosenByFate
 		if (requiredMetadata.isChosenByFate) {
-			if (flatCharacter.metadata.isChosenByFate === false) { requirementsAreMet = false }
+			if (isChosenByFate === false) { requirementsAreMet = false }
 		}
 	}
 	return requirementsAreMet

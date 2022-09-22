@@ -11,13 +11,14 @@
 			</div>
 
 			<!-- trait is not owned and cannot be chosen -->
-			<div v-if="(!contains(tempcharacterTraits, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet))" class="card light width-whole">
+			<div v-if="(
+				!contains(tempcharacterTraits, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" class="card light width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait"  disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is not owned and can be chosen -->
-			<div v-if="(!contains(tempcharacterTraits, trait.key) && canChooseTrait(trait.key, tempCharacterSheet))" :checked="trait.key === tempLevelChoiceKey" class="card medium width-whole">
+			<div v-if="(!contains(tempcharacterTraits, trait.key) && canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" :checked="trait.key === tempLevelChoiceKey" class="card medium width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait" class="margin-tiny"/>
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 			</div>

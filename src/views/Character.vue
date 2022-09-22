@@ -2,6 +2,7 @@
 	<div class='character padding-medium'>
 		<div class="align-center bold">
 			<p>{{character.metadata.name}} ( {{character.metadata.currentLevel}} )</p>
+			{{character.metadata.invalidLevels}}
 		</div>
 		<div class='width-whole flex'>
 			<span class='wrapper flex width-whole'>
