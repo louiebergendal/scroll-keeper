@@ -266,6 +266,16 @@ export function canChooseTrait(traitKey, characterTraitList, characterAttributes
 	return requirementsAreMet
 }
 
+// should not be in "traits"? - depends on its final form
+export function choiceIsValid(traitKey, invalidLevels) {
+	for (const invalidLevel in invalidLevels) {
+		const invalidLevelChoice = invalidLevels[invalidLevel]
+		if (invalidLevelChoice === traitKey)
+		return false
+	}
+	return true
+}
+
 export function traitFromKey(traitKey) {
 	return allTraitsList[traitKey]
 }

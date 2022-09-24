@@ -28,11 +28,8 @@ export const useCharacterStore = defineStore('character', {
 			const characterRefString = 'users/' + userUid + '/characters/' + characterUid
 
 			onValue(createRefs(characterRefString), (snapshot) => {
-
 				const newCharacterState = snapshot.val()
-				//console.log('newCharacterState 1: ', newCharacterState);
 				newCharacterState.metadata.characterRefString = characterRefString
-				//console.log('newCharacterState 2: ', newCharacterState);
 
 				if (newCharacterState) {
 					const currentLevel = newCharacterState.metadata.currentLevel

@@ -1,18 +1,34 @@
 <template>
     <div class='card medium padding-tiny'>
+
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Välj en grej!</h3>
+
 		Vald bonus: {{ getTraitNiceName(tempLevelChoiceKey) }}
 
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
+			
+			<!-- trait is owned but not valid --> <!-- still red when changed levelBonus -->
+			<div v-if="!choiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key === tempLevelChoiceKey" class="card invalid flex width-whole">
+				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
+				<label for="{{trait.key}}" class="bold font-contrast-high"> {{ trait.name }} </label>
+			</div>
+
+			<!-- trait is owned but not valid --> <!-- still red when changed levelBonus -->
+			<div v-if="!choiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key !== tempLevelChoiceKey" class="card light width-whole">
+				<input type="radio" id="{{trait.key}}" disabled="true" class="margin-tiny"/>
+				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
+			</div>
+
+			<!-- ------------- -->
+
 			<!-- trait is already owned -->
-			<div v-if="contains(tempcharacterTraits, trait.key)" class="card dark flex width-whole">
+			<div v-if="contains(tempcharacterTraits, trait.key) && choiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-low"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is not owned and cannot be chosen -->
-			<div v-if="(
-				!contains(tempcharacterTraits, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" class="card light width-whole">
+			<div v-if="(!contains(tempcharacterTraits, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel)) && choiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card light width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait"  disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
@@ -22,15 +38,18 @@
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait" class="margin-tiny"/>
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 			</div>
+
 		</div>
+
 		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewChoice">Submitta!</button>
+
 	</div>
 </template>
 
 <script>
 	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue';
-	import { allSkills, allTalents, canChooseTrait, getTraitNiceName } from '../../rules/characteristics/traits'
+	import { allSkills, allTalents, canChooseTrait, getTraitNiceName, choiceIsValid } from '../../rules/characteristics/traits'
 	import { contains } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 
@@ -44,6 +63,7 @@
 			const originalLevelChoiceKey = characterHistory.history[selectedLevel].choice
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 			const tempCharacterSheet = flattenCharacter(characterHistory, selectedLevel - 1) // -1 to account for current lvling
+			const tempValidationSheet = flattenCharacter(characterHistory, selectedLevel)
 			const tempcharacterTraits = tempCharacterSheet.traits
 
             let traits
@@ -64,15 +84,23 @@
 				traits,
 				tempcharacterTraits,
 				tempCharacterSheet,
+				tempValidationSheet,
 				tempLevelChoiceKey,
 				contains,
 				canChooseTrait,
 				getTraitNiceName,
-				submitNewChoice
+				submitNewChoice,
+				character,
+				selectedLevel,
+				choiceIsValid
 			}
 		}
 	}
 </script>
 
 
-<style></style>
+<style>
+	.invalid {
+		background: rgb(247, 63, 46) !important;
+	}
+</style>

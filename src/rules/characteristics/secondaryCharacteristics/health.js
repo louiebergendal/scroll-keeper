@@ -137,6 +137,3 @@ export const createHealth = (
 	if (newStrain) strain = sumStrains(currentStrain, newStrain)
 	return createHealthLevels(maxHealthValue, strain)
 }
-
-
-

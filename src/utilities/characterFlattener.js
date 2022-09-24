@@ -43,7 +43,6 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		actionPoints: actionPointBaseValue
 	}
 
-	let olagligaLevels = []
 	// one-index because level starts at one
 	for (let i = 1; i <= targetLevel; i++) {
 		if (characterHistory.history[i]=== undefined) { break }
@@ -73,18 +72,15 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 			}
 		}
 
-		// VALIDATE TRAITS
-		if (bonusType === 'skill' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacter.attributes, baseCharacter.metadata.isChosenByFate, targetLevel)) {
-			
-			// ena lösningen
-			//olagligaLevels.push(i)
-			olagligaLevels.push({levelNumber: i, chosenBonus: chosenBonus})
-
-			// andra lösningen
-			baseCharacter.metadata.invalidLevels[i] = {levelNumber: i, chosenBonus: chosenBonus}
-			console.log('baseCharacter.metadata.invalidLevels: ', baseCharacter.metadata.invalidLevels);
+		// VALIDATE SKILLS
+		if (bonusType === 'talent' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacter.attributes, baseCharacter.metadata.isChosenByFate, targetLevel)) {
+			baseCharacter.metadata.invalidLevels[i] = chosenBonus
 		}
 
+		// VALIDATE TALENTS
+		if (bonusType === 'skill' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacter.attributes, baseCharacter.metadata.isChosenByFate, targetLevel)) {
+			baseCharacter.metadata.invalidLevels[i] = chosenBonus
+		}
 
 		// * * * SECONDARY CHARACTERISTICS * * * //
 
@@ -120,8 +116,6 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		// ACTION POINTS
 		baseCharacter.actionPoints = calculateMaxActionPoints(characterTraitList)
 	}
-
-	console.log('olagligaLevels: ', olagligaLevels);
 
 	const flattenedCharacter = {
 		...baseCharacter,

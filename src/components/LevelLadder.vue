@@ -9,10 +9,10 @@
 				@change="onChangeCurrentTab"
 			>
 				<div v-for="level in levelList" :key="level.level">
-					<div v-if="currentTabIndex === level.level">
-						{{ level }}
+					<div v-if="currentTabIndex === level.level" >
+
 						<div v-if="level.levelBonus === 'skill'">
-							<TraitLevel :selectedLevel="currentTabIndex"  :traitType="'skill'" />
+							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'skill'" />
 						</div>
 						<div v-if="level.levelBonus === 'attribute'">
 							<AttributeLevel :selectedLevel="currentTabIndex" />
@@ -38,7 +38,6 @@
 <script>
 	import { ref } from 'vue';
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
-	import Level from './Level.vue'
 	import { useCharacterStore } from '../stores/character'
 	import Wizard from 'form-wizard-vue3'
 	import TraitLevel from '../components/levelChoices/TraitLevel.vue'
@@ -49,7 +48,6 @@
 
 	export default {
 		components: {
-			Level,
 			Wizard,
 			AttributeLevel,
 			TraitLevel,
@@ -78,6 +76,7 @@
 			}
 
 			let tempCharacterSheet
+
 			const onChangeCurrentTab = function(index) {
 				currentTabIndex.value = index + 1
 				tempCharacterSheet = flattenCharacter(characterHistory, currentTabIndex.value)
@@ -90,7 +89,7 @@
 				const hasChosen = characterHistory[levelIndex] !== undefined
 				let choice = ''
 
-				if (hasChosen) { choice = characterHistory[levelIndex].choice }
+				if (hasChosen) { choice = characterHistory[levelIndex].choice } // hasChosen is always false, and also probably unnecessary
 				let levelBonus = fullExperienceTable[i] // fullExperienceTable is 0-indexed
 				const level = {
 					level: levelIndex,
@@ -102,6 +101,7 @@
 
 				if (level.hasChosen) { // hasChosen är alltid false
 					const traitNiceName = getTraitNiceName(level.choice)
+					
 					const attributeNiceName = '' //getAttributeNiceName()
 					if ((levelBonus === getChoiceName('skill') || levelBonus === getChoiceName('talent')) && traitNiceName ) {
 						levelTabData = getChoiceName(levelBonus) + ': ' + traitNiceName
@@ -112,6 +112,8 @@
 					}
 
 				} // call getTraitNiceName here!
+
+
 				levelTabDataList.push({ title: levelTabData })
 				levelList.push(level)
 			}
@@ -165,5 +167,8 @@
 		margin-left: calc(-100vw + 5rem);
 		height: 100vh;
 		overflow: hidden;
+	}
+	.invalid {
+		background: red;
 	}
 </style>
