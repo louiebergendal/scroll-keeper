@@ -10,7 +10,7 @@
 			>
 				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level" >
-
+						{{currentTabIndex}}
 						<div v-if="level.levelBonus === 'skill'">
 							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'skill'" />
 						</div>
@@ -55,13 +55,9 @@
 		},
 		setup() {
 			const character = useCharacterStore()
-			const characterHistory = character.history // ska vara history.history
-			const currentLevel = character.metadata.currentLevel
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
-			const currentExperienceTable = experienceTableMaker(currentLevel)
-
-			let isClosed = ref(true)
-			let currentTabIndex = ref(0)
+			const isClosed = ref(true)
+			const currentTabIndex = ref(0)
 
 			const getChoiceName = function(levelBonus) {
 				if (levelBonus === 'skill') return 'Färdighet'
@@ -79,17 +75,17 @@
 
 			const onChangeCurrentTab = function(index) {
 				currentTabIndex.value = index + 1
-				tempCharacterSheet = flattenCharacter(characterHistory, currentTabIndex.value)
+				tempCharacterSheet = flattenCharacter(character.history, currentTabIndex.value)
 			}
 
 			let levelList = []
 			let levelTabDataList = []
 			for (let i = 0; i < fullExperienceTable.length; i++) {
 				const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
-				const hasChosen = characterHistory[levelIndex] !== undefined
+				const hasChosen = character.history[levelIndex] !== undefined
 				let choice = ''
 
-				if (hasChosen) { choice = characterHistory[levelIndex].choice } // hasChosen is always false, and also probably unnecessary
+				if (hasChosen) { choice = character.history[levelIndex].choice } // hasChosen is always false, and also probably unnecessary
 				let levelBonus = fullExperienceTable[i] // fullExperienceTable is 0-indexed
 				const level = {
 					level: levelIndex,
@@ -121,9 +117,8 @@
 			return {
 				Wizard,
 				tempCharacterSheet,
-				currentExperienceTable,
 				fullExperienceTable,
-				characterHistory,
+				character,
 				levelList,
 				isClosed,
 				levelTabDataList,

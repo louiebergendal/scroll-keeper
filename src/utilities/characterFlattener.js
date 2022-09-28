@@ -1,5 +1,5 @@
 import { allTraits, canChooseTrait } from '../rules/characteristics/traits'
-import { attributes, baseValue as attributeBaseValue } from '../rules/characteristics/attributes'
+import { attributes, baseValue as attributeBaseValue, canChooseAttribute } from '../rules/characteristics/attributes'
 import { baseValue as movementBaseValue } from '../rules/characteristics/secondaryCharacteristics/movement'
 import { baseValue as actionPointBaseValue } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
 import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
@@ -61,8 +61,9 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 
 		// ATTRIBUTES
 		for (const attribute in attributes) {
-			if (attribute === chosenBonus)
+			if (attribute === chosenBonus){
 				baseCharacter.attributes[chosenBonus]++
+			}
 		}
 
 		// TRAITS
@@ -74,11 +75,19 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 
 		// VALIDATE SKILLS
 		if (bonusType === 'talent' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacter.attributes, baseCharacter.metadata.isChosenByFate, targetLevel)) {
+			// add invalid skill choices to invalidLevels
 			baseCharacter.metadata.invalidLevels[i] = chosenBonus
 		}
 
 		// VALIDATE TALENTS
 		if (bonusType === 'skill' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacter.attributes, baseCharacter.metadata.isChosenByFate, targetLevel)) {
+			// add invalid talent choices to invalidLevels
+			baseCharacter.metadata.invalidLevels[i] = chosenBonus
+		}
+
+		// VALIDATE ATTRIBUTES
+		if (bonusType === 'attribute' && !canChooseAttribute(baseCharacter.attributes[chosenBonus] - 1, i)) {
+			// add invalid attribute choices to invalidLevels
 			baseCharacter.metadata.invalidLevels[i] = chosenBonus
 		}
 
@@ -107,7 +116,7 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		)
 
 		// INITIATIVE
-		baseCharacter.initiative = calculateInitiative(
+		baseCharacter.initiative = calculateInitiative( // FEL HITTAT!!
 			baseCharacter.attributes.battle,
 			characterTraitList,
 			baseCharacter.metadata.currentLevel

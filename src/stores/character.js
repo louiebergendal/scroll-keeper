@@ -6,6 +6,8 @@ import { blankCharacter } from '../mocks/blankCharacterHistory'
 import { flattenCharacter } from '../utilities/characterFlattener'
 import { createRefs, updateData } from '../api/firebaseApi'
 
+const noobUid = '687sdasd7asdt78tsadfvs5sd'
+
 export const useCharacterStore = defineStore('character', {
 	state: () => {
 		const currentLevel = blankCharacter.metadata.currentLevel
@@ -19,12 +21,10 @@ export const useCharacterStore = defineStore('character', {
 	},
 	actions: {
 		addStrain(addedStrain) {
-			
 			this.sheet.state.currentStrain.damage += addedStrain.damage
 			this.sheet.state.currentStrain.fatigue += addedStrain.fatigue
-
 		},
-		setCharacterPath(userUid, characterUid) {
+		setCharacterPath(userUid, characterUid = noobUid) {
 			const characterRefString = 'users/' + userUid + '/characters/' + characterUid
 
 			onValue(createRefs(characterRefString), (snapshot) => {

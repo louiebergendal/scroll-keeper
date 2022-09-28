@@ -183,7 +183,7 @@ export const lightningReflexes = {
 			agility: 5
 		},
 	},
-	addInitiativeBonus: (initiative) => initiative + 1,
+	addInitiativeSizeBonus: (initiative) => initiative -= 1,
 	drawItemIsResponsiveAction: () => drawItemIsResponsiveAction()
 }
 
@@ -263,7 +263,8 @@ export const trustedHenchmen = {
 	name: 'Trogna underhuggare',
 	requirements: {
 		metadata: {
-			level: 21
+			level: 21,
+			isChosenByFate: true
 		}
 	},
 	addLoyalMook: (mooksList) => addLoyalMook(mooksList)

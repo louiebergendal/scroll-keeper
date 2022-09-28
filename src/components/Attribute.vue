@@ -29,7 +29,12 @@
 					</span>
 				</div>
 				<div class='skill-value card light padding-nano flex width-half margin-left-tiny'>
+					
 					<div class='padding-left-small padding-nano width-fourth padding-left-huge'>
+						
+						<!-- visar "0" ifall attributen finns med på "invalidLevels" -->
+						{{Object.values(character.metadata.invalidLevels).indexOf(props.attribute.key)}}
+
 						<span
 							v-if='contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano bold'

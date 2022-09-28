@@ -6,15 +6,24 @@
 		Vald bonus: {{ getTraitNiceName(tempLevelChoiceKey) }}
 
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
-			
-			<!-- trait is owned but not valid --> <!-- still red when changed levelBonus -->
-			<div v-if="!choiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key === tempLevelChoiceKey" class="card invalid flex width-whole">
+
+			<!-- trait is owned but not valid --> 
+			<div v-if="!traitChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key === tempLevelChoiceKey" class="card invalid flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-high"> {{ trait.name }} </label>
+
+				<div v-for="(requiredTrait, key) in trait.requirements.traits" :key='key' class="flex margin-left-small">Required traits: {{getTraitNiceName(requiredTrait)}}</div>
+				<div v-for="(requiredAttribute, key) in trait.requirements.attributes" :key='key' class="flex margin-left-small">Required {{key}}: {{requiredAttribute}}</div>
+				<div v-if="trait.requirements.metadata && trait.requirements.metadata.isChosenByFate">
+					Character must be Chosen by fate
+				</div>
+				<div v-if="trait.requirements.metadata && trait.requirements.metadata.level">
+					Required level: {{trait.requirements.metadata.level}}
+				</div>
 			</div>
 
-			<!-- trait is owned but not valid --> <!-- still red when changed levelBonus -->
-			<div v-if="!choiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key !== tempLevelChoiceKey" class="card light width-whole">
+			<!-- trait is owned but not valid -->
+			<div v-if="!traitChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key !== tempLevelChoiceKey" class="card light width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
@@ -22,13 +31,13 @@
 			<!-- ------------- -->
 
 			<!-- trait is already owned -->
-			<div v-if="contains(tempcharacterTraits, trait.key) && choiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
+			<div v-if="contains(tempcharacterTraits, trait.key) && traitChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-low"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is not owned and cannot be chosen -->
-			<div v-if="(!contains(tempcharacterTraits, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel)) && choiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card light width-whole">
+			<div v-if="(!contains(tempcharacterTraits, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel)) && traitChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card light width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait"  disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
@@ -49,7 +58,7 @@
 <script>
 	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue';
-	import { allSkills, allTalents, canChooseTrait, getTraitNiceName, choiceIsValid } from '../../rules/characteristics/traits'
+	import { allSkills, allTalents, canChooseTrait, getTraitNiceName, traitChoiceIsValid } from '../../rules/characteristics/traits'
 	import { contains } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 
@@ -92,7 +101,7 @@
 				submitNewChoice,
 				character,
 				selectedLevel,
-				choiceIsValid
+				traitChoiceIsValid
 			}
 		}
 	}
