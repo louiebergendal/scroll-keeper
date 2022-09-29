@@ -6,7 +6,6 @@
 */
 
 import { tryApplyTraitEffectOnValue } from '../traits'
-import { useCharacterStore } from '../../../stores/character' // for test
 
 const baseValue = 2
 
@@ -112,21 +111,6 @@ export const calculateMaxHealthValue = (physiqueValue, characterTraitList) => {
 	// Everything that modifies maxHealth should be added before final multiplication
 	return maxHealthValue = maxHealthValue * 3
 }
-
-/* TEST */
-
-/* const character = useCharacterStore()
-
-console.log('----> character: ', character);
-
-const offensivePower = character.sheet.power.offensive + 2
-const sucRollResult = sucRoll(12, 0)
-console.log('sucRollResult: ', sucRollResult)
-const meleeAttack = meleeSuccessTable(sucRollResult, character, offensivePower)
-console.log('meleeAttack: ', meleeAttack);
-character.addStrain(meleeAttack) */
-
-
 
 export const createHealth = (
 	maxHealthValue,

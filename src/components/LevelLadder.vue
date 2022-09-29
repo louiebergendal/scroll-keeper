@@ -45,6 +45,9 @@
 	import StaticLevel from '../components/levelChoices/StaticLevel.vue'
 	import { flattenCharacter } from '../utilities/characterFlattener'
 	import { getTraitNiceName } from '../rules/characteristics/traits'
+	import { getAttributeLongName } from '../rules/characteristics/attributes'
+	import { contains, capitalize } from '../rules/utils'
+	import { getLevelBonusNiceName } from '../rules/level'
 
 	export default {
 		components: {
@@ -58,75 +61,72 @@
 			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
 			const isClosed = ref(true)
 			const currentTabIndex = ref(0)
-
-			const getChoiceName = function(levelBonus) {
-				if (levelBonus === 'skill') return 'Färdighet'
-				if (levelBonus === 'attribute') return 'Grundegenskap'
-				if (levelBonus === 'talent') return 'Talang'
-				if (levelBonus === 'competence') return 'Kompetens'
-				if (levelBonus === 'fate') return 'Öde'
-			}
-
-			const toggleFoldOut = function(_event) {
-				isClosed.value = !isClosed.value
-			}
-
-			let tempCharacterSheet
-
-			const onChangeCurrentTab = function(index) {
-				currentTabIndex.value = index + 1
-				tempCharacterSheet = flattenCharacter(character.history, currentTabIndex.value)
-			}
-
-			let levelList = []
-			let levelTabDataList = []
-			for (let i = 0; i < fullExperienceTable.length; i++) {
-				const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
-				const hasChosen = character.history[levelIndex] !== undefined
-				let choice = ''
-
-				if (hasChosen) { choice = character.history[levelIndex].choice } // hasChosen is always false, and also probably unnecessary
-				let levelBonus = fullExperienceTable[i] // fullExperienceTable is 0-indexed
-				const level = {
-					level: levelIndex,
-					levelBonus: levelBonus,
-					hasChosen: hasChosen,
-					choice: choice
-				}
-				let levelTabData = level.levelBonus
-
-				if (level.hasChosen) { // hasChosen är alltid false
-					const traitNiceName = getTraitNiceName(level.choice)
-					
-					const attributeNiceName = '' //getAttributeNiceName()
-					if ((levelBonus === getChoiceName('skill') || levelBonus === getChoiceName('talent')) && traitNiceName ) {
-						levelTabData = getChoiceName(levelBonus) + ': ' + traitNiceName
-					} else if ((levelBonus === getChoiceName('attribute')) && attributeNiceName) {
-						levelTabData = getChoiceName(levelBonus) + ': ' + attributeNiceName
-					} else {
-						// Fate'n stuff
-					}
-
-				} // call getTraitNiceName here!
-
-
-				levelTabDataList.push({ title: levelTabData })
-				levelList.push(level)
-			}
+			const levelTabDataList = ref([])
+			const levelList = ref([])
 
 			return {
 				Wizard,
-				tempCharacterSheet,
 				fullExperienceTable,
 				character,
 				levelList,
 				isClosed,
 				levelTabDataList,
-				currentTabIndex,
-				toggleFoldOut,
-				onChangeCurrentTab
+				currentTabIndex
 			}
 		},
+		mounted() {
+			this.updateLevelTabData()
+		},
+		updated() {
+			this.updateLevelTabData()
+		},
+		methods: {
+			updateLevelTabData() {
+				console.log(this.levelTabDataList)
+				this.levelTabDataList.length = 0
+				this.levelList.length = 0
+				for (let i = 0; i < this.fullExperienceTable.length; i++) {
+					const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
+					const characterHistoryLevelChoice = this.character.history[levelIndex]
+					const hasChosen = characterHistoryLevelChoice !== undefined
+					let choice = ''
+					if (hasChosen){
+						choice = characterHistoryLevelChoice.choice
+					}
+					let levelBonus = this.fullExperienceTable[i] // fullExperienceTable is 0-indexed
+					const level = {
+						level: levelIndex,
+						levelBonus: levelBonus,
+						hasChosen: hasChosen,
+						choice: choice
+					}
+					let levelTabData = levelBonus
+					let niceName = ''
+					if (hasChosen) {
+						if (levelBonus === 'skill' || levelBonus === 'talent') {
+							niceName = getTraitNiceName(choice)
+							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
+						} else if (levelBonus === 'attribute') {
+							niceName = getAttributeLongName(choice)
+							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
+						} else {
+							// Fate'n stuff
+						}
+					}
+					const invalidLevelsKeys = Object.keys(this.character.metadata.invalidLevels)
+					const appendedInvalidMarker = contains(Object.keys(this.character.metadata.invalidLevels), levelIndex) ? 'invalidStep' : ''
+					this.levelTabDataList.push({ title: levelTabData, id: levelIndex + '-' + appendedInvalidMarker})
+					this.levelList.push(level)
+				}
+			},
+			toggleFoldOut(_event) {
+				this.isClosed = !this.isClosed
+				this.updateLevelTabData()
+			},
+			onChangeCurrentTab(index) {
+				this.currentTabIndex = index + 1
+			}
+		}
 	}
 </script>
 
@@ -134,6 +134,9 @@
 	@import '../style/themes/_variables-warm.scss';
 	@import '../assets/wizard/form-wizard-vue3.scss';
 
+	[id$="invalidStep"].fw-squared-tab {
+		background: red;
+	}
 	.level-ladder {
 		position: absolute;
 		top: 0;

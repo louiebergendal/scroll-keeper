@@ -269,9 +269,7 @@ export function canChooseTrait(traitKey, characterTraitList, characterAttributes
 
 export function traitChoiceIsValid(traitKey, invalidLevels) {
 	for (const invalidLevel in invalidLevels) {
-		const invalidLevelChoice = invalidLevels[invalidLevel]
-		if (invalidLevelChoice === traitKey)
-		return false
+		if (invalidLevels[invalidLevel] === traitKey) return false
 	}
 	return true
 }

@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "firebase": "^9.6.10",
-    "form-wizard-vue3": "^0.2.2",
+    "form-wizard-vue3": "^0.3.2",
     "html-webpack-plugin": "^5.5.0",
     "pinia": "^2.0.14",
     "sass": "^1.53.0",

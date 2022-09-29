@@ -9,10 +9,8 @@
 	export default {
 		props: ['characteristic'],
 		setup(props) {
-
             const traitToBeIncreased = props.characteristic
-
-
+			
 			return {
                 traitToBeIncreased
 			}

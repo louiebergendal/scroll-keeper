@@ -2,10 +2,10 @@
 	<div class='attribute padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half align-center'>
-				<span class='font-size-tiny bold'>{{ attribute.shortName }}</span>
+				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny bold'>{{ attribute.shortName }}</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
-				<span class='font-size-tiny bold'>{{ character.sheet.attributes[props.attribute.key] }}</span>
+				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny bold'>{{ character.sheet.attributes[props.attribute.key] }}</span>
 			</div>
 		</div>
 		<div v-if='showAttributeSkills'>
@@ -29,21 +29,18 @@
 					</span>
 				</div>
 				<div class='skill-value card light padding-nano flex width-half margin-left-tiny'>
-					
 					<div class='padding-left-small padding-nano width-fourth padding-left-huge'>
-						
-						<!-- visar "0" ifall attributen finns med på "invalidLevels" -->
-						{{Object.values(character.metadata.invalidLevels).indexOf(props.attribute.key)}}
-
 						<span
 							v-if='contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano bold'
+							:class="{'invalid-text': attributeAffectedByDefect}"
 						>
 							{{ skill.addProficiencyBonus(character.sheet.attributes[props.attribute.key]) }}
 						</span>
 						<span
 							v-if='!contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano'
+							:class="{'invalid-text': attributeAffectedByDefect}"
 						>
 							{{ character.sheet.attributes[props.attribute.key] }}
 						</span>
@@ -73,8 +70,9 @@
 <script>
 	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
-	import { contains } from '../rules/utils'
+	import { contains, levelChoiceIsValid } from '../rules/utils'
 	import { useCharacterStore } from '../stores/character'
+	import { ref } from 'vue';
 
 	export default {
 		props: ['attribute', 'showAttributeSkills' ],
@@ -82,7 +80,8 @@
 			const character = useCharacterStore()
 			const attributeSkills = specificAttributeSkills(props.attribute.key, character.sheet.traits)
 			const showAttributeSkills = props.showAttributeSkills
-
+			const attributeAffectedByDefect = ref(false)
+			
 			return {
 				attributeSkills,
 				baseValue,
@@ -90,14 +89,24 @@
 				character,
 				props,
 				setAttributeValueName,
-				contains
+				contains,
+				attributeAffectedByDefect
 			}
+		},
+		beforeUpdate() {
+			this.attributeAffectedByDefect =
+				Object.values(this.character.metadata.invalidLevels).indexOf(this.props.attribute.key) === 0;
 		}
+
 	}
 
 </script>
 
 <style>
+	.invalid-text {
+		color: rgb(247, 63, 46) !important;
+		font-weight: bold;
+	}
 	.attribute {
 		flex-direction: column;
 	}

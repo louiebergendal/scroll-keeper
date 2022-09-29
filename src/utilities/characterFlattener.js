@@ -12,15 +12,15 @@ import { calculateInitiative } from '../rules/characteristics/secondaryCharacter
 import { calculatePower } from '../rules/characteristics/secondaryCharacteristics/power'
 import { calculateMaxActionPoints } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
 
-const flattenCharacter = (characterHistory, targetLevel) => {
+const flattenCharacter = (databaseCharacter, targetLevel) => {
 	let characterTraitList = []
 
-	characterHistory.metadata.selectedLevel = targetLevel
-	characterHistory.metadata.invalidLevels = {}
+	databaseCharacter.metadata.selectedLevel = targetLevel
+	databaseCharacter.metadata.invalidLevels = {}
 
 	let baseCharacter = {
-		metadata: characterHistory.metadata,
-		state: characterHistory.state,
+		metadata: databaseCharacter.metadata,
+		state: databaseCharacter.state,
 		attributes: {
 			battle: attributeBaseValue,
 			agility: attributeBaseValue,
@@ -45,8 +45,8 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 
 	// one-index because level starts at one
 	for (let i = 1; i <= targetLevel; i++) {
-		if (characterHistory.history[i]=== undefined) { break }
-		const currentLevel = characterHistory.history[i]
+		if (databaseCharacter.history[i]=== undefined) { break }
+		const currentLevel = databaseCharacter.history[i]
 		const bonusType = currentLevel.bonusType
 		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
@@ -106,7 +106,6 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		baseCharacter.health = createHealth(
 			baseCharacter.maxHealthValue,
 			baseCharacter.state.currentStrain
-			// needs newStrain as argument
 		)
 
 		// CARRYING CAPACITY
@@ -116,7 +115,7 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		)
 
 		// INITIATIVE
-		baseCharacter.initiative = calculateInitiative( // FEL HITTAT!!
+		baseCharacter.initiative = calculateInitiative(
 			baseCharacter.attributes.battle,
 			characterTraitList,
 			baseCharacter.metadata.currentLevel
@@ -130,7 +129,6 @@ const flattenCharacter = (characterHistory, targetLevel) => {
 		...baseCharacter,
 		traits: characterTraitList
 	}
-
 	return flattenedCharacter
 }
 
