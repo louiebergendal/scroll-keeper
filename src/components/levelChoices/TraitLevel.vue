@@ -59,17 +59,12 @@
 		props: ['selectedLevel', 'traitType'],
 		setup(props) {
 			const character = useCharacterStore()
-			console.log("character: ", character)
-			const characterHistory = character.history
 			const selectedLevel = props.selectedLevel
             const traitType = props.traitType
-			console.log('characterHistory[selectedLevel]:', characterHistory[selectedLevel]);
-			const originalLevelChoiceKey = characterHistory[selectedLevel].choice
+			const originalLevelChoiceKey = character.history[selectedLevel].choice
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
-			console.log('--- flattenCharacter in "TraitLevel (tempCharacterSheet)" ---');
-			const tempCharacterSheet = flattenCharacter(characterHistory, selectedLevel - 1) // -1 to account for current lvling
-			console.log('--- flattenCharacter in "TraitLevel (tempValidationSheet)" ---');
-			const tempValidationSheet = flattenCharacter(characterHistory, selectedLevel)
+			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
+			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempcharacterTraits = tempCharacterSheet.traits
 
             let traits
@@ -99,6 +94,7 @@
 					choice: tempLevelChoiceKey
 				}
 				this.character.updateCharacterField(refString, data)
+				console.log('ping!');
 			}
 		}
 	}

@@ -10,8 +10,7 @@ export const useCharacterStore = defineStore('character', {
 	state: () => {
 		const currentLevel = blankCharacter.metadata.currentLevel
 		const characterSheet = flattenCharacter(blankCharacter, currentLevel)
-		console.log("blankCharacter: ", blankCharacter)
-		console.log("characterSheet: ", characterSheet)
+
 		return {
 			...blankCharacter,
 			sheet: characterSheet,
@@ -27,18 +26,12 @@ export const useCharacterStore = defineStore('character', {
 			onValue(createRefs(characterRefString), (snapshot) => {
 				const newCharacterState = snapshot.val()
 				newCharacterState.metadata.characterRefString = characterRefString
-
 				if (newCharacterState) {
 					const currentLevel = newCharacterState.metadata.currentLevel
 					const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel) // add new Strain here
-					console.log("newCharacterState: ", newCharacterState)
-					console.log("this in character.js: ", this)
-					console.log("newCharacterState.history: ", newCharacterState.history)
-
 					this.metadata = newCharacterState.metadata
 					this.sheet = newCharacterSheet
 					this.history = newCharacterState.history
-					console.log("this.history after setting: ", this.history)
 				}
 			})
 		},

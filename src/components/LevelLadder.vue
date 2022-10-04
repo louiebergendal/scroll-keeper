@@ -12,7 +12,7 @@
 					<div v-if="currentTabIndex === level.level" >
 						{{currentTabIndex}}
 						<div v-if="level.levelBonus === 'skill'">
-							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'skill'" />
+							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'skill'"/>
 						</div>
 						<div v-if="level.levelBonus === 'attribute'">
 							<AttributeLevel :selectedLevel="currentTabIndex" />
@@ -43,7 +43,6 @@
 	import TraitLevel from '../components/levelChoices/TraitLevel.vue'
 	import AttributeLevel from '../components/levelChoices/AttributeLevel.vue'
 	import StaticLevel from '../components/levelChoices/StaticLevel.vue'
-	import { flattenCharacter } from '../utilities/characterFlattener'
 	import { getTraitNiceName } from '../rules/characteristics/traits'
 	import { getAttributeLongName } from '../rules/characteristics/attributes'
 	import { contains, capitalize } from '../rules/utils'
@@ -82,27 +81,26 @@
 		},
 		methods: {
 			updateLevelTabData() {
-				console.log(this.levelTabDataList)
 				this.levelTabDataList.length = 0
 				this.levelList.length = 0
+
 				for (let i = 0; i < this.fullExperienceTable.length; i++) {
 					const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
-					const characterHistoryLevelChoice = this.character.history[levelIndex]
-					const hasChosen = characterHistoryLevelChoice !== undefined
 					let choice = ''
-					if (hasChosen){
-						choice = characterHistoryLevelChoice.choice
+					if (this.character.history[levelIndex] !== undefined){
+						choice = this.character.history[levelIndex].choice
 					}
 					let levelBonus = this.fullExperienceTable[i] // fullExperienceTable is 0-indexed
 					const level = {
 						level: levelIndex,
 						levelBonus: levelBonus,
-						hasChosen: hasChosen,
+						hasChosen: this.character.history[levelIndex] !== undefined,
 						choice: choice
 					}
+
 					let levelTabData = levelBonus
 					let niceName = ''
-					if (hasChosen) {
+					if (this.character.history[levelIndex] !== undefined) {
 						if (levelBonus === 'skill' || levelBonus === 'talent') {
 							niceName = getTraitNiceName(choice)
 							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
@@ -113,15 +111,17 @@
 							// Fate'n stuff
 						}
 					}
-					const invalidLevelsKeys = Object.keys(this.character.metadata.invalidLevels)
-					const appendedInvalidMarker = contains(Object.keys(this.character.metadata.invalidLevels), levelIndex) ? 'invalidStep' : ''
+
+					const containsInvalidChoice = contains(Object.keys(this.character.metadata.invalidLevels), levelIndex.toString())
+					const appendedInvalidMarker = containsInvalidChoice ? 'invalidStep' : ''
 					this.levelTabDataList.push({ title: levelTabData, id: levelIndex + '-' + appendedInvalidMarker})
 					this.levelList.push(level)
 				}
 			},
 			toggleFoldOut(_event) {
+				this.updateLevelTabData() // passa ner den här funktionen till levelChoice för att trigga från submitfunktionen
 				this.isClosed = !this.isClosed
-				this.updateLevelTabData()
+				
 			},
 			onChangeCurrentTab(index) {
 				this.currentTabIndex = index + 1
@@ -135,7 +135,7 @@
 	@import '../assets/wizard/form-wizard-vue3.scss';
 
 	[id$="invalidStep"].fw-squared-tab {
-		background: red;
+		background: red !important;
 	}
 	.level-ladder {
 		position: absolute;

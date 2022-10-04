@@ -42,7 +42,7 @@
 
 	export default {
 		setup() {
-			let character = useCharacterStore()	
+			let character = useCharacterStore()
 
 			for (let healthLevel in character.sheet.health) {
 				character.sheet.health[healthLevel]._frontend_title = healthLevel

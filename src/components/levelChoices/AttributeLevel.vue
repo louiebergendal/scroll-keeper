@@ -73,16 +73,13 @@
 		props: ['selectedLevel'],
 		setup(props) {
 			const character = useCharacterStore()
-			const characterHistory = character.history
 			const selectedLevel = props.selectedLevel
-			const originalLevelChoiceKey = characterHistory[selectedLevel].choice
-			console.log('--- flattenCharacter in "AttributeLevel (tempCharacterSheet)" ---');
-			const tempCharacterSheet = flattenCharacter(characterHistory, selectedLevel - 1) // -1 to account for current lvling
-			console.log('--- flattenCharacter in "AttributeLevel (tempValidationSheet)" ---');
-			const tempValidationSheet =  flattenCharacter(characterHistory, selectedLevel) 
+			const originalLevelChoiceKey = character.history[selectedLevel].choice
+			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
+			const tempValidationSheet =  flattenCharacter(character, selectedLevel) 
 			const tempCharacterAttributes = tempCharacterSheet.attributes
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
- 
+			
 			return {
 				attributes,
 				character,
