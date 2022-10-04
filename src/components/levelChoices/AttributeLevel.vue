@@ -107,6 +107,7 @@
 				const refString = this.character.metadata.characterRefString + '/history/' + this.selectedLevel
 				const data = { choice: tempLevelChoiceKey }
 				this.character.updateCharacterField(refString, data)
+				this.$emit('update-tabs')
 			}
 
 		}

@@ -94,7 +94,7 @@
 					choice: tempLevelChoiceKey
 				}
 				this.character.updateCharacterField(refString, data)
-				console.log('ping!');
+				this.$emit('update-tabs')
 			}
 		}
 	}

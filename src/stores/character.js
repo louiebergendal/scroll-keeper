@@ -23,9 +23,11 @@ export const useCharacterStore = defineStore('character', {
 		},
 		setCharacterPath(userUid, characterUid = noobUid) {
 			const characterRefString = 'users/' + userUid + '/characters/' + characterUid
+
 			onValue(createRefs(characterRefString), (snapshot) => {
 				const newCharacterState = snapshot.val()
 				newCharacterState.metadata.characterRefString = characterRefString
+				
 				if (newCharacterState) {
 					const currentLevel = newCharacterState.metadata.currentLevel
 					const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel) // add new Strain here
