@@ -84,10 +84,6 @@
 		methods: {
 			addStrainToDB(strain) {
 
-				console.log('this.character.metadata.name: ', this.character.metadata.name);
-				console.log('this.character.state.currentStrain.damage: ', this.character.state.currentStrain.damage);
-				console.log('this.character.state.currentStrain.fatigue: ', this.character.state.currentStrain.fatigue);
-
 				if (this.character.state.currentStrain.damage < 0) { this.character.state.currentStrain.damage = 0 }
 				if (this.character.state.currentStrain.fatigue < 0) { this.character.state.currentStrain.fatigue = 0 }
 
@@ -97,11 +93,6 @@
 				}
 				if (newStrain.damage < 0) { newStrain.damage = 0 }
 				if (newStrain.fatigue < 0) { newStrain.fatigue = 0 }
-
-				console.log('strain: ', strain);
-				console.log('oldStrain: ', this.character.state.currentStrain);
-				console.log('newStrain: ', newStrain);
-				console.log('-----');
 
 				const refString = this.character.metadata.characterRefString + '/state/currentStrain'
 				this.character.updateCharacterField(refString, newStrain)

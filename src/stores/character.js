@@ -17,20 +17,12 @@ export const useCharacterStore = defineStore('character', {
 		}
 	},
 	actions: {
-/* 		addStrain(addedStrain) {
-			this.sheet.state.currentStrain.damage += addedStrain.damage
-			this.sheet.state.currentStrain.fatigue += addedStrain.fatigue
-		}, */
 		setCharacterPath(userUid, characterUid = noobUid) {
 			const characterRefString = 'users/' + userUid + '/characters/' + characterUid
 
 			onValue(createRefs(characterRefString), (snapshot) => {
 				const newCharacterState = snapshot.val()
 				newCharacterState.metadata.characterRefString = characterRefString
-				
-				console.log('----');
-				console.log('this.state: ', this.state);
-				console.log('newCharacterState: ', newCharacterState);
 
 				if (newCharacterState) {
 					const currentLevel = newCharacterState.metadata.currentLevel
@@ -45,6 +37,5 @@ export const useCharacterStore = defineStore('character', {
 		updateCharacterField(refString, data) {
 			updateData(refString, data)
 		}
-
 	},
 })
