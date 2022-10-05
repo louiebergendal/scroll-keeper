@@ -8,8 +8,8 @@ export const blankCharacter = {
 	},
 	state: {
 		currentStrain: {
-			damage: 8,
-			fatigue: 4
+			damage: 0,
+			fatigue: 0
 		}
 	},
 	history: {

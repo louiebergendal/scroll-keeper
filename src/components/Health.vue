@@ -1,6 +1,12 @@
 <template>
 	<div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
 		<h3 class='health margin-top-nano align-center'>Hälsa</h3>
+
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(dealDamage)">Take 1 damage</button>
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(dealFatigue)">Take 1 fatigue</button>
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(healDamage)">Heal 1 damage</button>
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(healFatigue)">Heal 1 fatigue</button>
+
 		<div class='health-wrapper flex'>
 			<div>{{character.sheet.health.well.max}}</div>
 			<div v-if="character.sheet.fate" class='flex'>
@@ -43,6 +49,22 @@
 	export default {
 		setup() {
 			let character = useCharacterStore()
+			const dealDamage = {
+				damage: 1,
+				fatigue: 0
+			}
+			const dealFatigue = {
+				damage: 0,
+				fatigue: 1
+			}
+			const healDamage = {
+				damage: -1,
+				fatigue: 0
+			}
+			const healFatigue = {
+				damage: 0,
+				fatigue: -1
+			}
 
 			for (let healthLevel in character.sheet.health) {
 				character.sheet.health[healthLevel]._frontend_title = healthLevel
@@ -52,7 +74,37 @@
 			}
 
 			return {
-				character
+				character,
+				dealDamage,
+				dealFatigue,
+				healDamage,
+				healFatigue
+			}
+		},
+		methods: {
+			addStrainToDB(strain) {
+
+				console.log('this.character.metadata.name: ', this.character.metadata.name);
+				console.log('this.character.state.currentStrain.damage: ', this.character.state.currentStrain.damage);
+				console.log('this.character.state.currentStrain.fatigue: ', this.character.state.currentStrain.fatigue);
+
+				if (this.character.state.currentStrain.damage < 0) { this.character.state.currentStrain.damage = 0 }
+				if (this.character.state.currentStrain.fatigue < 0) { this.character.state.currentStrain.fatigue = 0 }
+
+				const newStrain = {
+					damage: this.character.state.currentStrain.damage += strain.damage,
+					fatigue: this.character.state.currentStrain.fatigue += strain.fatigue
+				}
+				if (newStrain.damage < 0) { newStrain.damage = 0 }
+				if (newStrain.fatigue < 0) { newStrain.fatigue = 0 }
+
+				console.log('strain: ', strain);
+				console.log('oldStrain: ', this.character.state.currentStrain);
+				console.log('newStrain: ', newStrain);
+				console.log('-----');
+
+				const refString = this.character.metadata.characterRefString + '/state/currentStrain'
+				this.character.updateCharacterField(refString, newStrain)
 			}
 		}
 	}

@@ -1,13 +1,7 @@
 
 // * * * N O T E P A D * * * //
-/* 
-	- "medicus" is WIP
+/*
 
-	todo:
-	- hitta sätt att hantera mechanics. 
-		Är "increaseForagingByOne" korrekt? För då ska jag också ha "increaseForagingByTwo".
-		Är det bättre är att bara ha "addForagingBonus" och sen bara skriva in värdet?
-	- standardisera trait-effekter och forsla in dem i "mechanics"
 */
 
  

@@ -102,7 +102,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			characterTraitList
 		) // maxHealthValue baseValue is set here
 
-		// HEALTH ( Relies on maxHealthValue being set )
+		// HEALTH ( relies on maxHealthValue being set )
 		baseCharacter.health = createHealth(
 			baseCharacter.maxHealthValue,
 			baseCharacter.state.currentStrain
