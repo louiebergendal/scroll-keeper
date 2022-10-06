@@ -43,7 +43,7 @@
 	import TraitLevel from '../components/levelChoices/TraitLevel.vue'
 	import AttributeLevel from '../components/levelChoices/AttributeLevel.vue'
 	import StaticLevel from '../components/levelChoices/StaticLevel.vue'
-	import { getTraitNiceName } from '../rules/characteristics/traits'
+	import { getTraitNiceName } from '../rules/characteristics/traits'	
 	import { getAttributeLongName } from '../rules/characteristics/attributes'
 	import { contains, capitalize } from '../rules/utils'
 	import { getLevelBonusNiceName } from '../rules/level'
@@ -107,8 +107,9 @@
 						} else if (levelBonus === 'attribute') {
 							niceName = getAttributeLongName(choice)
 							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
-						} else {
+						} else if (levelBonus === 'fate') {
 							// Fate'n stuff
+							levelTabData = getLevelBonusNiceName(levelBonus)
 						}
 					}
 

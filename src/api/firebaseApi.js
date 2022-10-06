@@ -43,5 +43,4 @@ onValue(createRefs(refString), (snapshot) => {
 	"variable" = snapshot.val()
 })
 
-
 */

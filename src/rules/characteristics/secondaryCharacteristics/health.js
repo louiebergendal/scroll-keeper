@@ -31,7 +31,7 @@ const sumStrains = (oldStrain, newStrain) => {
 	}
 }
 
-const createHealthLevelWithOverflow = (healthLevelMaxValue, strain, healthLevelTitle) => {
+const createHealthLevelWithOverflow = (healthLevelMaxValue, strain, healthLevelKey) => {
 	// does damage overflow max health on this level?
 	let newHealthLevelState = createtHealthLevelState(healthLevelMaxValue, strain.damage)
 	let overflowedStrain = {
@@ -48,7 +48,7 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain, healthLevelT
 					fatigue: 0
 				}, // lagt till "_frontend_remainder" & "_frontend_title: healthLevelTitle"
 				_frontend_remainder: 0,
-				_frontend_title: healthLevelTitle
+				_frontend_key: healthLevelKey
 			},
 			overflowedStrain
 		}
@@ -70,7 +70,7 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain, healthLevelT
 					fatigue: healthLevelMaxValue - strain.damage
 				}, // lagt till "_frontend_remainder" & "_frontend_title: healthLevelTitle"
 				_frontend_remainder: 0,
-				_frontend_title: healthLevelTitle
+				_frontend_key: healthLevelKey
 			},
 			overflowedStrain
 		}
@@ -86,7 +86,7 @@ const createHealthLevelWithOverflow = (healthLevelMaxValue, strain, healthLevelT
 				fatigue: strain.fatigue
 			}, // lagt till "_frontend_remainder" & "_frontend_title: healthLevelTitle"
 			_frontend_remainder: healthLevelMaxValue - (strain.damage + strain.fatigue),
-			_frontend_title: healthLevelTitle
+			_frontend_key: healthLevelKey
 		},
 		overflowedStrain
 	}
@@ -120,4 +120,10 @@ export const createHealth = (
 	let strain = currentStrain
 	if (newStrain) strain = sumStrains(currentStrain, newStrain)
 	return createHealthLevels(maxHealthValue, strain)
+}
+
+export function getHealthLevelNiceName(healthLevelKey) {
+	if (healthLevelKey === 'well') return 'Frisk'
+	if (healthLevelKey === 'strained') return 'Skadad'
+	if (healthLevelKey === 'incapacitated') return 'Sänkt'
 }

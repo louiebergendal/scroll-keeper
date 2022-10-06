@@ -1,4 +1,5 @@
 export const baseValue = 0
+export const fateNiceName = 'Öde'
 
 export const accountForFate = (fate, strainSum) => {
 	

@@ -1,16 +1,16 @@
 <template>
 	<div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
-		<h3 class='health margin-top-nano align-center'>Hälsa</h3>
+		<h3 class='health margin-top-nano align-center'>Hälsa ({{character.sheet.health.well.max}})</h3>
 
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(dealDamage)">Take 1 damage</button>
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(dealFatigue)">Take 1 fatigue</button>
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(healDamage)">Heal 1 damage</button>
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="addStrainToDB(healFatigue)">Heal 1 fatigue</button>
+		<button type="submit" class="margin-tiny" @click="addStrainToDB(dealDamage)">Ta 1 Skada</button>
+		<button type="submit" class="margin-tiny" @click="addStrainToDB(dealFatigue)">Ta 1 Utmattning</button>
+		<button type="submit" class="margin-tiny" @click="addStrainToDB(healDamage)">Hela 1 Skada</button>
+		<button type="submit" class="margin-tiny" @click="addStrainToDB(healFatigue)">Hela 1 Utmattning</button>
 
 		<div class='health-wrapper flex'>
-			<div>{{character.sheet.health.well.max}}</div>
+			<div></div>
 			<div v-if="character.sheet.fate" class='flex'>
-				<div class='health-level-title padding-right-tiny'>fate</div>
+				<div class='health-level-title padding-right-tiny'>{{ fateNiceName }}</div>
 				<div
 					v-for='index in character.sheet.fate'
 					:key='index'
@@ -19,7 +19,7 @@
 			</div>
 			</div>
 			<div v-for='healthLevel in character.sheet.health' :key='healthLevel' class='health-level-wrapper flex'>
-				<div class='health-level-title padding-right-tiny'>{{ healthLevel._frontend_title }}</div>
+				<div class='health-level-title padding-right-tiny'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}</div>
 				<div
 					v-for='index in healthLevel.currentStrain.damage'
 					:key='"damage-" + index'
@@ -45,6 +45,8 @@
 
 <script>
 	import { useCharacterStore } from '../stores/character'
+	import { getHealthLevelNiceName } from '../rules/characteristics/secondaryCharacteristics/health'
+	import { fateNiceName } from '../rules/characteristics/fate'
 
 	export default {
 		setup() {
@@ -78,7 +80,9 @@
 				dealDamage,
 				dealFatigue,
 				healDamage,
-				healFatigue
+				healFatigue,
+				fateNiceName,
+				getHealthLevelNiceName
 			}
 		},
 		methods: {
@@ -93,6 +97,8 @@
 				}
 				if (newStrain.damage < 0) { newStrain.damage = 0 }
 				if (newStrain.fatigue < 0) { newStrain.fatigue = 0 }
+
+				
 
 				const refString = this.character.metadata.characterRefString + '/state/currentStrain'
 				this.character.updateCharacterField(refString, newStrain)

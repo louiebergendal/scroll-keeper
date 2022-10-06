@@ -1,17 +1,48 @@
 <template>
-    <Character />
+
+	<div v-for="(character, key) in charactersVref" :key='key' class="flex width-half center">
+		<router-link  v-if='key' class="margin-small" :to="{ name: 'Character', params: {
+			userUid: userUid,
+			characterUid: key
+		} }">
+			{{character.metadata.name}} ({{character.metadata.currentLevel}}) 
+		</router-link>
+
+	</div>
+
+	<!-- <Character /> -->
 </template>
 
 <script>
 	import Character from './Character.vue'
+	import { useRoute } from 'vue-router'
+	import { onValue } from 'firebase/database'
+	import { createRefs, updateData } from '../api/firebaseApi'
+	import { ref as Vref } from 'vue';
+	import { useCharacterStore } from '../stores/character'
+
 	export default {
 		components: {
-            Character
+			Character
 		},
 		setup() {
-            return {
+			const route = useRoute()
+			const charactersVref = Vref({})
+			const userUid = route.params.userUid
 
-            }
-        }
+			function setCharactersListPath(userUid) {
+				const charactersRefString = 'users/' + userUid + '/characters/'
+
+				onValue(createRefs(charactersRefString), (snapshot) => {
+					charactersVref.value = snapshot.val()
+				})
+			}
+			setCharactersListPath(route.params.userUid)
+
+			return {
+				charactersVref,
+				userUid,
+			}
+		}
 	}
 </script>

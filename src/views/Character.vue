@@ -46,6 +46,7 @@
 			const route = useRoute()
 			const character = useCharacterStore()
 			character.setCharacterPath(route.params.userUid, route.params.characterUid)
+			console.log('CHARACTER characterUid: ', route.params.characterUid);
 
 			return {
 				character, 

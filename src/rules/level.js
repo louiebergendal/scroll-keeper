@@ -1,8 +1,11 @@
+
+import { fateNiceName } from '../rules/characteristics/fate'
+
+
 const skillNiceName = 'Färdighet'
 const attributeNiceName = 'Grundegenskap'
 const talentNiceName = 'Talang'
 const competenceNiceName = 'Erfarenhetsbonus'
-const fateNiceName = 'Öde'
 
 export function getLevelBonusNiceName(levelBonus) {
 	if (levelBonus === 'skill') return skillNiceName
