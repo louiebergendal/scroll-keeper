@@ -31,7 +31,8 @@
 
 			return {
 				charactersVref,
-				userUid	
+				userUid,
+				blankCharacter
 			}
 		},
 		mounted() {
@@ -42,16 +43,14 @@
 				const charactersRefString = 'users/' + userUid + '/characters/'
 
 				onValue(createRefs(charactersRefString), (snapshot) => {
-					this.charactersVref = snapshot.val() // dte här ska ligga 
+					this.charactersVref = snapshot.val()
 				})
 			},
 			createNewCharacter() {
-				console.log('tjong!!');
 				const charactersRefString = 'users/' + this.userUid + '/characters/'
-				const newRef = pushDataToCollection(charactersRefString, this.blankCharacter) // <--- target
-				console.log('this.$router: ', this.$router);
-
-				this.$router.push(charactersRefString + newRef.key)
+				const newRef = pushDataToCollection(charactersRefString, this.blankCharacter)
+				this.blankCharacter.metadata.characterRefString += newRef.key
+				this.$router.push(('characters/' + newRef.key))
 			}
 		}
 	}

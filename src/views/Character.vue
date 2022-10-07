@@ -33,6 +33,8 @@
 	import { useCharacterStore } from '../stores/character'
 	import { useRoute } from 'vue-router'
 
+
+
 	export default {
 		components: {
 			Attributes,
@@ -46,6 +48,8 @@
 			const route = useRoute()
 			const character = useCharacterStore()
 			character.setCharacterPath(route.params.userUid, route.params.characterUid)
+
+				console.log('ping!');
 
 			return {
 				character, 
