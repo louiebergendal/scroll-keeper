@@ -47,10 +47,14 @@
 	import { useCharacterStore } from '../stores/character'
 	import { getHealthLevelNiceName } from '../rules/characteristics/secondaryCharacteristics/health'
 	import { fateNiceName } from '../rules/characteristics/fate'
+	//import { dealStrain } from '../rules/strain'
 
 	export default {
 		setup() {
 			let character = useCharacterStore()
+
+			// inför "maxFate" och "currentFate"
+
 			const dealDamage = {
 				damage: 1,
 				fatigue: 0
@@ -97,8 +101,6 @@
 				}
 				if (newStrain.damage < 0) { newStrain.damage = 0 }
 				if (newStrain.fatigue < 0) { newStrain.fatigue = 0 }
-
-				
 
 				const refString = this.character.metadata.characterRefString + '/state/currentStrain'
 				this.character.updateCharacterField(refString, newStrain)

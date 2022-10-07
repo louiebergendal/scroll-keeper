@@ -10,7 +10,10 @@
 			<div v-if="!levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key === tempLevelChoiceKey" class="card invalid flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-high"> {{ trait.name }} </label>
-				<div v-for="(requiredTrait, key) in trait.requirements.traits" :key='key' class="flex margin-left-small">Färdighetskrav: {{getTraitNiceName(requiredTrait)}}</div>
+				<div v-for="(requiredTrait, key) in trait.requirements.traits" :key='key' class="flex margin-left-small">
+					<p v-if="allSkills()[requiredTrait]" >Färdighetskrav: {{getTraitNiceName(requiredTrait)}}</p>
+					<p v-if="allTalents()[requiredTrait]" >Talangkrav: {{getTraitNiceName(requiredTrait)}}</p>
+				</div>
 				<div v-for="(requiredAttribute, key) in trait.requirements.attributes" :key='key' class="flex margin-left-small">Grundegenskapskrav {{key}}: {{requiredAttribute}}</div>
 				<div v-if="trait.requirements.metadata && trait.requirements.metadata.isChosenByFate">
 					Karaktären måste vara ödesvald
@@ -84,6 +87,8 @@
 				canChooseTrait,
 				getTraitNiceName,
 				levelChoiceIsValid,
+				allSkills,
+				allTalents
 			}
 		},
 		methods: {

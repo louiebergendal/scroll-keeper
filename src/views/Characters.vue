@@ -5,21 +5,20 @@
 			userUid: userUid,
 			characterUid: key
 		} }">
-			{{character.metadata.name}} ({{character.metadata.currentLevel}}) 
+			{{character.metadata.name}} ({{character.metadata.currentLevel}})
 		</router-link>
-
 	</div>
 
-	<!-- <Character /> -->
+	<button type="submit" class="margin-top-tiny margin-left-nano" @click="createNewCharacter()">Ny karaktär</button>
 </template>
 
 <script>
 	import Character from './Character.vue'
+	import { blankCharacter } from '../mocks/blankCharacterHistory'
 	import { useRoute } from 'vue-router'
 	import { onValue } from 'firebase/database'
-	import { createRefs, updateData } from '../api/firebaseApi'
+	import { createRefs, pushDataToCollection } from '../api/firebaseApi'
 	import { ref as Vref } from 'vue';
-	import { useCharacterStore } from '../stores/character'
 
 	export default {
 		components: {
@@ -30,18 +29,29 @@
 			const charactersVref = Vref({})
 			const userUid = route.params.userUid
 
-			function setCharactersListPath(userUid) {
+			return {
+				charactersVref,
+				userUid	
+			}
+		},
+		mounted() {
+			this.setCharactersListPath(this.userUid)
+		},
+		methods: {
+			setCharactersListPath(userUid) {
 				const charactersRefString = 'users/' + userUid + '/characters/'
 
 				onValue(createRefs(charactersRefString), (snapshot) => {
-					charactersVref.value = snapshot.val()
+					this.charactersVref = snapshot.val() // dte här ska ligga 
 				})
-			}
-			setCharactersListPath(route.params.userUid)
+			},
+			createNewCharacter() {
+				console.log('tjong!!');
+				const charactersRefString = 'users/' + this.userUid + '/characters/'
+				const newRef = pushDataToCollection(charactersRefString, this.blankCharacter) // <--- target
+				console.log('this.$router: ', this.$router);
 
-			return {
-				charactersVref,
-				userUid,
+				this.$router.push(charactersRefString + newRef.key)
 			}
 		}
 	}

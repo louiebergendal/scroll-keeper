@@ -61,7 +61,11 @@ export const getAttributeShortName = (attributeKey) => {
 * @param {string} attributeKey
 */
 export const getAttributeLongName = (attributeKey) => {
-	return attributes[attributeKey].longName
+
+	console.log('attributeKey: ', attributeKey);
+	
+	if (attributeKey) { return attributes[attributeKey].longName }
+	return ''
 }
 
 /** 
