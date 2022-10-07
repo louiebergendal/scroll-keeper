@@ -49,7 +49,6 @@
 			createNewCharacter() {
 				const charactersRefString = 'users/' + this.userUid + '/characters/'
 				const newRef = pushDataToCollection(charactersRefString, this.blankCharacter)
-				this.blankCharacter.metadata.characterRefString += newRef.key
 				this.$router.push(('characters/' + newRef.key))
 			}
 		}

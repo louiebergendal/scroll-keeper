@@ -105,8 +105,6 @@
 							niceName = getTraitNiceName(choice)
 							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
 						} else if (levelBonus === 'attribute') {
-							console.log('choice: ', choice);
-							console.log('this.character.history[levelIndex]: ', this.character.history[levelIndex]);
 							niceName = getAttributeLongName(choice)
 							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
 						} else if (levelBonus === 'fate') {

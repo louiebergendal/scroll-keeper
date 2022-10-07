@@ -74,7 +74,12 @@
 		setup(props) {
 			const character = useCharacterStore()
 			const selectedLevel = props.selectedLevel
-			const originalLevelChoiceKey = character.history[selectedLevel].choice
+			let originalLevelChoiceKey
+
+			if (selectedLevel <= character.metadata.currentLevel) {
+				originalLevelChoiceKey = character.history[selectedLevel].choice
+			}
+			 
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet =  flattenCharacter(character, selectedLevel) 
 			const tempCharacterAttributes = tempCharacterSheet.attributes
@@ -109,7 +114,6 @@
 				this.character.updateCharacterField(refString, data)
 				this.$emit('update-tabs')
 			}
-
 		}
 	}
 </script>
