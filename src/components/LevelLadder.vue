@@ -10,7 +10,6 @@
 			>
 				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level" >
-						{{currentTabIndex}}
 						<div v-if="level.levelBonus === 'skill'">
 							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'skill'" @update-tabs="updateLevelTabData" />
 						</div>
@@ -107,7 +106,7 @@
 						} else if (levelBonus === 'attribute') {
 							niceName = getAttributeLongName(choice)
 							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
-						} else if (levelBonus === 'fate') {
+						} else {
 							// Fate'n stuff
 							levelTabData = getLevelBonusNiceName(levelBonus)
 						}

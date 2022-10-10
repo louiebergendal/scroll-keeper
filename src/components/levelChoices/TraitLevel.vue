@@ -70,7 +70,7 @@
 			const tempcharacterTraits = tempCharacterSheet.traits
 
 			let originalLevelChoiceKey = ''
-			if (selectedLevel <= character.metadata.currentLevel) { originalLevelChoiceKey = character.history[selectedLevel].choice }
+			if (selectedLevel <= character.metadata.level) { originalLevelChoiceKey = character.history[selectedLevel].choice }
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 			
             let traits

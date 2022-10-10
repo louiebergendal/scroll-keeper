@@ -5,7 +5,7 @@
 			userUid: userUid,
 			characterUid: key
 		} }">
-			{{character.metadata.name}} ({{character.metadata.currentLevel}})
+			{{character.metadata.name}} ({{character.metadata.level}})
 		</router-link>
 	</div>
 

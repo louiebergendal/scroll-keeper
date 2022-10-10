@@ -1,7 +1,7 @@
 <template>
 	<div class='character padding-medium'>
 		<div class="align-center bold">
-			<p>{{character.metadata.name}} ( {{character.metadata.currentLevel}} )</p>
+			<p>{{character.metadata.name}} ( {{character.metadata.level}} )</p>
 			{{character.metadata.invalidLevels}}
 		</div>
 		<div class='width-whole flex'>
@@ -32,8 +32,6 @@
 	import LevelLadder from '../components/LevelLadder.vue'
 	import { useCharacterStore } from '../stores/character'
 	import { useRoute } from 'vue-router'
-
-
 
 	export default {
 		components: {

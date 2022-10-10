@@ -58,7 +58,7 @@
 			</div>
 		</div>
 
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewAttributeLevel()">Submitta!</button>
+		<button :disabled="!isChangeable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewAttributeLevel()">Submitta!</button>
 
 	</div>
 </template>
@@ -75,11 +75,13 @@
 		setup(props) {
 			const character = useCharacterStore()
 			const selectedLevel = props.selectedLevel
+			const isChangeable = ref(selectedLevel <= character.metadata.level)
+
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempCharacterAttributes = tempCharacterSheet.attributes
 			let originalLevelChoiceKey = ''
-			if (selectedLevel <= character.metadata.currentLevel) 
+			if (selectedLevel <= character.metadata.level) 
 				originalLevelChoiceKey = character.history[selectedLevel].choice
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
@@ -93,6 +95,7 @@
 				getAttributeShortName,
 				getAttributeLongName,
 				canChooseAttribute,
+				isChangeable
 			}
 		},
 		methods: {

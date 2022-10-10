@@ -8,7 +8,7 @@ const noobUid = '687sdasd7asdt78tsadfvs5sd'
 
 export const useCharacterStore = defineStore('character', {
 	state: () => {
-		const currentLevel = blankCharacter.metadata.currentLevel
+		const currentLevel = blankCharacter.metadata.level
 		const characterSheet = flattenCharacter(blankCharacter, currentLevel)
 
 		return {
@@ -25,7 +25,7 @@ export const useCharacterStore = defineStore('character', {
 				newCharacterState.metadata.characterRefString = characterRefString
 
 				if (newCharacterState) {
-					const currentLevel = newCharacterState.metadata.currentLevel
+					const currentLevel = newCharacterState.metadata.level
 					const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)
 					this.metadata = newCharacterState.metadata
 					this.sheet = newCharacterSheet
@@ -38,24 +38,15 @@ export const useCharacterStore = defineStore('character', {
 			updateData(refString, data)
 		},
 		submitNewLevelChoice(choiceKey, selectedLevel, bonusType) {
-			console.log('bonusType === fate', bonusType === 'fate');
-
-			if (bonusType === 'fate') {
-				console.log('choiceKey: ', choiceKey);
-				console.log('selectedLevel: ', selectedLevel);
-				console.log('bonusType: ', bonusType);
-			}
-
-
-
 			const levelRefString = this.metadata.characterRefString + '/history/' + selectedLevel
 			const level = { bonusType: bonusType, choice: choiceKey }
+			const isLvlUp = selectedLevel === this.metadata.level + 1
+
+			if (isLvlUp){
+				this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { level: selectedLevel })
+			}
+
 			this.updateCharacterField(levelRefString, level)
-			const isLvlUp = selectedLevel >= this.metadata.currentLevel
-
-			if (isLvlUp)
-				this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { currentLevel: selectedLevel })
-
 		}
 	},
 })

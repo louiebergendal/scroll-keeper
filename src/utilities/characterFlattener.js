@@ -118,7 +118,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		baseCharacter.initiative = calculateInitiative(
 			baseCharacter.attributes.battle,
 			characterTraitList,
-			baseCharacter.metadata.currentLevel
+			baseCharacter.metadata.level
 		)
 
 		// ACTION POINTS
