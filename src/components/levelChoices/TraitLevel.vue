@@ -47,7 +47,8 @@
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 			</div>
 		</div>
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewChoice(tempLevelChoiceKey)">Submitta!</button>
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewTraitLevel()">Submitta!</button>
+
 	</div>
 </template>
 
@@ -64,12 +65,14 @@
 			const character = useCharacterStore()
 			const selectedLevel = props.selectedLevel
             const traitType = props.traitType
-			const originalLevelChoiceKey = character.history[selectedLevel].choice
-			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempcharacterTraits = tempCharacterSheet.traits
 
+			let originalLevelChoiceKey = ''
+			if (selectedLevel <= character.metadata.currentLevel) { originalLevelChoiceKey = character.history[selectedLevel].choice }
+			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
+			
             let traits
             if (traitType === 'skill') { traits = allSkills() }
             if (traitType === 'talent') { traits = allTalents() }
@@ -92,15 +95,10 @@
 			}
 		},
 		methods: {
-			submitNewChoice(tempLevelChoiceKey) {
-				const refString = this.character.metadata.characterRefString + '/history/' + this.selectedLevel
-				const data = { 
-					bonusType: this.traitType,
-					choice: tempLevelChoiceKey
-				}
-				this.character.updateCharacterField(refString, data)
+			submitNewTraitLevel() {
+				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType)
 				this.$emit('update-tabs')
-			}
+			},
 		}
 	}
 </script>

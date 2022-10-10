@@ -12,9 +12,9 @@
 				<div class='padding-bottom-medium'></div>
 			</span>
 			<span class='wrapper flex -v-center width-half margin-left-medium'>
-				<Skills />
-				<div class='padding-bottom-medium'></div>
 				<Talents />
+				<div class='padding-bottom-medium'></div>
+				<Skills />
 			</span>
 		</div>
 		<Health />

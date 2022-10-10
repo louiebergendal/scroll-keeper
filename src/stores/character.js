@@ -26,7 +26,7 @@ export const useCharacterStore = defineStore('character', {
 
 				if (newCharacterState) {
 					const currentLevel = newCharacterState.metadata.currentLevel
-					const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel) // add new Strain here
+					const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)
 					this.metadata = newCharacterState.metadata
 					this.sheet = newCharacterSheet
 					this.history = newCharacterState.history
@@ -36,6 +36,26 @@ export const useCharacterStore = defineStore('character', {
 		},
 		updateCharacterField(refString, data) {
 			updateData(refString, data)
+		},
+		submitNewLevelChoice(choiceKey, selectedLevel, bonusType) {
+			console.log('bonusType === fate', bonusType === 'fate');
+
+			if (bonusType === 'fate') {
+				console.log('choiceKey: ', choiceKey);
+				console.log('selectedLevel: ', selectedLevel);
+				console.log('bonusType: ', bonusType);
+			}
+
+
+
+			const levelRefString = this.metadata.characterRefString + '/history/' + selectedLevel
+			const level = { bonusType: bonusType, choice: choiceKey }
+			this.updateCharacterField(levelRefString, level)
+			const isLvlUp = selectedLevel >= this.metadata.currentLevel
+
+			if (isLvlUp)
+				this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { currentLevel: selectedLevel })
+
 		}
 	},
 })

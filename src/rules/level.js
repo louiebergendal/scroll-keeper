@@ -14,3 +14,4 @@ export function getLevelBonusNiceName(levelBonus) {
 	if (levelBonus === 'competence') return competenceNiceName
 	if (levelBonus === 'fate') return fateNiceName
 }
+

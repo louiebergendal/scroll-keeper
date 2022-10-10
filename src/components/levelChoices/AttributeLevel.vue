@@ -33,6 +33,7 @@
 						:disabled="!canChooseAttribute(tempCharacterAttributes[attribute.key], selectedLevel)"
 						class="margin-tiny"
 					/>
+
 					<label for="{{attribute.key}}"> {{getAttributeShortName(attribute.key)}} </label>
 				</div>
 
@@ -57,7 +58,7 @@
 			</div>
 		</div>
 
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewChoice(tempLevelChoiceKey)">Submitta!</button>
+		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewAttributeLevel()">Submitta!</button>
 
 	</div>
 </template>
@@ -74,30 +75,24 @@
 		setup(props) {
 			const character = useCharacterStore()
 			const selectedLevel = props.selectedLevel
-			let originalLevelChoiceKey
-
-			if (selectedLevel <= character.metadata.currentLevel) {
-				originalLevelChoiceKey = character.history[selectedLevel].choice
-			}
-			 
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
-			const tempValidationSheet =  flattenCharacter(character, selectedLevel) 
+			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempCharacterAttributes = tempCharacterSheet.attributes
+			let originalLevelChoiceKey = ''
+			if (selectedLevel <= character.metadata.currentLevel) 
+				originalLevelChoiceKey = character.history[selectedLevel].choice
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
-			
+
 			return {
 				attributes,
 				character,
-				originalLevelChoiceKey,
 				selectedLevel,
 				tempCharacterAttributes,
-				tempCharacterSheet,
 				tempValidationSheet,
 				tempLevelChoiceKey,
 				getAttributeShortName,
 				getAttributeLongName,
 				canChooseAttribute,
-
 			}
 		},
 		methods: {
@@ -108,12 +103,11 @@
 					}
 				}
 			},
-			submitNewChoice(tempLevelChoiceKey) {
-				const refString = this.character.metadata.characterRefString + '/history/' + this.selectedLevel
-				const data = { choice: tempLevelChoiceKey }
-				this.character.updateCharacterField(refString, data)
+			submitNewAttributeLevel() {
+				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, 'attribute')
 				this.$emit('update-tabs')
-			}
+			},
+
 		}
 	}
 </script>

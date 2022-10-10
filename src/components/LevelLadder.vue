@@ -21,10 +21,10 @@
 							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'talent'" @update-tabs="updateLevelTabData" />
 						</div>
 						<div v-if="level.levelBonus === 'fate'">
-							<StaticLevel :characteristic="'fate'" />
+							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'fate'" />
 						</div>
 						<div v-if="level.levelBonus === 'competence'">
-							<StaticLevel :characteristic="'competence'" />
+							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'competence'" />
 						</div>
 
 					</div>
