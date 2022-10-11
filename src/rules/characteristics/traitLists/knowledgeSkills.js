@@ -72,14 +72,30 @@ const advancedKnowledgeSidra = {
     addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
 
-const basicKnowledgeChemistry = { // placeholder name
+const basicKnowledgeOrun = {
+    key: 'basicKnowledgeOrun',
+    name: 'Ytlig kunskap (Troll)',
+    softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
+const advancedKnowledgeOrun = {
+    key: 'advancedKnowledgeOrun',
+    name: 'Fördjupad kunskap (Troll)',
+    requirements: {
+        traits: ['basicKnowledgeOrun']
+    },
+    addAdvantage: (sucRoll) => addAdvantage(sucRoll),
+    canChoseExtraEffects: () => canChoseExtraEffects()
+}
+
+const basicKnowledgeChemistry = {
     key: 'basicKnowledgeChemistry',
     name: 'Ytlig kunskap (Extrakt)',
     softUnlock: (fv) => removeSucRollPenalty(fv),
     canPickExtractsOnForageRoll: (roll) => canPickExtractsOnForageRoll(roll)
 }
 
-const advancedKnowledgeChemistry = { // placeholder name
+const advancedKnowledgeChemistry = {
     key: 'advancedKnowledgeChemistry',
     name: 'Fördjupad kunskap (Extrakt)',
     requirements: {
@@ -107,7 +123,7 @@ const advancedKnowledgeArcane = {
     addSpellbookPointsBonus: (spellbookPoints) => spellbookPoints + 1
 }
 
-export default {
+const knowledgeSkills = {
     basicKnowledgeDavand,
     advancedKnowledgeDavand,
     basicKnowledgeVend,
@@ -116,8 +132,14 @@ export default {
     advancedKnowledgeSodor,
     basicKnowledgeSidra,
     advancedKnowledgeSidra,
+    basicKnowledgeOrun,
+    advancedKnowledgeOrun,
     basicKnowledgeChemistry,
     advancedKnowledgeChemistry,
     basicKnowledgeArcane,
     advancedKnowledgeArcane
 }
+
+export const knowledgeSkillKeysList = () => Object.keys(knowledgeSkills)
+
+export default knowledgeSkills

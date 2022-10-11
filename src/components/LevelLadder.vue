@@ -20,10 +20,10 @@
 							<TraitLevel :selectedLevel="currentTabIndex" :traitType="'talent'" @update-tabs="updateLevelTabData" />
 						</div>
 						<div v-if="level.levelBonus === 'fate'">
-							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'fate'" />
+							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'fate'" @update-tabs="updateLevelTabData"/>
 						</div>
 						<div v-if="level.levelBonus === 'competence'">
-							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'competence'" />
+							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'competence'" @update-tabs="updateLevelTabData"/>
 						</div>
 
 					</div>
@@ -44,7 +44,7 @@
 	import StaticLevel from '../components/levelChoices/StaticLevel.vue'
 	import { getTraitNiceName } from '../rules/characteristics/traits'	
 	import { getAttributeLongName } from '../rules/characteristics/attributes'
-	import { contains, capitalize } from '../rules/utils'
+	import { contains } from '../rules/utils'
 	import { getLevelBonusNiceName } from '../rules/level'
 
 	export default {
@@ -56,7 +56,7 @@
 		},
 		setup() {
 			const character = useCharacterStore()
-			const fullExperienceTable = experienceTableMaker(31) // HÅRDKODAT
+			const experienceTable = ref(experienceTableMaker(character.metadata.level + 1)) // HÅRDKODAT
 			const isClosed = ref(true)
 			const currentTabIndex = ref(0)
 			const levelTabDataList = ref([])
@@ -64,7 +64,7 @@
 
 			return {
 				Wizard,
-				fullExperienceTable,
+				experienceTable,
 				character,
 				levelList,
 				isClosed,
@@ -80,16 +80,17 @@
 		},
 		methods: {
 			updateLevelTabData() {
+				this.experienceTable = experienceTableMaker(this.character.metadata.level + 1)
 				this.levelTabDataList.length = 0
 				this.levelList.length = 0
 
-				for (let i = 0; i < this.fullExperienceTable.length; i++) {
-					const levelIndex = i + 1 // fullExperienceTable is 0-indexed, characterHistory is 1-indexed
+				for (let i = 0; i < this.experienceTable.length; i++) {
+					const levelIndex = i + 1 // experienceTable is 0-indexed, characterHistory is 1-indexed
 					let choice = ''
 					if (this.character.history[levelIndex] !== undefined){
 						choice = this.character.history[levelIndex].choice
 					}
-					let levelBonus = this.fullExperienceTable[i] // fullExperienceTable is 0-indexed
+					let levelBonus = this.experienceTable[i] // experienceTable is 0-indexed
 					const level = {
 						level: levelIndex,
 						levelBonus: levelBonus,
@@ -119,15 +120,15 @@
 				}
 			},
 			toggleFoldOut(_event) {
-				this.updateLevelTabData() // passa ner den här funktionen till levelChoice för att trigga från submitfunktionen
-				this.isClosed = !this.isClosed
-				
+				this.isClosed = !this.isClosed	
 			},
 			onChangeCurrentTab(index) {
 				this.currentTabIndex = index + 1
 			}
 		}
 	}
+
+	// 	for (let i = 0; i < this.fullExperienceTable.length; i++) {
 </script>
 
 <style lang='scss'>

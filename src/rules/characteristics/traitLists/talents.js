@@ -1,10 +1,7 @@
-
 // * * * N O T E P A D * * * //
 /*
 
 */
-
- 
 
 import { 
     addOffensivePowerBonus,
@@ -13,12 +10,16 @@ import {
     addProficiencyBonus
 } from '../../mechanics.js'
 
+import complexTraitBackground from '../../complexTraits/background/background'
+
 // * * * Exports * * * //
 
 export const background = {
 	key: 'background',
 	name: 'Bakgrund',
-	addBackground: () => addBackground()
+	complexTrait: {
+		...complexTraitBackground
+	}
 }
 
 export const steady = {
@@ -264,6 +265,9 @@ export const trustedHenchmen = {
 	addLoyalMook: (mooksList) => addLoyalMook(mooksList)
 }
 
+export const complexTalents = [
+	background.key
+]
 
 export default {
 	// basic talents

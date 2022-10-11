@@ -58,7 +58,7 @@
 			</div>
 		</div>
 
-		<button :disabled="!isChangeable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewAttributeLevel()">Submitta!</button>
+		<button :disabled="!levelIsChangable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewAttributeLevel()">Submitta!</button>
 
 	</div>
 </template>
@@ -75,14 +75,15 @@
 		setup(props) {
 			const character = useCharacterStore()
 			const selectedLevel = props.selectedLevel
-			const isChangeable = ref(selectedLevel <= character.metadata.level)
-
+			const levelIsChangable = ref(selectedLevel <= character.metadata.level + 1)
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempCharacterAttributes = tempCharacterSheet.attributes
 			let originalLevelChoiceKey = ''
-			if (selectedLevel <= character.metadata.level) 
+
+			if (selectedLevel <= character.metadata.level){
 				originalLevelChoiceKey = character.history[selectedLevel].choice
+			}
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
 			return {
@@ -95,7 +96,7 @@
 				getAttributeShortName,
 				getAttributeLongName,
 				canChooseAttribute,
-				isChangeable
+				levelIsChangable
 			}
 		},
 		methods: {
@@ -107,8 +108,8 @@
 				}
 			},
 			submitNewAttributeLevel() {
-				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, 'attribute')
-				this.$emit('update-tabs')
+				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, 'attribute') // tell database
+				this.$emit('update-tabs') // tell level ladder
 			},
 
 		}

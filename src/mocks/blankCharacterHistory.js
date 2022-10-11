@@ -3,7 +3,7 @@
 export const blankCharacter = {
 	metadata: {
 		name: 'Noob',
-		currentLevel: 1,
+		level: 1,
 		isChosenByFate: false
 	},
 	state: {

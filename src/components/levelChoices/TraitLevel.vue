@@ -47,7 +47,7 @@
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 			</div>
 		</div>
-		<button type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewTraitLevel()">Submitta!</button>
+		<button :disabled="!levelIsChangable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewTraitLevel()">Submitta!</button>
 
 	</div>
 </template>
@@ -64,6 +64,7 @@
 		setup(props) {
 			const character = useCharacterStore()
 			const selectedLevel = props.selectedLevel
+			const levelIsChangable = ref(selectedLevel <= character.metadata.level + 1)
             const traitType = props.traitType
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
@@ -86,6 +87,7 @@
 				tempLevelChoiceKey,
 				character,
 				selectedLevel,
+				levelIsChangable,
 				contains,
 				canChooseTrait,
 				getTraitNiceName,

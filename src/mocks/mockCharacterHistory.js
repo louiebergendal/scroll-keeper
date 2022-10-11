@@ -15,7 +15,30 @@ const VilleVakt = {
 	history: {
 		1: {
 			bonusType: 'talent',
-			choice: 'background'
+			choice: 'background',
+			complexPayload: {
+				people: {
+					key: 'davanic',
+					choices: {
+						1: '',
+						2: ''
+					}
+				},
+				upbringing: {
+					key: 'davanic',
+					choices: {
+						1: '',
+						2: ''
+					}
+				},
+				profession: {
+					key: 'davanic',
+					choices: {
+						1: '',
+						2: ''
+					}
+				}
+			}
 		},
 		2: {
 			bonusType: 'attribute',
