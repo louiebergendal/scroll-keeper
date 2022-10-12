@@ -6,19 +6,25 @@ import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics
 import { baseValue as competenceBaseValue } from '../rules/characteristics/competence'
 import { baseValue as fateBaseValue } from '../rules/characteristics/fate'
 
+import { contains } from '../rules/utils'
+
 import { calculateMaxHealthValue, createHealth } from '../rules/characteristics/secondaryCharacteristics/health'
 import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { calculateInitiative } from '../rules/characteristics/secondaryCharacteristics/initiative'
 import { calculatePower } from '../rules/characteristics/secondaryCharacteristics/power'
 import { calculateMaxActionPoints } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
+import { complexTalents } from '../rules/characteristics/traitLists/talents'
+
+//const traitIsComplexTalent = (traitKey) => contains(complexTalents, traitKey)
 
 const flattenCharacter = (databaseCharacter, targetLevel) => {
 	let characterTraitList = []
 
 	databaseCharacter.metadata.selectedLevel = targetLevel
 	databaseCharacter.metadata.invalidLevels = {}
+	databaseCharacter.metadata.background = {}
 
-	let baseCharacter = {
+	let baseCharacterSheet = {
 		metadata: databaseCharacter.metadata,
 		state: databaseCharacter.state,
 		attributes: {
@@ -53,80 +59,93 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 		// COMPETENCE
 		if (bonusType === 'competence')
-			baseCharacter.competence++
+			baseCharacterSheet.competence++
 
 		// FATE
 		if (bonusType === 'fate')
-			baseCharacter.fate += 3
+			baseCharacterSheet.fate += 3
 
 		// ATTRIBUTES
 		for (const attribute in attributes) {
 			if (attribute === chosenBonus){
-				baseCharacter.attributes[chosenBonus]++
+				baseCharacterSheet.attributes[chosenBonus]++
 			}
 		}
 
 		// TRAITS
 		for (const traitKey in traitList) {
+			console.log("currentLevel: ", currentLevel)
+			if (currentLevel.complexPayload) {
+				for (const choiceCategory in currentLevel.complexPayload) { // ex. 'people'
+					// write connection between complexTalent and into metadata
+					baseCharacterSheet.metadata.background[choiceCategory] = currentLevel.complexPayload[choiceCategory].key
+					for (const choiceGroup in choiceCategory.choices) { // ex. 1
+						for (const choiceKey in choiceGroup) { // ex. 'basicKnowledgeDavand
+							characterTraitList.push(choiceKey)
+						}
+					}
+				}
+				console.log("baseCharacterSheet.metadata.background - at end of trait loop: ", baseCharacterSheet.metadata.background)
+			}
 			if (traitKey === chosenBonus) {
 				characterTraitList.push(traitKey)
 			}
 		}
 
 		// VALIDATE SKILLS
-		if (bonusType === 'talent' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacter.attributes, baseCharacter.metadata.isChosenByFate, targetLevel)) {
+		if (bonusType === 'talent' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacterSheet.attributes, baseCharacterSheet.metadata.isChosenByFate, targetLevel)) {
 			// add invalid skill choices to invalidLevels
-			baseCharacter.metadata.invalidLevels[i] = chosenBonus
+			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
 		}
 
 		// VALIDATE TALENTS
-		if (bonusType === 'skill' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacter.attributes, baseCharacter.metadata.isChosenByFate, targetLevel)) {
+		if (bonusType === 'skill' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacterSheet.attributes, baseCharacterSheet.metadata.isChosenByFate, targetLevel)) {
 			// add invalid talent choices to invalidLevels
-			baseCharacter.metadata.invalidLevels[i] = chosenBonus
+			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
 		}
 
 		// VALIDATE ATTRIBUTES
-		if (bonusType === 'attribute' && !canChooseAttribute(baseCharacter.attributes[chosenBonus] - 1, i)) {
+		if (bonusType === 'attribute' && !canChooseAttribute(baseCharacterSheet.attributes[chosenBonus] - 1, i)) {
 			// add invalid attribute choices to invalidLevels
-			baseCharacter.metadata.invalidLevels[i] = chosenBonus
+			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
 		}
 
 		// * * * SECONDARY CHARACTERISTICS * * * //
 
 		// POWER
-		baseCharacter.power = calculatePower(characterTraitList)
+		baseCharacterSheet.power = calculatePower(characterTraitList)
 
 		// MAX HEALTH VALUE
-		baseCharacter.maxHealthValue = calculateMaxHealthValue(
-			baseCharacter.attributes.physique,
+		baseCharacterSheet.maxHealthValue = calculateMaxHealthValue(
+			baseCharacterSheet.attributes.physique,
 			characterTraitList
 		) // maxHealthValue baseValue is set here
 
 		// HEALTH ( relies on maxHealthValue being set )
-		baseCharacter.health = createHealth(
-			baseCharacter.maxHealthValue,
-			baseCharacter.state.currentStrain
+		baseCharacterSheet.health = createHealth(
+			baseCharacterSheet.maxHealthValue,
+			baseCharacterSheet.state.currentStrain
 		)
 
 		// CARRYING CAPACITY
-		baseCharacter.carryingCapacity = calculateCarryingCapacity(
-			baseCharacter.attributes.physique,
+		baseCharacterSheet.carryingCapacity = calculateCarryingCapacity(
+			baseCharacterSheet.attributes.physique,
 			characterTraitList
 		)
 
 		// INITIATIVE
-		baseCharacter.initiative = calculateInitiative(
-			baseCharacter.attributes.battle,
+		baseCharacterSheet.initiative = calculateInitiative(
+			baseCharacterSheet.attributes.battle,
 			characterTraitList,
-			baseCharacter.metadata.level
+			baseCharacterSheet.metadata.level
 		)
 
 		// ACTION POINTS
-		baseCharacter.actionPoints = calculateMaxActionPoints(characterTraitList)
+		baseCharacterSheet.actionPoints = calculateMaxActionPoints(characterTraitList)
 	}
 
 	const flattenedCharacter = {
-		...baseCharacter,
+		...baseCharacterSheet,
 		traits: characterTraitList
 	}
 	return flattenedCharacter
