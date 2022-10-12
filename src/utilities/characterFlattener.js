@@ -74,18 +74,18 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 		// TRAITS
 		for (const traitKey in traitList) {
-			console.log("currentLevel: ", currentLevel)
 			if (currentLevel.complexPayload) {
 				for (const choiceCategory in currentLevel.complexPayload) { // ex. 'people'
-					// write connection between complexTalent and into metadata
+					//console.log('currentLevel.complexPayload[choiceCategory]: ', currentLevel.complexPayload[choiceCategory]);
 					baseCharacterSheet.metadata.background[choiceCategory] = currentLevel.complexPayload[choiceCategory].key
-					for (const choiceGroup in choiceCategory.choices) { // ex. 1
-						for (const choiceKey in choiceGroup) { // ex. 'basicKnowledgeDavand
-							characterTraitList.push(choiceKey)
+					for (const choiceGroup in currentLevel.complexPayload[choiceCategory].choices) { // ex. 1
+						for (const choiceKey in currentLevel.complexPayload[choiceCategory].choices[choiceGroup]) { // ex. 'basicKnowledgeDavand
+							if (!contains(characterTraitList, currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey])) {
+								characterTraitList.push(currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey])
+							}	
 						}
 					}
 				}
-				console.log("baseCharacterSheet.metadata.background - at end of trait loop: ", baseCharacterSheet.metadata.background)
 			}
 			if (traitKey === chosenBonus) {
 				characterTraitList.push(traitKey)

@@ -30,19 +30,19 @@
 			</div>
 
 			<!-- trait is already owned -->
-			<div v-if="contains(tempcharacterTraits, trait.key) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
+			<div v-if="contains(tempcharacterTraitsList, trait.key) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-low"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is not owned and cannot be chosen -->
-			<div v-if="(!contains(tempcharacterTraits, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel)) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card light width-whole">
+			<div v-if="(!contains(tempcharacterTraitsList, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel)) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card light width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait"  disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is not owned and can be chosen -->
-			<div v-if="(!contains(tempcharacterTraits, trait.key) && canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" :checked="trait.key === tempLevelChoiceKey" class="card medium width-whole">
+			<div v-if="(!contains(tempcharacterTraitsList, trait.key) && canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" :checked="trait.key === tempLevelChoiceKey" class="card medium width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait" class="margin-tiny"/>
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 			</div>
@@ -68,7 +68,9 @@
             const traitType = props.traitType
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
-			const tempcharacterTraits = tempCharacterSheet.traits
+			const tempcharacterTraitsList = tempCharacterSheet.traits
+
+			console.log('tempcharacterTraitsList: ', tempcharacterTraitsList);
 
 			let originalLevelChoiceKey = ''
 			if (selectedLevel <= character.metadata.level) { originalLevelChoiceKey = character.history[selectedLevel].choice }
@@ -81,7 +83,7 @@
 			return {
                 traitType,
 				traits,
-				tempcharacterTraits,
+				tempcharacterTraitsList,
 				tempCharacterSheet,
 				tempValidationSheet,
 				tempLevelChoiceKey,
