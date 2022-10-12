@@ -6,7 +6,7 @@
 		<!--loop traits-->
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
 
-			<!-- trait is owned but not valid --> 
+			<!-- trait is owned (and clicked) but not valid --> 
 			<div v-if="!levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key === tempLevelChoiceKey" class="card invalid flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-high"> {{ trait.name }} </label>
@@ -33,6 +33,9 @@
 			<div v-if="contains(tempcharacterTraitsList, trait.key) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-low"> {{ trait.name }} </label>
+
+
+
 			</div>
 
 			<!-- trait is not owned and cannot be chosen -->
@@ -45,6 +48,40 @@
 			<div v-if="(!contains(tempcharacterTraitsList, trait.key) && canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" :checked="trait.key === tempLevelChoiceKey" class="card medium width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait" class="margin-tiny"/>
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
+
+				
+
+				<div v-if="contains(Object.keys(trait), 'complexTrait')">
+					COMPLEX TRAIT
+
+					<div v-for="(group, key) in Object.keys(trait.complexTrait)" :key='key'>
+
+						<div>--------------</div>
+						<div>{{Object.keys(trait.complexTrait)[key]}}</div>
+						<div>--------------</div>
+
+						<div v-for="(groupOption, key) in trait.complexTrait[group]" :key='key'>
+
+							<div v-if="groupOption.mandatorySkills">
+								MANDATORY SKILLS:
+								<div v-for="(mandatorySkill, key) in groupOption.mandatorySkills" :key='key'>
+									- {{mandatorySkill}}
+								</div>
+							</div>
+
+							<div v-if="groupOption.skillsLists">
+								SKILLS LISTS:
+								<div v-for="(skillsList, key) in groupOption.skillsLists" :key='key'>
+									<div v-for="(skill, key) in skillsList.list" :key='key'>
+										- {{skill}}
+									</div>
+								</div>
+							</div>
+					
+						</div>
+					</div>
+				</div>
+
 			</div>
 		</div>
 		<button :disabled="!levelIsChangable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewTraitLevel()">Submitta!</button>
