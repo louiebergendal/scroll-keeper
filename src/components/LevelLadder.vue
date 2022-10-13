@@ -35,7 +35,7 @@
 </template>
 
 <script>
-	import { ref } from 'vue';
+	import { ref } from 'vue'
 	import experienceTableMaker from '../rules/experienceTableMaker.js'
 	import { useCharacterStore } from '../stores/character'
 	import Wizard from 'form-wizard-vue3'

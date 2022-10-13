@@ -6,7 +6,7 @@
 		<!--loop traits-->
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
 
-			<!-- trait is owned (and clicked) but not valid --> 
+			<!-- trait is owned by tempCharacter (and clicked) but not valid --> 
 			<div v-if="!levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key === tempLevelChoiceKey" class="card invalid flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-high"> {{ trait.name }} </label>
@@ -23,13 +23,13 @@
 				</div>
 			</div>
 
-			<!-- trait is owned but not valid -->
+			<!-- trait is owned by tempCharacter but not valid -->
 			<div v-if="!levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels) && key !== tempLevelChoiceKey" class="card light width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
 
-			<!-- trait is already owned -->
+			<!-- trait is already owned by tempCharacter -->
 			<div v-if="contains(tempcharacterTraitsList, trait.key) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-low"> {{ trait.name }} </label>
@@ -38,48 +38,20 @@
 
 			</div>
 
-			<!-- trait is not owned and cannot be chosen -->
+			<!-- trait is not owned by tempCharacter and cannot be chosen -->
 			<div v-if="(!contains(tempcharacterTraitsList, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel)) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card light width-whole">
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait"  disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
 
-			<!-- trait is not owned and can be chosen -->
+			<!-- trait is not owned by tempCharacter and can be chosen -->
 			<div v-if="(!contains(tempcharacterTraitsList, trait.key) && canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" :checked="trait.key === tempLevelChoiceKey" class="card medium width-whole">
+
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait" class="margin-tiny"/>
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 
-				
-
 				<div v-if="contains(Object.keys(trait), 'complexTrait')">
-					COMPLEX TRAIT
-
-					<div v-for="(group, key) in Object.keys(trait.complexTrait)" :key='key'>
-
-						<div>--------------</div>
-						<div>{{Object.keys(trait.complexTrait)[key]}}</div>
-						<div>--------------</div>
-
-						<div v-for="(groupOption, key) in trait.complexTrait[group]" :key='key'>
-
-							<div v-if="groupOption.mandatorySkills">
-								MANDATORY SKILLS:
-								<div v-for="(mandatorySkill, key) in groupOption.mandatorySkills" :key='key'>
-									- {{mandatorySkill}}
-								</div>
-							</div>
-
-							<div v-if="groupOption.skillsLists">
-								SKILLS LISTS:
-								<div v-for="(skillsList, key) in groupOption.skillsLists" :key='key'>
-									<div v-for="(skill, key) in skillsList.list" :key='key'>
-										- {{skill}}
-									</div>
-								</div>
-							</div>
-					
-						</div>
-					</div>
+					<Background @annan="loiFunc" />
 				</div>
 
 			</div>
@@ -95,8 +67,12 @@
 	import { allSkills, allTalents, canChooseTrait, getTraitNiceName } from '../../rules/characteristics/traits'
 	import { contains, levelChoiceIsValid } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
+	import Background from './complexTalents/Background.vue'
 
 	export default {
+		components: {
+			Background
+		},
 		props: ['selectedLevel', 'traitType'],
 		setup(props) {
 			const character = useCharacterStore()
@@ -106,6 +82,9 @@
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempcharacterTraitsList = tempCharacterSheet.traits
+			
+			const selectedGroup = ref('')
+			const complexTraitData = ref({})
 
 			console.log('tempcharacterTraitsList: ', tempcharacterTraitsList);
 
@@ -127,12 +106,15 @@
 				character,
 				selectedLevel,
 				levelIsChangable,
+				complexTraitData,
+				selectedGroup,
 				contains,
 				canChooseTrait,
 				getTraitNiceName,
 				levelChoiceIsValid,
 				allSkills,
 				allTalents
+
 			}
 		},
 		methods: {
@@ -140,6 +122,9 @@
 				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType)
 				this.$emit('update-tabs')
 			},
+			loiFunc(option) {
+				console.log('TJONG!!', option);
+			}
 		}
 	}
 </script>

@@ -4,7 +4,7 @@ const davanic = {
 	description: 'davan',
 	mandatorySkills: ['basicKnowledgeDavand'],
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: ['animalHusbandry', 'seamanship', 'carouse', 'beastOfBurden', 'basicKnowledgeVend']
 		}
@@ -17,7 +17,7 @@ const vendic = {
 	description: 'vend',
 	mandatorySkills: ['basicKnowledgeVend'],
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: ['animalHusbandry', 'riding', 'brawling', 'basicKnowledgeVend', 'basicKnowledgeArcane']
 		}
@@ -30,7 +30,7 @@ const sodoric = {
 	description: 'sodorfolk',
 	mandatorySkills: ['basicKnowledgeSodor'],
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: ['basicKnowledgeChemistry', 'wayfinding', 'brawling', 'weatherBeaten', 'basicKnowledgeOrun']
 		}
@@ -43,7 +43,7 @@ const durchic = {
 	description: 'durcher',
 	mandatorySkills: ['basicKnowledgeDurcher'],
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: ['basicKnowledgeDavand', 'basicKnowledgeSodor', 'basicKnowledgeSidra', 'basicKnowledgeOrun', 'wayfinding']
 		}

@@ -1,9 +1,9 @@
 import peoples from './peoples'
-import professions from './professions'
 import upbringings from './upbringings'
+import professions from './professions'
 
 export default {
     peoples,
-    professions,
-    upbringings
+    upbringings,
+    professions
 }

@@ -6,11 +6,11 @@ const fighter = {
 	niceName: 'Krigare',
 	description: 'krigare',
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: ['melee', 'accuracy']
 		},
-        2: {
+        1: {
 			choices: 1,
 			list: ['unarmouredFighting', 'warfare', 'brawling']
 		}
@@ -22,11 +22,11 @@ const outlaw = {
 	niceName: 'Missdådare',
 	description: 'missdådare',
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: ['stealth', 'vigilant']
 		},
-        2: {
+        1: {
 			choices: 1,
 			list: ['carouse', 'brawling', 'intrusion']
 		}
@@ -38,11 +38,11 @@ const commoner = {
 	niceName: 'Gårdsman',
 	description: 'gårdsman',
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: ['crafting', 'beastOfBurden']
 		},
-        2: {
+        1: {
 			choices: 1,
 			list: ['animalHusbandry', 'carouse', 'cooking']
 		}
@@ -54,11 +54,11 @@ const thinker = {
 	niceName: 'KunskapsTörstare',
 	description: 'kunskapsTörstare',
 	skillsLists: {
-		1: {
+		0: {
 			choices: 1,
 			list: knowledgeSkillKeysList()
 		},
-        2: {
+        1: {
 			choices: 1,
 			list: ['bookworm', 'meticulous', 'performer']
 		}
