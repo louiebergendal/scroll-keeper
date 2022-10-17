@@ -76,7 +76,6 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		for (const traitKey in traitList) {
 			if (currentLevel.complexPayload) {
 				for (const choiceCategory in currentLevel.complexPayload) { // ex. 'people'
-					//console.log('currentLevel.complexPayload[choiceCategory]: ', currentLevel.complexPayload[choiceCategory]);
 					baseCharacterSheet.metadata.background[choiceCategory] = currentLevel.complexPayload[choiceCategory]//.key <--
 					for (const choiceGroup in currentLevel.complexPayload[choiceCategory].choices) { // ex. 1
 						for (const choiceKey in currentLevel.complexPayload[choiceCategory].choices[choiceGroup]) { // ex. 'basicKnowledgeDavand

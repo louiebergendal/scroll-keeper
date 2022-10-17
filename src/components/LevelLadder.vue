@@ -127,8 +127,6 @@
 			}
 		}
 	}
-
-	// 	for (let i = 0; i < this.fullExperienceTable.length; i++) {
 </script>
 
 <style lang='scss'>

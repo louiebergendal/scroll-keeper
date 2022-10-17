@@ -37,9 +37,9 @@ export const useCharacterStore = defineStore('character', {
 		updateCharacterField(refString, data) {
 			updateData(refString, data)
 		},
-		submitNewLevelChoice(choiceKey, selectedLevel, bonusType) {
+		submitNewLevelChoice(choiceKey, selectedLevel, bonusType, complexTraitData) {
 			const levelRefString = this.metadata.characterRefString + '/history/' + selectedLevel
-			const level = { bonusType: bonusType, choice: choiceKey }
+			const level = { bonusType: bonusType, choice: choiceKey, complexPayload: complexTraitData }
 			const isLvlUp = selectedLevel === this.metadata.level + 1
 
 			if (isLvlUp){

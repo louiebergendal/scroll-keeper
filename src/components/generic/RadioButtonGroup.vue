@@ -1,11 +1,11 @@
 <template>
 	<div class="radio-button-group">
-		<label :key="option" :for="option" v-for="option in options">
+		<label :key="option" :for="caseProp + '-' + option" v-for="option in options">
 			<input
 				type="radio" 
 				:name="caseProp"
 				:value="option"
-				:id="option"
+				:id="caseProp + '-' + option"
 				:checked="option == selected"
 				@change="emitOption(option)" 
 			/>
@@ -20,7 +20,7 @@
 		props: ['case', 'options', 'selected'],
 		setup(props) {
 			const caseProp = props.case
-			
+
 			return {
 				caseProp
 			}

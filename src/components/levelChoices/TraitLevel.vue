@@ -2,7 +2,7 @@
     <div class='card medium padding-tiny'>
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Välj en grej!</h3>
 		Vald bonus: {{ getTraitNiceName(tempLevelChoiceKey) }}
-
+		-- {{hasFullComplexPayload}}
 		<!--loop traits-->
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
 
@@ -33,9 +33,6 @@
 			<div v-if="contains(tempcharacterTraitsList, trait.key) && levelChoiceIsValid(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-low"> {{ trait.name }} </label>
-
-
-
 			</div>
 
 			<!-- trait is not owned by tempCharacter and cannot be chosen -->
@@ -56,8 +53,8 @@
 
 			</div>
 		</div>
-		<button :disabled="!levelIsChangable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewTraitLevel()">Submitta!</button>
-
+		<button :disabled="!levelIsChangable || (traits[tempLevelChoiceKey].complexTrait && !hasFullComplexPayload)" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewTraitLevel()">Submitta!</button>
+		
 	</div>
 </template>
 
@@ -86,8 +83,7 @@
 			
 			const selectedGroup = ref('')
 			const complexTraitData = ref({})
-
-			console.log('tempcharacterTraitsList: ', tempcharacterTraitsList);
+			const hasFullComplexPayload = ref()
 
 			let originalLevelChoiceKey = ''
 			if (selectedLevel <= character.metadata.level) { originalLevelChoiceKey = character.history[selectedLevel].choice }
@@ -108,6 +104,7 @@
 				selectedLevel,
 				levelIsChangable,
 				complexTraitData,
+				hasFullComplexPayload,
 				selectedGroup,
 				contains,
 				canChooseTrait,
@@ -120,12 +117,25 @@
 		},
 		methods: {
 			submitNewTraitLevel() {
-				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType)
-				this.$emit('update-tabs')
+				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType, this.complexTraitData)
+				this.$emit('update-tabs') // gul varning i loggen
 			},
 			complexPayload(data) {
-				console.log('Ping!');
-				console.log('data:', data);
+				let isValid = true
+
+				for (const option in data) {	
+					for (const choiceGroup in data[option].choices) {
+						for (const skillChoice in data[option].choices[choiceGroup]) {
+							if (!data[option].choices[choiceGroup][skillChoice]) {
+								isValid = false
+								break
+							}
+						}
+					}
+				}
+
+				this.hasFullComplexPayload = isValid
+				this.complexTraitData = data
 			}
 		}
 	}
