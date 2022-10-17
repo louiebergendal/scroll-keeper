@@ -44,11 +44,11 @@
 			/>
 			<hr>
 			<div v-if="upbringings[upbringingsChoice]">
-				<div :key="skillList" v-for="(skillList, key) in upbringings[upbringingsChoice].skillsLists">
+				<div :key="skillList" v-for="(skillList, index) in upbringings[upbringingsChoice].skillsLists">
 					<RadioButtonGroup
 						:options="skillList.list"
-						:selected="upbringingsSkillsChoice"
-						:case="upbringingsTitle + '-' + key"
+						:selected="upbringingsSkillsChoice[index]"
+						:case="upbringingsTitle + '-' + 'skillList' + '-' + index"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -70,7 +70,7 @@
 					<RadioButtonGroup
 						:options="skillList.list"
 						:selected="professionsSkillsChoice[index]"
-						:case="professionsTitle + '-' + index"
+						:case="professionsTitle + '-' + 'skillList' + '-' + index"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -137,6 +137,7 @@
 		},
 		methods: {
 			inputEventHandler(data) {
+
 				if (data.id === 'peoples') this.peoplesChoice = data.option
 				if (data.id === 'peoples-skillList-0') this.peoplesSkillsChoice[0] = data.option
 
@@ -189,6 +190,8 @@
 				}
 
 				console.log('complexPayload: ', complexPayload);
+				this.$emit('complexPayload', complexPayload)
+				//emitta här
 			}
 		}
 	}

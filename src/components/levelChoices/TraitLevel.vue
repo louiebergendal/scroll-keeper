@@ -51,7 +51,7 @@
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 
 				<div v-if="contains(Object.keys(trait), 'complexTrait')">
-					<Background @annan="loiFunc" />
+					<Background @complex-payload="complexPayload"/>
 				</div>
 
 			</div>
@@ -74,6 +74,7 @@
 			Background
 		},
 		props: ['selectedLevel', 'traitType'],
+		emits: ['complexPayload'],
 		setup(props) {
 			const character = useCharacterStore()
 			const selectedLevel = props.selectedLevel
@@ -122,8 +123,9 @@
 				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType)
 				this.$emit('update-tabs')
 			},
-			loiFunc(option) {
-				console.log('TJONG!!', option);
+			complexPayload(data) {
+				console.log('Ping!');
+				console.log('data:', data);
 			}
 		}
 	}
