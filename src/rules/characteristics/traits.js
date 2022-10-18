@@ -13,6 +13,7 @@ import generalSkillsImport from './traitLists/generalSkills'
 import knowledgeSkillsImport from './traitLists/knowledgeSkills'
 import favouredTerrainSkillsImport from './traitLists/favouredTerrainSkills'
 import talentsListImport from './traitLists/talents'
+import { contains } from '../utils'
 
 const name = 'Färdigheter och Talanger'
 
@@ -216,12 +217,15 @@ export function independentCharacterTalents(characterTraits) {
 */
 export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitList) {
 	let characterTraits = {}
+	
 	characterTraitList.forEach((traitKey) => {
 		characterTraits[traitKey] = allTraits()[traitKey]
 	})
 	let modifiedValue = value
+
 	for (const traitKey in characterTraits) {
 		const traitObject = characterTraits[traitKey]
+
 		if (traitObject[traitEffect]) { modifiedValue = traitObject[traitEffect](modifiedValue) }
 	}
 	return modifiedValue
@@ -237,16 +241,15 @@ export function canChooseTrait(traitKey, characterTraitList, characterAttributes
 	if (trait.requirements) {
 		// check required traits
 		if (trait.requirements.traits) {
-			const requiredTraits = trait.requirements.traits
-			requiredTraits.forEach(requiredTrait => {
-				if(!hasTrait(requiredTrait, characterTraitList)) { requirementsAreMet = false }
+			const requiredTraitKeysList = trait.requirements.traits
+			requiredTraitKeysList.forEach(requiredTrait => {
+				if(!contains(characterTraitList, requiredTrait)) { requirementsAreMet = false }
 			})
 		}
-
 		// check required attributes
 		if (trait.requirements.attributes) {
-			const requiredAttributeKeys = Object.keys(trait.requirements.attributes)
-			requiredAttributeKeys.forEach(requiredAttributeKey => {
+			const requiredAttributeList = Object.keys(trait.requirements.attributes)
+			requiredAttributeList.forEach(requiredAttributeKey => {
 				const requiredAttributeValue = trait.requirements.attributes[requiredAttributeKey]
 				const characterAttributeValue = characterAttributes[requiredAttributeKey]
 				if (requiredAttributeValue > characterAttributeValue) { requirementsAreMet = false }
@@ -266,14 +269,6 @@ export function canChooseTrait(traitKey, characterTraitList, characterAttributes
 	return requirementsAreMet
 }
 
-
-export function traitChoiceIsValid(traitKey, invalidLevels) {
-	for (const invalidLevel in invalidLevels) {
-		if (invalidLevels[invalidLevel] === traitKey) return false
-	}
-	return true
-}
-
 export function traitFromKey(traitKey) {
 	return allTraitsList[traitKey]
 }
@@ -281,8 +276,4 @@ export function traitFromKey(traitKey) {
 export function getTraitNiceName(traitKey) {
 	const trait = traitFromKey(traitKey)
 	if (trait) { return trait.name }
-}
-
-export function hasTrait(traitKey, characterTraits) {
- 	return characterTraits.includes(traitKey) ? true : false
 }

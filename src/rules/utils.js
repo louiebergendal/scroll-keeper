@@ -1,10 +1,16 @@
 export const contains = (list, key) => list.includes(key)
 
-export const levelChoiceIsValid = ( levelChoice, invalidLevels ) => {
-    for (const invalidLevel in invalidLevels) {
-		if (invalidLevels[invalidLevel] === levelChoice) return false
+export const findDuplicates = (arr) => {
+	let sorted_arr = arr.slice().sort();
+	let results = [];
+
+	for (let i = 0; i < sorted_arr.length - 1; i++) {
+	  if (sorted_arr[i + 1] == sorted_arr[i]) {
+		results.push(sorted_arr[i]);
+	  }
 	}
-	return true
+
+	return results;
 }
 
 export const capitalize = (string) => {

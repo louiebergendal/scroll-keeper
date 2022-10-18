@@ -7,6 +7,7 @@
 				:value="option"
 				:id="caseProp + '-' + option"
 				:checked="option == selected"
+				:disabled="contains(invalidOptionsProp, option)"
 				@change="emitOption(option)" 
 			/>
 				{{ option }}
@@ -15,18 +16,24 @@
 </template>
   
 <script>
+	import { contains } from '../../rules/utils'
+
 	export default {
 		name: 'BaseRadioButtonGroup',
-		props: ['case', 'options', 'selected'],
+		props: ['case', 'options', 'selected', 'invalidOptionsList'],
 		setup(props) {
 			const caseProp = props.case
+			const invalidOptionsProp = props.invalidOptionsList ? props.invalidOptionsList : []
 
 			return {
-				caseProp
+				caseProp,
+				invalidOptionsProp,
+				contains
 			}
 		},
 		methods: {
 			emitOption(option) {
+				console.log('invalidOptionsProp: ', this.invalidOptionsProp);
 				this.$emit("input", {
 					id: this.caseProp,
 					option

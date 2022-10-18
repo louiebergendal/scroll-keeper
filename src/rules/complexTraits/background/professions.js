@@ -44,7 +44,7 @@ const commoner = {
 		},
         1: {
 			choices: 1,
-			list: ['animalHusbandry', 'carouse', 'cooking']
+			list: ['animalHusbandry', 'carouse', 'cook']
 		}
 	},
 }

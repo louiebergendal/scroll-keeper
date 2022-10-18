@@ -70,7 +70,7 @@
 <script>
 	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
-	import { contains, levelChoiceIsValid } from '../rules/utils'
+	import { contains } from '../rules/utils'
 	import { useCharacterStore } from '../stores/character'
 	import { ref } from 'vue';
 

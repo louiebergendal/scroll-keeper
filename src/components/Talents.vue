@@ -6,7 +6,7 @@
 			:key='talent.key'
 			class='width-whole flex'
 		>
-			<div :class="{ 'invalid bold': !levelChoiceIsValid(talent.key, character.sheet.metadata.invalidLevels) }" class='width-whole card medium padding-nano margin-nano italic align-center'>
+			<div :class="{ 'invalid bold': contains(talent.key, character.sheet.metadata.invalidLevels) }" class='width-whole card medium padding-nano margin-nano italic align-center'>
 				<span class='font-size-nano'>
 					{{ talent.name }}
 				</span>
@@ -18,7 +18,7 @@
 <script>
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterTalents } from '../rules/characteristics/traits'
-	import { levelChoiceIsValid } from '../rules/utils'
+	import { contains } from '../rules/utils'
 
 	export default {
 		setup() {
@@ -27,7 +27,7 @@
 			return {
 				character,
 				independentCharacterTalents,
-				levelChoiceIsValid
+				contains
 			}
 		}
 	}

@@ -25,6 +25,7 @@
 						:options="skillList.list"
 						:selected="peoplesSkillsChoiceList"
 						:case="peoplesTitle + '-' + 'skillList' + '-' + index"
+						:invalidOptionsList="currentBackgroundSkillsList"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -47,6 +48,7 @@
 						:options="skillList.list"
 						:selected="upbringingsSkillsChoiceList[index]"
 						:case="upbringingsTitle + '-' + 'skillList' + '-' + index"
+						:invalidOptionsList="currentBackgroundSkillsList"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -69,12 +71,13 @@
 						:options="skillList.list"
 						:selected="professionsSkillsChoiceList[index]"
 						:case="professionsTitle + '-' + 'skillList' + '-' + index"
+						:invalidOptionsList="currentBackgroundSkillsList"
 						@input="inputEventHandler"
 					/>
 				</div>
 			</div>
+
 		</div>
-		
 	</div>
 </template>
 
@@ -88,7 +91,6 @@
 			RadioButtonGroup
 		},
 		setup() {
-
 			const peoples = background.complexTrait.peoples
 			const peoplesTitle = Object.keys(background.complexTrait)[0]
 			const peoplesOptions = Object.keys(peoples)
@@ -108,6 +110,9 @@
 			const professionsChoice = ref()
 			const professionsSkillsChoiceList = ref([])
 
+			const currentBackgroundSkillsList = ref([])
+			const duplicatesFound = ref()
+
 			return {
 				peoples,
 				peoplesTitle,
@@ -126,18 +131,20 @@
 				professionsTitle,
 				professionsOptions,
 				professionsChoice,
-				professionsSkillsChoiceList
+				professionsSkillsChoiceList,
+
+				currentBackgroundSkillsList,
+				duplicatesFound
 			}
 		},
 		onBeforeUnmount: {},
 		methods: {
-			inputEventHandler(data) {
+			inputEventHandler(data) {				
 
 				// peoples
 				if (data.id === 'peoples') {
 					this.peoplesChoice = data.option
 					this.peoplesSkillsChoiceList[0] = undefined
-					this.peoplesSkillsChoiceList[1] = undefined
 				}
 				if (this.peoplesChoice) this.peoplesSkillsMandatoryList = background.complexTrait.peoples[this.peoplesChoice].mandatorySkills
 				if (data.id === 'peoples-skillList-0') this.peoplesSkillsChoiceList[0] = data.option
@@ -159,6 +166,8 @@
 				}
 				if (data.id === 'professions-skillList-0') this.professionsSkillsChoiceList[0] = data.option
 				if (data.id === 'professions-skillList-1') this.professionsSkillsChoiceList[1] = data.option
+
+				this.currentBackgroundSkillsList = this.peoplesSkillsChoiceList.concat(this.upbringingsSkillsChoiceList, this.professionsSkillsChoiceList)
 
 				const complexPayload = {
 					people: {

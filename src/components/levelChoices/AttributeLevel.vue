@@ -68,7 +68,7 @@
 	import { ref } from 'vue'
 	import { attributes, getAttributeShortName, getAttributeLongName, canChooseAttribute } from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import { levelChoiceIsValid } from '../../rules/utils'
+	import { contains } from '../../rules/utils'
 
 	export default {
 		props: ['selectedLevel'],
@@ -81,9 +81,8 @@
 			const tempCharacterAttributes = tempCharacterSheet.attributes
 			let originalLevelChoiceKey = ''
 
-			if (selectedLevel <= character.metadata.level){
-				originalLevelChoiceKey = character.history[selectedLevel].choice
-			}
+			if (selectedLevel <= character.metadata.level) originalLevelChoiceKey = character.history[selectedLevel].choice
+
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
 			return {
@@ -101,7 +100,7 @@
 		},
 		methods: {
 			attributeChoiceIsNotValidButIsSelected(invalidLevels, attributeKey, tempLevelChoiceKey) {
-				if (!levelChoiceIsValid(attributeKey, invalidLevels)) {
+				if (contains(attributeKey, invalidLevels)) {
 					for (const invalidLevel in invalidLevels) {
 						if (invalidLevels[invalidLevel] === tempLevelChoiceKey) return true
 					}
