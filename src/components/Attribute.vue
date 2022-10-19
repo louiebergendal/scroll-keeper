@@ -14,13 +14,17 @@
 				:key='skill.key'
 				class='width-whole flex'
 			>
-				<div class='width-half card medium padding-nano italic align-center'>
+				<div class='width-half card medium padding-nano italic align-center' :class="{'invalid-background': contains(character.metadata.invalidLevels, skill.key)}">
+					
+					<!-- taken -->
 					<span
 						v-if='contains(character.sheet.traits, skill.key)'
 						class='font-size-nano bold'
 					>
 						- {{ skill.name }} -
 					</span>
+
+					<!-- not taken -->
 					<span
 						v-if='!contains(character.sheet.traits, skill.key)'
 						class='font-size-nano'
@@ -105,6 +109,10 @@
 <style>
 	.invalid-text {
 		color: rgb(247, 63, 46) !important;
+		font-weight: bold;
+	}
+	.invalid-background {
+		background-color: rgb(247, 63, 46) !important;
 		font-weight: bold;
 	}
 	.attribute {

@@ -26,14 +26,14 @@ const VilleVakt = {
 					}
 				},
 				upbringing: {
-					key: 'davanic',
+					key: 'rural',
 					choices: {
 						1: '',
 						2: ''
 					}
 				},
 				profession: {
-					key: 'davanic',
+					key: 'fighter',
 					choices: {
 						1: '',
 						2: ''
