@@ -4,7 +4,8 @@ const VilleVakt = {
 	metadata: {
 		name: 'Ville Vakt',
 		currentLevel: 3,
-		isChosenByFate: false
+		isChosenByFate: false,
+		invalidLevels: {}
 	},
 	state: {
 		currentStrain: {

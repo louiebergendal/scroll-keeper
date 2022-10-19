@@ -10,8 +10,9 @@
 				:case="peoplesTitle"
 				@input="inputEventHandler"
 			/>
-			<hr>
+			
 			<div v-if="peoples[peoplesChoice]">
+				<hr>
 				<div>
 					<div :key="skill" v-for="skill in peoples[peoplesChoice].mandatorySkills">
 						<label :for="'mandatory-' + skill">
@@ -41,8 +42,8 @@
 				:case="upbringingsTitle"
 				@input="inputEventHandler"
 			/>
-			<hr>
 			<div v-if="upbringings[upbringingsChoice]">
+				<hr>
 				<div :key="skillList" v-for="(skillList, index) in upbringings[upbringingsChoice].skillsLists">
 					<RadioButtonGroup
 						:options="skillList.list"
@@ -64,8 +65,8 @@
 				:case="professionsTitle"
 				@input="inputEventHandler"
 			/>
-			<hr>
 			<div v-if="professions[professionsChoice]">
+				<hr>
 				<div :key="skillList" v-for="(skillList, index) in professions[professionsChoice].skillsLists">
 					<RadioButtonGroup
 						:options="skillList.list"
@@ -85,12 +86,17 @@
 	import { ref } from 'vue'
 	import { background } from '../../../rules/characteristics/traitLists/talents'
 	import RadioButtonGroup from '../../generic/RadioButtonGroup.vue'
+	//import { useCharacterStore } from '../../../stores/character'
 
 	export default {
 		components: {
 			RadioButtonGroup
 		},
 		setup() {
+			// const character = useCharacterStore()
+			// ha kvar orginalvalen
+			// traitlevel är referens
+
 			const peoples = background.complexTrait.peoples
 			const peoplesTitle = Object.keys(background.complexTrait)[0]
 			const peoplesOptions = Object.keys(peoples)
@@ -111,7 +117,6 @@
 			const professionsSkillsChoiceList = ref([])
 
 			const currentBackgroundSkillsList = ref([])
-			const duplicatesFound = ref()
 
 			return {
 				peoples,
@@ -134,7 +139,6 @@
 				professionsSkillsChoiceList,
 
 				currentBackgroundSkillsList,
-				duplicatesFound
 			}
 		},
 		onBeforeUnmount: {},

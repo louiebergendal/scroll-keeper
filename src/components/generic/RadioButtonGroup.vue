@@ -33,7 +33,6 @@
 		},
 		methods: {
 			emitOption(option) {
-				console.log('invalidOptionsProp: ', this.invalidOptionsProp);
 				this.$emit("input", {
 					id: this.caseProp,
 					option

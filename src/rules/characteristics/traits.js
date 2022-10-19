@@ -217,17 +217,15 @@ export function independentCharacterTalents(characterTraits) {
 */
 export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitList) {
 	let characterTraits = {}
-	
 	characterTraitList.forEach((traitKey) => {
 		characterTraits[traitKey] = allTraits()[traitKey]
 	})
 	let modifiedValue = value
-
 	for (const traitKey in characterTraits) {
 		const traitObject = characterTraits[traitKey]
-
 		if (traitObject[traitEffect]) { modifiedValue = traitObject[traitEffect](modifiedValue) }
 	}
+	
 	return modifiedValue
 }
 
@@ -237,6 +235,11 @@ export function canChooseTrait(traitKey, characterTraitList, characterAttributes
 	// access target trait requirements
 	const trait = allTraitsList[traitKey]
 	let requirementsAreMet = true
+
+	// check if trait is already owned
+	if (contains(characterTraitList.slice(0, characterTraitList.length - 1), traitKey)) {
+		requirementsAreMet = false
+	}
 
 	if (trait.requirements) {
 		// check required traits

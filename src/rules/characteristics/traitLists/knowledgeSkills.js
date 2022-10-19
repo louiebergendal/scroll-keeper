@@ -72,6 +72,22 @@ const advancedKnowledgeSidra = {
     addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
 
+const basicKnowledgeDurcher = {
+    key: 'basicKnowledgeDurcher',
+    name: 'Ytlig kunskap (Durcher)',
+    softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
+const advancedKnowledgeDurcher = {
+    key: 'advancedKnowledgeDurcher',
+    name: 'Fördjupad kunskap (Durcher)',
+    requirements: {
+        traits: ['basicKnowledgeDurcher']
+    },
+    addAdvantage: (sucRoll) => addAdvantage(sucRoll)
+}
+
+
 const basicKnowledgeOrun = {
     key: 'basicKnowledgeOrun',
     name: 'Ytlig kunskap (Troll)',
@@ -132,6 +148,8 @@ const knowledgeSkills = {
     advancedKnowledgeSodor,
     basicKnowledgeSidra,
     advancedKnowledgeSidra,
+    basicKnowledgeDurcher,
+    advancedKnowledgeDurcher,
     basicKnowledgeOrun,
     advancedKnowledgeOrun,
     basicKnowledgeChemistry,

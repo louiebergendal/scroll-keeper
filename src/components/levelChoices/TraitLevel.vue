@@ -72,6 +72,7 @@
 		emits: ['complexPayload'],
 		setup(props) {
 			const character = useCharacterStore()
+
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= character.metadata.level + 1)
             const traitType = props.traitType

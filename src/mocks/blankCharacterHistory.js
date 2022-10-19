@@ -4,7 +4,8 @@ export const blankCharacter = {
 	metadata: {
 		name: 'Noob',
 		level: 1,
-		isChosenByFate: false
+		isChosenByFate: false,
+		invalidLevels: {}
 	},
 	state: {
 		currentStrain: {

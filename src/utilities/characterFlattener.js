@@ -21,7 +21,6 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 	let characterTraitList = []
 
 	databaseCharacter.metadata.selectedLevel = targetLevel
-	databaseCharacter.metadata.invalidLevels = {}
 	databaseCharacter.metadata.background = {}
 
 	let baseCharacterSheet = {
@@ -76,8 +75,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		for (const traitKey in traitList) {
 			if (currentLevel.complexPayload) {
 				for (const choiceCategory in currentLevel.complexPayload) { // ex. 'people'
-					//console.log('currentLevel.complexPayload[choiceCategory]: ', currentLevel.complexPayload[choiceCategory]);
-					baseCharacterSheet.metadata.background[choiceCategory] = currentLevel.complexPayload[choiceCategory]//.key <--
+					baseCharacterSheet.metadata.background[choiceCategory] = currentLevel.complexPayload[choiceCategory]
 					for (const choiceGroup in currentLevel.complexPayload[choiceCategory].choices) { // ex. 1
 						for (const choiceKey in currentLevel.complexPayload[choiceCategory].choices[choiceGroup]) { // ex. 'basicKnowledgeDavand
 							if (!contains(characterTraitList, currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey])) {
@@ -93,13 +91,25 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		}
 
 		// VALIDATE SKILLS
-		if (bonusType === 'talent' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacterSheet.attributes, baseCharacterSheet.metadata.isChosenByFate, targetLevel)) {
+		if (bonusType === 'talent' && !canChooseTrait(
+			chosenBonus, 
+			characterTraitList, 
+			baseCharacterSheet.attributes, 
+			baseCharacterSheet.metadata.isChosenByFate, 
+			targetLevel
+		)) {
 			// add invalid skill choices to invalidLevels
 			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
 		}
 
 		// VALIDATE TALENTS
-		if (bonusType === 'skill' && !canChooseTrait(chosenBonus, characterTraitList, baseCharacterSheet.attributes, baseCharacterSheet.metadata.isChosenByFate, targetLevel)) {
+		if (bonusType === 'skill' && !canChooseTrait(
+			chosenBonus, 
+			characterTraitList, 
+			baseCharacterSheet.attributes, 
+			baseCharacterSheet.metadata.isChosenByFate, 
+			targetLevel
+		)) {
 			// add invalid talent choices to invalidLevels
 			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
 		}

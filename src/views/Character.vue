@@ -17,6 +17,7 @@
 				<Skills />
 			</span>
 		</div>
+		<Biography />
 		<Health />
 
 	</div>
@@ -32,6 +33,8 @@
 	import LevelLadder from '../components/LevelLadder.vue'
 	import { useCharacterStore } from '../stores/character'
 	import { useRoute } from 'vue-router'
+	import Biography from '../components/Biography.vue'
+	import { ref } from 'vue'
 
 	export default {
 		components: {
@@ -40,7 +43,8 @@
 			Skills,
 			Talents,
 			Competence,
-			LevelLadder
+			LevelLadder,
+			Biography
 		},
 		setup() {
 			const route = useRoute()
@@ -51,7 +55,7 @@
 				character, 
 				route
 			}
-		}
+		},
 	}
 </script>
 

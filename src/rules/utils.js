@@ -1,4 +1,7 @@
-export const contains = (list, key) => list.includes(key)
+export const contains = (list, key) => {
+	if (typeof list === 'object') list = Object.values(list)
+	return list.includes(key)
+}
 
 export const findDuplicates = (arr) => {
 	let sorted_arr = arr.slice().sort();
