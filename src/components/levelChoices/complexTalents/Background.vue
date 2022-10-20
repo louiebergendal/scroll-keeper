@@ -25,7 +25,7 @@
 						:options="skillList.list"
 						:selected="peoplesSkillsChoiceList"
 						:case="peoplesTitle + '-' + 'skillList' + '-' + index"
-						:invalidOptionsList="currentBackgroundSkillsList"
+						:invalidOptionsList="this.upbringingsSkillsChoiceList.concat(this.professionsSkillsChoiceList)"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -48,7 +48,7 @@
 						:options="skillList.list"
 						:selected="upbringingsSkillsChoiceList[index]"
 						:case="upbringingsTitle + '-' + 'skillList' + '-' + index"
-						:invalidOptionsList="currentBackgroundSkillsList"
+						:invalidOptionsList="this.peoplesSkillsChoiceList.concat(this.professionsSkillsChoiceList)"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -71,7 +71,7 @@
 						:options="skillList.list"
 						:selected="professionsSkillsChoiceList[index]"
 						:case="professionsTitle + '-' + 'skillList' + '-' + index"
-						:invalidOptionsList="currentBackgroundSkillsList"
+						:invalidOptionsList="this.peoplesSkillsChoiceList.concat(this.upbringingsSkillsChoiceList)"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -95,28 +95,24 @@
 			const character = useCharacterStore()
 
 
-			//console.log('character.metadata (in setup): ', character.history[1]);
-			// ha kvar orginalvalen
-			// traitlevel är referens
-
 			const peoples = background.complexTrait.peoples
 			const peoplesTitle = Object.keys(background.complexTrait)[0]
 			const peoplesOptions = Object.keys(peoples)
-			const peoplesChoice = ref()
+			const peoplesChoice = ref(character.history[1].complexPayload.people.key)
 			const peoplesSkillsMandatoryList = ref([])
-			const peoplesSkillsChoiceList = ref([])
+			const peoplesSkillsChoiceList = ref([character.history[1].complexPayload.people.choices[0][0], character.history[1].complexPayload.people.choices[1][0]])
 
 			const upbringings = background.complexTrait.upbringings
 			const upbringingsTitle = Object.keys(background.complexTrait)[1]
 			const upbringingsOptions = Object.keys(upbringings)
-			const upbringingsChoice = ref()
-			const upbringingsSkillsChoiceList = ref([])
+			const upbringingsChoice = ref(character.history[1].complexPayload.upbringing.key)
+			const upbringingsSkillsChoiceList = ref([character.history[1].complexPayload.upbringing.choices[0][0], character.history[1].complexPayload.upbringing.choices[1][0]])
 
 			const professions = background.complexTrait.professions
 			const professionsTitle = Object.keys(background.complexTrait)[2]
 			const professionsOptions = Object.keys(professions)
-			const professionsChoice = ref()
-			const professionsSkillsChoiceList = ref([])
+			const professionsChoice = ref(character.history[1].complexPayload.profession.key)
+			const professionsSkillsChoiceList = ref([character.history[1].complexPayload.profession.choices[0][0], character.history[1].complexPayload.profession.choices[1][0]])
 
 			const currentBackgroundSkillsList = ref([])
 
@@ -145,37 +141,30 @@
 				currentBackgroundSkillsList,
 			}
 		},
+		mounted() {
+			//character.history[1].complexPayload['people'].key
+			this.peoplesChoice = this.character.history[1].complexPayload['people'].key ? this.character.history[1].complexPayload['people'].key : ''
+/* 			this.peoplesChoice = this.character.history[1].complexPayload.people.key ? this.character.history[1].complexPayload.people.key : ''
+			this.upbringingsChoice = this.character.history[1].complexPayload.upbringing.key ? this.character.history[1].complexPayload.upbringing.key : ''
+			this.professionsChoice = this.character.history[1].complexPayload.profession.key ? this.character.history[1].complexPayload.profession.key : '' */
+		},
 		methods: {
 			inputEventHandler(data) {	
 
 				// peoples
-				if (data.id === 'peoples') {
-					this.peoplesChoice = data.option
-					this.peoplesSkillsChoiceList[0] = undefined
-				}
+				if (data.id === 'peoples') this.peoplesChoice = data.option
 				if (this.peoplesChoice) this.peoplesSkillsMandatoryList = background.complexTrait.peoples[this.peoplesChoice].mandatorySkills
 				if (data.id === 'peoples-skillList-0') this.peoplesSkillsChoiceList[0] = data.option
 
 				// upbringings
-				if (data.id === 'upbringings') {
-					this.upbringingsChoice = data.option
-					this.upbringingsSkillsChoiceList[0] = undefined
-					this.upbringingsSkillsChoiceList[1] = undefined
-				}
+				if (data.id === 'upbringings') this.upbringingsChoice = data.option
 				if (data.id === 'upbringings-skillList-0') this.upbringingsSkillsChoiceList[0] = data.option
 				if (data.id === 'upbringings-skillList-1') this.upbringingsSkillsChoiceList[1] = data.option
 
 				// professions
-				if (data.id === 'professions') {
-					this.professionsChoice = data.option
-					this.professionsSkillsChoiceList[0] = undefined
-					this.professionsSkillsChoiceList[1] = undefined
-				}
+				if (data.id === 'professions') this.professionsChoice = data.option
 				if (data.id === 'professions-skillList-0') this.professionsSkillsChoiceList[0] = data.option
 				if (data.id === 'professions-skillList-1') this.professionsSkillsChoiceList[1] = data.option
-
-				// validation list
-				this.currentBackgroundSkillsList = this.peoplesSkillsChoiceList.concat(this.upbringingsSkillsChoiceList, this.professionsSkillsChoiceList)
 
 				const complexPayload = {
 					people: {

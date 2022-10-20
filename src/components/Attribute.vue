@@ -76,7 +76,7 @@
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
 	import { contains } from '../rules/utils'
 	import { useCharacterStore } from '../stores/character'
-	import { ref } from 'vue';
+	import { ref } from 'vue'
 
 	export default {
 		props: ['attribute', 'showAttributeSkills' ],

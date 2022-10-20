@@ -7,7 +7,7 @@
 				:value="option"
 				:id="caseProp + '-' + option"
 				:checked="option == selected"
-				:disabled="contains(invalidOptionsProp, option)"
+				:disabled="contains(invalidOptionsProp, option) && option !== selected"
 				@change="emitOption(option)" 
 			/>
 				{{ option }}
@@ -24,7 +24,7 @@
 		props: ['case', 'options', 'selected', 'invalidOptionsList'],
 		setup(props) {
 			const caseProp = props.case
-			const invalidOptionsProp = props.invalidOptionsList ? props.invalidOptionsList : []
+			const invalidOptionsProp = ref(props.invalidOptionsList ? props.invalidOptionsList : []) 
 
 			return {
 				caseProp,
@@ -32,8 +32,17 @@
 				contains
 			}
 		},
+		beforeUpdate() {
+
+		},
 		methods: {
 			emitOption(option) {
+
+				console.log('PANG!!');
+				console.log('option: ', option);
+				console.log('caseProp: ', this.caseProp);
+				console.log('invalidOptionsProp: ', this.invalidOptionsProp);
+
 				this.$emit("input", {
 					id: this.caseProp,
 					option
