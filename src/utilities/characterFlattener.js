@@ -20,8 +20,10 @@ import { complexTalents } from '../rules/characteristics/traitLists/talents'
 const flattenCharacter = (databaseCharacter, targetLevel) => {
 	let characterTraitList = []
 
+	//console.log('databaseCharacter: ', databaseCharacter);
+
 	databaseCharacter.metadata.selectedLevel = targetLevel
-	databaseCharacter.metadata.background = {}
+	//databaseCharacter.metadata.background = {}
 
 	let baseCharacterSheet = {
 		metadata: databaseCharacter.metadata,
@@ -75,7 +77,11 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		for (const traitKey in traitList) {
 			if (currentLevel.complexPayload) {
 				for (const choiceCategory in currentLevel.complexPayload) { // ex. 'people'
-					baseCharacterSheet.metadata.background[choiceCategory] = currentLevel.complexPayload[choiceCategory]
+/* 					console.log('currentLevel.complexPayload[choiceCategory]: ', currentLevel.complexPayload[choiceCategory]);
+					console.log('baseCharacterSheet.metadata.background: ', baseCharacterSheet.metadata.background); */
+
+					//baseCharacterSheet.metadata.background[choiceCategory] = currentLevel.complexPayload[choiceCategory]
+
 					for (const choiceGroup in currentLevel.complexPayload[choiceCategory].choices) { // ex. 1
 						for (const choiceKey in currentLevel.complexPayload[choiceCategory].choices[choiceGroup]) { // ex. 'basicKnowledgeDavand
 							if (!contains(characterTraitList, currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey])) {

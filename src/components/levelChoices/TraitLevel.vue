@@ -58,7 +58,7 @@
 <script>
 
 	import { useCharacterStore } from '../../stores/character'
-	import { ref } from 'vue';
+	import { ref } from 'vue'
 	import { allSkills, allTalents, canChooseTrait, getTraitNiceName } from '../../rules/characteristics/traits'
 	import { contains } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
@@ -79,7 +79,7 @@
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempCharacterTraitsList = tempCharacterSheet.traits
-			
+		
 			const selectedGroup = ref('')
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()

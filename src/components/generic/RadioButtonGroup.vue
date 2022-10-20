@@ -17,6 +17,7 @@
   
 <script>
 	import { contains } from '../../rules/utils'
+	import { ref } from 'vue'
 
 	export default {
 		name: 'BaseRadioButtonGroup',

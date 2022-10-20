@@ -37,7 +37,7 @@
 						<span
 							v-if='contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano bold'
-							:class="{'invalid-text': attributeAffectedByDefect}"
+							:class="{'invalid-text': attributeAffectedByDefect || contains(character.metadata.invalidLevels, skill.key)}"
 						>
 							{{ skill.addProficiencyBonus(character.sheet.attributes[props.attribute.key]) }}
 						</span>
@@ -53,7 +53,7 @@
 						<span
 							v-if='contains(character.sheet.traits, skill.key)'
 							class='vertical-correction font-size-nano align-right bold'
-							:class='{ "font-contrast-low": skill.addProficiencyBonus(character.sheet.attributes[props.attribute.key]) < (skill.addProficiencyBonus(baseValue)) }'
+							:class='{"invalid-text": contains(character.metadata.invalidLevels, skill.key)}'
 						>
 							{{ setAttributeValueName(skill.addProficiencyBonus(character.sheet.attributes[props.attribute.key])) }}
 						</span>
@@ -84,6 +84,8 @@
 			const character = useCharacterStore()
 			const attributeSkills = specificAttributeSkills(props.attribute.key, character.sheet.traits)
 			const showAttributeSkills = props.showAttributeSkills
+
+
 			const attributeAffectedByDefect = ref(false)
 			
 			return {

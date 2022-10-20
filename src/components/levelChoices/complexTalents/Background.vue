@@ -10,7 +10,6 @@
 				:case="peoplesTitle"
 				@input="inputEventHandler"
 			/>
-			
 			<div v-if="peoples[peoplesChoice]">
 				<hr>
 				<div>
@@ -77,8 +76,8 @@
 					/>
 				</div>
 			</div>
-
 		</div>
+
 	</div>
 </template>
 
@@ -86,14 +85,17 @@
 	import { ref } from 'vue'
 	import { background } from '../../../rules/characteristics/traitLists/talents'
 	import RadioButtonGroup from '../../generic/RadioButtonGroup.vue'
-	//import { useCharacterStore } from '../../../stores/character'
+	import { useCharacterStore } from '../../../stores/character'
 
 	export default {
 		components: {
 			RadioButtonGroup
 		},
 		setup() {
-			// const character = useCharacterStore()
+			const character = useCharacterStore()
+
+
+			//console.log('character.metadata (in setup): ', character.history[1]);
 			// ha kvar orginalvalen
 			// traitlevel är referens
 
@@ -119,6 +121,8 @@
 			const currentBackgroundSkillsList = ref([])
 
 			return {
+				character,
+
 				peoples,
 				peoplesTitle,
 				peoplesOptions,
@@ -141,9 +145,8 @@
 				currentBackgroundSkillsList,
 			}
 		},
-		onBeforeUnmount: {},
 		methods: {
-			inputEventHandler(data) {				
+			inputEventHandler(data) {	
 
 				// peoples
 				if (data.id === 'peoples') {
@@ -171,6 +174,7 @@
 				if (data.id === 'professions-skillList-0') this.professionsSkillsChoiceList[0] = data.option
 				if (data.id === 'professions-skillList-1') this.professionsSkillsChoiceList[1] = data.option
 
+				// validation list
 				this.currentBackgroundSkillsList = this.peoplesSkillsChoiceList.concat(this.upbringingsSkillsChoiceList, this.professionsSkillsChoiceList)
 
 				const complexPayload = {

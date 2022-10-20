@@ -16,7 +16,30 @@ export const blankCharacter = {
 	history: {
 		1: {
 			bonusType: 'talent',
-			choice: 'background'
-		}
+			choice: 'background',
+			complexPayload: {
+				people: {
+					key: '',
+					choices: {
+						0: {},
+						1: {},
+					}
+				},
+				upbringing: {
+					key: '',
+					choices: {
+						0: {},
+						1: {},
+					}
+				},
+				profession: {
+					key: '',
+					choices: {
+						0: {},
+						1: {},
+					}
+				}
+			}
+		},
 	}
 }

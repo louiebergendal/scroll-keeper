@@ -19,24 +19,36 @@ const VilleVakt = {
 			choice: 'background',
 			complexPayload: {
 				people: {
-					key: 'davanic',
+					key: '',
 					choices: {
-						1: '',
-						2: ''
+						0: {
+							0: ''
+						},
+						1: {
+							0: ''
+						},
 					}
 				},
 				upbringing: {
-					key: 'rural',
+					key: '',
 					choices: {
-						1: '',
-						2: ''
+						0: {
+							0: ''
+						},
+						1: {
+							0: ''
+						},
 					}
 				},
 				profession: {
-					key: 'fighter',
+					key: '',
 					choices: {
-						1: '',
-						2: ''
+						0: {
+							0: ''
+						},
+						1: {
+							0: ''
+						},
 					}
 				}
 			}

@@ -22,8 +22,10 @@ export const useCharacterStore = defineStore('character', {
 
 			onValue(createRefs(characterRefString), (snapshot) => {
 				const newCharacterState = snapshot.val()
+
 				newCharacterState.metadata.characterRefString = characterRefString
 				newCharacterState.metadata.invalidLevels = {}
+				//newCharacterState.metadata.background = {}
 
 				if (newCharacterState) {
 					const currentLevel = newCharacterState.metadata.level
