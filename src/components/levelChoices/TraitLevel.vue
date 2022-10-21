@@ -80,7 +80,6 @@
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempCharacterTraitsList = tempCharacterSheet.traits
 		
-			const selectedGroup = ref('')
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()
 
@@ -104,7 +103,6 @@
 				levelIsChangable,
 				complexTraitData,
 				hasFullComplexPayload,
-				selectedGroup,
 				contains,
 				canChooseTrait,
 				getTraitNiceName,

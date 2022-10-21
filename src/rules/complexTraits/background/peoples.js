@@ -19,7 +19,7 @@ const vendic = {
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['animalHusbandry', 'riding', 'brawling', 'basicKnowledgeVend', 'basicKnowledgeArcane']
+			list: ['animalHusbandry', 'riding', 'brawling', 'basicKnowledgeDavand', 'basicKnowledgeArcane']
 		}
 	},
 }

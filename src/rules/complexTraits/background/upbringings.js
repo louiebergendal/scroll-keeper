@@ -37,7 +37,7 @@ const urban = {
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['animalHusbandry', 'beastOfBurden', 'wayfinding']
+			list: ['vigilant', 'lore', 'carouse']
 		},
         1: {
 			choices: 1,
