@@ -3,7 +3,7 @@
 
 		<!-- PEOPLES -->
 		<div class="card margin-small padding-small">
-			Peoples:
+			Peoples: 
 			<RadioButtonGroup
 				:options="Object.keys(peoplesOptions)"
 				:selected="[character.history[1].complexPayload['people'].key]"
@@ -24,7 +24,7 @@
 				<div :key="skillList" v-for="(skillList, index) in peoplesOptions[peoplesChoice].skillsLists">
 					<RadioButtonGroup
 						:options="skillList.list"
-						:selected="peoplesSkillsChoiceList[index]"
+						:selected="peoplesSkillsChoiceList[0]"
 						:case="'peoples' + '-' + 'skillList' + '-' + index"
 						:invalidOptionsList="upbringingsSkillsChoiceList.concat(professionsSkillsChoiceList)"
 						@input="inputEventHandler"
@@ -50,7 +50,7 @@
 						:options="skillList.list"
 						:selected="upbringingsSkillsChoiceList[index]"
 						:case="'upbringings' + '-' + 'skillList' + '-' + index"
-						:invalidOptionsList="peoplesSkillsChoiceList.concat(professionsSkillsChoiceList)"
+						:invalidOptionsList="peoplesSkillsChoiceList.concat(peoplesSkillsMandatoryList, professionsSkillsChoiceList)"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -74,7 +74,7 @@
 						:options="skillList.list"
 						:selected="professionsSkillsChoiceList[index]"
 						:case="'professions' + '-' + 'skillList' + '-' + index"
-						:invalidOptionsList="peoplesSkillsChoiceList.concat(upbringingsSkillsChoiceList)"
+						:invalidOptionsList="peoplesSkillsChoiceList.concat(peoplesSkillsMandatoryList, upbringingsSkillsChoiceList)"
 						@input="inputEventHandler"
 					/>
 				</div>
@@ -98,16 +98,16 @@
 			const character = useCharacterStore()
 
 			const peoplesOptions = background.complexTrait.peoples
-			const peoplesSkillsMandatoryList = ref([])
-			const peoplesChoice = ref()
-			const peoplesSkillsChoiceList = ref(character.history[1].complexPayload.people.choices ? Object.values(character.history[1].complexPayload.people.choices) : [])
+			const peoplesChoice = ref(character.history[1].complexPayload.people.key ? character.history[1].complexPayload.people.key : undefined)
+			const peoplesSkillsMandatoryList = ref(peoplesChoice.value ? peoplesOptions[peoplesChoice.value].mandatorySkills : [])
+			const peoplesSkillsChoiceList = ref(character.history[1].complexPayload.people.choices ? [Object.values(character.history[1].complexPayload.people.choices)[1]] : [])
 
 			const upbringingsOptions = background.complexTrait.upbringings
-			const upbringingsChoice = ref()
+			const upbringingsChoice = ref(character.history[1].complexPayload.upbringing.key ? character.history[1].complexPayload.upbringing.key : undefined)
 			const upbringingsSkillsChoiceList = ref(character.history[1].complexPayload.upbringing.choices ? Object.values(character.history[1].complexPayload.upbringing.choices) : [])
 
 			const professionsOptions = background.complexTrait.professions
-			const professionsChoice = ref()
+			const professionsChoice = ref(character.history[1].complexPayload.profession.key ? character.history[1].complexPayload.profession.key : undefined)
 			const professionsSkillsChoiceList = ref(character.history[1].complexPayload.profession.choices ? Object.values(character.history[1].complexPayload.profession.choices) : [])
 
 			return {
