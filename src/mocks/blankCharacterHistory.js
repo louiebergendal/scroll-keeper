@@ -1,5 +1,3 @@
-// Bonus type saved to db for comparison if rules are updated
-
 export const blankCharacter = {
 	metadata: {
 		name: 'Noob',

@@ -73,21 +73,21 @@
 	export default {
 		props: ['selectedLevel'],
 		setup(props) {
-			const character = useCharacterStore()
+			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevel
-			const levelIsChangable = ref(selectedLevel <= character.metadata.level + 1)
+			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
 			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
 			const tempCharacterAttributes = tempCharacterSheet.attributes
 			let originalLevelChoiceKey = ''
 
-			if (selectedLevel <= character.metadata.level) originalLevelChoiceKey = character.history[selectedLevel].choice
+			if (selectedLevel <= characterStore.metadata.level) originalLevelChoiceKey = characterStorehistory[selectedLevel].choice
 
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
 			return {
 				attributes,
-				character,
+				characterStore,
 				selectedLevel,
 				tempCharacterAttributes,
 				tempValidationSheet,
@@ -107,7 +107,7 @@
 				}
 			},
 			submitNewAttributeLevel() {
-				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, 'attribute') // tell database
+				this.characterStore.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, 'attribute') // tell database
 				this.$emit('update-tabs') // tell level ladder
 			},
 

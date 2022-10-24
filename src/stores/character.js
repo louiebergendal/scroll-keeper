@@ -21,7 +21,6 @@ export const useCharacterStore = defineStore('character', {
 		// Downstream
 		setPath() {
 			const characterRefString = this.router.currentRoute.value.fullPath
-			console.log("characterRefString: ", characterRefString)
 			onValue(createRefs(characterRefString), (snapshot) => {
 				const newCharacterState = snapshot.val()
 				newCharacterState.metadata.characterRefString = characterRefString
@@ -37,7 +36,6 @@ export const useCharacterStore = defineStore('character', {
 
 		// Upstream
 		updateCharacterField(refString, data) {
-			console.log("Updates Database")
 			updateData(refString, data)
 		},
 		submitNewLevelChoice(choiceKey, selectedLevel, bonusType, complexTraitData = undefined) {

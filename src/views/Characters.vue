@@ -40,16 +40,22 @@
 		},
 		methods: {
 			setCharactersListPath(userUid) {
-				const charactersRefString = 'users/' + userUid + '/characters/'
+				const charactersRefString = 'users/' + userUid + '/characters'
 
 				onValue(createRefs(charactersRefString), (snapshot) => {
 					this.charactersVref = snapshot.val()
 				})
 			},
 			createNewCharacter() {
-				const charactersRefString = 'users/' + this.userUid + '/characters/'
+				const charactersRefString = 'users/' + this.userUid + '/characters'
 				const newRef = pushDataToCollection(charactersRefString, this.blankCharacter)
-				this.$router.push(('characters/' + newRef.key))
+				this.$router.push({
+					name: 'Character',
+					params: {
+						userUid: this.userUid,
+						characterUid: newRef.key
+					}
+				})
 			}
 		}
 	}

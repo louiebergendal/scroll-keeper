@@ -1,5 +1,3 @@
-// Bonus type saved to db for comparison if rules are updated
-
 export const loaderCharacter = {
 	metadata: {
 		name: 'Loader',
