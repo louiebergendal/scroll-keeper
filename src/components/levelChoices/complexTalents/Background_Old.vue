@@ -179,7 +179,10 @@
 			}
 		},
 		methods: {
-			inputEventHandler(data) {
+			
+			inputEventHandler(data) {	
+
+
 
 				// peoples
 				if (data.id === 'peoples') this.peoplesChoice = data.option

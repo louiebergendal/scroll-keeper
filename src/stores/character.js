@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { onValue } from 'firebase/database'
-import { blankCharacter } from '../mocks/blankCharacterHistory'
+import { loaderCharacter } from '../mocks/loaderCharacterHistory'
 import { flattenCharacter } from '../utilities/characterFlattener'
 import { createRefs, updateData } from '../api/firebaseApi'
 
@@ -8,36 +8,36 @@ const noobUid = '687sdasd7asdt78tsadfvs5sd'
 
 export const useCharacterStore = defineStore('character', {
 	state: () => {
-		const currentLevel = blankCharacter.metadata.level
-		const characterSheet = flattenCharacter(blankCharacter, currentLevel)
+		const currentLevel = loaderCharacter.metadata.level
+		const characterSheet = flattenCharacter(loaderCharacter, currentLevel) 
 
 		return {
-			...blankCharacter,
+			...loaderCharacter,
 			sheet: characterSheet,
 		}
 	},
 	actions: {
-		setCharacterPath(userUid, characterUid = noobUid) {
-			const characterRefString = 'users/' + userUid + '/characters/' + characterUid
 
+		// Downstream
+		setPath() {
+			const characterRefString = this.router.currentRoute.value.fullPath
+			console.log("characterRefString: ", characterRefString)
 			onValue(createRefs(characterRefString), (snapshot) => {
 				const newCharacterState = snapshot.val()
-
 				newCharacterState.metadata.characterRefString = characterRefString
 				newCharacterState.metadata.invalidLevels = {}
-				//newCharacterState.metadata.background = {}
-
-				if (newCharacterState) {
-					const currentLevel = newCharacterState.metadata.level
-					const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)
-					this.metadata = newCharacterState.metadata
-					this.sheet = newCharacterSheet
-					this.history = newCharacterState.history
-					this.state = newCharacterState.state
-				}
+				const currentLevel = newCharacterState.metadata.level
+				const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)
+				this.metadata = newCharacterState.metadata
+				this.sheet = newCharacterSheet
+				this.history = newCharacterState.history
+				this.state = newCharacterState.state
 			})
 		},
+
+		// Upstream
 		updateCharacterField(refString, data) {
+			console.log("Updates Database")
 			updateData(refString, data)
 		},
 		submitNewLevelChoice(choiceKey, selectedLevel, bonusType, complexTraitData = undefined) {

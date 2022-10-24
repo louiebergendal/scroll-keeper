@@ -1,5 +1,5 @@
 <template>
-	<div class='character padding-medium'>
+	<div v-if="character.metadata.name !== 'Loader'" class='character padding-medium'>
 		<div class="align-center bold">
 			<p>{{character.metadata.name}} ( {{character.metadata.level}} )</p>
 			{{character.metadata.invalidLevels}}
@@ -49,8 +49,8 @@
 		setup() {
 			const route = useRoute()
 			const character = useCharacterStore()
-			character.setCharacterPath(route.params.userUid, route.params.characterUid)
-
+			character.setPath()
+			console.log("character in Character.vue: ", character)
 			return {
 				character, 
 				route
