@@ -76,12 +76,12 @@
 			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
-			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
-			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
+			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
+			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel) 
 			const tempCharacterAttributes = tempCharacterSheet.attributes
 			let originalLevelChoiceKey = ''
 
-			if (selectedLevel <= characterStore.metadata.level) originalLevelChoiceKey = characterStorehistory[selectedLevel].choice
+			if (selectedLevel <= characterStore.metadata.level) originalLevelChoiceKey = characterStore.history[selectedLevel].choice
 
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
@@ -89,11 +89,14 @@
 				attributes,
 				characterStore,
 				selectedLevel,
+
 				tempCharacterAttributes,
 				tempValidationSheet,
 				tempLevelChoiceKey,
+				
 				getAttributeShortName,
 				getAttributeLongName,
+				
 				canChooseAttribute,
 				levelIsChangable
 			}

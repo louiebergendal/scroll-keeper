@@ -12,13 +12,13 @@
 	export default {
 		props: ['characteristic', 'selectedLevel'],
 		setup(props) {
-			const character = useCharacterStore()
+			const characterStore = useCharacterStore()
             const traitToBeIncreased = props.characteristic
 			const selectedLevel = props.selectedLevel
-			const levelIsChangable = ref(selectedLevel <= character.metadata.level + 1)
+			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 			
 			return {
-				character,
+				characterStore,
                 traitToBeIncreased,
 				selectedLevel,
 				levelIsChangable
@@ -26,7 +26,7 @@
 		},
 		methods: {
 			submitNewStaticLevel() {
-				this.character.submitNewLevelChoice('', this.selectedLevel, this.traitToBeIncreased)
+				this.characterStore.submitNewLevelChoice('', this.selectedLevel, this.traitToBeIncreased)
 				this.$emit('update-tabs')
 			},
 		},

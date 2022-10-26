@@ -1,27 +1,29 @@
 <template>
-	<div v-if="character.metadata.name !== 'Loader'" class='character padding-medium'>
-		<div class="align-center bold">
-			<p>{{character.metadata.name}} ( {{character.metadata.level}} )</p>
-			{{character.metadata.invalidLevels}}
-		</div>
-		<div class='width-whole flex'>
-			<span class='wrapper flex width-whole'>
-				<Attributes />
-				<div class='padding-bottom-medium'></div>
-				<Competence />
-				<div class='padding-bottom-medium'></div>
-			</span>
-			<span class='wrapper flex -v-center width-half margin-left-medium'>
-				<Talents />
-				<div class='padding-bottom-medium'></div>
-				<Skills />
-			</span>
-		</div>
-		<Biography />
-		<Health />
+	<div v-if="characterStore.metadata.name !== 'Loader'">
+		<div class='character padding-medium'>
+			<div class="align-center bold">
+				<p>{{characterStore.metadata.name}} ( {{characterStore.metadata.level}} )</p>
+				{{characterStore.metadata.invalidLevels}}
+			</div>
+			<div class='width-whole flex'>
+				<span class='wrapper flex width-whole'>
+					<Attributes />
+					<div class='padding-bottom-medium'></div>
+					<Competence />
+					<div class='padding-bottom-medium'></div>
+				</span>
+				<span class='wrapper flex -v-center width-half margin-left-medium'>
+					<Talents />
+					<div class='padding-bottom-medium'></div>
+					<Skills />
+				</span>
+			</div>
+			<Biography />
+			<Health />
 
+		</div>
+		<LevelLadder :characterStore="characterStore" />
 	</div>
-	<LevelLadder />
 </template>
 
 <script>
@@ -48,14 +50,15 @@
 		},
 		setup() {
 			const route = useRoute()
-			const character = useCharacterStore()
-			character.setPath()
-			console.log("character in Character.vue: ", character)
+			const characterStore = useCharacterStore()
 			return {
-				character, 
+				characterStore, 
 				route
 			}
 		},
+		beforeMount() {
+			this.characterStore.setPath()
+		}
 	}
 </script>
 

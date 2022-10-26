@@ -82,8 +82,6 @@
 		props: ['attribute'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const complexPayload = characterStore.history[1].complexPayload
-			const hasComplexPayload = ref(complexPayload !== undefined)
 			const attributeProp = props.attribute
 
 			const characterTraits = ref([])
@@ -96,7 +94,6 @@
 			return {
 				attributeProp,
 				characterStore,
-				hasComplexPayload,
 
 				characterTraits,
 				characterAttributes,
@@ -117,7 +114,6 @@
 		beforeMount() {
 			this.characterStore.$subscribe((_mutation, state) => {
 				const sheet = state.sheet
-				this.hasComplexPayload = state.history[1].complexPayload !== undefined
 				this.characterTraits = sheet.traits
 				this.characterAttributes = sheet.attributes
 				this.invalidLevels = state.metadata.invalidLevels

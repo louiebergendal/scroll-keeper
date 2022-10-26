@@ -46,7 +46,7 @@
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait" class="margin-tiny"/>
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
 				<div v-if="contains(Object.keys(trait), 'complexTrait')">
-					<Background @complex-payload="complexPayload"/>
+					<Background :characterStore="characterStore" @complex-payload="complexPayload"/>
 				</div>
 			</div>
 
@@ -56,8 +56,6 @@
 </template>
 
 <script>
-
-	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue'
 	import { allSkills, allTalents, canChooseTrait, getTraitNiceName } from '../../rules/characteristics/traits'
 	import { contains } from '../../rules/utils'
@@ -68,23 +66,23 @@
 		components: {
 			Background
 		},
-		props: ['selectedLevel', 'traitType'],
+		props: ['selectedLevel', 'traitType', 'characterStore'],
 		emits: ['complexPayload'],
 		setup(props) {
-			const character = useCharacterStore()
-
+			const characterStore = props.characterStore
 			const selectedLevel = props.selectedLevel
-			const levelIsChangable = ref(selectedLevel <= character.metadata.level + 1)
-            const traitType = props.traitType
-			const tempCharacterSheet = flattenCharacter(character, selectedLevel - 1) // -1 to account for current lvling
-			const tempValidationSheet = flattenCharacter(character, selectedLevel) 
-			const tempCharacterTraitsList = tempCharacterSheet.traits
+			const traitType = props.traitType
 		
+			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
+			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel) 
+			const tempCharacterTraitsList = tempCharacterSheet.traits
+
+			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()
 
 			let originalLevelChoiceKey = ''
-			if (selectedLevel <= character.metadata.level) { originalLevelChoiceKey = character.history[selectedLevel].choice }
+			if (selectedLevel <= characterStore.metadata.level) { originalLevelChoiceKey = characterStore.history[selectedLevel].choice }
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 			
             let traits
@@ -98,7 +96,7 @@
 				tempCharacterSheet,
 				tempValidationSheet,
 				tempLevelChoiceKey,
-				character,
+				characterStore,
 				selectedLevel,
 				levelIsChangable,
 				complexTraitData,
@@ -113,7 +111,7 @@
 		},
 		methods: {
 			submitNewTraitLevel() {
-				this.character.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType, this.complexTraitData)
+				this.characterStore.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType, this.complexTraitData)
 				this.$emit('update-tabs') // gul varning i loggen
 			},
 			complexPayload(data) {

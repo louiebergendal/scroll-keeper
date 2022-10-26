@@ -2,11 +2,11 @@
 	<div class='skills-wrapper card dark padding-tiny margin-bottom-nano width-whole flex'>
 		<h3 class='margin-top-nano align-center'>Färdigheter</h3>
 		<div
-			v-for='skill in independentCharacterSkills(character.sheet.traits)'
+			v-for='skill in independentCharacterSkills(characterStore.sheet.traits)'
 			:key='skill.key'
 			class='width-whole flex'
 		>
-			<div :class="{ 'invalid bold': contains(character.sheet.metadata.invalidLevels, skill.key) }" class='width-whole card medium padding-nano margin-nano italic align-center'>
+			<div :class="{ 'invalid bold': contains(characterStore.sheet.metadata.invalidLevels, skill.key) }" class='width-whole card medium padding-nano margin-nano italic align-center'>
 				<span class='font-size-nano'>
 					{{ skill.name }}					
 				</span>
@@ -22,10 +22,10 @@
 
 	export default {
 		setup() {
-			const character = useCharacterStore()
+			const characterStore = useCharacterStore()
 
 			return {
-				character,
+				characterStore,
 				independentCharacterSkills,
 				contains
 			}

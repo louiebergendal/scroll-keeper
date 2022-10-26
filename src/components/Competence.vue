@@ -5,7 +5,7 @@
 				<span class='font-size-tiny bold'>Erfarenhetsbonus</span>
 			</div>
 			<div class='attribute-value padding-left-tiny padding-nano margin-left-tiny align-center width-half'>
-				<span class='font-size-tiny bold'> {{ character.sheet.competence }} </span>
+				<span class='font-size-tiny bold'> {{ characterStore.sheet.competence }} </span>
 			</div>
 		</div>
 	</div>
@@ -16,10 +16,10 @@
 	
 	export default {
 		setup(props) {
-			const character = useCharacterStore()
+			const characterStore = useCharacterStore()
 
 			return {
-				character
+				characterStore
 			}
 		}
 	}
