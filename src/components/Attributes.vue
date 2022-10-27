@@ -1,5 +1,6 @@
 <template>
-	<div class='card dark padding-right-tiny padding-top-tiny padding-left-tiny'>
+	<div class='card dark padding-top-small padding-right-tiny padding-left-tiny'>
+		<h3 class="margin-top-nano align-center">Grundegenskaper</h3>
 		<Attribute :attribute='attributes.battle' />
 		<Attribute :attribute='attributes.agility' />
 		<Attribute :attribute='attributes.spirit' />
@@ -11,7 +12,7 @@
 <script>
 	import Attribute from './Attribute.vue'
 	import { attributes } from '../rules/characteristics/attributes'
-	
+
 	export default {
 		components: {
 			Attribute
