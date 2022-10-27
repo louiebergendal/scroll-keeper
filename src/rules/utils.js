@@ -1,5 +1,8 @@
 export const contains = (list, key) => {
-	if (typeof list === 'object') list = Object.values(list)
+	if (!list) list = []
+	if (typeof list === 'object') {
+		list = Object.values(list)
+	}
 	return list.includes(key)
 }
 

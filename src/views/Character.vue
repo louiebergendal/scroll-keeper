@@ -3,7 +3,6 @@
 		<div class='character padding-medium'>
 			<div class="align-center bold">
 				<p>{{characterStore.metadata.name}} ( {{characterStore.metadata.level}} )</p>
-				{{characterStore.metadata.invalidLevels}}
 			</div>
 			<div class='width-whole flex'>
 				<span class='wrapper flex width-whole'>

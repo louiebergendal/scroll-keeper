@@ -85,12 +85,12 @@
 			if (selectedLevel <= characterStore.metadata.level) { originalLevelChoiceKey = characterStore.history[selectedLevel].choice }
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 			
-            let traits
-            if (traitType === 'skill') { traits = allSkills() }
-            if (traitType === 'talent') { traits = allTalents() }
+			let traits
+			if (traitType === 'skill') { traits = allSkills() }
+			if (traitType === 'talent') { traits = allTalents() }
 
 			return {
-                traitType,
+				traitType,
 				traits,
 				tempCharacterTraitsList,
 				tempCharacterSheet,
@@ -122,7 +122,6 @@
 						for (const skillChoice in data[option].choices[choiceGroup]) {
 							if (!data[option].choices[choiceGroup][skillChoice]) {
 								isValid = false
-								break
 							}
 						}
 					}

@@ -13,13 +13,13 @@
 		props: ['characteristic', 'selectedLevel'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-            const traitToBeIncreased = props.characteristic
+			const traitToBeIncreased = props.characteristic
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 			
 			return {
 				characterStore,
-                traitToBeIncreased,
+				traitToBeIncreased,
 				selectedLevel,
 				levelIsChangable
 			}

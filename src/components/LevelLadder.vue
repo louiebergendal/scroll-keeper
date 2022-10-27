@@ -120,7 +120,6 @@
 			},
 			onChangeCurrentTab(index) {
 				this.currentTabIndex = index + 1
-				console.log(this.currentTabIndex)
 			}
 		}
 	}

@@ -77,7 +77,6 @@
 				const complexPayload = state.history[1].complexPayload
 				this.hasComplexPayload = complexPayload.people.key !== ''
 				if (this.hasComplexPayload) {
-					console.log("complexPayload: ", complexPayload)
 					this.peopleKey = complexPayload.people.key
 					this.peopleMandatorySkills = complexPayload.people.choices[0]
 					this.peopleChosenSkills = complexPayload.people.choices[1]

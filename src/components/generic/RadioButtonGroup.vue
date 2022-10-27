@@ -23,8 +23,8 @@
 		name: 'BaseRadioButtonGroup',
 		props: ['name', 'options', 'selected', 'invalidOptionsList'],
 		setup(props) {
-			const selectedOptions = ref(props.selected ? props.selected : [])
-			const invalidOptions = ref(props.invalidOptionsList ? props.invalidOptionsList : [])
+			const selectedOptions = props.selected ? props.selected : ['']
+			const invalidOptions = props.invalidOptionsList ? props.invalidOptionsList : ['']
 
 			return {
 				contains,
@@ -32,9 +32,20 @@
 				invalidOptions
 			}
 		},
-		beforeUpdate() {
-			this.selectedOptions = this.selected ? this.selected : []
-			this.invalidOptions = this.invalidOptionsList ? this.invalidOptionsList : []
+		watch: {
+			selected: {
+				handler(newVal) {
+					this.selectedOptions = newVal
+					this.emitOption(newVal)
+				},
+				immediate: true
+			},
+			invalidOptionsList: {
+				handler(newVal, oldVal) {
+					this.invalidOptions = newVal
+				},
+				immediate: true
+			},
 		},
 		methods: {
 			emitOption(option) {
