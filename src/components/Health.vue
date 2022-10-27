@@ -1,25 +1,28 @@
 <template>
-	<div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
+	<div v-if="!loading" class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
 		<h3 class='health margin-top-nano align-center'>Hälsa ({{characterStore.sheet.health.well.max}})</h3>
-
-		<button type="submit" class="margin-tiny" @click="addStrainToDB(dealDamage)">Ta 1 Skada</button>
-		<button type="submit" class="margin-tiny" @click="addStrainToDB(dealFatigue)">Ta 1 Utmattning</button>
-		<button type="submit" class="margin-tiny" @click="addStrainToDB(healDamage)">Hela 1 Skada</button>
-		<button type="submit" class="margin-tiny" @click="addStrainToDB(healFatigue)">Hela 1 Utmattning</button>
-
-		<div class='health-wrapper flex'>
-			<div></div>
-			<div v-if="characterStore.sheet.fate" class='flex'>
-				<div class='health-level-title padding-right-tiny'>{{ fateNiceName }}</div>
-				<div
-					v-for='index in characterStore.sheet.fate'
-					:key='index'
-					class='health-point fate margin-bottom-small'
-				>
+		<div class="flex">
+			<div class="health-level-title"></div>
+			<div class="flex margin-bottom-tiny health-button-wrapper">
+				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(dealDamage)">Tag 1 Skada</button>
+				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(dealFatigue)">Tag 1 Utmattning</button>
+				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(healDamage)">Hela 1 Skada</button>
+				<button type="submit" class="health-button margin-bottom-tiny -small" @click="addStrainToDB(healFatigue)">Hela 1 Utmattning</button>
 			</div>
+
+		</div>
+		<div class='health-wrapper card medium padding-top-small padding-bottom-small padding-right-small flex'>
+				<div v-if="characterStore.sheet.fate" class='flex'>
+					<div class='health-level-title font-size-tiny padding-right-tiny'>{{ fateNiceName }}</div>
+					<div
+						v-for='index in characterStore.sheet.fate'
+						:key='index'
+						class='health-point fate margin-bottom-small'
+					>
+				</div>
 			</div>
-			<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='health-level-wrapper flex'>
-				<div class='health-level-title padding-right-tiny'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}</div>
+			<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='flex'>
+				<div class='health-level-title font-size-tiny padding-right-tiny'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}</div>
 				<div
 					v-for='index in healthLevel.currentStrain.damage'
 					:key='"damage-" + index'
@@ -47,6 +50,7 @@
 	import { useCharacterStore } from '../stores/character'
 	import { getHealthLevelNiceName } from '../rules/characteristics/secondaryCharacteristics/health'
 	import { fateNiceName } from '../rules/characteristics/fate'
+	import { ref } from 'vue'
 	//import { dealStrain } from '../rules/strain'
 
 	export default {
@@ -72,6 +76,8 @@
 				fatigue: -1
 			}
 
+			const loading = ref(true)
+
 			for (let healthLevel in characterStore.sheet.health) {
 				characterStore.sheet.health[healthLevel]._frontend_title = healthLevel
 				characterStore.sheet.health[healthLevel]._frontend_remainder = 0
@@ -86,8 +92,13 @@
 				healDamage,
 				healFatigue,
 				fateNiceName,
-				getHealthLevelNiceName
+				getHealthLevelNiceName,
+
+				loading
 			}
+		},
+		beforeMount() {
+			this.loading = false
 		},
 		methods: {
 			addStrainToDB(strain) {
@@ -112,7 +123,7 @@
 <style>
 	.health-wrapper {
 		flex-direction: column
-		
+
 	}
 	.health-point {
 		width: 100%;
@@ -120,7 +131,7 @@
 		background-color: rgb(152, 204, 107);
 		border: 1px solid #559c1e;
 		border-radius: 5px;
-		margin-right: 5px;
+		margin-right: 2px;
 		margin-bottom: 1px;
 	}
 	.damage {
@@ -128,16 +139,23 @@
 		border: 1px solid #9c1e1e;
 	}
 	.fatigue {
-		background-color: rgb(218, 208, 95);
-		border: 1px solid #a7884b;
+		background-color: rgb(255 242 96);
+		border: 1px solid #b7a312;
 	}
 	.fate {
 		background-color: rgb(149, 178, 198);
 		border: 1px solid #58758a;
 	}
+	.health-button-wrapper {
+		width: 100%;
+	}
+	.health-button {
+		width: 100%;
+	}
 	.health-level-title {
 		min-width: 10rem;
 		text-align: right;
 		margin-top: -0.30rem;
+		padding-top: 1px;
 	}
 </style>

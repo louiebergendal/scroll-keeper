@@ -26,6 +26,10 @@ nav {
   }
 }
 
+.trait-card-align {
+  vertical-align: text-bottom !important;
+}
+
 .card {
   border-radius: $border-radius;
   border: 1px solid $border-contrast-medium;

@@ -5,19 +5,19 @@
 				<p>{{characterStore.metadata.name}} ( {{characterStore.metadata.level}} )</p>
 			</div>
 			<div class='width-whole flex'>
-				<span class='wrapper flex width-whole'>
+				<div class='wrapper flex width-whole'>
 					<Attributes />
 					<div class='padding-bottom-medium'></div>
 					<Competence />
 					<div class='padding-bottom-medium'></div>
-				</span>
+					<Biography />
+				</div>
 				<span class='wrapper flex -v-center width-half margin-left-medium'>
 					<Talents />
 					<div class='padding-bottom-medium'></div>
 					<Skills />
 				</span>
 			</div>
-			<Biography />
 			<Health />
 
 		</div>
@@ -51,7 +51,7 @@
 			const route = useRoute()
 			const characterStore = useCharacterStore()
 			return {
-				characterStore, 
+				characterStore,
 				route
 			}
 		},
@@ -70,4 +70,3 @@
 		flex-direction: column;
 	}
 </style>
-

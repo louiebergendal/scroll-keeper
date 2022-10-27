@@ -15,11 +15,11 @@
 				class='width-whole flex'
 			>
 				<div class='width-half card medium padding-nano italic align-center' :class="{'invalid-background': contains(invalidLevels, skill.key)}">
-					
+
 					<!-- taken -->
 					<span
 						v-if='contains(characterTraits, skill.key)'
-						class='font-size-nano bold'
+						class='font-size-nano bold trait-card-align'
 					>
 						- {{ skill.name }} -
 					</span>
@@ -27,13 +27,13 @@
 					<!-- not taken -->
 					<span
 						v-if='!contains(characterTraits, skill.key)'
-						class='font-size-nano'
+						class='font-size-nano font-contrast-low trait-card-align'
 					>
 						{{ skill.name }}
 					</span>
 				</div>
-				<div class='skill-value card light padding-nano flex width-half margin-left-tiny'>
-					<div class='padding-left-small padding-nano width-fourth padding-left-huge'>
+				<div class='skill-value card light flex width-half margin-left-tiny'>
+					<div class='padding-left-small width-fourth padding-left-huge'>
 						<span
 							v-if='contains(characterTraits, skill.key)'
 							class='vertical-correction font-size-nano bold'
@@ -90,7 +90,7 @@
 
 			const attributeSkills = specificAttributeSkills(attributeProp.key, characterStore.sheet.traits)
 			const attributeAffectedByDefect = ref(false)
-			
+
 			return {
 				attributeProp,
 				characterStore,
@@ -104,7 +104,7 @@
 				attributeAffectedByDefect,
 				setAttributeValueName,
 				contains
-				
+
 			}
 		},
 		beforeUpdate() {
@@ -130,6 +130,7 @@
 	.invalid-background {
 		background-color: rgb(247, 63, 46) !important;
 		font-weight: bold;
+		color: #fff;
 	}
 	.attribute {
 		flex-direction: column;

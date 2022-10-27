@@ -16,7 +16,7 @@
 			>
 				<div
 					:class="{
-						'invalid': attributeChoiceIsNotValidButIsSelected(
+						'invalid-background': attributeChoiceIsNotValidButIsSelected(
 							tempValidationSheet.metadata.invalidLevels,
 							attribute.key,
 							tempLevelChoiceKey
@@ -25,11 +25,11 @@
 					class="card dark width-whole"
 				>
 					<input
-						type="radio" 
-						id="{{attribute.key}}" 
-						:value='attribute.key' 
-						v-model="tempLevelChoiceKey" 
-						name="attribute" 
+						type="radio"
+						id="{{attribute.key}}"
+						:value='attribute.key'
+						v-model="tempLevelChoiceKey"
+						name="attribute"
 						:disabled="!canChooseAttribute(tempCharacterAttributes[attribute.key], selectedLevel)"
 						class="margin-tiny"
 					/>
@@ -77,7 +77,7 @@
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
-			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel) 
+			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
 			const tempCharacterAttributes = tempCharacterSheet.attributes
 			let originalLevelChoiceKey = ''
 
@@ -93,10 +93,10 @@
 				tempCharacterAttributes,
 				tempValidationSheet,
 				tempLevelChoiceKey,
-				
+
 				getAttributeShortName,
 				getAttributeLongName,
-				
+
 				canChooseAttribute,
 				levelIsChangable
 			}

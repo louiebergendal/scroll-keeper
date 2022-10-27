@@ -13,7 +13,7 @@ const davanic = {
 
 const vendic = {
 	key: 'vendic',
-	niceName: 'Vend',
+	niceName: 'Vender',
 	description: 'vend',
 	mandatorySkills: ['basicKnowledgeVend'],
 	skillsLists: {
@@ -26,7 +26,7 @@ const vendic = {
 
 const sodoric = {
 	key: 'sodoric',
-	niceName: 'Sodorfolk',
+	niceName: 'Sodorit',
 	description: 'sodorfolk',
 	mandatorySkills: ['basicKnowledgeSodor'],
 	skillsLists: {

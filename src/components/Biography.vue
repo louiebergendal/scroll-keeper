@@ -1,30 +1,27 @@
-<template> 
-	<div v-if="hasComplexPayload" class='card padding-small margin-bottom-medium'>
-
+<template>
+	<div v-if="hasComplexPayload" class='card dark padding-bottom-small margin-bottom-medium'>
+		<div class="align-center bold padding-tiny">Bakgrund</div>
 		<div class="flex">
-			<div><b>{{peopleKey}} </b>
-				(
+			<div class="bold margin-right-small padding-left-small font-size-tiny width-fourth background-title">{{peopleNiceName}}: </div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-tiny padding-bottom-tiny margin-right-small">
 					{{getTraitNiceName(peopleMandatorySkills)}},
 					{{getTraitNiceName(peopleChosenSkills)}}
-				)
 			</div>
 		</div>
 
 		<div class="flex">
-			<div><b>{{upbringingKey}} </b>
-				(
+			<div class="bold margin-right-small padding-left-small font-size-tiny width-fourth background-title">{{upbringingNiceName}}:</div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-tiny padding-bottom-tiny margin-right-small">
 					{{getTraitNiceName(upbringingChosenSkills1)}},
 					{{getTraitNiceName(upbringingChosenSkills2)}}
-				)
 			</div>
 		</div>
 
 		<div class="flex">
-			<div><b>{{professionKey}} </b>
-				(
+			<div class="bold margin-right-small padding-left-small font-size-tiny width-fourth background-title">{{professionNiceName}}:</div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-tiny padding-bottom-tiny margin-right-small">
 					{{getTraitNiceName(professionChosenSkills1)}},
 					{{getTraitNiceName(professionChosenSkills2)}}
-				)
 			</div>
 		</div>
 
@@ -34,6 +31,7 @@
 <script>
 	import { useCharacterStore } from '../stores/character'
 	import { getTraitNiceName } from '../rules/characteristics/traits'
+	import background from '../rules/complexTraits/background/background'
 	import { ref } from 'vue';
 
 	export default {
@@ -41,35 +39,36 @@
 			const characterStore = useCharacterStore()
 			const hasComplexPayload = ref(characterStore.history[1].complexPayload !== undefined)
 
-			const peopleKey = ref('')
+			const peopleNiceName = ref('')
 			const peopleMandatorySkills = ref([])
 			const peopleChosenSkills = ref([])
 
-			const upbringingKey = ref('')
+			const upbringingNiceName = ref('')
 			const upbringingChosenSkills1 = ref([])
 			const upbringingChosenSkills2 = ref([])
 
-			const professionKey = ref('')
+			const professionNiceName = ref('')
 			const professionChosenSkills1 = ref([])
 			const professionChosenSkills2 = ref([])
-
+			console.log(background)
 			return {
 				characterStore,
 				hasComplexPayload,
 
-				peopleKey,
+				peopleNiceName,
 				peopleMandatorySkills,
 				peopleChosenSkills,
 
-				upbringingKey,
+				upbringingNiceName,
 				upbringingChosenSkills1,
 				upbringingChosenSkills2,
 
-				professionKey,
+				professionNiceName,
 				professionChosenSkills1,
 				professionChosenSkills2,
 
 				getTraitNiceName,
+				background
 			}
 		},
 		beforeMount() {
@@ -77,15 +76,15 @@
 				const complexPayload = state.history[1].complexPayload
 				this.hasComplexPayload = complexPayload.people.key !== ''
 				if (this.hasComplexPayload) {
-					this.peopleKey = complexPayload.people.key
+					this.peopleNiceName = background.peoples[complexPayload.people.key].niceName
 					this.peopleMandatorySkills = complexPayload.people.choices[0]
 					this.peopleChosenSkills = complexPayload.people.choices[1]
 
-					this.upbringingKey = complexPayload.upbringing.key
+					this.upbringingNiceName = background.upbringings[complexPayload.upbringing.key].niceName
 					this.upbringingChosenSkills1 = complexPayload.upbringing.choices[0]
 					this.upbringingChosenSkills2 = complexPayload.upbringing.choices[1]
 
-					this.professionKey = complexPayload.profession.key
+					this.professionNiceName = background.professions[complexPayload.profession.key].niceName
 					this.professionChosenSkills1 = complexPayload.profession.choices[0]
 					this.professionChosenSkills2 = complexPayload.profession.choices[1]
 				}
@@ -96,5 +95,8 @@
 </script>
 
 <style>
-
+	.background-title {
+		text-align: right;
+		padding-top: 6px;
+	}
 </style>
