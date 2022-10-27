@@ -2,26 +2,32 @@
 	<div v-if="hasComplexPayload" class='card dark padding-bottom-small margin-bottom-medium'>
 		<div class="align-center bold padding-tiny">Bakgrund</div>
 		<div class="flex">
-			<div class="bold margin-right-small padding-left-small font-size-tiny width-fourth background-title">{{peopleNiceName}}: </div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-tiny padding-bottom-tiny margin-right-small">
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{peopleNiceName}}: </div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
+				<span class="align">
 					{{getTraitNiceName(peopleMandatorySkills)}},
 					{{getTraitNiceName(peopleChosenSkills)}}
+				</span>
 			</div>
 		</div>
 
 		<div class="flex">
-			<div class="bold margin-right-small padding-left-small font-size-tiny width-fourth background-title">{{upbringingNiceName}}:</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-tiny padding-bottom-tiny margin-right-small">
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{upbringingNiceName}}:</div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
+				<span class="align">
 					{{getTraitNiceName(upbringingChosenSkills1)}},
 					{{getTraitNiceName(upbringingChosenSkills2)}}
+				</span>
 			</div>
 		</div>
 
 		<div class="flex">
-			<div class="bold margin-right-small padding-left-small font-size-tiny width-fourth background-title">{{professionNiceName}}:</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-tiny padding-bottom-tiny margin-right-small">
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{professionNiceName}}:</div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
+				<span class="align">
 					{{getTraitNiceName(professionChosenSkills1)}},
 					{{getTraitNiceName(professionChosenSkills2)}}
+				</span>
 			</div>
 		</div>
 
@@ -95,8 +101,12 @@
 </script>
 
 <style>
+	.align {
+		vertical-align: middle;
+	}
 	.background-title {
 		text-align: right;
-		padding-top: 6px;
+		min-width: 10rem;
+		padding-top: 3px;
 	}
 </style>
