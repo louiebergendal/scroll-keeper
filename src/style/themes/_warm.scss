@@ -30,6 +30,17 @@ nav {
   vertical-align: text-bottom !important;
 }
 
+.invalid-background {
+  background-color: rgb(247, 63, 46) !important;
+  font-weight: bold;
+  color: #fff;
+}
+
+.invalid-text {
+  color: rgb(247, 63, 46) !important;
+  font-weight: bold;
+}
+
 .card {
   border-radius: $border-radius;
   border: 1px solid $border-contrast-medium;

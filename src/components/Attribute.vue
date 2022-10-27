@@ -123,15 +123,6 @@
 </script>
 
 <style>
-	.invalid-text {
-		color: rgb(247, 63, 46) !important;
-		font-weight: bold;
-	}
-	.invalid-background {
-		background-color: rgb(247, 63, 46) !important;
-		font-weight: bold;
-		color: #fff;
-	}
 	.attribute {
 		flex-direction: column;
 	}
