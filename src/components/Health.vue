@@ -11,7 +11,7 @@
 			</div>
 
 		</div>
-		<div class='health-wrapper card medium padding-top-small padding-bottom-small padding-right-small flex'>
+		<div class='health-wrapper card medium padding-top-small padding-bottom-tiny padding-right-small flex'>
 				<div v-if="characterStore.sheet.fate" class='flex'>
 					<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
 					<div
