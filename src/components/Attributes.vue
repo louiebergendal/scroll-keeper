@@ -1,11 +1,11 @@
 <template>
 	<div class='card dark padding-top-small padding-right-tiny padding-left-tiny'>
 		<h3 class="margin-top-nano align-center">Grundegenskaper</h3>
-		<Attribute :attribute='attributes.battle' />
-		<Attribute :attribute='attributes.agility' />
-		<Attribute :attribute='attributes.spirit' />
-		<Attribute :attribute='attributes.knowledge' />
-		<Attribute :attribute='attributes.physique' />
+		<Attribute :attribute='attributes.battle' :iconUrl='"iconKam"' />
+		<Attribute :attribute='attributes.agility' :iconUrl='"iconSmi"'/>
+		<Attribute :attribute='attributes.spirit' :iconUrl='"iconAnd"'/>
+		<Attribute :attribute='attributes.knowledge' :iconUrl='"iconKun"'/>
+		<Attribute :attribute='attributes.physique' :iconUrl='"iconFys"'/>
 	</div>
 </template>
 

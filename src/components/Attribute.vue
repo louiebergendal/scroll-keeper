@@ -1,8 +1,8 @@
 <template>
 	<div class='attribute padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
-			<div class='padding-nano width-half align-center'>
-				<span :class="{'invalid-text': attributeAffectedByDefect}" class='trait-card-align font-size-small bold'>{{ attribute.shortName }}</span>
+			<div class='padding-nano width-half attribute-headline align-center'>
+				<img class="attribute-icon" :src="attributeIcon" /><span :class="{'invalid-text': attributeAffectedByDefect}" class='trait-card-align attribute-headline font-size-small bold'>{{ attribute.shortName }}</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
 				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny attribute-value-align bold'>{{ characterAttributes[attributeProp.key] }}</span>
@@ -82,7 +82,7 @@
 	import { ref } from 'vue'
 
 	export default {
-		props: ['attribute'],
+		props: ['attribute', 'iconUrl'],
 		setup(props) {
 			const characterStore = useCharacterStore()
 			const attributeProp = props.attribute
@@ -94,8 +94,11 @@
 			const attributeSkills = specificAttributeSkills(attributeProp.key, characterStore.sheet.traits)
 			const attributeAffectedByDefect = ref(false)
 
+			const attributeIcon = '/img/' + props.iconUrl + '.png'
+
 			return {
 				attributeProp,
+				attributeIcon,
 				characterStore,
 
 				characterTraits,
@@ -135,5 +138,15 @@
 	.attribute-value {
 		background: rgb(255,251,246);
 		background: linear-gradient(90deg, rgba(255,251,246,0) 0%, rgba(255,251,246,1) 50%, rgba(255,251,246,0) 100%);
+	}
+	.attribute-headline {
+		width: 4.5rem;
+		display: inline-block;
+		text-align: left;
+	}
+	.attribute-icon {
+		height: 1.7rem;
+		vertical-align: 0.2rem;
+		margin-right: 1rem;
 	}
 </style>
