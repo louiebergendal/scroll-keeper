@@ -6,7 +6,7 @@
 			:key='skill.key'
 			class='width-whole flex'
 		>
-			<div :class="{ 'invalid-background bold': contains(characterStore.sheet.metadata.invalidLevels, skill.key) }" class='width-whole card medium padding-nano margin-nano italic align-center'>
+			<div :class="{ 'invalid-background bold': contains(characterStore.sheet.metadata.invalidLevels, skill.key) }" class='width-whole card medium padding-nano margin-nano align-center'>
 				<span class='trait-card-align font-size-nano'>
 					{{ skill.name }}
 				</span>
@@ -34,9 +34,6 @@
 </script>
 
 <style>
-	.invalid {
-		background: rgb(247, 63, 46) !important;
-	}
 	.skills-wrapper {
 		flex-direction: column;
 	}

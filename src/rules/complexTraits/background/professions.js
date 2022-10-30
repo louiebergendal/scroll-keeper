@@ -10,7 +10,7 @@ const fighter = {
 			choices: 1,
 			list: ['melee', 'accuracy']
 		},
-        1: {
+		1: {
 			choices: 1,
 			list: ['unarmouredFighting', 'warfare', 'brawling']
 		}
@@ -26,7 +26,7 @@ const outlaw = {
 			choices: 1,
 			list: ['stealth', 'vigilant']
 		},
-        1: {
+		1: {
 			choices: 1,
 			list: ['carouse', 'brawling', 'intrusion']
 		}
@@ -42,7 +42,7 @@ const commoner = {
 			choices: 1,
 			list: ['crafting', 'beastOfBurden']
 		},
-        1: {
+		1: {
 			choices: 1,
 			list: ['animalHusbandry', 'carouse', 'cook']
 		}
@@ -58,7 +58,7 @@ const thinker = {
 			choices: 1,
 			list: knowledgeSkillKeysList()
 		},
-        1: {
+		1: {
 			choices: 1,
 			list: ['bookworm', 'meticulous', 'performer']
 		}
@@ -66,8 +66,8 @@ const thinker = {
 }
 
 export default {
-    fighter,
-    outlaw,
-    commoner,
-    thinker
+	fighter,
+	outlaw,
+	commoner,
+	thinker
 }

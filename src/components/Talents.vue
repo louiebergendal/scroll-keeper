@@ -6,7 +6,7 @@
 			:key='talent.key'
 			class='width-whole flex'
 		>
-			<div :class="{ 'invalid-background bold': contains(character.sheet.metadata.invalidLevels, talent.key) }" class='width-whole card medium padding-nano margin-nano italic align-center'>
+			<div :class="{ 'invalid-background bold': contains(character.sheet.metadata.invalidLevels, talent.key) }" class='width-whole card medium padding-nano margin-nano align-center'>
 				<span class='font-size-nano trait-card-align'>
 					{{ talent.name }}
 				</span>

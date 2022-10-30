@@ -2,20 +2,25 @@
 	<div class='attribute padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half align-center'>
-				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny bold'>{{ attribute.shortName }}</span>
+				<span :class="{'invalid-text': attributeAffectedByDefect}" class='trait-card-align font-size-tiny bold'>{{ attribute.shortName }}</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
-				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny bold'>{{ characterAttributes[attributeProp.key] }}</span>
+				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny attribute-value-align bold'>{{ characterAttributes[attributeProp.key] }}</span>
 			</div>
 		</div>
 		<div>
 			<div
-				v-for='skill in attributeSkills'
+				v-for='(skill, key, skillIndex) in attributeSkills'
 				:key='skill.key'
 				class='width-whole flex'
 			>
-				<div class='width-half card medium padding-nano italic align-center' :class="{'invalid-background': contains(invalidLevels, skill.key)}">
-
+				<div
+					class='width-half card medium padding-nano align-center'
+					:class="{
+						'invalid-background': contains(invalidLevels, skill.key),
+						'attribute-skill-top': skillIndex === 0,
+						'attribute-skill-bottom': skillIndex === 1
+					}">
 					<!-- taken -->
 					<span
 						v-if='contains(characterTraits, skill.key)'
@@ -32,34 +37,40 @@
 						{{ skill.name }}
 					</span>
 				</div>
-				<div class='skill-value card light flex width-half margin-left-tiny'>
+				<div
+					class='skill-value card light flex width-half margin-left-tiny'
+					:class="{
+						'attribute-skill-top': skillIndex === 0,
+						'attribute-skill-bottom': skillIndex === 1
+					}"
+				>
 					<div class='padding-left-small width-fourth padding-left-huge'>
 						<span
 							v-if='contains(characterTraits, skill.key)'
-							class='vertical-correction font-size-nano bold'
+							class='attribute-value-align bold'
 							:class="{'invalid-text': attributeAffectedByDefect || contains(invalidLevels, skill.key)}"
 						>
 							{{ skill.addProficiencyBonus(characterAttributes[attributeProp.key]) }}
 						</span>
 						<span
 							v-if='!contains(characterTraits, skill.key)'
-							class='vertical-correction font-size-nano'
+							class='attribute-value-align'
 							:class="{'invalid-text': attributeAffectedByDefect}"
 						>
 							{{ characterAttributes[attributeProp.key] }}
 						</span>
 					</div>
-					<div class='padding-nano italic padding-right-medium'>
+					<div class='padding-nano padding-right-medium'>
 						<span
 							v-if='contains(characterTraits, skill.key)'
-							class='vertical-correction font-size-nano align-right bold'
+							class='trait-card-align font-size-nano align-right bold'
 							:class='{"invalid-text": contains(invalidLevels, skill.key)}'
 						>
 							{{ setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key])) }}
 						</span>
 						<span
 							v-if='!contains(characterTraits, skill.key)'
-							class='vertical-correction font-size-nano align-right'
+							class='trait-card-align font-size-nano align-right'
 							:class='{ "font-contrast-lowest": characterAttributes[attributeProp.key] < (skill.addProficiencyBonus(baseValue)) }'
 						>
 							{{ setAttributeValueName(characterAttributes[attributeProp.key]) }}
@@ -128,9 +139,6 @@
 	}
 	.skill-value {
 		justify-content: space-between;
-	}
-	.vertical-correction {
-		vertical-align: text-bottom;
 	}
 	.attribute-value {
 		background: rgb(255,251,246);

@@ -102,7 +102,7 @@
 
 <style>
 	.align {
-		vertical-align: middle;
+		vertical-align: super;
 	}
 	.background-title {
 		text-align: right;

@@ -12,6 +12,23 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid $background-brightness-low;
+}
+
+.main-bg {
+  background-image: url('/img/paper-texture-seamless.png');
+  background-size: 50%;
+  min-height: calc(100% - 5rem);
+}
+
+.logo {
+  background-image: url('/img/omen-logo.png');
+  height: 29px;
+  width: 86px;
+  background-size: cover;
+  position: absolute;
+  top: $size-small;
+  left: calc(5rem + $size-medium);
 }
 
 .faux-modal-container {
@@ -27,7 +44,14 @@ nav {
 }
 
 .trait-card-align {
-  vertical-align: text-bottom !important;
+  vertical-align: super !important;
+  line-height: 2.2rem !important;
+}
+
+.attribute-value-align {
+  line-height: 2.2rem !important;
+  font-size: 1.45rem !important;
+  vertical-align: baseline !important;
 }
 
 .invalid-background {
@@ -44,6 +68,7 @@ nav {
 .card {
   border-radius: $border-radius;
   border: 1px solid $border-contrast-medium;
+  background-image: url('/img/monochrome-noise.png');
   &.dark {
     background-color: $background-brightness-low;
   }
@@ -70,4 +95,11 @@ nav {
   width: 6rem;
   height: 100vh;
   background-color: $background-brightness-low;
+}
+
+.attribute-skill-top {
+  border-radius:  $border-radius $border-radius 0 0;
+}
+.attribute-skill-bottom {
+  border-radius: 0 0 $border-radius $border-radius;
 }

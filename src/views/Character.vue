@@ -1,5 +1,5 @@
 <template>
-	<div v-if="characterStore.metadata.name !== 'Loader'">
+	<div class="main-bg" v-if="characterStore.metadata.name !== 'Loader'">
 		<div class='character padding-medium'>
 			<div class="align-center bold">
 				<p>{{characterStore.metadata.name}} ( {{characterStore.metadata.level}} )</p>

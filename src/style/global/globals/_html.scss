@@ -1,3 +1,5 @@
+@import '/public/fonts/dulcinea.scss';
+
 *, *:before, *:after { box-sizing: inherit; }
 
 html {
@@ -8,7 +10,7 @@ html {
         height: 100%;
         margin: 0;
         padding: 0;
-        font-family: map-get($generals, 'font-family'), helvetica, arial;
+        font-family: 'DulcineaSerif', helvetica, arial;
         font-size: map-get($font-sizes, 'small');
         line-height: map-get($generals, 'line-height');
         color: $font-contrast-medium;

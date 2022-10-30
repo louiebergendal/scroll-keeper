@@ -1,9 +1,11 @@
 <template>
   <nav class="main-nav">
-    <router-link class="margin-small" :to="{ name: 'Vendic Dictionary' }">
+    <router-link class="logo float-left" :to="{ name: 'Home' }"></router-link>
+    <!--<router-link class="margin-small" :to="{ name: 'Vendic Dictionary' }">
       Vendic Dictionary
     </router-link>
     |
+    -->
     <router-link v-if="userUid" class="margin-small" :to="{ name: 'Characters', params: {
       userUid: userUid,
       userDisplayName: userDisplayName
