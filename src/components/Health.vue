@@ -13,7 +13,7 @@
 		</div>
 		<div class='health-wrapper card medium padding-top-small padding-bottom-small padding-right-small flex'>
 				<div v-if="characterStore.sheet.fate" class='flex'>
-					<div class='health-level-title bold font-size-tiny padding-right-small'>{{ fateNiceName }}:</div>
+					<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
 					<div
 						v-for='index in characterStore.sheet.fate'
 						:key='index'
@@ -22,7 +22,7 @@
 				</div>
 			</div>
 			<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='flex'>
-				<div class='health-level-title bold font-size-tiny padding-right-small'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}:</div>
+				<div class='health-level-title bold font-size-nano padding-right-small'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}:</div>
 				<div
 					v-for='index in healthLevel.currentStrain.damage'
 					:key='"damage-" + index'
@@ -133,7 +133,7 @@
 		border: 1px solid #559c1e;
 		border-radius: 5px;
 		margin-right: 2px;
-		margin-bottom: 1px;
+		margin-bottom: 3px;
 	}
 	.damage {
 		background-color: rgb(218, 114, 95);
@@ -157,7 +157,6 @@
 	.health-level-title {
 		min-width: 10rem;
 		text-align: right;
-		margin-top: -0.30rem;
-		padding-top: 1px;
+		margin-top: -0.4rem;
 	}
 </style>

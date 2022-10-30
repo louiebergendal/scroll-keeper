@@ -2,7 +2,12 @@
 	<div class='attribute padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half attribute-headline align-center'>
-				<img class="attribute-icon" :src="attributeIcon" /><span :class="{'invalid-text': attributeAffectedByDefect}" class='trait-card-align attribute-headline font-size-small bold'>{{ attribute.shortName }}</span>
+				<img class="attribute-icon" :src="attributeIcon" />
+				<span
+					:class="{'invalid-text': attributeAffectedByDefect}"
+					class='trait-card-align attribute-headline font-size-small'>
+						<span class="bold">{{ attribute.shortName }}</span>
+				</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
 				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny attribute-value-align bold'>{{ characterAttributes[attributeProp.key] }}</span>
@@ -15,13 +20,13 @@
 				class='width-whole flex'
 			>
 				<div
-					class='width-half card medium padding-nano align-center'
+					class='attribute-skill width-half card medium padding-nano align-center'
 					:class="{
 						'invalid-background': contains(invalidLevels, skill.key),
 						'attribute-skill-top': skillIndex === 0,
 						'attribute-skill-bottom': skillIndex === 1
 					}">
-					<!-- taken -->
+					<div v-if="contains(characterTraits, skill.key)" class="attribute-skill-marker"></div>
 					<span
 						class='font-size-tiny trait-card-align'
 						:class="{'bold': contains(characterTraits, skill.key)}"

@@ -6,6 +6,8 @@
     </router-link>
     |
     -->
+    <div class="foldout-menu">
+    </div>
     <router-link v-if="userUid" class="margin-small" :to="{ name: 'Characters', params: {
       userUid: userUid,
       userDisplayName: userDisplayName
@@ -95,8 +97,5 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./style/themes/_warm.scss";
-.main-nav {
-  margin-left: 5rem;
-}
+  @import "./style/themes/_warm.scss";
 </style>

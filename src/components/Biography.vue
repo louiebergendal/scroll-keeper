@@ -2,32 +2,41 @@
 	<div v-if="hasComplexPayload" class='card dark padding-bottom-small margin-bottom-medium'>
 		<div class="align-center bold padding-tiny">Bakgrund</div>
 		<div class="flex">
-			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{peopleNiceName}}: </div>
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{backgroundCategoryNiceNames.people}}: </div>
 			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
-				<span class="align">
-					{{getTraitNiceName(peopleMandatorySkills)}},
-					{{getTraitNiceName(peopleChosenSkills)}}
-				</span>
+				<div class="align padding-bottom-tiny">
+					<span class="bold">{{peopleNiceName}}: </span>
+					<span class="font-size-nano">
+						{{getTraitNiceName(peopleMandatorySkills)}},
+						{{getTraitNiceName(peopleChosenSkills)}}
+					</span>
+				</div>
 			</div>
 		</div>
 
 		<div class="flex">
-			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{upbringingNiceName}}:</div>
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{backgroundCategoryNiceNames.upbringing}}:</div>
 			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
-				<span class="align">
-					{{getTraitNiceName(upbringingChosenSkills1)}},
-					{{getTraitNiceName(upbringingChosenSkills2)}}
-				</span>
+				<div class="align padding-bottom-tiny">
+					<span class="bold">{{upbringingNiceName}}: </span>
+					<span class="font-size-nano">
+						{{getTraitNiceName(upbringingChosenSkills1)}},
+						{{getTraitNiceName(upbringingChosenSkills2)}}
+					</span>
+				</div>
 			</div>
 		</div>
 
 		<div class="flex">
-			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{professionNiceName}}:</div>
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{backgroundCategoryNiceNames.profession}}:</div>
 			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
-				<span class="align">
-					{{getTraitNiceName(professionChosenSkills1)}},
-					{{getTraitNiceName(professionChosenSkills2)}}
-				</span>
+				<div class="align padding-bottom-tiny">
+					<span class="bold">{{professionNiceName}}: </span>
+					<span class="font-size-nano">
+						{{getTraitNiceName(professionChosenSkills1)}},
+						{{getTraitNiceName(professionChosenSkills2)}}
+					</span>
+				</div>
 			</div>
 		</div>
 
@@ -37,7 +46,7 @@
 <script>
 	import { useCharacterStore } from '../stores/character'
 	import { getTraitNiceName } from '../rules/characteristics/traits'
-	import background from '../rules/complexTraits/background/background'
+	import background, { backgroundCategoryNiceNames } from '../rules/complexTraits/background/background'
 	import { ref } from 'vue';
 
 	export default {
@@ -74,6 +83,7 @@
 				professionChosenSkills2,
 
 				getTraitNiceName,
+				backgroundCategoryNiceNames,
 				background
 			}
 		},

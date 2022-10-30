@@ -1,6 +1,5 @@
 <template>
 	<div class='card dark padding-top-small padding-right-tiny padding-left-tiny'>
-		<h3 class="margin-top-nano align-center">Grundegenskaper</h3>
 		<Attribute :attribute='attributes.battle' :iconUrl='"iconKam"' />
 		<Attribute :attribute='attributes.agility' :iconUrl='"iconSmi"'/>
 		<Attribute :attribute='attributes.spirit' :iconUrl='"iconAnd"'/>
