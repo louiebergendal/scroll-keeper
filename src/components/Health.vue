@@ -6,8 +6,8 @@
 			<div class="flex margin-bottom-tiny health-button-wrapper">
 				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(dealDamage)">Tag 1 Skada</button>
 				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(dealFatigue)">Tag 1 Utmattning</button>
-				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(healDamage)">Hela 1 Skada</button>
-				<button type="submit" class="health-button margin-bottom-tiny -small" @click="addStrainToDB(healFatigue)">Hela 1 Utmattning</button>
+				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(healDamage)">Läk 1 Skada</button>
+				<button type="submit" class="health-button margin-bottom-tiny -small" @click="addStrainToDB(healFatigue)">Läk 1 Utmattning</button>
 			</div>
 
 		</div>

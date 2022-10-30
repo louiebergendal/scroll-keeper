@@ -2,7 +2,7 @@
 	<div class='attribute padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half align-center'>
-				<span :class="{'invalid-text': attributeAffectedByDefect}" class='trait-card-align font-size-tiny bold'>{{ attribute.shortName }}</span>
+				<span :class="{'invalid-text': attributeAffectedByDefect}" class='trait-card-align font-size-small bold'>{{ attribute.shortName }}</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
 				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny attribute-value-align bold'>{{ characterAttributes[attributeProp.key] }}</span>
@@ -23,16 +23,8 @@
 					}">
 					<!-- taken -->
 					<span
-						v-if='contains(characterTraits, skill.key)'
-						class='font-size-nano bold trait-card-align'
-					>
-						- {{ skill.name }} -
-					</span>
-
-					<!-- not taken -->
-					<span
-						v-if='!contains(characterTraits, skill.key)'
-						class='font-size-nano font-contrast-low trait-card-align'
+						class='font-size-tiny trait-card-align'
+						:class="{'bold': contains(characterTraits, skill.key)}"
 					>
 						{{ skill.name }}
 					</span>
@@ -63,14 +55,14 @@
 					<div class='padding-nano padding-right-medium'>
 						<span
 							v-if='contains(characterTraits, skill.key)'
-							class='trait-card-align font-size-nano align-right bold'
+							class='trait-card-align font-size-tiny align-right bold'
 							:class='{"invalid-text": contains(invalidLevels, skill.key)}'
 						>
 							{{ setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key])) }}
 						</span>
 						<span
 							v-if='!contains(characterTraits, skill.key)'
-							class='trait-card-align font-size-nano align-right'
+							class='trait-card-align font-size-tiny align-right'
 							:class='{ "font-contrast-lowest": characterAttributes[attributeProp.key] < (skill.addProficiencyBonus(baseValue)) }'
 						>
 							{{ setAttributeValueName(characterAttributes[attributeProp.key]) }}
