@@ -26,7 +26,11 @@
 						'attribute-skill-top': skillIndex === 0,
 						'attribute-skill-bottom': skillIndex === 1
 					}">
-					<div v-if="contains(characterTraits, skill.key)" class="attribute-skill-marker"></div>
+					<div
+						v-if="contains(characterTraits, skill.key)"
+						class="attribute-skill-marker"
+					>
+					</div>
 					<span
 						class='font-size-tiny trait-card-align'
 						:class="{'bold': contains(characterTraits, skill.key)}"
