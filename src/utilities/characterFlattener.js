@@ -73,10 +73,12 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		// TRAITS
 		for (const traitKey in traitList) {
 			if (currentLevel.complexPayload) {
-				for (const choiceCategory in currentLevel.complexPayload) { // ex. 'people'
-					for (const choiceGroup in currentLevel.complexPayload[choiceCategory].choices) { // ex. 1
-						for (const choiceKey in currentLevel.complexPayload[choiceCategory].choices[choiceGroup]) { // ex. 'basicKnowledgeDavand
-							if (!contains(characterTraitList, currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey])) {
+				const levelComplexPayload = currentLevel.complexPayload
+				for (const choiceCategory in levelComplexPayload) { // ex. 'people'
+					const skillChoicesList = levelComplexPayload[choiceCategory].choices
+					for (const choiceGroup in skillChoicesList) { // ex. 1
+						for (const choiceKey in skillChoicesList[choiceGroup]) { // ex. 'basicKnowledgeDavand
+							if (!contains(characterTraitList, currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey]) && currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey].length > 0) {
 								characterTraitList.push(currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey])
 							}
 						}

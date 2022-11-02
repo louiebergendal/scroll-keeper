@@ -1,7 +1,16 @@
 <template>
     <div class='card medium padding-tiny'>
+		
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Klicka på knappen för att bli bättre</h3>
-		<button :disabled="!levelIsChangable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewStaticLevel()">Öka {{ traitToBeIncreased }}</button>
+		<button 
+			:disabled="!levelIsChangable"
+			type="submit"
+			class="margin-top-tiny margin-left-nano"
+			@click="submitNewStaticLevel()"
+		>
+			Öka {{ traitToBeIncreased }}
+		</button>
+
 	</div>
 </template>
 

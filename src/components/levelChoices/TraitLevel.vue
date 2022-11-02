@@ -1,5 +1,5 @@
 <template>
-    <div class='card medium padding-tiny'>
+	<div class='card medium padding-tiny'>
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Välj en grej!</h3>
 		Vald bonus: {{ getTraitNiceName(tempLevelChoiceKey) }}
 
@@ -7,51 +7,138 @@
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
 
 			<!-- trait is owned by tempCharacter (and clicked) but not valid --> 
-			<div v-if="contains(key, tempValidationSheet.metadata.invalidLevels) && key === tempLevelChoiceKey" class="card invalid flex width-whole">
-				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
-				<label for="{{trait.key}}" class="bold font-contrast-high"> {{ trait.name }} </label>
-				<div v-for="(requiredTrait, key) in trait.requirements.traits" :key='key' class="flex margin-left-small">
-					<p v-if="allSkills()[requiredTrait]" >Färdighetskrav: {{getTraitNiceName(requiredTrait)}}</p>
-					<p v-if="allTalents()[requiredTrait]" >Talangkrav: {{getTraitNiceName(requiredTrait)}}</p>
-				</div>
-				<div v-for="(requiredAttribute, key) in trait.requirements.attributes" :key='key' class="flex margin-left-small">Grundegenskapskrav {{key}}: {{requiredAttribute}}</div>
-				<div v-if="trait.requirements.metadata && trait.requirements.metadata.isChosenByFate">
-					Karaktären måste vara ödesvald
-				</div>
-				<div v-if="trait.requirements.metadata && trait.requirements.metadata.level">
-					Erfarenhetskrav: {{trait.requirements.metadata.level}}
+			<div v-if="
+				(
+					contains(invalidLevels, key)
+					&&
+					contains(Object.keys(invalidLevels), selectedLevel.toString())
+					&&
+					trait.key === tempLevelChoiceKey
+				)"
+				class="card invalid flex width-whole"
+			>
+				<input type="radio" id="{{key}}" disabled="true" checked class="margin-tiny"/>
+				<label for="{{key}}" class="bold font-contrast-high"> {{ trait.name }} </label>
+
+				<!-- user guidance -->
+				<div v-if="trait.requirements">
+					<div v-for="(requiredTrait, key) in trait.requirements.traits" :key='key' class="flex margin-left-small">
+						<p v-if="allSkills()[requiredTrait]" >Färdighetskrav: {{getTraitNiceName(requiredTrait)}}</p>
+						<p v-if="allTalents()[requiredTrait]" >Talangkrav: {{getTraitNiceName(requiredTrait)}}</p>
+					</div>
+					<div v-for="(requiredAttribute, key) in trait.requirements.attributes" :key='key' class="flex margin-left-small">
+						Grundegenskapskrav {{key}}: {{requiredAttribute}}
+					</div>
+					<div v-if="trait.requirements.metadata && trait.requirements.metadata.isChosenByFate" class="flex margin-left-small">
+						Karaktären måste vara ödesvald
+					</div>
+					<div v-if="trait.requirements.metadata && trait.requirements.metadata.level" class="flex margin-left-small">
+						Erfarenhetskrav: {{trait.requirements.metadata.level}}
+					</div>
 				</div>
 			</div>
 
 			<!-- trait is owned by tempCharacter but not valid -->
-			<div v-if="contains(key, tempValidationSheet.metadata.invalidLevels) && key !== tempLevelChoiceKey" class="card light width-whole">
+			<div v-if="
+				(
+					contains(
+						invalidLevels,
+						key
+					)
+					&&
+					trait.key !== tempLevelChoiceKey
+				)"
+				class="card light width-whole"
+			>
 				<input type="radio" id="{{trait.key}}" disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is already owned by tempCharacter -->
-			<div v-if="contains(tempCharacterTraitsList, trait.key) && !contains(key, tempValidationSheet.metadata.invalidLevels)" class="card dark flex width-whole">
+			<div v-if="contains(tempCharacterTraitsList, trait.key) && !contains(invalidLevels, key)" class="card dark flex width-whole">
 				<input type="radio" id="{{trait.key}}" disabled="true" checked class="margin-tiny"/>
 				<label for="{{trait.key}}" class="bold font-contrast-low"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is not owned by tempCharacter and cannot be chosen -->
-			<div v-if="(!contains(tempCharacterTraitsList, trait.key) && !canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel)) && !contains(key, tempValidationSheet.metadata.invalidLevels)" class="card light width-whole">
+			<div v-if="
+				(
+					!contains(
+						tempCharacterTraitsList,
+						trait.key
+					)
+					&&
+					!canChooseTrait(
+						trait.key,
+						tempCharacterSheet.traits,
+						tempCharacterSheet.attributes,
+						tempCharacterSheet.metadata.isChosenByFate,
+						selectedLevel
+					)
+				)
+				&&
+				!contains(
+					invalidLevels,
+					key
+				)"
+				class="card light width-whole"
+			>
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait"  disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
 			</div>
 
 			<!-- trait is not owned by tempCharacter and can be chosen -->
-			<div v-if="(!contains(tempCharacterTraitsList, trait.key) && canChooseTrait(trait.key, tempCharacterSheet.traits, tempCharacterSheet.attributes, tempCharacterSheet.metadata.isChosenByFate, selectedLevel))" :checked="trait.key === tempLevelChoiceKey" class="card medium width-whole">
+			<div v-if="
+				(
+					!contains(
+						tempCharacterTraitsList,
+						trait.key
+					) 
+					&& 
+					canChooseTrait(
+						trait.key,
+						tempCharacterSheet.traits,
+						tempCharacterSheet.attributes,
+						tempCharacterSheet.metadata.isChosenByFate,
+						selectedLevel
+					)
+				)"
+				:checked="trait.key === tempLevelChoiceKey"
+				class="card medium width-whole"
+			>
 				<input type="radio" id="{{trait.key}}" :value='trait.key' v-model="tempLevelChoiceKey" name="trait" class="margin-tiny"/>
 				<label for="{{trait.key}}"> {{ trait.name }} </label>
-				<div v-if="contains(Object.keys(trait), 'complexTrait')">
-					<Background :characterStore="characterStore" @complex-payload="complexPayload"/>
+
+				<div v-if="(contains(Object.keys(trait), 'complexTrait') && trait.key === 'background')">
+					<Background :characterStore="characterStore" @complex-payload="complexPayload" />
+				</div>
+				<div v-if="(contains(Object.keys(trait), 'complexTrait') && trait.key === 'scholar' && tempLevelChoiceKey === 'scholar')">
+					<Scholar :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
+				</div>
+				<div v-if="(contains(Object.keys(trait), 'complexTrait') && trait.key === 'pathfinder' && tempLevelChoiceKey === 'pathfinder')">
+					<Pathfinder :tempCharacterSheet="tempCharacterSheet" @complex-payload="complexPayload"/>
 				</div>
 			</div>
 
 		</div>
-		<button :disabled="!levelIsChangable || !tempLevelChoiceKey || (traits[tempLevelChoiceKey].complexTrait && !hasFullComplexPayload)" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewTraitLevel()">Submitta!</button>
+		<button :disabled="
+			(
+				!levelIsChangable
+				||
+				!tempLevelChoiceKey
+				||
+				(
+					traits[tempLevelChoiceKey].complexTrait
+					&&
+					!hasFullComplexPayload
+				)
+			)"
+			type="submit"
+			class="margin-top-tiny margin-left-nano"
+			@click="submitNewTraitLevel()"
+		>
+			Submitta!
+		</button>
 	</div>
 </template>
 
@@ -61,10 +148,14 @@
 	import { contains } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import Background from './complexTalents/Background.vue'
+	import Scholar from './complexTalents/Scholar.vue'
+	import Pathfinder from './complexTalents/Pathfinder.vue'
 
 	export default {
 		components: {
-			Background
+			Pathfinder,
+			Background,
+			Scholar
 		},
 		props: ['selectedLevel', 'traitType', 'characterStore'],
 		emits: ['complexPayload'],
@@ -74,8 +165,10 @@
 			const traitType = props.traitType
 		
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
-			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel) 
 			const tempCharacterTraitsList = tempCharacterSheet.traits
+
+			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
+			const invalidLevels = tempValidationSheet.metadata.invalidLevels
 
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 			const complexTraitData = ref({})
@@ -95,6 +188,7 @@
 				tempCharacterTraitsList,
 				tempCharacterSheet,
 				tempValidationSheet,
+				invalidLevels,
 				tempLevelChoiceKey,
 				characterStore,
 				selectedLevel,
@@ -106,7 +200,6 @@
 				getTraitNiceName,
 				allSkills,
 				allTalents
-
 			}
 		},
 		methods: {

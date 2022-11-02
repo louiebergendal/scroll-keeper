@@ -216,6 +216,7 @@ export function independentCharacterTalents(characterTraits) {
 * The returned value will have the same format as the input 'value' param.
 */
 export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitList) {
+
 	let characterTraits = {}
 	characterTraitList.forEach((traitKey) => {
 		characterTraits[traitKey] = allTraits()[traitKey]

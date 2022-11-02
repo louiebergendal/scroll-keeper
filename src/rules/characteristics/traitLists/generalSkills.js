@@ -9,7 +9,7 @@ import {
 } from '../../mechanics.js'
 
 const animalHusbandry = {
-    key: 'animalHusbandry', // should the key have the same spelling as the object?
+    key: 'animalHusbandry',
     name: 'Djurskötsel',
     addAdvantage: (advantage) => addAdvantage(advantage),
     addLoyalAnimal: (beast) => beast.loyal = true

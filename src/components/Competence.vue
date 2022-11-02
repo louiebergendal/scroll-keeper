@@ -15,7 +15,7 @@
 	import { useCharacterStore } from '../stores/character'
 
 	export default {
-		setup(props) {
+		setup() {
 			const characterStore = useCharacterStore()
 
 			return {

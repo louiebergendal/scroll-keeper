@@ -1,5 +1,14 @@
 <template>
 	<div>
+		<!-- NAME -->
+		<div class="card margin-small padding-small">
+			NAME:
+			<label for="character-name" >
+				<input type="text" id="character-name" v-model="characterName" @change="renameCharacter">
+			</label>
+
+		</div>
+
 		<!-- PEOPLES -->
 		<div class="card margin-small padding-small">
 			Peoples: 
@@ -10,6 +19,7 @@
 				@input="inputEventHandler"
 			/>
 			<div v-if="peoplesChoiceKey">
+				<hr>
 				<hr>
 				<div>
 					<div :key="skill" v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills">
@@ -44,6 +54,7 @@
 			/>
 			<div v-if="upbringingsChoiceKey">
 				<hr>
+				<hr>
 				<div>
 					<RadioButtonGroup
 						:options="upbringingsOptions[upbringingsChoiceKey].skillsLists[0].list"
@@ -52,6 +63,7 @@
 						:invalidOptionsList="invalidUpbringingsChoicesList" 
 						@input="inputEventHandler"
 					/>
+					<hr>
 					<RadioButtonGroup
 						:options="upbringingsOptions[upbringingsChoiceKey].skillsLists[1].list"
 						:selected="setSelectedIfValid(invalidKnowledgeSkillsForUpbringingsChoicesList, upbringingsSkillsChoiceList?.[1]?.toString())"
@@ -75,6 +87,7 @@
 			/>
 			<div v-if="professionsChoiceKey">
 				<hr>
+				<hr>
 				<div>
 					<RadioButtonGroup
 						:options="professionsOptions[professionsChoiceKey].skillsLists[0].list"
@@ -83,6 +96,7 @@
 						:invalidOptionsList="invalidProfessionsChoicesList"
 						@input="inputEventHandler"
 					/>
+					<hr>
 					<RadioButtonGroup
 						:options="professionsOptions[professionsChoiceKey].skillsLists[1].list"
 						:selected="setSelectedIfValid(invalidKnowledgeSkillsForProfessionsChoicesList, professionsSkillsChoiceList?.[1]?.toString())"
@@ -112,7 +126,8 @@
 		},
 		props: ['characterStore'],
 		setup(props) {
-			const characterStore = props.characterStore
+			const characterStore = props.characterStore // should we use store or tempSheet?
+			const characterName = ref(characterStore.metadata.name)
 
 			// --- PEOPLES ---
 
@@ -130,10 +145,9 @@
 
 			// Chosen People Optional Skills - PROXY
 			const peoplesSkillsChoiceList = 
-					characterStore.history[1].complexPayload.people.choices
-						? Object.values(characterStore.history[1].complexPayload.people.choices)[1]
-						: []
-
+				characterStore.history[1].complexPayload.people.choices
+					? Object.values(characterStore.history[1].complexPayload.people.choices)[1]
+					: []
 			const invalidPeoplesChoicesList = ref([])
 			const invalidKnowledgeSkillsForPeoplesChoicesList = ref([])
 
@@ -166,12 +180,12 @@
 				characterStore.history[1].complexPayload.profession.choices
 					? Object.values(characterStore.history[1].complexPayload.profession.choices)
 					: []
-
 			const invalidProfessionsChoicesList = ref([])
 			const invalidKnowledgeSkillsForProfessionsChoicesList = ref([])
 
 			return {
 				characterStore,
+				characterName,
 
 				peoplesOptions,
 				peoplesChoiceKey,
@@ -264,6 +278,7 @@
 
 			},
 			inputEventHandler(data) {
+
 				// peoples
 				if (data.id === 'peoples') {
 					this.peoplesChoiceKey = data.option
@@ -327,6 +342,9 @@
 				}
 
 				this.$emit('complexPayload', complexPayload)
+			},
+			renameCharacter(data) {
+				this.characterStore.updateCharacterName(data.target.value)
 			}
 		}
 	}

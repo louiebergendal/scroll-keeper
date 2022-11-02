@@ -10,6 +10,10 @@ import {
     addProficiencyBonus
 } from '../../mechanics.js'
 
+import knowledgeSkills from './knowledgeSkills'
+import favouredTerrainSkills from './favouredTerrainSkills'
+
+
 import complexTraitBackground from '../../complexTraits/background/background'
 
 // * * * Exports * * * //
@@ -72,7 +76,12 @@ export const scholar = {
 		}
 	},
 	retroactivelyAddInformationRollBonus: (rollResult) => addProficiencyBonus(rollResult, 2),
-	appendToTraitList: (characterTraitList, traitsToAppend) => characterTraitList.concat(traitsToAppend)
+	complexTrait: {
+		0: {
+			choices: 2,
+			list: knowledgeSkills
+		}
+	}
 }
 
 export const quiet = {
@@ -104,8 +113,8 @@ export const scrutiny = {
     addProficiencyBonus: (mv) => addProficiencyBonus(mv, 2),
 }
 
-export const pathFinder = {
-	key: 'pathFinder',
+export const pathfinder = {
+	key: 'pathfinder',
 	name: 'Stigfinnare',
 	requirements: {
 		metadata: {
@@ -116,7 +125,12 @@ export const pathFinder = {
 	addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
 	addForagingBonus: (provisions) => provisions += 2,
 	addMoraleBonus: (morale) => morale += 1,
-	appendToTraitList: (characterTraitList, traitsToAppend) => characterTraitList.concat(traitsToAppend)
+	complexTrait: {
+		0: {
+			choices: 1,
+			list: favouredTerrainSkills
+		}
+	}
 }
 
 export const silverTongued = {
@@ -275,7 +289,7 @@ export default {
 	scrutiny,
 	steady,
 	quick,
-	pathFinder,
+	pathfinder,
 	silverTongued,
 	scholar,
 	spellCaster,

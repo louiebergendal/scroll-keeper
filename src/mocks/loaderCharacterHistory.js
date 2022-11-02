@@ -19,22 +19,34 @@ export const loaderCharacter = {
 				people: {
 					key: '',
 					choices: {
-						0: {},
-						1: {},
+						0: {
+							0: ''
+						},
+						1: {
+							0: ''
+						},
 					}
 				},
 				upbringing: {
 					key: '',
 					choices: {
-						0: {},
-						1: {},
+						0: {
+							0: ''
+						},
+						1: {
+							0: ''
+						},
 					}
 				},
 				profession: {
 					key: '',
 					choices: {
-						0: {},
-						1: {},
+						0: {
+							0: ''
+						},
+						1: {
+							0: ''
+						},
 					}
 				}
 			}

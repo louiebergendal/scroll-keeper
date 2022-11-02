@@ -65,7 +65,7 @@
 			const professionNiceName = ref('')
 			const professionChosenSkills1 = ref([])
 			const professionChosenSkills2 = ref([])
-			console.log(background)
+
 			return {
 				characterStore,
 				hasComplexPayload,
@@ -89,7 +89,9 @@
 		},
 		beforeMount() {
 			this.characterStore.$subscribe((_mutation, state) => {
+
 				const complexPayload = state.history[1].complexPayload
+
 				this.hasComplexPayload = complexPayload.people.key !== ''
 				if (this.hasComplexPayload) {
 					this.peopleNiceName = background.peoples[complexPayload.people.key].niceName

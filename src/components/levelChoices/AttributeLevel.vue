@@ -17,7 +17,7 @@
 				<div
 					:class="{
 						'invalid-background': attributeChoiceIsNotValidButIsSelected(
-							tempValidationSheet.metadata.invalidLevels,
+							invalidLevels,
 							attribute.key,
 							tempLevelChoiceKey
 						)
@@ -34,14 +34,14 @@
 						class="margin-tiny"
 					/>
 
-					<label for="{{attribute.key}}"> {{getAttributeShortName(attribute.key)}} </label>
+					<label for="{{attribute.key}}"> {{getAttributeLongName(attribute.key)}} </label>
 				</div>
 
 				<div
 					v-if="tempLevelChoiceKey === attribute.key"
 					:class="{
 						'invalid': attributeChoiceIsNotValidButIsSelected(
-							tempValidationSheet.metadata.invalidLevels,
+							invalidLevels,
 							attribute.key,
 							tempLevelChoiceKey
 						)
@@ -64,25 +64,26 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue'
 	import { attributes, getAttributeShortName, getAttributeLongName, canChooseAttribute } from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import { contains } from '../../rules/utils'
 
 	export default {
-		props: ['selectedLevel'],
+		props: ['selectedLevel', 'characterStore'],
 		setup(props) {
-			const characterStore = useCharacterStore()
+			const characterStore = props.characterStore
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
+
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
-			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
 			const tempCharacterAttributes = tempCharacterSheet.attributes
+
+			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
+			const invalidLevels = tempValidationSheet.metadata.invalidLevels
+
 			let originalLevelChoiceKey = ''
-
 			if (selectedLevel <= characterStore.metadata.level) originalLevelChoiceKey = characterStore.history[selectedLevel].choice
-
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
 			return {
@@ -91,7 +92,7 @@
 				selectedLevel,
 
 				tempCharacterAttributes,
-				tempValidationSheet,
+				invalidLevels,
 				tempLevelChoiceKey,
 
 				getAttributeShortName,
@@ -103,7 +104,7 @@
 		},
 		methods: {
 			attributeChoiceIsNotValidButIsSelected(invalidLevels, attributeKey, tempLevelChoiceKey) {
-				if (contains(attributeKey, invalidLevels)) {
+				if (contains(invalidLevels, attributeKey)) {
 					for (const invalidLevel in invalidLevels) {
 						if (invalidLevels[invalidLevel] === tempLevelChoiceKey) return true
 					}

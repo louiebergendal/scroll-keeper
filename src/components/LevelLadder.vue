@@ -14,7 +14,7 @@
 							<TraitLevel :selectedLevel="currentTabIndex" :characterStore="characterStore" :traitType="'skill'" @update-tabs="updateLevelTabData" />
 						</div>
 						<div v-if="level.levelBonus === 'attribute'">
-							<AttributeLevel :selectedLevel="currentTabIndex" @update-tabs="updateLevelTabData" />
+							<AttributeLevel :selectedLevel="currentTabIndex" :characterStore="characterStore" @update-tabs="updateLevelTabData" />
 						</div>
 						<div v-if="level.levelBonus === 'talent'">
 							<TraitLevel :selectedLevel="currentTabIndex" :characterStore="characterStore" :traitType="'talent'" @update-tabs="updateLevelTabData" />
@@ -60,7 +60,6 @@
 			const currentTabIndex = ref(0)
 			const levelTabDataList = ref([])
 			const levelList = ref([])
-
 
 			return {
 				Wizard,
