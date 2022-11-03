@@ -1,6 +1,8 @@
 <template>
-	<div v-if="!loading" class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
+	<div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
+
 		<h3 class='health margin-top-nano align-center'>Hälsa ({{characterStore.sheet.health.well.max}})</h3>
+
 		<div class="flex">
 			<div class="health-level-title"></div>
 			<div class="flex margin-bottom-tiny health-button-wrapper">
@@ -9,8 +11,8 @@
 				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(healDamage)">Läk 1 Skada</button>
 				<button type="submit" class="health-button margin-bottom-tiny -small" @click="addStrainToDB(healFatigue)">Läk 1 Utmattning</button>
 			</div>
-
 		</div>
+
 		<div class='health-wrapper card medium padding-top-small padding-bottom-tiny padding-right-small flex'>
 				<div v-if="characterStore.sheet.fate" class='flex'>
 					<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
@@ -43,6 +45,7 @@
 				</div>
 			</div>
 		</div>
+
 	</div>
 </template>
 
@@ -50,13 +53,13 @@
 	import { useCharacterStore } from '../stores/character'
 	import { getHealthLevelNiceName } from '../rules/characteristics/secondaryCharacteristics/health'
 	import { fateNiceName } from '../rules/characteristics/fate'
-	import { ref } from 'vue'
 	//import { dealStrain } from '../rules/strain'
 
 	export default {
 		setup() {
-			let characterStore = useCharacterStore()
-
+			const characterStore = useCharacterStore()
+			const totalHealth = characterStore.sheet.health
+			
 			// inför "maxFate" och "currentFate"
 
 			const dealDamage = {
@@ -76,13 +79,11 @@
 				fatigue: -1
 			}
 
-			const loading = ref(true)
-
-			for (let healthLevel in characterStore.sheet.health) {
-				characterStore.sheet.health[healthLevel]._frontend_title = healthLevel
-				characterStore.sheet.health[healthLevel]._frontend_remainder = 0
-				characterStore.sheet.health[healthLevel]._frontend_remainder =
-				characterStore.sheet.health[healthLevel].max - (characterStore.sheet.health[healthLevel].currentStrain.damage + characterStore.sheet.health[healthLevel].currentStrain.fatigue)
+			for (let healthLevel in totalHealth) {
+				totalHealth[healthLevel]._frontend_title = healthLevel
+				totalHealth[healthLevel]._frontend_remainder = 0
+				totalHealth[healthLevel]._frontend_remainder =
+				totalHealth[healthLevel].max - (totalHealth[healthLevel].currentStrain.damage + totalHealth[healthLevel].currentStrain.fatigue)
 			}
 
 			return {
@@ -93,23 +94,22 @@
 				healFatigue,
 				fateNiceName,
 				getHealthLevelNiceName,
-
-				loading
 			}
 		},
-		beforeMount() {
-			this.loading = false
-		},
+
 		methods: {
 			addStrainToDB(strain) {
+				let currentDamage = this.characterStore.state.currentStrain.damage
+				let currentFatigue = this.characterStore.state.currentStrain.fatigue
 
-				if (this.characterStore.state.currentStrain.damage < 0) { this.characterStore.state.currentStrain.damage = 0 }
-				if (this.characterStore.state.currentStrain.fatigue < 0) { this.characterStore.state.currentStrain.fatigue = 0 }
+				if (currentDamage < 0) { currentDamage = 0 }
+				if (currentFatigue < 0) { currentFatigue = 0 }
 
 				const newStrain = {
-					damage: this.characterStore.state.currentStrain.damage += strain.damage,
-					fatigue: this.characterStore.state.currentStrain.fatigue += strain.fatigue
+					damage: currentDamage += strain.damage,
+					fatigue: currentFatigue += strain.fatigue
 				}
+				
 				if (newStrain.damage < 0) { newStrain.damage = 0 }
 				if (newStrain.fatigue < 0) { newStrain.fatigue = 0 }
 

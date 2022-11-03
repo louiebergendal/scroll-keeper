@@ -13,7 +13,7 @@
 <script>
 	export default {
 		props: ["level", "levelBonus", "hasChosen", "choice"],
-		setup(props) {
+		setup() {
 			return {
 				
 			}

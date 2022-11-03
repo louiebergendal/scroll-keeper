@@ -33,10 +33,8 @@
 						:disabled="!canChooseAttribute(tempCharacterAttributes[attribute.key], selectedLevel)"
 						class="margin-tiny"
 					/>
-
 					<label for="{{attribute.key}}"> {{getAttributeLongName(attribute.key)}} </label>
 				</div>
-
 				<div
 					v-if="tempLevelChoiceKey === attribute.key"
 					:class="{
@@ -50,11 +48,9 @@
 				>
 					{{tempCharacterAttributes[attribute.key]}} + 1
 				</div>
-
 				<div v-if="tempLevelChoiceKey !== attribute.key" class="card dark width-fourth margin-left-tiny align-center">
 					{{tempCharacterAttributes[attribute.key]}}
 				</div>
-
 			</div>
 		</div>
 

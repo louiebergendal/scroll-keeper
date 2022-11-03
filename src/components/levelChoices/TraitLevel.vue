@@ -41,17 +41,15 @@
 			<!-- trait is owned by tempCharacter but not valid -->
 			<div v-if="
 				(
-					contains(
-						invalidLevels,
-						key
-					)
+					contains(invalidLevels, key)
 					&&
 					trait.key !== tempLevelChoiceKey
 				)"
-				class="card light width-whole"
+				class="card invalid width-whole"
 			>
 				<input type="radio" id="{{trait.key}}" disabled="true" class="margin-tiny"/>
 				<label for="{{trait.key}}" class="font-contrast-lowest"> {{ trait.name }} </label>
+				<div>Egenskapen har plockats olagligt på erfarenhetsnivå {{Object.keys(invalidLevels).find(element => element !== trait.key)}}</div>
 			</div>
 
 			<!-- trait is already owned by tempCharacter -->
@@ -63,10 +61,7 @@
 			<!-- trait is not owned by tempCharacter and cannot be chosen -->
 			<div v-if="
 				(
-					!contains(
-						tempCharacterTraitsList,
-						trait.key
-					)
+					!contains(tempCharacterTraitsList,trait.key)
 					&&
 					!canChooseTrait(
 						trait.key,
@@ -90,9 +85,7 @@
 			<!-- trait is not owned by tempCharacter and can be chosen -->
 			<div v-if="
 				(
-					!contains(
-						tempCharacterTraitsList,
-						trait.key
+					!contains(tempCharacterTraitsList, trait.key
 					) 
 					&& 
 					canChooseTrait(

@@ -13,9 +13,6 @@ import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCha
 import { calculateInitiative } from '../rules/characteristics/secondaryCharacteristics/initiative'
 import { calculatePower } from '../rules/characteristics/secondaryCharacteristics/power'
 import { calculateMaxActionPoints } from '../rules/characteristics/secondaryCharacteristics/actionPoints'
-import { complexTalents } from '../rules/characteristics/traitLists/talents'
-
-//const traitIsComplexTalent = (traitKey) => contains(complexTalents, traitKey)
 
 const flattenCharacter = (databaseCharacter, targetLevel) => {
 	let characterTraitList = []
