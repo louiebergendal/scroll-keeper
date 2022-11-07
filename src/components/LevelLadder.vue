@@ -61,6 +61,9 @@
 			const levelTabDataList = ref([])
 			const levelList = ref([])
 
+			
+			//const annan = characterStore.filter(skill => skill.complexTalent)
+
 			return {
 				Wizard,
 				experienceTable,
@@ -73,6 +76,7 @@
 		},
 		methods: {
 			updateLevelTabData() {
+
 				this.experienceTable = experienceTableMaker(this.characterStore.metadata.level + 1)
 				this.levelTabDataList.length = 0
 				this.levelList.length = 0

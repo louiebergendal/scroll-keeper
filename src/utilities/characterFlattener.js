@@ -5,9 +5,7 @@ import { baseValue as actionPointBaseValue } from '../rules/characteristics/seco
 import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { baseValue as competenceBaseValue } from '../rules/characteristics/competence'
 import { baseValue as fateBaseValue } from '../rules/characteristics/fate'
-
-import { contains } from '../rules/utils'
-
+import { contains, findDuplicates } from '../rules/utils'
 import { calculateMaxHealthValue, createHealth } from '../rules/characteristics/secondaryCharacteristics/health'
 import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { calculateInitiative } from '../rules/characteristics/secondaryCharacteristics/initiative'
@@ -45,12 +43,13 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 	}
 
 	// one-index because level starts at one
-	for (let i = 1; i <= targetLevel; i++) {
-		if (databaseCharacter.history[i]=== undefined) { break }
-		const currentLevel = databaseCharacter.history[i]
+	for (let levelIndex = 1; levelIndex <= targetLevel; levelIndex++) {
+		if (databaseCharacter.history[levelIndex]=== undefined) { break }
+		const currentLevel = databaseCharacter.history[levelIndex]
 		const bonusType = currentLevel.bonusType
 		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
+
 
 		// COMPETENCE
 		if (bonusType === 'competence')
@@ -69,25 +68,56 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 		// TRAITS
 		for (const traitKey in traitList) {
-			if (currentLevel.complexPayload) {
-				const levelComplexPayload = currentLevel.complexPayload
-				for (const choiceCategory in levelComplexPayload) { // ex. 'people'
-					const skillChoicesList = levelComplexPayload[choiceCategory].choices
-					for (const choiceGroup in skillChoicesList) { // ex. 1
-						for (const choiceKey in skillChoicesList[choiceGroup]) { // ex. 'basicKnowledgeDavand
-							if (!contains(characterTraitList, currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey]) && currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey].length > 0) {
-								characterTraitList.push(currentLevel.complexPayload[choiceCategory].choices[choiceGroup][choiceKey])
+
+			if (traitKey === chosenBonus) {
+				let invalidComplexTraitLevel = []
+
+				// complex payload
+				if (currentLevel.complexPayload) {
+					const levelComplexPayload = currentLevel.complexPayload
+
+					for (const choiceCategory in levelComplexPayload) { // ex. 'people'
+						const skillChoicesList = levelComplexPayload[choiceCategory].choices
+
+						for (const choiceGroup in skillChoicesList) { // ex. 1
+
+							for (const choiceKey in skillChoicesList[choiceGroup]) { // ex. 'basicKnowledgeDavand'
+								const skillChoiceKey = skillChoicesList[choiceGroup][choiceKey]
+
+								if (!contains(characterTraitList, skillChoiceKey) && skillChoiceKey.length > 0) {
+
+									if (bonusType === 'talent' && traitKey !== 'background' && !canChooseTrait(
+										skillChoiceKey,
+										characterTraitList, 
+										baseCharacterSheet.attributes, 
+										baseCharacterSheet.metadata.isChosenByFate, 
+										levelIndex
+									)) {
+										console.log('ping!');
+										console.log('skillChoiceKey: ', skillChoiceKey);
+										console.log('levelIndex: ', levelIndex);
+										// add invalid skill choices to invalidLevels
+										invalidComplexTraitLevel.push(skillChoiceKey)
+									}
+									characterTraitList.push(skillChoiceKey)
+									
+								}
+
 							}
 						}
 					}
 				}
-			}
-			if (traitKey === chosenBonus) {
+
+				if (invalidComplexTraitLevel.length > 0) {
+					console.log('invalidComplexTraitLevel (flattener): ', invalidComplexTraitLevel);
+					invalidComplexTraitLevel.push(traitKey)
+					baseCharacterSheet.metadata.invalidLevels[levelIndex] = invalidComplexTraitLevel
+				}
 				characterTraitList.push(traitKey)
 			}
 		}
 
-		// VALIDATE SKILLS
+		// VALIDATE TALENTS
 		if (bonusType === 'talent' && !canChooseTrait(
 			chosenBonus, 
 			characterTraitList, 
@@ -96,10 +126,10 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			targetLevel
 		)) {
 			// add invalid skill choices to invalidLevels
-			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
+			baseCharacterSheet.metadata.invalidLevels[levelIndex] = chosenBonus
 		}
 
-		// VALIDATE TALENTS
+		// VALIDATE SKILLS
 		if (bonusType === 'skill' && !canChooseTrait(
 			chosenBonus, 
 			characterTraitList, 
@@ -108,13 +138,13 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			targetLevel
 		)) {
 			// add invalid talent choices to invalidLevels
-			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
+			baseCharacterSheet.metadata.invalidLevels[levelIndex] = chosenBonus
 		}
 
 		// VALIDATE ATTRIBUTES
-		if (bonusType === 'attribute' && !canChooseAttribute(baseCharacterSheet.attributes[chosenBonus] - 1, i)) {
+		if (bonusType === 'attribute' && !canChooseAttribute(baseCharacterSheet.attributes[chosenBonus] - 1, levelIndex)) {
 			// add invalid attribute choices to invalidLevels
-			baseCharacterSheet.metadata.invalidLevels[i] = chosenBonus
+			baseCharacterSheet.metadata.invalidLevels[levelIndex] = chosenBonus
 		}
 
 		// * * * SECONDARY CHARACTERISTICS * * * //

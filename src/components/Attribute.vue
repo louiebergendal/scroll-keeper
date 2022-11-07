@@ -19,10 +19,11 @@
 				:key='skill.key'
 				class='width-whole flex'
 			>
+
 				<div
 					class='attribute-skill width-half card medium padding-nano align-center'
 					:class="{
-						'invalid-background': contains(invalidLevels, skill.key),
+						'invalid-background': contains(explodeInvalidList(invalidLevels), skill.key),
 						'attribute-skill-top': skillIndex === 0,
 						'attribute-skill-bottom': skillIndex === 1
 					}">
@@ -49,7 +50,7 @@
 						<span
 							v-if='contains(characterTraits, skill.key)'
 							class='attribute-value-align bold'
-							:class="{'invalid-text': attributeAffectedByDefect || contains(invalidLevels, skill.key)}"
+							:class="{'invalid-text': attributeAffectedByDefect || contains(explodeInvalidList(invalidLevels), skill.key)}"
 						>
 							{{ skill.addProficiencyBonus(characterAttributes[attributeProp.key]) }}
 						</span>
@@ -65,7 +66,7 @@
 						<span
 							v-if='contains(characterTraits, skill.key)'
 							class='trait-card-align font-size-tiny align-right bold'
-							:class='{"invalid-text": contains(invalidLevels, skill.key)}'
+							:class='{"invalid-text": contains(explodeInvalidList(invalidLevels), skill.key)}'
 						>
 							{{ setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key])) }}
 						</span>
@@ -86,7 +87,7 @@
 <script>
 	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
-	import { contains } from '../rules/utils'
+	import { contains, explodeInvalidList } from '../rules/utils'
 	import { useCharacterStore } from '../stores/character'
 	import { ref } from 'vue'
 
@@ -118,7 +119,8 @@
 				baseValue,
 				attributeAffectedByDefect,
 				setAttributeValueName,
-				contains
+				contains,
+				explodeInvalidList
 
 			}
 		},

@@ -78,18 +78,32 @@ nav {
   vertical-align: baseline !important;
 }
 
-.invalid-background {
-  background-color: rgb(247, 63, 46) !important;
-  font-weight: bold;
-  color: #fff;
-  .attribute-skill-marker {
-    filter: invert(98%) sepia(5%) saturate(401%) hue-rotate(11deg) brightness(200%) contrast(100%);
+.touched-by-error {
+  background-repeat:no-repeat; 
+  background-color: rgba(252, 82, 31, 0.358);
+  color: #fff !important;
+  border-radius: $border-radius;
+
+  &.-angled-bottom {
+    border-radius: 3px 3px 0 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
+  }
+  &.invalid-background {
+    background-color: red;
+    border-color: rgb(247, 63, 46) !important;
+    .attribute-skill-marker {
+      filter: invert(98%) sepia(5%) saturate(401%) hue-rotate(11deg) brightness(200%) contrast(100%);
+    }
   }
 }
 
 .invalid-text {
   color: rgb(247, 63, 46) !important;
   font-weight: bold;
+}
+
+.angled-top {
+  border-radius: 0px 0px 3px 3px !important;
 }
 
 .card {
