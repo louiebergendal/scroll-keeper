@@ -53,12 +53,7 @@
 				</div>
 			</div>
 			{{invalidLevels}}
-			{{attributeIsTouchedByError(attribute.key)}} <!-- lirar -->
-			{{attributeIsInvalidAtThisLevel(attribute.key)}}
-			{{invalidAttributeChoiceIsNotDeselected(attribute.key)}}
 		</div>
-
-		
 
 		<button :disabled="!levelIsChangable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewAttributeLevel()">Submitta!</button>
 

@@ -21,6 +21,8 @@
 					@change="inputEventHandler"
 					class="margin-right-small"
 					:disabled="(
+						canChooseScholarSkillAndIsSelected('scholar')
+						||
 						canChooseScholarSkillAndIsSelected(scholarSkill.key)
 						||
 						(
@@ -42,25 +44,10 @@
 			</div>
 		</div>
 
-
-
 	</div>
 </template>
 
 <script>
-// contains()
-// contains(invalidLevels[selectedLevel], scholarSkill.key)
-
-/* :class="{
-						'touched-by-error': scholarSkillIsTouchedByError(scholarSkill.key),
-						'invalid-background':
-							!scholarSkillIsInvalidAtThisLevel(scholarSkill.key) && invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key),
-						'font-contrast-lowest':
-							invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key)
-							&& !scholarSkillIsTouchedByError(scholarSkill.key)
-					}"> */
-
-
 	import { ref } from 'vue'
 	import { canChooseTrait, getTraitNiceName } from '../../../rules/characteristics/traits'
 	import { scholar } from '../../../rules/characteristics/traitLists/talents'
@@ -68,23 +55,23 @@
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
 
 	export default {
-		props: ['tempCharacterSheet', 'tempValidationSheet'],
+		props: ['tempCharacterSheet', 'tempValidationSheet', 'characterStore'],
 		setup(props) {
+			
 			const characterSheet = props.tempCharacterSheet
 			const validationSheet = props.tempValidationSheet
 			const scholarOptions = scholar.complexTrait[0]
 			const choicesAmount = scholarOptions.choices
 			const originalCheckedOptionsList = validationSheet.traits.filter(
-					skill => contains(
-						Object.keys(scholarOptions.list),
-						skill
-					)
+				skill => contains(
+					Object.keys(scholarOptions.list),
+					skill
 				)
+			)
 			const checkedOptionsList = ref(originalCheckedOptionsList)
 			const selectedList = ref(checkedOptionsList.value.filter(skill => !contains(characterSheet.traits, skill)))
-			const invalidLevels = ref(props.tempValidationSheet.metadata.invalidLevels)
-			console.log('invalidLevels in setup: ', invalidLevels)
 			const selectedLevel = validationSheet.metadata.selectedLevel
+
 
 			// ska kolla om den är i invalidList
 			// ska också kolla om något i selectedList är i invalidList			
@@ -102,7 +89,6 @@
 				selectedLevel,
 
 				validationSheet,
-				invalidLevels,
 				invalidChoiceIsNotDeselected,
 				isInvalidAtThisLevel,
 				isTouchedByError,
@@ -143,13 +129,9 @@
 				)
 			},
 			invalidScholarSkillChoiceIsNotUnchecked(key) {
-				return this.invalidChoiceIsNotUnChecked(key, this.invalidLevels, this.originalCheckedOptionsList, this.selectedList)
+				return this.invalidChoiceIsNotUnChecked(key, this.validationSheet.metadata.invalidLevels, this.originalCheckedOptionsList, this.selectedList)
 			},
 			scholarSkillIsTouchedByError(key) {
-				console.log('key: ', key);
-				console.log('this.invalidLevels: ', this.validationSheet.metadata.invalidLevels);
-				console.log('-----');
-
 				return this.isTouchedByError(key, this.validationSheet.metadata.invalidLevels)
 			},
 			scholarSkillIsInvalidAtThisLevel(key) {

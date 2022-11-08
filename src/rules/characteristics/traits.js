@@ -2,9 +2,6 @@
 
 // * * * N O T E P A D * * * //
 
-// RULE CHANGES:
-// - Removed 'night owl'
-
 
 // * * * C O N T E N T * * * //
 

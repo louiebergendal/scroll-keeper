@@ -50,7 +50,6 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
 
-
 		// COMPETENCE
 		if (bonusType === 'competence')
 			baseCharacterSheet.competence++
@@ -76,6 +75,8 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 				if (currentLevel.complexPayload) {
 					const levelComplexPayload = currentLevel.complexPayload
 
+					console.log('levelComplexPayload: ', levelComplexPayload);
+
 					for (const choiceCategory in levelComplexPayload) { // ex. 'people'
 						const skillChoicesList = levelComplexPayload[choiceCategory].choices
 
@@ -83,6 +84,9 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 							for (const choiceKey in skillChoicesList[choiceGroup]) { // ex. 'basicKnowledgeDavand'
 								const skillChoiceKey = skillChoicesList[choiceGroup][choiceKey]
+
+								// if any of the traits in the complexPayload is already owned, traitKey is invalid
+								if (contains(characterTraitList, skillChoiceKey)) invalidComplexTraitLevel.push(traitKey)
 
 								if (!contains(characterTraitList, skillChoiceKey) && skillChoiceKey.length > 0) {
 
@@ -93,39 +97,45 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 										baseCharacterSheet.metadata.isChosenByFate, 
 										levelIndex
 									)) {
-										console.log('ping!');
-										console.log('skillChoiceKey: ', skillChoiceKey);
-										console.log('levelIndex: ', levelIndex);
-										// add invalid skill choices to invalidLevels
+										// add invalid skill choices to invalidLevelObject
 										invalidComplexTraitLevel.push(skillChoiceKey)
 									}
 									characterTraitList.push(skillChoiceKey)
-									
 								}
-
 							}
 						}
 					}
+
+					// any invalid skill choices?
+					if (invalidComplexTraitLevel.length > 0) invalidComplexTraitLevel.push(traitKey)
+
+					// validate complex talent
+					if ((!contains(invalidComplexTraitLevel, traitKey)) && !canChooseTrait(
+						traitKey,
+						characterTraitList, 
+						baseCharacterSheet.attributes, 
+						baseCharacterSheet.metadata.isChosenByFate, 
+						targetLevel
+					)) { 
+						invalidComplexTraitLevel.push(traitKey)
+					}
+
+					if (invalidComplexTraitLevel.length > 0) baseCharacterSheet.metadata.invalidLevels[levelIndex] = invalidComplexTraitLevel
 				}
 
-				if (invalidComplexTraitLevel.length > 0) {
-					console.log('invalidComplexTraitLevel (flattener): ', invalidComplexTraitLevel);
-					invalidComplexTraitLevel.push(traitKey)
-					baseCharacterSheet.metadata.invalidLevels[levelIndex] = invalidComplexTraitLevel
-				}
 				characterTraitList.push(traitKey)
 			}
 		}
 
-		// VALIDATE TALENTS
-		if (bonusType === 'talent' && !canChooseTrait(
+		// VALIDATE NON-COMPLEX TALENTS
+		if (bonusType === 'talent' && !currentLevel.complexPayload && !canChooseTrait(
 			chosenBonus, 
 			characterTraitList, 
 			baseCharacterSheet.attributes, 
 			baseCharacterSheet.metadata.isChosenByFate, 
 			targetLevel
 		)) {
-			// add invalid skill choices to invalidLevels
+			// add invalid talent choices to invalidLevels
 			baseCharacterSheet.metadata.invalidLevels[levelIndex] = chosenBonus
 		}
 
@@ -137,7 +147,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			baseCharacterSheet.metadata.isChosenByFate, 
 			targetLevel
 		)) {
-			// add invalid talent choices to invalidLevels
+			// add invalid skill choices to invalidLevels
 			baseCharacterSheet.metadata.invalidLevels[levelIndex] = chosenBonus
 		}
 
@@ -146,6 +156,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			// add invalid attribute choices to invalidLevels
 			baseCharacterSheet.metadata.invalidLevels[levelIndex] = chosenBonus
 		}
+
 
 		// * * * SECONDARY CHARACTERISTICS * * * //
 

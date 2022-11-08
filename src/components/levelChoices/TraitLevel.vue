@@ -3,8 +3,6 @@
 
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Välj en grej!</h3>
 
-		invalidLevels: {{invalidLevels}}
-
 		<!--loop traits-->
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
 
@@ -33,26 +31,14 @@
 						v-model="tempLevelChoiceKey"
 						:value="key"
 						:id="key"
-						:disabled="!canChooseTrait(
-							trait.key, 
-							tempCharacterSheet.traits, 
-							tempCharacterSheet.attributes, 
-							tempCharacterSheet.metadata.isChosenByFate, 
-							selectedLevel
-						)"
+						:disabled="cannotChoseTrait(trait.key)"
 						class="margin-tiny"
 					/>
 					<label 
 						:for="key"
 						:class="{
 							'font-contrast-lowest'
-							: (!canChooseTrait(
-								trait.key, 
-								tempCharacterSheet.traits, 
-								tempCharacterSheet.attributes, 
-								tempCharacterSheet.metadata.isChosenByFate, 
-								selectedLevel
-							) && !traitIsTouchedByError(key))}"
+							: (cannotChoseTrait(trait.key) && !traitIsTouchedByError(key))}"
 					>
 						{{ trait.name }}
 					</label>
@@ -71,14 +57,14 @@
 						<Background :characterStore="characterStore" @complex-payload="complexPayload" />
 					</div>
 					<div v-if="trait.key === 'scholar' && tempLevelChoiceKey === 'scholar'">
-						<Scholar :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
-						{{tempCharacterSheet.metadata.invalidLevels}}
-					
+						<Scholar :characterStore="characterStore" :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
 					</div>
 					<div v-if="trait.key === 'pathfinder' && tempLevelChoiceKey === 'pathfinder'">
 						<Pathfinder :tempCharacterSheet="tempCharacterSheet" @complex-payload="complexPayload"/>
 					</div>
 				</div>
+
+
 				
 			</div>
 
@@ -87,7 +73,8 @@
 				v-if="contains(tempCharacterSheet.traits, key)"
 				class="card dark flex width-whole padding-bottom-tiny padding-top-nano margin-bottom-nano"
 				:class="{
-					'invalid-background': isInvalidAtThisLevel(key, invalidLevels, selectedLevel)}"
+					'touched-by-error': traitIsTouchedByError(key),
+					'invalid-background': traitIsInvalidAtThisLevel(key)}"
 			>
 				<input
 					type="radio"
@@ -97,7 +84,7 @@
 					class="margin-tiny"
 				/>
 				<label :for="key + '-owned'" :class="{ 'font-contrast-low' : !traitIsTouchedByError(key) }" >
-					{{ trait.name }}
+					OWNED {{ trait.name }} <!-- CSS Error? -->
 				</label>
 			</div>
 		</div>
@@ -158,7 +145,7 @@
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
 			const tempCharacterTraitsList = tempCharacterSheet.traits
 			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
-			const invalidLevels = ref(tempValidationSheet.metadata.invalidLevels)
+			const invalidLevels = ref(characterStore.metadata.invalidLevels)
 
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 			const complexTraitData = ref({})
@@ -173,6 +160,7 @@
 			if (traitType === 'talent') { traits = allTalents() }
 
 			return {
+				characterStore,
 				traitType,
 				traits,
 				tempCharacterTraitsList,
@@ -201,7 +189,10 @@
 			submitNewTraitLevel() {
 				this.characterStore.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType, this.complexTraitData)
 				this.$emit('update-tabs') // gul varning i loggen
-				this.invalidLevels = this.characterStore.metadata.invalidLevels
+
+				this.tempValidationSheet.metadata.invalidLevels = this.characterStore.metadata.invalidLevels
+				this.tempValidationSheet = this.tempValidationSheet
+
 			},
 			complexPayload(data) {
 				let isValid = true
@@ -211,7 +202,7 @@
 						for (const skillChoice in data[option].choices[choiceGroup]) {
 							const skillChoiceKey = data[option].choices[choiceGroup][skillChoice]
 							if (!skillChoiceKey) { isValid = false }
-							if (contains(explodeInvalidList(this.invalidLevels), skillChoiceKey)) { isValid = false }
+							if (contains(explodeInvalidList(this.characterStore.metadata.invalidLevels), skillChoiceKey)) { isValid = false }
 						}
 					}
 				}
@@ -220,13 +211,22 @@
 				this.complexTraitData = data
 			},
 			invalidTraitChoiceIsNotDeselected(key) {
-				return this.invalidChoiceIsNotDeselected(key, this.invalidLevels, this.originalLevelChoiceKey, this.tempLevelChoiceKey)
+				return this.invalidChoiceIsNotDeselected(key, this.characterStore.metadata.invalidLevels, this.originalLevelChoiceKey, this.tempLevelChoiceKey)
 			},
 			traitIsTouchedByError(key) {
-				return this.isTouchedByError(key, this.invalidLevels)
+				return this.isTouchedByError(key, this.characterStore.metadata.invalidLevels)
 			},
 			traitIsInvalidAtThisLevel(key) {
-				return isInvalidAtThisLevel(key, this.invalidLevels, this.selectedLevel)
+				return isInvalidAtThisLevel(key, this.characterStore.metadata.invalidLevels, this.selectedLevel)
+			},
+			cannotChoseTrait(key) {
+				return !canChooseTrait(
+					key, 
+					this.tempCharacterSheet.traits, 
+					this.tempCharacterSheet.attributes, 
+					this.tempCharacterSheet.metadata.isChosenByFate, 
+					this.selectedLevel
+				)
 			}
 		}
 	}

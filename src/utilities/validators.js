@@ -2,13 +2,6 @@ import { contains, explodeInvalidList } from '../rules/utils'
 import { equals } from './utils'
 
 export const invalidChoiceIsNotDeselected = (key, invalidLevels, originalLevelChoiceKey, tempLevelChoiceKey) => {
-
-/* 	console.log('key: ', key);
-	console.log('invalidLevels: ', invalidLevels);
-	console.log('originalLevelChoiceKey: ', originalLevelChoiceKey);
-	console.log('tempLevelChoiceKey: ', tempLevelChoiceKey);
-	console.log('----'); */
-
 	return contains(
 		explodeInvalidList(invalidLevels), key)
 		&& !(originalLevelChoiceKey === key && originalLevelChoiceKey !== tempLevelChoiceKey)
@@ -25,8 +18,10 @@ export const isTouchedByError = (key, invalidLevels) => {
 }
 
 export const isInvalidAtThisLevel = (key, invalidLevels, selectedLevel) => {
-	if (isTouchedByError(key, invalidLevels)) return invalidLevels[selectedLevel] === key
-	return true
+	if (isTouchedByError(key, invalidLevels)) {
+		if (typeof invalidLevels[selectedLevel] === 'string') return invalidLevels[selectedLevel] === key
+		return contains(invalidLevels[selectedLevel], key)
+	} return false
 }
 
 
