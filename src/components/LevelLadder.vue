@@ -1,7 +1,8 @@
 <template>
 	<div :class="{ closed: isClosed, 'level-ladder': true, flex: true, slideInLeft: true }">
 		<div class='levels'>
-			<Wizard
+
+			<Wizard 
 				squared-tabs
 				navigable-tabs
 				vertical-tabs
@@ -111,9 +112,23 @@
 						}
 					}
 
-					const containsInvalidChoice = contains(levelIndex.toString(), Object.keys(this.characterStore.metadata.invalidLevels))
-					const appendedInvalidMarker = containsInvalidChoice ? 'invalidStep' : ''
-					this.levelTabDataList.push({ title: levelTabData, id: levelIndex + '-' + appendedInvalidMarker})
+					// Keep this absolute and total hack
+					// for as long as we use the wizardStep plug
+					// as an external dependency -
+					// the creator is still updating it (nov 2022)
+
+					let levelTabItem = {}
+					if (levelIndex === this.currentTabIndex) {
+						levelTabItem = { title: levelTabData, id: levelIndex + '-' + 'selectedStep'}
+					} else {
+						const containsInvalidChoice = contains(
+							levelIndex.toString(),
+							Object.keys(this.characterStore.metadata.invalidLevels)
+						)
+						const appendedInvalidMarker = containsInvalidChoice ? 'invalidStep' : ''
+						levelTabItem = { title: levelTabData, id: levelIndex + '-' + appendedInvalidMarker}
+					}
+					this.levelTabDataList.push(levelTabItem)
 					this.levelList.push(level)
 				}
 			},
@@ -123,6 +138,7 @@
 			},
 			onChangeCurrentTab(index) {
 				this.currentTabIndex = index + 1
+				this.updateLevelTabData()
 			}
 		}
 	}
@@ -136,6 +152,11 @@
 		background: red !important;
 		color: #fff !important;
 	}
+	[id$="selectedStep"].fw-squared-tab {
+		background: rgb(23, 10, 208) !important;
+		color: #fff !important;
+	}
+
 	.level-ladder {
 		position: absolute;
 		top: 0;
