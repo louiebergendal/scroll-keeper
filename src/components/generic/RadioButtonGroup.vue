@@ -6,8 +6,8 @@
 				:name="name"
 				:value="option"
 				:id="name + '-' + option"
-				:checked="contains(selectedOptions, option) && !contains(invalidOptions, option)"
-				:disabled="contains(invalidOptions, option)"
+				:checked="contains(option, selectedOptions) && !contains(option, invalidOptions)"
+				:disabled="contains(option, invalidOptions)"
 				@change="emitOption(option)" 
 			/>
 				{{ option }}

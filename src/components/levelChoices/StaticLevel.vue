@@ -1,5 +1,5 @@
 <template>
-    <div class='card medium padding-tiny'>
+    <div class='card square medium padding-large'>
 		
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Klicka på knappen för att bli bättre</h3>
 		<button 

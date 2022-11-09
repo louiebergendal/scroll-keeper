@@ -4,13 +4,13 @@
 			<div class='padding-nano width-half attribute-headline align-center'>
 				<img class="attribute-icon" :src="attributeIcon" />
 				<span
-					:class="{'invalid-text': attributeAffectedByDefect}"
+					:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
 					class='trait-card-align attribute-headline font-size-small'>
-						<span class="bold">{{ attribute.shortName }}</span>
+						<span class="bold">{{attribute.shortName}}</span>
 				</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
-				<span :class="{'invalid-text': attributeAffectedByDefect}" class='font-size-tiny attribute-value-align bold'>{{ characterAttributes[attributeProp.key] }}</span>
+				<span :class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}" class='font-size-tiny attribute-value-align bold'>{{characterAttributes[attributeProp.key]}}</span>
 			</div>
 		</div>
 		<div>
@@ -23,18 +23,21 @@
 				<div
 					class='attribute-skill width-half card medium padding-nano align-center'
 					:class="{
-						'invalid-background': contains(explodeInvalidList(invalidLevels), skill.key),
+						'touched-by-error': characteristicIsTouchedByError(skill.key),
 						'attribute-skill-top': skillIndex === 0,
 						'attribute-skill-bottom': skillIndex === 1
 					}">
 					<div
-						v-if="contains(characterTraits, skill.key)"
+						v-if="contains(skill.key, characterTraits)"
+						:class="{
+							'svg-error-filter': characteristicIsTouchedByError(skill.key)
+						}"
 						class="attribute-skill-marker"
 					>
 					</div>
 					<span
 						class='font-size-tiny trait-card-align'
-						:class="{'bold': contains(characterTraits, skill.key)}"
+						:class="{'bold': contains(skill.key, characterTraits)}"
 					>
 						{{ skill.name }}
 					</span>
@@ -48,34 +51,34 @@
 				>
 					<div class='padding-left-small width-fourth padding-left-huge'>
 						<span
-							v-if='contains(characterTraits, skill.key)'
+							v-if='contains(skill.key, characterTraits)'
 							class='attribute-value-align bold'
-							:class="{'invalid-text': attributeAffectedByDefect || contains(explodeInvalidList(invalidLevels), skill.key)}"
+							:class="{'invalid-text': characteristicIsTouchedByError(attribute.key) || characteristicIsTouchedByError(skill.key)}"
 						>
-							{{ skill.addProficiencyBonus(characterAttributes[attributeProp.key]) }}
+							{{skill.addProficiencyBonus(characterAttributes[attributeProp.key])}}
 						</span>
 						<span
-							v-if='!contains(characterTraits, skill.key)'
+							v-if='!contains(skill.key, characterTraits)'
 							class='attribute-value-align'
-							:class="{'invalid-text': attributeAffectedByDefect}"
+							:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
 						>
-							{{ characterAttributes[attributeProp.key] }}
+							{{characterAttributes[attributeProp.key]}}
 						</span>
 					</div>
 					<div class='padding-nano padding-right-medium'>
 						<span
-							v-if='contains(characterTraits, skill.key)'
+							v-if='contains(skill.key, characterTraits)'
 							class='trait-card-align font-size-tiny align-right bold'
-							:class='{"invalid-text": contains(explodeInvalidList(invalidLevels), skill.key)}'
+							:class='{"invalid-text": characteristicIsTouchedByError(skill.key)}'
 						>
-							{{ setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key])) }}
+							{{setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key]))}}
 						</span>
 						<span
-							v-if='!contains(characterTraits, skill.key)'
+							v-if='!contains(skill.key, characterTraits)'
 							class='trait-card-align font-size-tiny align-right'
 							:class='{ "font-contrast-lowest": characterAttributes[attributeProp.key] < (skill.addProficiencyBonus(baseValue)) }'
 						>
-							{{ setAttributeValueName(characterAttributes[attributeProp.key]) }}
+							{{setAttributeValueName(characterAttributes[attributeProp.key])}}
 						</span>
 					</div>
 				</div>
@@ -90,6 +93,7 @@
 	import { contains, explodeInvalidList } from '../rules/utils'
 	import { useCharacterStore } from '../stores/character'
 	import { ref } from 'vue'
+	import { isTouchedByError } from '../utilities/validators'
 
 	export default {
 		props: ['attribute', 'iconUrl'],
@@ -102,7 +106,6 @@
 			const invalidLevels = ref({})
 
 			const attributeSkills = specificAttributeSkills(attributeProp.key, characterStore.sheet.traits)
-			const attributeAffectedByDefect = ref(false)
 
 			const attributeIcon = '/img/' + props.iconUrl + '.png'
 
@@ -117,16 +120,14 @@
 
 				attributeSkills,
 				baseValue,
-				attributeAffectedByDefect,
+
 				setAttributeValueName,
 				contains,
-				explodeInvalidList
+				explodeInvalidList,
+
+				isTouchedByError
 
 			}
-		},
-		beforeUpdate() {
-			this.attributeAffectedByDefect =
-				Object.values(this.characterStore.metadata.invalidLevels).indexOf(this.attributeProp.key) === 0;
 		},
 		beforeMount() {
 			this.characterStore.$subscribe((_mutation, state) => {
@@ -135,29 +136,14 @@
 				this.characterAttributes = sheet.attributes
 				this.invalidLevels = state.metadata.invalidLevels
 			})
+		},
+		methods: {
+			characteristicIsTouchedByError(key) {
+				return this.isTouchedByError(key, this.invalidLevels)
+			},
 		}
 	}
 </script>
 
 <style>
-	.attribute {
-		flex-direction: column;
-	}
-	.skill-value {
-		justify-content: space-between;
-	}
-	.attribute-value {
-		background: rgb(255,251,246);
-		background: linear-gradient(90deg, rgba(255,251,246,0) 0%, rgba(255,251,246,1) 50%, rgba(255,251,246,0) 100%);
-	}
-	.attribute-headline {
-		width: 4.5rem;
-		display: inline-block;
-		text-align: left;
-	}
-	.attribute-icon {
-		height: 1.7rem;
-		vertical-align: 0.2rem;
-		margin-right: 1rem;
-	}
 </style>

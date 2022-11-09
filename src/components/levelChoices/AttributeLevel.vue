@@ -1,9 +1,7 @@
 <template>
-	<div class='card medium padding-tiny'>
+	<div class='card square medium padding-large'>
 
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Öka en grundegenskap!</h3>
-
-		<div>Vald bonus: {{tempLevelChoiceKey}}</div>
 
 		<div
 			v-for='attribute in attributes'
@@ -17,7 +15,7 @@
 						&& !attributeIsTouchedByError(attribute.key)
 					)
 				}"
-				class="width-half flex"
+				class="width-whole flex"
 			>
 				<div
 					class="card width-whole"
@@ -35,6 +33,7 @@
 						:disabled="!canChooseAttribute(tempCharacterAttributes[attribute.key], selectedLevel)"
 						class="margin-tiny"
 					/>
+					<!-- <img class="attribute-icon" :src="attributeIcon" /> -->
 					<label for="{{attribute.key}}"> {{getAttributeLongName(attribute.key)}} </label>
 				</div>
 				<div
@@ -52,7 +51,6 @@
 					{{tempCharacterAttributes[attribute.key]}}
 				</div>
 			</div>
-			{{invalidLevels}}
 		</div>
 
 		<button :disabled="!levelIsChangable" type="submit" class="margin-top-tiny margin-left-nano" @click="submitNewAttributeLevel()">Submitta!</button>
@@ -64,7 +62,6 @@
 	import { ref } from 'vue'
 	import { attributes, getAttributeShortName, getAttributeLongName, canChooseAttribute } from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import { contains } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
 
 	export default {
@@ -84,6 +81,7 @@
 			if (selectedLevel <= characterStore.metadata.level) originalLevelChoiceKey = characterStore.history[selectedLevel].choice
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
+			const attributeIcon = '/img/' + props.iconUrl + '.png'
 			return {
 				characterStore,
 				selectedLevel,

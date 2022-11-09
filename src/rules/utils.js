@@ -1,4 +1,4 @@
-export const contains = (list, key) => {
+export const contains = (key, list) => {
 	if (!list) list = []
 	if (typeof list === 'object') {
 		list = Object.values(list)

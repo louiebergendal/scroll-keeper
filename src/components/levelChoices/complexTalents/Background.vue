@@ -215,7 +215,7 @@
 		},
 		methods: {
 			setSelectedIfValid(invalidList, key) {
-				if (contains(invalidList, key)) key = ''
+				if (contains(key, invalidList)) key = ''
 				return key
 			},
 			validateKnowledgeSkills(choiceList) {

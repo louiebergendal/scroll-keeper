@@ -75,8 +75,6 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 				if (currentLevel.complexPayload) {
 					const levelComplexPayload = currentLevel.complexPayload
 
-					console.log('levelComplexPayload: ', levelComplexPayload);
-
 					for (const choiceCategory in levelComplexPayload) { // ex. 'people'
 						const skillChoicesList = levelComplexPayload[choiceCategory].choices
 
@@ -86,9 +84,9 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 								const skillChoiceKey = skillChoicesList[choiceGroup][choiceKey]
 
 								// if any of the traits in the complexPayload is already owned, traitKey is invalid
-								if (contains(characterTraitList, skillChoiceKey)) invalidComplexTraitLevel.push(traitKey)
+								if (contains(skillChoiceKey, characterTraitList)) invalidComplexTraitLevel.push(traitKey)
 
-								if (!contains(characterTraitList, skillChoiceKey) && skillChoiceKey.length > 0) {
+								if (!contains(skillChoiceKey, characterTraitList) && skillChoiceKey.length > 0) {
 
 									if (bonusType === 'talent' && traitKey !== 'background' && !canChooseTrait(
 										skillChoiceKey,
@@ -110,7 +108,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 					if (invalidComplexTraitLevel.length > 0) invalidComplexTraitLevel.push(traitKey)
 
 					// validate complex talent
-					if ((!contains(invalidComplexTraitLevel, traitKey)) && !canChooseTrait(
+					if ((!contains(traitKey, invalidComplexTraitLevel)) && !canChooseTrait(
 						traitKey,
 						characterTraitList, 
 						baseCharacterSheet.attributes, 
@@ -120,6 +118,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 						invalidComplexTraitLevel.push(traitKey)
 					}
 
+					// if there are any errors, push to invalidlist
 					if (invalidComplexTraitLevel.length > 0) baseCharacterSheet.metadata.invalidLevels[levelIndex] = invalidComplexTraitLevel
 				}
 

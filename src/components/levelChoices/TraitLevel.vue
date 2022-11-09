@@ -1,5 +1,5 @@
 <template>
-	<div class="card medium padding-tiny">
+	<div class="card square medium padding-large">
 
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Välj en grej!</h3>
 
@@ -7,11 +7,10 @@
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
 
 			<!-- not owned -->
-			<div v-if="!contains(tempCharacterSheet.traits, key)" 
+			<div v-if="!contains(key, tempCharacterSheet.traits)" 
 				class="card width-whole dark margin-bottom-nano" 
 				:class="{
 					'touched-by-error': traitIsTouchedByError(key),
-					'invalid-background': invalidTraitChoiceIsNotDeselected(key) && traitIsInvalidAtThisLevel(key)
 				}"
 			>
 				<div 
@@ -23,7 +22,7 @@
 							&& (tempLevelChoiceKey == key)
 						,
 						'font-contrast-lowest': invalidTraitChoiceIsNotDeselected(key) && !traitIsTouchedByError(key),
-						' -angled-bottom': contains(Object.keys(trait), 'complexTrait') && tempLevelChoiceKey === key
+						' -angled-bottom': contains('complexTrait', Object.keys(trait)) && tempLevelChoiceKey === key
 					}"
 				>
 					<input
@@ -46,7 +45,7 @@
 
 				<!-- complex traits -->
 				<div
-					v-if="contains(Object.keys(trait), 'complexTrait')"
+					v-if="contains('complexTrait', Object.keys(trait))"
 					class="width-whole angled-top"
 					:class="{
 						'touched-by-error': traitIsTouchedByError(key),
@@ -57,20 +56,18 @@
 						<Background :characterStore="characterStore" @complex-payload="complexPayload" />
 					</div>
 					<div v-if="trait.key === 'scholar' && tempLevelChoiceKey === 'scholar'">
-						<Scholar :characterStore="characterStore" :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
+						<Scholar :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
 					</div>
 					<div v-if="trait.key === 'pathfinder' && tempLevelChoiceKey === 'pathfinder'">
-						<Pathfinder :tempCharacterSheet="tempCharacterSheet" @complex-payload="complexPayload"/>
+						<Pathfinder :characterStore="characterStore" :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
 					</div>
 				</div>
-
-
-				
+								
 			</div>
 
 			<!-- already owned -->
 			<div 
-				v-if="contains(tempCharacterSheet.traits, key)"
+				v-if="contains(key, tempCharacterSheet.traits)"
 				class="card dark flex width-whole padding-bottom-tiny padding-top-nano margin-bottom-nano"
 				:class="{
 					'touched-by-error': traitIsTouchedByError(key),
@@ -84,7 +81,7 @@
 					class="margin-tiny"
 				/>
 				<label :for="key + '-owned'" :class="{ 'font-contrast-low' : !traitIsTouchedByError(key) }" >
-					OWNED {{ trait.name }} <!-- CSS Error? -->
+					{{ trait.name }} <!-- CSS Error? -->
 				</label>
 			</div>
 		</div>
@@ -136,7 +133,7 @@
 			Scholar
 		},
 		props: ['selectedLevel', 'traitType', 'characterStore'],
-		emits: ['complexPayload'],
+		emits: ['complexPayload', 'update-tabs'],
 		setup(props) {
 			const characterStore = props.characterStore
 			const selectedLevel = props.selectedLevel
@@ -202,7 +199,7 @@
 						for (const skillChoice in data[option].choices[choiceGroup]) {
 							const skillChoiceKey = data[option].choices[choiceGroup][skillChoice]
 							if (!skillChoiceKey) { isValid = false }
-							if (contains(explodeInvalidList(this.characterStore.metadata.invalidLevels), skillChoiceKey)) { isValid = false }
+							if (contains(skillChoiceKey, explodeInvalidList(this.characterStore.metadata.invalidLevels))) { isValid = false }
 						}
 					}
 				}

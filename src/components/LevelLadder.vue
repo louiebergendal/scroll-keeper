@@ -111,7 +111,7 @@
 						}
 					}
 
-					const containsInvalidChoice = contains(Object.keys(this.characterStore.metadata.invalidLevels), levelIndex.toString())
+					const containsInvalidChoice = contains(levelIndex.toString(), Object.keys(this.characterStore.metadata.invalidLevels))
 					const appendedInvalidMarker = containsInvalidChoice ? 'invalidStep' : ''
 					this.levelTabDataList.push({ title: levelTabData, id: levelIndex + '-' + appendedInvalidMarker})
 					this.levelList.push(level)

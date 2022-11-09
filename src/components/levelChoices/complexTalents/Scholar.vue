@@ -1,19 +1,20 @@
 <template>
 	<div class="width-whole padding-small">
+
 		<div class="padding-bottom-small">Poäng att placera: {{(choicesAmount - selectedList.length)}}</div>
+
 		<div  :key="scholarSkill.key" v-for="scholarSkill in scholarOptions.list">
 			<div
 				class="card padding-nano padding-left-small padding-bottom-tiny trait-card-align"
 				:class="{
-						'touched-by-error': scholarSkillIsTouchedByError(scholarSkill.key),
-						'invalid-background':
-							scholarSkillIsInvalidAtThisLevel(scholarSkill.key) 
-							&& invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key),
-						'font-contrast-lowest':
-							invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key)
-							&& !scholarSkillIsTouchedByError(scholarSkill.key)
-					}">
-
+					'touched-by-error': scholarSkillIsTouchedByError(scholarSkill.key),
+					'invalid-background':
+						scholarSkillIsInvalidAtThisLevel(scholarSkill.key) 
+						&& invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key),
+					'font-contrast-lowest':
+						invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key)
+						&& !scholarSkillIsTouchedByError(scholarSkill.key)
+				}">
 				<input type="checkbox"
 					v-model="checkedOptionsList"
 					:id="scholarSkill.key"
@@ -26,15 +27,15 @@
 						canChooseScholarSkillAndIsSelected(scholarSkill.key)
 						||
 						(
-							contains(checkedOptionsList, scholarSkill.key)
+							contains(scholarSkill.key, checkedOptionsList)
 							&&
-							!contains(selectedList, scholarSkill.key)
+							!contains(scholarSkill.key, selectedList)
 						)
 						||
 						(
 							selectedList.length >= choicesAmount
 							&&
-							!contains(checkedOptionsList, scholarSkill.key)
+							!contains(scholarSkill.key, checkedOptionsList)
 						)
 					)"
 				/>
@@ -55,21 +56,17 @@
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
 
 	export default {
-		props: ['tempCharacterSheet', 'tempValidationSheet', 'characterStore'],
+		props: ['tempCharacterSheet', 'tempValidationSheet'],
 		setup(props) {
-			
 			const characterSheet = props.tempCharacterSheet
 			const validationSheet = props.tempValidationSheet
 			const scholarOptions = scholar.complexTrait[0]
 			const choicesAmount = scholarOptions.choices
 			const originalCheckedOptionsList = validationSheet.traits.filter(
-				skill => contains(
-					Object.keys(scholarOptions.list),
-					skill
-				)
+				skill => contains(skill, Object.keys(scholarOptions.list))
 			)
 			const checkedOptionsList = ref(originalCheckedOptionsList)
-			const selectedList = ref(checkedOptionsList.value.filter(skill => !contains(characterSheet.traits, skill)))
+			const selectedList = ref(checkedOptionsList.value.filter(skill => !contains(skill, characterSheet.traits)))
 			const selectedLevel = validationSheet.metadata.selectedLevel
 
 
@@ -98,7 +95,7 @@
 		},
 		methods: {
 			inputEventHandler() {
-				this.selectedList = this.checkedOptionsList.filter(skill => !contains(this.characterSheet.traits, skill))
+				this.selectedList = this.checkedOptionsList.filter(skill => !contains(skill, this.characterSheet.traits))
 
 				const complexPayload = {
 					scholar: {
@@ -117,7 +114,7 @@
 				this.$emit('complexPayload', complexPayload)
 			},
 			canChooseScholarSkillAndIsSelected(scholarSkillKey) {
-				return (!this.canChooseScholarSkill(scholarSkillKey) && !contains(this.selectedList, scholarSkillKey))
+				return (!this.canChooseScholarSkill(scholarSkillKey) && !contains(scholarSkillKey, this.selectedList))
 			},
 			canChooseScholarSkill(scholarSkillKey) {
 				return canChooseTrait(

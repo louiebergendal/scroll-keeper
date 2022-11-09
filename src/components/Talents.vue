@@ -7,7 +7,14 @@
 			:key='talent.key'
 			class='width-whole flex'
 		>
-			<div :class="{ 'invalid-background bold': contains(explodeInvalidList(characterStore.sheet.metadata.invalidLevels), talent.key) }" class='width-whole card medium padding-nano margin-nano align-center'>
+			<div 
+				:class="{ 'touched-by-error': 
+					isTouchedByError(
+						talent.key,
+						characterStore.sheet.metadata.invalidLevels
+					)
+				}"
+				class='width-whole card medium padding-nano margin-nano align-center'>
 				<span class='font-size-nano trait-card-align'>
 					{{ talent.name }}
 				</span>
@@ -21,6 +28,7 @@
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterTalents } from '../rules/characteristics/traits'
 	import { contains, explodeInvalidList } from '../rules/utils'
+	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../utilities/validators'
 
 	export default {
 		setup() {
@@ -30,7 +38,8 @@
 				characterStore,
 				independentCharacterTalents,
 				contains,
-				explodeInvalidList
+				explodeInvalidList,
+				isTouchedByError
 			}
 		}
 	}

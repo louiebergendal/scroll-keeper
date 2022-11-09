@@ -235,7 +235,7 @@ export function canChooseTrait(traitKey, characterTraitList, characterAttributes
 	let requirementsAreMet = true
 
 	// check if trait is already owned
-	if (contains(characterTraitList.slice(0, characterTraitList.length - 1), traitKey)) {
+	if (contains(traitKey, characterTraitList.slice(0, characterTraitList.length - 1))) {
 		requirementsAreMet = false
 	}
 
@@ -244,7 +244,7 @@ export function canChooseTrait(traitKey, characterTraitList, characterAttributes
 		if (trait.requirements.traits) {
 			const requiredTraitKeysList = trait.requirements.traits
 			requiredTraitKeysList.forEach(requiredTrait => {
-				if(!contains(characterTraitList, requiredTrait)) { requirementsAreMet = false }
+				if(!contains(requiredTrait, characterTraitList)) { requirementsAreMet = false }
 			})
 		}
 		// check required attributes
