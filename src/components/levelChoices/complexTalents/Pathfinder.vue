@@ -1,20 +1,21 @@
 <template>
-	<div>
-		<div :key="pathfinderSkill.key" v-for="pathfinderSkill in pathfinderOptions.list">
-			
+	<div class="padding-small">
+		<div class="card margin-bottom-nano" :key="pathfinderSkill.key" v-for="pathfinderSkill in pathfinderOptions.list">
+
 			<!-- not owned -->
-			<div v-if="!contains(pathfinderSkill.key, characterSheet.traits)">
+			<div class="padding-bottom-tiny" v-if="!contains(pathfinderSkill.key, characterSheet.traits)">
 				<input type="radio"
 					v-model="selected"
 					:value="pathfinderSkill.key"
 					:id="pathfinderSkill.key"
 					@change="inputEventHandler"
+					class="margin-tiny vertical-align-top"
 					:disabled="(
 						!canChooseTrait(
 							pathfinderSkill.key,
 							characterTraits,
 							characterSheet.attributes,
-							false, 
+							false,
 							characterSheet.metadata.level
 						)
 						||
@@ -25,17 +26,19 @@
 			</div>
 
 			<!-- already owned -->
-			<div 
+			<div
 				v-if="contains(pathfinderSkill.key, characterSheet.traits)"
 				:class="{
 					'touched-by-error': pathfinderSkillIsTouchedByError(pathfinderSkill.key),
 					'invalid-background': pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)}"
+				class="padding-bottom-tiny"
 			>
 				<input
 					type="radio"
 					:id="pathfinderSkill.key + '-owned'"
 					disabled
 					checked='true'
+					class="margin-tiny vertical-align-top"
 				/>
 				<label :for="pathfinderSkill.key + '-owned'" class="display-inline-block" >
 					{{ pathfinderSkill.name }}
@@ -107,7 +110,7 @@
 		},
 		methods: {
 			inputEventHandler() {
-				
+
 				const complexPayload = {
 					pathfinder: {
 						choices: {
@@ -144,10 +147,10 @@
 			},
 			getFailedTraitRequirements(traitKey) {
 				return getFailedRequirements(
-					traitKey, 
-					this.tempCharacterSheet.traits, 
-					this.tempCharacterSheet.attributes, 
-					this.tempCharacterSheet.metadata.isChosenByFate, 
+					traitKey,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 			},
@@ -156,7 +159,7 @@
 					this.getFailedTraitRequirements(traitKey)
 				)
 			}
-			
-		} 
+
+		}
 	}
 </script>

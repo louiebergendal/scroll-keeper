@@ -7,15 +7,15 @@
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
 
 			<!-- not owned -->
-			<div v-if="!contains(key, tempCharacterSheet.traits)" 
-				class="card width-whole dark margin-bottom-nano" 
+			<div v-if="!contains(key, tempCharacterSheet.traits)"
+				class="card width-whole dark margin-bottom-nano"
 				:class="{
-					'touched-by-error': traitIsTouchedByError(key) && contains('complexTrait', Object.keys(trait)) && tempLevelChoiceKey === key 
+					'touched-by-error': traitIsTouchedByError(key) && contains('complexTrait', Object.keys(trait)) && tempLevelChoiceKey === key
 				}"
 			>
-				<div 
+				<div
 					class="padding-bottom-tiny"
-					:class="{	
+					:class="{
 						'touched-by-error -sub': traitIsTouchedByError(key),
 						'invalid-background':
 							traitIsInvalidAtThisLevel(key)
@@ -33,7 +33,7 @@
 						:disabled="cannotChooseTrait(trait.key)"
 						class="margin-tiny vertical-align-top"
 					/>
-					<label 
+					<label
 						:for="key"
 						class="display-inline-block"
 						:class="{
@@ -45,7 +45,7 @@
 							v-if="cannotChooseTrait(trait.key) && (tempLevelChoiceKey === trait.key)"
 							class="font-size-tiny display-inline"
 						>
-							
+
 							{{getErrorMessage(trait.key)}}
 						</p>
 
@@ -71,11 +71,11 @@
 						<Pathfinder :characterStore="characterStore" :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
 					</div>
 				</div>
-								
+
 			</div>
 
 			<!-- already owned -->
-			<div 
+			<div
 				v-if="contains(key, tempCharacterSheet.traits)"
 				class="card dark width-whole flex margin-bottom-nano"
 			>
@@ -105,7 +105,7 @@
 						>
 							{{getErrorMessage(trait.key)}}
 						</div>
-						
+
 					</label>
 
 
@@ -138,7 +138,7 @@
 			class="margin-top-tiny margin-left-nano"
 			@click="submitNewTraitLevel()"
 		>
-			Submitta! 
+			Submitta!
 		</button>
 
 	</div>
@@ -175,7 +175,7 @@
 			const characterStore = props.characterStore
 			const selectedLevel = props.selectedLevel
 			const traitType = props.traitType
-		
+
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
 			const tempCharacterTraitsList = tempCharacterSheet.traits
 			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
@@ -233,7 +233,7 @@
 			},
 			complexPayload(data) {
 				let isValid = true
-				for (const option in data) {	
+				for (const option in data) {
 					for (const choiceGroup in data[option].choices) {
 						for (const skillChoice in data[option].choices[choiceGroup]) {
 							const skillChoiceKey = data[option].choices[choiceGroup][skillChoice]
@@ -256,19 +256,19 @@
 			},
 			cannotChooseTrait(key) {
 				return !canChooseTrait(
-					key, 
-					this.tempCharacterSheet.traits, 
-					this.tempCharacterSheet.attributes, 
-					this.tempCharacterSheet.metadata.isChosenByFate, 
+					key,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 			},
 			getFailedTraitRequirements(traitKey) {
 				const failedRequirements = this.getFailedRequirements(
-					traitKey, 
-					this.tempValidationSheet.traits, 
-					this.tempValidationSheet.attributes, 
-					this.tempValidationSheet.metadata.isChosenByFate, 
+					traitKey,
+					this.tempValidationSheet.traits,
+					this.tempValidationSheet.attributes,
+					this.tempValidationSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 				return failedRequirements
