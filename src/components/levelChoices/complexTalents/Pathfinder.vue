@@ -37,8 +37,17 @@
 					disabled
 					checked='true'
 				/>
-				<label :for="pathfinderSkill.key + '-owned'" :class="{ 'font-contrast-low' : !pathfinderSkillIsTouchedByError(pathfinderSkill.key) }" >
-					{{ pathfinderSkill.name }} 
+				<label :for="pathfinderSkill.key + '-owned'" class="display-inline-block" >
+					{{ pathfinderSkill.name }}
+					<div
+						v-if="
+							!canChoosePathfinderSkill(pathfinderSkill.key)
+							&& pathfinderSkill.key === selected
+							&& pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)"
+						class="font-size-tiny display-inline"
+					>
+						{{getErrorMessage(pathfinderSkill.key)}}
+					</div>
 				</label>
 			</div>
 
@@ -49,7 +58,7 @@
 
 <script>
 	import { ref } from 'vue'
-	import { canChooseTrait } from '../../../rules/characteristics/traits'
+	import { canChooseTrait, getFailedRequirements, getFailedTraitRequirementsErrorMessage } from '../../../rules/characteristics/traits'
 	import { pathfinder } from '../../../rules/characteristics/traitLists/talents'
 	import { contains } from '../../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
@@ -66,8 +75,8 @@
 			const pathfinderOptions = pathfinder.complexTrait[0]
 
 			let originalPathfinderChoiceKey = ''
-			if (
-				characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder
+			if (characterStore.history[validationSheet.metadata.selectedLevel].complexPayload
+				&& characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder
 				&& characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder.choices.toString()
 			){
 				originalPathfinderChoiceKey = characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder.choices.toString()
@@ -92,6 +101,8 @@
 				isInvalidAtThisLevel,
 				isTouchedByError,
 				invalidChoiceIsNotUnChecked,
+				getFailedRequirements,
+				getFailedTraitRequirementsErrorMessage,
 			}
 		},
 		methods: {
@@ -110,6 +121,18 @@
 
 				this.$emit('complexPayload', complexPayload)
 			},
+			canChoosePathfinderSkillAndIsSelected(pathfinderSkillKey) {
+				return (!this.canChoosePathfinderSkill(pathfinderSkillKey) && !contains(pathfinderSkillKey, this.selectedList))
+			},
+			canChoosePathfinderSkill(pathfinderSkillKey) {
+				return canChooseTrait(
+					pathfinderSkillKey,
+					this.characterSheet.traits,
+					this.characterSheet.attributes,
+					this.characterSheet.metadata.isChosenByFate,
+					this.characterSheet.metadata.level
+				)
+			},
 			invalidPathfinderSkillChoiceIsNotUnselected(key) {
 				return this.invalidChoiceIsNotUnChecked(key, this.validationSheet.metadata.invalidLevels, this.originalPathfinderChoiceKey, this.selectedList)
 			},
@@ -119,6 +142,20 @@
 			pathfinderSkillIsInvalidAtThisLevel(key) {
 				return this.isInvalidAtThisLevel(key, this.validationSheet.metadata.invalidLevels, this.selectedLevel)
 			},
+			getFailedTraitRequirements(traitKey) {
+				return getFailedRequirements(
+					traitKey, 
+					this.tempCharacterSheet.traits, 
+					this.tempCharacterSheet.attributes, 
+					this.tempCharacterSheet.metadata.isChosenByFate, 
+					this.selectedLevel
+				)
+			},
+			getErrorMessage(traitKey) {
+				return getFailedTraitRequirementsErrorMessage(
+					this.getFailedTraitRequirements(traitKey)
+				)
+			}
 			
 		} 
 	}

@@ -83,7 +83,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 							for (const choiceKey in skillChoicesList[choiceGroup]) { // ex. 'basicKnowledgeDavand'
 								const skillChoiceKey = skillChoicesList[choiceGroup][choiceKey]
 
-								// if any of the traits in the complexPayload is already owned, traitKey is invalid
+								// if any of the traits in the complexPayload are already owned, traitKey is invalid
 								if (contains(skillChoiceKey, characterTraitList)) invalidComplexTraitLevel.push(traitKey)
 
 								if (!contains(skillChoiceKey, characterTraitList) && skillChoiceKey.length > 0) {
