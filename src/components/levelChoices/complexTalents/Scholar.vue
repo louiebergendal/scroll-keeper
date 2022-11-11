@@ -20,27 +20,31 @@
 					:id="scholarSkill.key"
 					:value="scholarSkill.key"
 					@change="inputEventHandler"
-					class="margin-right-small"
+					class="checkbox-align margin-right-small vertical-align-top margin-bottom-nano"
 					:disabled="(
 						canChooseScholarSkillAndIsSelected('scholar')
-						||
-						canChooseScholarSkillAndIsSelected(scholarSkill.key)
-						||
-						(
+						|| canChooseScholarSkillAndIsSelected(scholarSkill.key)
+						|| (
 							contains(scholarSkill.key, checkedOptionsList)
-							&&
-							!contains(scholarSkill.key, selectedList)
+							&& !contains(scholarSkill.key, selectedList)
 						)
-						||
-						(
+						|| (
 							selectedList.length >= choicesAmount
-							&&
-							!contains(scholarSkill.key, checkedOptionsList)
+							&& !contains(scholarSkill.key, checkedOptionsList)
 						)
 					)"
 				/>
-				<label :for="scholarSkill.key">
-					{{getTraitNiceName(scholarSkill.key)}}
+				<label class="display-inline-block" :for="scholarSkill.key">
+					<div>{{getTraitNiceName(scholarSkill.key)}}</div>
+					<div
+						v-if="
+							!canChooseScholarSkill(scholarSkill.key)
+							&& contains(scholarSkill.key, checkedOptionsList)
+							&& scholarSkillIsInvalidAtThisLevel(scholarSkill.key)"
+						class="font-size-tiny display-inline"
+					>
+						{{getErrorMessage(scholarSkill.key)}}
+					</div>
 				</label>
 			</div>
 		</div>
@@ -50,7 +54,7 @@
 
 <script>
 	import { ref } from 'vue'
-	import { canChooseTrait, getTraitNiceName } from '../../../rules/characteristics/traits'
+	import { canChooseTrait, getTraitNiceName, getFailedTraitRequirementsErrorMessage, getFailedRequirements } from '../../../rules/characteristics/traits'
 	import { scholar } from '../../../rules/characteristics/traitLists/talents'
 	import { contains } from '../../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
@@ -91,6 +95,8 @@
 				isTouchedByError,
 				invalidChoiceIsNotUnChecked,
 				originalCheckedOptionsList,
+				getFailedRequirements,
+				getFailedTraitRequirementsErrorMessage
 			}
 		},
 		methods: {
@@ -133,7 +139,22 @@
 			},
 			scholarSkillIsInvalidAtThisLevel(key) {
 				return isInvalidAtThisLevel(key, this.validationSheet.metadata.invalidLevels, this.selectedLevel)
+			},
+			getFailedTraitRequirements(traitKey) {
+				return getFailedRequirements(
+					traitKey, 
+					this.tempCharacterSheet.traits, 
+					this.tempCharacterSheet.attributes, 
+					this.tempCharacterSheet.metadata.isChosenByFate, 
+					this.selectedLevel
+				)
+			},
+			getErrorMessage(traitKey) {
+				return getFailedTraitRequirementsErrorMessage(
+					this.getFailedTraitRequirements(traitKey)
+				)
 			}
+
 
 		}
 
@@ -143,5 +164,8 @@
 <style>
 	.invalid {
 		background: rgb(247, 63, 46) !important;
+	}
+	.checkbox-align {
+		margin-top: 0.8rem;
 	}
 </style>

@@ -123,7 +123,7 @@ const physician = {
     key: 'physician',
     name: 'Omvårdnad',
     requirements: {
-        traits: ['alchemy']
+        traits: ['arcane']
     },
     addHealCeilingBonus: (ceiling) => ceiling += 2
 }

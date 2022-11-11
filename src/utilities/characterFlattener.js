@@ -119,7 +119,9 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 					}
 
 					// if there are any errors, push to invalidlist
-					if (invalidComplexTraitLevel.length > 0) baseCharacterSheet.metadata.invalidLevels[levelIndex] = invalidComplexTraitLevel
+					if (invalidComplexTraitLevel.length > 0) {
+						baseCharacterSheet.metadata.invalidLevels[levelIndex] = invalidComplexTraitLevel
+					}
 				}
 
 				characterTraitList.push(traitKey)

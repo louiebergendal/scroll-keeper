@@ -5,12 +5,14 @@
 
 // * * * C O N T E N T * * * //
 
+import { getAttributeLongName } from './attributes'
 import attributeSkillsImport from './traitLists/attributeSkills'
 import generalSkillsImport from './traitLists/generalSkills'
 import knowledgeSkillsImport from './traitLists/knowledgeSkills'
 import favouredTerrainSkillsImport from './traitLists/favouredTerrainSkills'
 import talentsListImport from './traitLists/talents'
 import { contains } from '../utils'
+
 
 const name = 'Färdigheter och Talanger'
 
@@ -227,48 +229,169 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 	return modifiedValue
 }
 
+export function canChooseTrait(traitKey, characterTraitList, characterAttributes, isChosenByFate, selectedLevel){
+	const error = getFailedRequirements(
+			traitKey,
+			characterTraitList,
+			characterAttributes,
+			isChosenByFate,
+			selectedLevel
+		)
+	return Object.keys(error).length === 0
+}
 
-export function canChooseTrait(traitKey, characterTraitList, characterAttributes, isChosenByFate, selectedLevel) {
+export function getFailedRequirements(
+	traitKey, 
+	characterTraitList,
+	characterAttributes,
+	isChosenByFate,
+	selectedLevel
+) {
 
 	// access target trait requirements
 	const trait = allTraitsList[traitKey]
-	let requirementsAreMet = true
+	const failedRequirements = {}
 
 	// check if trait is already owned
 	if (contains(traitKey, characterTraitList.slice(0, characterTraitList.length - 1))) {
-		requirementsAreMet = false
+		failedRequirements.isAlreadyOwned = true
 	}
 
 	if (trait.requirements) {
 		// check required traits
 		if (trait.requirements.traits) {
 			const requiredTraitKeysList = trait.requirements.traits
-			requiredTraitKeysList.forEach(requiredTrait => {
-				if(!contains(requiredTrait, characterTraitList)) { requirementsAreMet = false }
+			let failedRequiredTraitsKeysList = []
+
+			requiredTraitKeysList.forEach(requiredTraitKey => {
+				if(!contains(requiredTraitKey, characterTraitList)) {
+					failedRequiredTraitsKeysList.push(requiredTraitKey)
+				}
 			})
+			if(failedRequiredTraitsKeysList.length !== 0) {
+				failedRequirements.traits = (failedRequiredTraitsKeysList)
+			}
 		}
 		// check required attributes
 		if (trait.requirements.attributes) {
 			const requiredAttributeList = Object.keys(trait.requirements.attributes)
+			let failedRequiredAttributesList = []
+
 			requiredAttributeList.forEach(requiredAttributeKey => {
 				const requiredAttributeValue = trait.requirements.attributes[requiredAttributeKey]
 				const characterAttributeValue = characterAttributes[requiredAttributeKey]
-				if (requiredAttributeValue > characterAttributeValue) { requirementsAreMet = false }
+				if (requiredAttributeValue > characterAttributeValue) {
+					failedRequiredAttributesList = {
+						...failedRequiredAttributesList,
+						[requiredAttributeKey]: requiredAttributeValue
+					}
+					if(failedRequiredAttributesList.length !== 0) {
+						failedRequirements.attributes = failedRequiredAttributesList
+					}
+				}
 			})
 		}
 		// check required level
 		const requiredMetadata = {...trait.requirements.metadata}
 		const requiredLevel = (requiredMetadata.level -1) // -1 to account for current lvling
-		if (requiredLevel) {
-			if (requiredLevel > selectedLevel) { requirementsAreMet = false }
+		if (requiredLevel && requiredLevel > selectedLevel) {
+			failedRequirements.metadata = {
+				...failedRequirements.metadata,
+				level: requiredLevel
+			} 
 		}
 		// check if isChosenByFate
 		if (requiredMetadata.isChosenByFate) {
-			if (isChosenByFate === false) { requirementsAreMet = false }
+
+			if (!isChosenByFate) {
+				failedRequirements.metadata = {
+					...failedRequirements.metadata,
+					isChosenByFate: isChosenByFate
+				}
+			}
 		}
 	}
-	return requirementsAreMet
+	return failedRequirements
 }
+
+
+
+export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) {
+    let traitsErrorString = ""
+
+    // failed traits
+    if (failedTraitRequirements.traits) {
+        Object.values(failedTraitRequirements.traits).forEach((traitKey, index) => {
+            const traitNiceName = getTraitNiceName(traitKey)
+            if (index === 0) {
+                traitsErrorString = traitNiceName
+            } else {
+                traitsErrorString += ', ' + traitNiceName
+            }
+        })
+    }
+
+    // failed attributes
+    let attributesErrorString = ""
+    if (failedTraitRequirements.attributes) {
+        Object.keys(failedTraitRequirements.attributes).forEach((attributeKey, index) => {
+            const attributeNiceName = getAttributeLongName(attributeKey)
+            if (index === 0) {
+                attributesErrorString = attributeNiceName + ': ' + failedTraitRequirements.attributes[attributeKey] 
+            } else {
+                attributesErrorString += ', ' + attributeNiceName + ': ' + failedTraitRequirements.attributes[attributeKey]
+            }
+        })
+    }
+
+    let isNotChosenByFateErrorString = ''
+    if (failedTraitRequirements.metadata && failedTraitRequirements.metadata.isChosenByFate === false) {
+        isNotChosenByFateErrorString = 'Ödesvald'
+    }
+
+    let levelErrorString = ''
+    if (failedTraitRequirements.metadata && failedTraitRequirements.metadata.level) {
+        levelErrorString = 'Erfarenhet: ' + failedTraitRequirements.metadata.level
+    }
+
+    attributesErrorString =
+        (traitsErrorString && attributesErrorString)
+            ? attributesErrorString + ', '
+            : attributesErrorString + ''
+
+    traitsErrorString = traitsErrorString ? traitsErrorString : ''
+
+    let failedRequirementsString = attributesErrorString + traitsErrorString || ''
+    if (isNotChosenByFateErrorString) {
+        failedRequirementsString =
+            (failedRequirementsString)
+                ? failedRequirementsString + ', ' + isNotChosenByFateErrorString
+                : isNotChosenByFateErrorString
+    }
+    if (levelErrorString) {
+        failedRequirementsString =
+            (failedRequirementsString)
+                ? failedRequirementsString + ', ' + levelErrorString
+                : levelErrorString
+    }
+    // already owned
+    let isAlreadyOwnedErrorString = ''
+
+    if (failedTraitRequirements.isAlreadyOwned) isAlreadyOwnedErrorString = 'Redan vald'
+
+
+    if (isAlreadyOwnedErrorString
+        && (attributesErrorString.length === 0 && traitsErrorString.length === 0)
+    ) {
+        isAlreadyOwnedErrorString === isAlreadyOwnedErrorString + ', '
+    }
+    const otherFailReasonsString = isAlreadyOwnedErrorString
+
+    let returnString = otherFailReasonsString ? otherFailReasonsString : 'Kräver: ' + failedRequirementsString
+
+    return returnString
+}
+
 
 export function traitFromKey(traitKey) {
 	return allTraitsList[traitKey]
@@ -278,3 +401,4 @@ export function getTraitNiceName(traitKey) {
 	const trait = traitFromKey(traitKey)
 	if (trait) { return trait.name }
 }
+

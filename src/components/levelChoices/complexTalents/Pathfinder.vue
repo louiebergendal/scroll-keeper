@@ -29,7 +29,7 @@
 				v-if="contains(pathfinderSkill.key, characterSheet.traits)"
 				:class="{
 					'touched-by-error': pathfinderSkillIsTouchedByError(pathfinderSkill.key),
-					'invalid-background': pathfinderSkillIsTouchedByError(pathfinderSkill.key)}"
+					'invalid-background': pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)}"
 			>
 				<input
 					type="radio"
@@ -62,11 +62,14 @@
 			const characterSheet = props.tempCharacterSheet
 			const characterTraits = characterSheet.traits
 			const validationSheet = props.tempValidationSheet
+			const selectedLevel = validationSheet.metadata.selectedLevel
 			const pathfinderOptions = pathfinder.complexTrait[0]
 
 			let originalPathfinderChoiceKey = ''
-			
-			if (characterStore.history[validationSheet.metadata.selectedLevel].complexPayload && characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder.choices.toString()) {
+			if (
+				characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder
+				&& characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder.choices.toString()
+			){
 				originalPathfinderChoiceKey = characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder.choices.toString()
 			}
 
@@ -83,6 +86,7 @@
 				contains,
 				canChooseTrait,
 				validationSheet,
+				selectedLevel,
 
 				invalidChoiceIsNotDeselected,
 				isInvalidAtThisLevel,
@@ -113,8 +117,9 @@
 				return this.isTouchedByError(key, this.validationSheet.metadata.invalidLevels)
 			},
 			pathfinderSkillIsInvalidAtThisLevel(key) {
-				return isInvalidAtThisLevel(key, this.validationSheet.metadata.invalidLevels, this.selectedLevel)
-			}
+				return this.isInvalidAtThisLevel(key, this.validationSheet.metadata.invalidLevels, this.selectedLevel)
+			},
+			
 		} 
 	}
 </script>

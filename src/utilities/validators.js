@@ -2,14 +2,14 @@ import { contains, explodeInvalidList } from '../rules/utils'
 import { equals } from './utils'
 
 export const invalidChoiceIsNotDeselected = (key, invalidLevels, originalLevelChoiceKey, tempLevelChoiceKey) => {
-	return contains(
-		key, explodeInvalidList(invalidLevels))
+	return isTouchedByError(
+		key, invalidLevels)
 		&& !(originalLevelChoiceKey === key && originalLevelChoiceKey !== tempLevelChoiceKey)
 }
 
 export const invalidChoiceIsNotUnChecked = (key, invalidLevels, originalLevelChoiceKeysList, tempLevelChoiceKeysList) => {
-	return contains(
-		key, explodeInvalidList(invalidLevels))
+	return isTouchedByError(
+		key, invalidLevels)
 		&& !(contains(key, originalLevelChoiceKeysList) && !contains(key, tempLevelChoiceKeysList))
 }
 

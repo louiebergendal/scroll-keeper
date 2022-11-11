@@ -12,19 +12,41 @@
 				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level" >
 						<div v-if="level.levelBonus === 'skill'">
-							<TraitLevel :selectedLevel="currentTabIndex" :characterStore="characterStore" :traitType="'skill'" @update-tabs="updateLevelTabData" />
+							<TraitLevel 
+								:selectedLevel="currentTabIndex"
+								:characterStore="characterStore"
+								:traitType="'skill'"
+								@update-tabs="updateLevelTabData"
+							/>
 						</div>
 						<div v-if="level.levelBonus === 'attribute'">
-							<AttributeLevel :selectedLevel="currentTabIndex" :characterStore="characterStore" @update-tabs="updateLevelTabData" />
+							<AttributeLevel
+								:selectedLevel="currentTabIndex"
+								:characterStore="characterStore"
+								@update-tabs="updateLevelTabData"
+							/>
 						</div>
 						<div v-if="level.levelBonus === 'talent'">
-							<TraitLevel :selectedLevel="currentTabIndex" :characterStore="characterStore" :traitType="'talent'" @update-tabs="updateLevelTabData" />
+							<TraitLevel 
+								:selectedLevel="currentTabIndex"
+								:characterStore="characterStore"
+								:traitType="'talent'"
+								@update-tabs="updateLevelTabData"
+							/>
 						</div>
 						<div v-if="level.levelBonus === 'fate'">
-							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'fate'" @update-tabs="updateLevelTabData"/>
+							<StaticLevel
+								:selectedLevel="currentTabIndex"
+								:characteristic="'fate'"
+								@update-tabs="updateLevelTabData"
+							/>
 						</div>
 						<div v-if="level.levelBonus === 'competence'">
-							<StaticLevel :selectedLevel="currentTabIndex" :characteristic="'competence'" @update-tabs="updateLevelTabData"/>
+							<StaticLevel
+								:selectedLevel="currentTabIndex"
+								:characteristic="'competence'"
+								@update-tabs="updateLevelTabData"
+							/>
 						</div>
 					</div>
 				</div>
@@ -61,9 +83,6 @@
 			const currentTabIndex = ref(0)
 			const levelTabDataList = ref([])
 			const levelList = ref([])
-
-			
-			//const annan = characterStore.filter(skill => skill.complexTalent)
 
 			return {
 				Wizard,
@@ -117,17 +136,36 @@
 					// as an external dependency -
 					// the creator is still updating it (nov 2022)
 
-					let levelTabItem = {}
-					if (levelIndex === this.currentTabIndex) {
-						levelTabItem = { title: levelTabData, id: levelIndex + '-' + 'selectedStep'}
-					} else {
-						const containsInvalidChoice = contains(
-							levelIndex.toString(),
-							Object.keys(this.characterStore.metadata.invalidLevels)
-						)
-						const appendedInvalidMarker = containsInvalidChoice ? 'invalidStep' : ''
-						levelTabItem = { title: levelTabData, id: levelIndex + '-' + appendedInvalidMarker}
+					const containsInvalidChoice = contains(
+						levelIndex.toString(),
+						Object.keys(this.characterStore.metadata.invalidLevels)
+					)
+					const levelindexIsClicked = levelIndex === this.currentTabIndex
+
+					// default
+					let levelTabItem = { title: levelTabData, id: levelIndex }
+					// invalid
+					if (containsInvalidChoice) { 
+						levelTabItem = { 
+							title: levelTabData, 
+							id: levelIndex + '-' + 'invalidStep'
+						}
 					}
+					// clicked
+					if (levelindexIsClicked) { 
+						levelTabItem = { 
+							title: levelTabData, 
+							id: levelIndex + '-' + 'selectedStep'
+						}
+					}
+					// clicked and invalid
+					if (levelindexIsClicked && containsInvalidChoice) { 
+						levelTabItem = { 
+							title: levelTabData, 
+							id: levelIndex + '-' + 'selectedIvalidStep'
+						}
+					}
+					
 					this.levelTabDataList.push(levelTabItem)
 					this.levelList.push(level)
 				}
@@ -153,6 +191,11 @@
 		color: #fff !important;
 	}
 	[id$="selectedStep"].fw-squared-tab {
+		background: rgb(23, 10, 208) !important;
+		color: #fff !important;
+	}
+	[id$="selectedIvalidStep"].fw-squared-tab {
+		border: 4px solid red !important;
 		background: rgb(23, 10, 208) !important;
 		color: #fff !important;
 	}
@@ -185,8 +228,5 @@
 		margin-left: calc(-100vw + 5rem);
 		height: 100vh;
 		overflow: hidden;
-	}
-	.invalid {
-		background: red;
 	}
 </style>

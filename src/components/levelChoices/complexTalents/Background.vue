@@ -33,7 +33,7 @@
 				<div>
 					<RadioButtonGroup
 						:options="peoplesOptions[peoplesChoiceKey].skillsLists[0].list"
-						:selected="setSelectedIfValid(invalidKnowledgeSkillsForPeoplesChoicesList, peoplesSkillsChoiceList.toString())"
+						:selected="setSelectedIfValid(invalidKnowledgeSkillsForPeoplesChoicesList, peoplesSkillsChoiceList?.[0]?.toString())"
 						:name="'peoples' + '-' + 'skillList' + '-' + 0"
 						:invalidOptionsList="invalidPeoplesChoicesList" 
 						@input="inputEventHandler"
