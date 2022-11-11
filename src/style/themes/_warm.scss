@@ -1,19 +1,6 @@
 @import '../themes/_variables-warm.scss';
 @import '../global/_main.scss';
 
-//EXCEPTIONS
-.form-wizard-vue {
-  .fw-body-content {
-
-  }
-  .fw-body-content {
-    padding: 0 !important;
-  }
-  .fw-body-container {
-    min-height:100%;
-  }
-}
-
 
 #app {
   height: 100vh;
@@ -118,12 +105,12 @@ nav {
 }
 
 .touched-by-error {
-  background-repeat:no-repeat; 
+  background-repeat:no-repeat;
   color: #fff !important;
   background-color: rgba(234, 10, 10, 0.331) !important;
   font-weight: bold;
   border-radius: $border-radius;
-  
+
   &.-angled-bottom {
     border-radius: 3px 3px 0 0;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
@@ -166,6 +153,19 @@ nav {
     border-radius: 0;
     border: 0;
   }
+  &.-fill {
+    min-height: 100vh !important;
+  }
+}
+
+.fancy {
+  margin: 100px;
+  border:10px solid transparent;
+  border-image-slice: 45;
+  border-width: 20px;
+  border-image-outset: 8px;
+  border-image-repeat: repeat;
+  border-image-source: url('/img/border-sandstone.png')
 }
 
 .dictionary-word {
@@ -190,4 +190,99 @@ nav {
 }
 .attribute-skill-bottom {
   border-radius: 0 0 $border-radius $border-radius;
+}
+
+// FORM WIZARD STYLING - A TOTAL HACK
+
+//EXCEPTIONS
+.form-wizard-vue {
+  .fw-body-content {
+
+  }
+  .fw-body-content {
+    padding: 0 !important;
+  }
+  .fw-body-container {
+    min-height:100%;
+  }
+}
+
+.form-wizard-vue .fw-body-list {
+  min-width: 35rem !important;
+  align-self: flex-start !important;
+  height: 100vh !important;
+  overflow: scroll !important;
+  .fw-step-title {
+    font-size: $font-size-tiny !important;
+  }
+  .fw-step-container {
+    margin-top: -4px;
+  }
+  .fw-list-progress {
+    height: 30% !important;
+    top: 90% !important;
+    background-color: #d7cebd !important;
+  }
+  .fw-list-progress-active {
+    background: linear-gradient(90deg, rgb(196 196 155) 0%, rgb(231 233 199) 50%, rgb(200 197 158) 100%) !important;
+  }
+  .fw-squared-tab {
+    border: 1px solid $border-contrast-high;
+  }
+}
+
+.form-wizard-vue .fw-body {
+  height: 100vh !important;
+  overflow: scroll !important;
+}
+
+.fw-footer {
+  display: none !important;
+}
+
+// HACK VIA HTML ID PROPERTY
+// KEEP UNTIL CONNECTION TO THAT
+// LIB IS SEVERED
+
+[id$="invalidStep"].fw-squared-tab {
+  background: rgb(255, 51, 0) !important;
+  color: #fff !important;
+}
+[id$="selectedStep"].fw-squared-tab {
+  background: radial-gradient(circle at 50% 50%, rgb(254 254 223) 0%, rgb(227 228 193) 50%, rgb(206 202 153) 100%) !important;
+  border: 2px solid #d4b87b !important;
+}
+[id$="selectedInvalidStep"].fw-squared-tab {
+  border: 2px solid rgb(255, 51, 0) !important;
+  background: radial-gradient(circle at 50% 50%, rgb(254 254 223) 0%, rgb(227 228 193) 50%, rgb(206 202 153) 100%) !important;
+}
+
+.level-ladder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: fit-content;
+  min-height: 100vh;
+  max-width: 100vw;
+  min-width: 100vw;
+  width: 100vw;
+  overflow: scroll;
+  background-color: $background-brightness-low;
+}
+.levels {
+  height: 100%;
+  max-width: calc(100vw - 5rem);
+  min-width: calc(100vw - 5rem);
+  width: calc(100vw - 5rem);
+}
+.drawer-handle {
+  width: 5rem;
+  min-height: 100vh;
+  max-height: fit-content;
+  background-color: rgba(0, 0, 0, 0.185);
+}
+.closed {
+  margin-left: calc(-100vw + 5rem);
+  height: 100vh;
+  overflow: hidden;
 }

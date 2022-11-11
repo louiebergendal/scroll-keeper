@@ -2,7 +2,7 @@
 	<div :class="{ closed: isClosed, 'level-ladder': true, flex: true, slideInLeft: true }">
 		<div class='levels'>
 
-			<Wizard 
+			<Wizard
 				squared-tabs
 				navigable-tabs
 				vertical-tabs
@@ -12,7 +12,7 @@
 				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level" >
 						<div v-if="level.levelBonus === 'skill'">
-							<TraitLevel 
+							<TraitLevel
 								:selectedLevel="currentTabIndex"
 								:characterStore="characterStore"
 								:traitType="'skill'"
@@ -27,7 +27,7 @@
 							/>
 						</div>
 						<div v-if="level.levelBonus === 'talent'">
-							<TraitLevel 
+							<TraitLevel
 								:selectedLevel="currentTabIndex"
 								:characterStore="characterStore"
 								:traitType="'talent'"
@@ -145,27 +145,27 @@
 					// default
 					let levelTabItem = { title: levelTabData, id: levelIndex }
 					// invalid
-					if (containsInvalidChoice) { 
-						levelTabItem = { 
-							title: levelTabData, 
+					if (containsInvalidChoice) {
+						levelTabItem = {
+							title: levelTabData,
 							id: levelIndex + '-' + 'invalidStep'
 						}
 					}
 					// clicked
-					if (levelindexIsClicked) { 
-						levelTabItem = { 
-							title: levelTabData, 
+					if (levelindexIsClicked) {
+						levelTabItem = {
+							title: levelTabData,
 							id: levelIndex + '-' + 'selectedStep'
 						}
 					}
 					// clicked and invalid
-					if (levelindexIsClicked && containsInvalidChoice) { 
-						levelTabItem = { 
-							title: levelTabData, 
-							id: levelIndex + '-' + 'selectedIvalidStep'
+					if (levelindexIsClicked && containsInvalidChoice) {
+						levelTabItem = {
+							title: levelTabData,
+							id: levelIndex + '-' + 'selectedInvalidStep'
 						}
 					}
-					
+
 					this.levelTabDataList.push(levelTabItem)
 					this.levelList.push(level)
 				}
@@ -183,50 +183,5 @@
 </script>
 
 <style lang='scss'>
-	@import '../style/themes/_variables-warm.scss';
 	@import '../assets/wizard/form-wizard-vue3.scss';
-
-	[id$="invalidStep"].fw-squared-tab {
-		background: red !important;
-		color: #fff !important;
-	}
-	[id$="selectedStep"].fw-squared-tab {
-		background: rgb(23, 10, 208) !important;
-		color: #fff !important;
-	}
-	[id$="selectedIvalidStep"].fw-squared-tab {
-		border: 4px solid red !important;
-		background: rgb(23, 10, 208) !important;
-		color: #fff !important;
-	}
-
-	.level-ladder {
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: fit-content;
-		min-height: 100vh;
-		max-width: 100vw;
-		min-width: 100vw;
-		width: 100vw;
-		overflow: scroll;
-		background-color: $background-brightness-low;
-	}
-	.levels {
-		height: 100%;
-		max-width: calc(100vw - 5rem);
-		min-width: calc(100vw - 5rem);
-		width: calc(100vw - 5rem);
-	}
-	.drawer-handle {
-		width: 5rem;
-		min-height: 100vh;
-		max-height: fit-content;
-		background-color: rgba(0, 0, 0, 0.185);
-	}
-	.closed {
-		margin-left: calc(-100vw + 5rem);
-		height: 100vh;
-		overflow: hidden;
-	}
 </style>

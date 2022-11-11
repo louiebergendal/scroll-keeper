@@ -1,5 +1,5 @@
 <template>
-	<div class="card square medium padding-large">
+	<div class="card square medium padding-large -fill">
 
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Välj en grej!</h3>
 

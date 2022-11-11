@@ -1,5 +1,5 @@
 <template>
-	<div class='card square medium padding-large'>
+	<div class='card square medium padding-large -fill'>
 
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Öka en grundegenskap!</h3>
 
@@ -43,8 +43,8 @@
 				>
 					{{tempCharacterAttributes[attribute.key]}} + 1
 				</div>
-				<div 
-					v-if="tempLevelChoiceKey !== attribute.key" 
+				<div
+					v-if="tempLevelChoiceKey !== attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 					class="card dark width-fourth margin-left-tiny align-center"
 				>

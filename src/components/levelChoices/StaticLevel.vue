@@ -1,8 +1,8 @@
 <template>
-    <div class='card square medium padding-large'>
-		
+    <div class='card square medium padding-large -fill'>
+
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Klicka på knappen för att bli bättre</h3>
-		<button 
+		<button
 			:disabled="!levelIsChangable"
 			type="submit"
 			class="margin-top-tiny margin-left-nano"
@@ -25,7 +25,7 @@
 			const traitToBeIncreased = props.characteristic
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
-			
+
 			return {
 				characterStore,
 				traitToBeIncreased,

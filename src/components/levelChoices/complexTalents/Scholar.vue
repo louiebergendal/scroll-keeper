@@ -5,11 +5,11 @@
 
 		<div  :key="scholarSkill.key" v-for="scholarSkill in scholarOptions.list">
 			<div
-				class="card padding-nano padding-left-small padding-bottom-tiny trait-card-align"
+				class="card padding-nano padding-left-small padding-bottom-tiny trait-card-align margin-bottom-nano"
 				:class="{
 					'touched-by-error': scholarSkillIsTouchedByError(scholarSkill.key),
 					'invalid-background':
-						scholarSkillIsInvalidAtThisLevel(scholarSkill.key) 
+						scholarSkillIsInvalidAtThisLevel(scholarSkill.key)
 						&& invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key),
 					'font-contrast-lowest':
 						invalidScholarSkillChoiceIsNotUnchecked(scholarSkill.key)
@@ -75,7 +75,7 @@
 
 
 			// ska kolla om den är i invalidList
-			// ska också kolla om något i selectedList är i invalidList			
+			// ska också kolla om något i selectedList är i invalidList
 
 			return {
 				characterSheet,
@@ -142,10 +142,10 @@
 			},
 			getFailedTraitRequirements(traitKey) {
 				return getFailedRequirements(
-					traitKey, 
-					this.tempCharacterSheet.traits, 
-					this.tempCharacterSheet.attributes, 
-					this.tempCharacterSheet.metadata.isChosenByFate, 
+					traitKey,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 			},
