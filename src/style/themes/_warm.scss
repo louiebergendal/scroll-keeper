@@ -32,7 +32,7 @@ nav {
 .main-bg {
   background-color: $background-brightness-low;
   background-size: 50%;
-  min-height: calc(100% - 5rem);
+  min-height: calc(100vh - 5rem);
 }
 
 .logo {
@@ -216,6 +216,7 @@ nav {
 
 // --- GENERAL
 .form-wizard-vue {
+  background-image: url('/img/monochromeNoise.png');
   .fw-body-content {
     padding: 0 !important;
   }
@@ -225,15 +226,19 @@ nav {
   .fw-body-list {
     min-width: 35rem !important;
     align-self: flex-start !important;
-    height: 100vh !important;
+    max-height: 100vh !important;
     overflow: scroll !important;
     background-image: url('/img/monochromeNoise.png');
     box-shadow: -4px 0px 1rem 0px rgba(0,0,0,0.05) inset;
     .fw-step-title {
       font-size: $font-size-tiny !important;
+      font-weight: bold;
+      color: #4f4b48;
+      padding-bottom: 5px;
     }
     .fw-step-container {
-      margin-top: -4px;
+      margin-top: -7px;
+      font-weight: bold;
     }
     .fw-list-progress {
       height: 85% !important;
@@ -255,7 +260,7 @@ nav {
     display: none !important;
   }
   .fw-list-wrapper {
-    top: 0;
+    top: 0 !important;
   }
   // Hahahaha
   li:has([id$="selectedStep"].fw-squared-tab) {
@@ -273,7 +278,8 @@ nav {
 }
 [id$="selectedStep"].fw-squared-tab {
   background: radial-gradient(circle at 50% 50%, rgb(254 254 223) 0%, rgb(227 228 193) 50%, rgb(206 202 153) 100%) !important;
-  border: 2px solid #d4b87b !important;
+  border: 2px solid #c3a971 !important;
+  box-shadow: 0px 1px 6px 0px rgb(0 0 0 / 19%);
 }
 [id$="selectedInvalidStep"].fw-squared-tab {
   border: 2px solid rgb(255, 51, 0) !important;
@@ -287,7 +293,7 @@ nav {
   bottom: 0;
   right: 0;
   height: fit-content;
-  min-height: 100vh;
+  min-height: calc(100vh - 5rem);
   max-width: 100vw;
   min-width: 100vw;
   width: 100vw;
@@ -303,12 +309,11 @@ nav {
 }
 .drawer-handle {
   width: 6rem;
-  min-height: 100vh;
-  max-height: fit-content;
+  height: calc(100vh - 5rem);
   background-color: rgb(126 117 104);
 }
 .closed {
   margin-left: calc(-100vw + 6rem);
-  height: 100vh;
+  height: calc(100vh - 5rem);
   overflow: hidden;
 }
