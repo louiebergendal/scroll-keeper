@@ -171,7 +171,9 @@ nav {
     border-bottom: 1px solid rgba(0, 0, 0, 0.2) !important;
   }
   &.invalid-background {
+    background-image: url('/img/monochromeNoise.png');
     background-color: rgb(255, 51, 0) !important;
+    background-repeat: repeat;
     border-color: rgba(78, 7, 0, 0.266);
     .attribute-skill-marker {
       filter: invert(98%) sepia(5%) saturate(401%) hue-rotate(11deg) brightness(200%) contrast(100%);
@@ -255,7 +257,7 @@ nav {
       border: 1px solid #a48a52;
     }
     .fw-squared-tab {
-      border: 1px solid $border-contrast-high;
+      border: 2px solid #aead9f;
     }
   }
   .fw-body {
@@ -269,11 +271,17 @@ nav {
     top: 0 !important;
   }
   // Hahahaha
+  li:has(.fw-squared-tab) {
+    cursor: pointer;
+  }
+
   li:has([id$="selectedStep"].fw-squared-tab) {
     background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(225,214,195,0) 25%, rgba(240,234,224,1) 100%);
+    cursor: default;
   }
   li:has([id$="selectedInvalidStep"].fw-squared-tab) {
     background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(225,214,195,0) 25%, rgba(240,234,224,1) 100%);
+    cursor: default;
   }
 }
 
@@ -282,7 +290,9 @@ nav {
 // LIB IS SEVERED
 
 [id$="invalidStep"].fw-squared-tab {
-  background: rgb(255, 51, 0) !important;
+  background-image: url('/img/monochromeNoise.png') !important;
+  background-color: rgb(255, 51, 0) !important;
+  background-repeat: repeat;
   color: #fff !important;
 }
 [id$="selectedStep"].fw-squared-tab {
