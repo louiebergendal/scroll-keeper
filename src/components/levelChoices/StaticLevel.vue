@@ -1,7 +1,7 @@
 <template>
-    <div class='card square medium padding-large -fill'>
+    <div class='card square medium padding-large align-center -fill'>
 
-		<h3 class="align-center margin-top-nano margin-bottom-tiny">Klicka på knappen för att bli bättre</h3>
+		<h3 class="align-center margin-top-nano margin-bottom-huge">Klicka på knappen för att bli bättre</h3>
 		<button
 			:disabled="!levelIsChangable"
 			type="submit"

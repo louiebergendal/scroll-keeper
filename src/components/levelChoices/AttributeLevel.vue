@@ -18,7 +18,7 @@
 				class="width-whole flex"
 			>
 				<div
-					class="card width-whole"
+					class="card dark width-whole padding-bottom-tiny"
 					:class="{
 						'touched-by-error': attributeIsTouchedByError(attribute.key),
 						'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key) && attributeIsInvalidAtThisLevel(attribute.key)
@@ -39,14 +39,14 @@
 				<div
 					v-if="tempLevelChoiceKey === attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
-					class="card dark width-fourth margin-left-tiny align-center"
+					class="card light width-fourth margin-left-tiny align-center"
 				>
 					{{tempCharacterAttributes[attribute.key]}} + 1
 				</div>
 				<div
 					v-if="tempLevelChoiceKey !== attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
-					class="card dark width-fourth margin-left-tiny align-center"
+					class="card light width-fourth margin-left-tiny align-center"
 				>
 					{{tempCharacterAttributes[attribute.key]}}
 				</div>

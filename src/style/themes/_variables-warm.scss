@@ -3,7 +3,7 @@
 $background-brightnesses: (
     "high": #fffbf6,
     "medium": #f0eae0,
-    "low": #e4ded3,
+    "low": #e1d6c3,
 );
 $background-brightness-high: map-get($background-brightnesses, 'high');
 $background-brightness-medium: map-get($background-brightnesses, 'medium');
