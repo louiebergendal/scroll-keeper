@@ -59,7 +59,7 @@
 		setup() {
 			const characterStore = useCharacterStore()
 			const totalHealth = characterStore.sheet.health
-			
+
 			// inför "maxFate" och "currentFate"
 
 			const dealDamage = {
@@ -109,7 +109,7 @@
 					damage: currentDamage += strain.damage,
 					fatigue: currentFatigue += strain.fatigue
 				}
-				
+
 				if (newStrain.damage < 0) { newStrain.damage = 0 }
 				if (newStrain.fatigue < 0) { newStrain.fatigue = 0 }
 

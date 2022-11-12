@@ -11,7 +11,7 @@
 nav {
   height: 5rem;
   z-index: 99;
-  background-color: #655d53;
+  background-color: #302d29;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -76,7 +76,7 @@ nav {
     border: 0;
   }
   &.-fill {
-    min-height: 100vh !important;
+    min-height: calc(100vh - 5rem) !important;
   }
 }
 
@@ -84,9 +84,13 @@ nav {
 .character {
   position: relative;
   margin-left: 6rem;
+  height: calc(100vh - 5rem);
   background-color: rgb(215 200 178);
+  background-image: url('/img/monochromeNoise.png');
+
   .character-name {
-    text-shadow: 0px -1px rgba(255,255,255,0.5);
+    text-shadow: 0px -1px rgb(255 255 255 / 50%), 0 1px 1px rgb(224 200 170);
+    color: #795f44;
   }
 }
 .wrapper {
@@ -216,6 +220,7 @@ nav {
 
 // --- GENERAL
 .form-wizard-vue {
+  max-height: calc(100vh - 5rem);
   background-image: url('/img/monochromeNoise.png');
   .fw-body-content {
     padding: 0 !important;
@@ -226,7 +231,7 @@ nav {
   .fw-body-list {
     min-width: 35rem !important;
     align-self: flex-start !important;
-    max-height: 100vh !important;
+    max-height: calc(100vh - 5rem) !important;
     overflow: scroll !important;
     background-image: url('/img/monochromeNoise.png');
     box-shadow: -4px 0px 1rem 0px rgba(0,0,0,0.05) inset;
@@ -243,17 +248,18 @@ nav {
     .fw-list-progress {
       height: 85% !important;
       top: 55% !important;
-      background-color: #c3baaa !important
+      background-color: #c3baaa !important;
     }
     .fw-list-progress-active {
       background: linear-gradient(90deg, rgb(196 196 155) 0%, rgb(231 233 199) 50%, rgb(200 197 158) 100%) !important;
+      border: 1px solid #a48a52;
     }
     .fw-squared-tab {
       border: 1px solid $border-contrast-high;
     }
   }
   .fw-body {
-    height: 100vh !important;
+    height: calc(100vh - 5rem) !important;
     overflow: scroll !important;
   }
   .fw-footer {
@@ -264,6 +270,9 @@ nav {
   }
   // Hahahaha
   li:has([id$="selectedStep"].fw-squared-tab) {
+    background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(225,214,195,0) 25%, rgba(240,234,224,1) 100%);
+  }
+  li:has([id$="selectedInvalidStep"].fw-squared-tab) {
     background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(225,214,195,0) 25%, rgba(240,234,224,1) 100%);
   }
 }
@@ -278,12 +287,13 @@ nav {
 }
 [id$="selectedStep"].fw-squared-tab {
   background: radial-gradient(circle at 50% 50%, rgb(254 254 223) 0%, rgb(227 228 193) 50%, rgb(206 202 153) 100%) !important;
-  border: 2px solid #c3a971 !important;
+  border: 2px solid #a48a52 !important;
   box-shadow: 0px 1px 6px 0px rgb(0 0 0 / 19%);
 }
 [id$="selectedInvalidStep"].fw-squared-tab {
   border: 2px solid rgb(255, 51, 0) !important;
   background: radial-gradient(circle at 50% 50%, rgb(254 254 223) 0%, rgb(227 228 193) 50%, rgb(206 202 153) 100%) !important;
+  box-shadow: 0px 1px 10px 2px rgb(255 51 0 / 93%);
 }
 
 .level-ladder {
