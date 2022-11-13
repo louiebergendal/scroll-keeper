@@ -65,6 +65,8 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			}
 		}
 
+		const oldTraitsList = [...characterTraitList]
+
 		// TRAITS
 		for (const traitKey in traitList) {
 
@@ -84,7 +86,10 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 								const skillChoiceKey = skillChoicesList[choiceGroup][choiceKey]
 
 								// if any of the traits in the complexPayload are already owned, traitKey is invalid
-								if (contains(skillChoiceKey, characterTraitList)) invalidComplexTraitLevel.push(traitKey)
+								if (contains(skillChoiceKey, characterTraitList)) {
+									invalidComplexTraitLevel.push(traitKey)
+									invalidComplexTraitLevel.push(skillChoiceKey)
+								}
 
 								if (!contains(skillChoiceKey, characterTraitList) && skillChoiceKey.length > 0) {
 
@@ -96,7 +101,9 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 										levelIndex
 									)) {
 										// add invalid skill choices to invalidLevelObject
-										invalidComplexTraitLevel.push(skillChoiceKey)
+										if (!contains(skillChoiceKey, invalidComplexTraitLevel)) {
+											invalidComplexTraitLevel.push(skillChoiceKey)
+										}
 									}
 									characterTraitList.push(skillChoiceKey)
 								}
@@ -104,7 +111,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 						}
 					}
 
-					// any invalid skill choices?
+					// any invalid skill choices in complexPayload?
 					if (invalidComplexTraitLevel.length > 0) invalidComplexTraitLevel.push(traitKey)
 
 					// validate complex talent
@@ -127,11 +134,11 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 				characterTraitList.push(traitKey)
 			}
 		}
-
+		
 		// VALIDATE NON-COMPLEX TALENTS
 		if (bonusType === 'talent' && !currentLevel.complexPayload && !canChooseTrait(
 			chosenBonus, 
-			characterTraitList, 
+			oldTraitsList,
 			baseCharacterSheet.attributes, 
 			baseCharacterSheet.metadata.isChosenByFate, 
 			targetLevel
@@ -143,7 +150,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		// VALIDATE SKILLS
 		if (bonusType === 'skill' && !canChooseTrait(
 			chosenBonus, 
-			characterTraitList, 
+			oldTraitsList, 
 			baseCharacterSheet.attributes, 
 			baseCharacterSheet.metadata.isChosenByFate, 
 			targetLevel

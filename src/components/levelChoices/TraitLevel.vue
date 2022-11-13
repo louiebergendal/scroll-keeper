@@ -45,7 +45,6 @@
 							v-if="cannotChooseTrait(trait.key) && (tempLevelChoiceKey === trait.key)"
 							class="font-size-tiny display-inline"
 						>
-
 							{{getErrorMessage(trait.key)}}
 						</p>
 
@@ -65,7 +64,7 @@
 						<Background :characterStore="characterStore" @complex-payload="complexPayload" />
 					</div>
 					<div v-if="trait.key === 'scholar' && tempLevelChoiceKey === 'scholar'">
-						<Scholar :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
+						<Scholar :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" :characterStore="characterStore" @complex-payload="complexPayload"/>
 					</div>
 					<div v-if="trait.key === 'pathfinder' && tempLevelChoiceKey === 'pathfinder'">
 						<Pathfinder :characterStore="characterStore" :tempCharacterSheet="tempCharacterSheet" :tempValidationSheet="tempValidationSheet" @complex-payload="complexPayload"/>
@@ -105,9 +104,7 @@
 						>
 							{{getErrorMessage(trait.key)}}
 						</div>
-
 					</label>
-
 
 				</div>
 			</div>
@@ -226,10 +223,8 @@
 			submitNewTraitLevel() {
 				this.characterStore.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, this.traitType, this.complexTraitData)
 				this.$emit('update-tabs') // gul varning i loggen
-
 				this.tempValidationSheet.metadata.invalidLevels = this.characterStore.metadata.invalidLevels
 				this.tempValidationSheet = this.tempValidationSheet
-
 			},
 			complexPayload(data) {
 				let isValid = true
@@ -249,7 +244,11 @@
 				return this.invalidChoiceIsNotDeselected(key, this.characterStore.metadata.invalidLevels, this.originalLevelChoiceKey, this.tempLevelChoiceKey)
 			},
 			traitIsTouchedByError(key) {
-				return this.isTouchedByError(key, this.characterStore.metadata.invalidLevels)
+				return (this.isTouchedByError(
+					key,
+					this.tempValidationSheet.metadata.invalidLevels
+					) || (key === this.tempLevelChoiceKey && contains(key, this.tempCharacterSheet.traits))
+				)
 			},
 			traitIsInvalidAtThisLevel(key) {
 				return isInvalidAtThisLevel(key, this.characterStore.metadata.invalidLevels, this.selectedLevel)
@@ -266,9 +265,9 @@
 			getFailedTraitRequirements(traitKey) {
 				const failedRequirements = this.getFailedRequirements(
 					traitKey,
-					this.tempValidationSheet.traits,
-					this.tempValidationSheet.attributes,
-					this.tempValidationSheet.metadata.isChosenByFate,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 				return failedRequirements

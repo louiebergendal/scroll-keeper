@@ -23,5 +23,3 @@ export const isInvalidAtThisLevel = (key, invalidLevels, selectedLevel) => {
 		return contains(key, invalidLevels[selectedLevel])
 	} return false
 }
-
-

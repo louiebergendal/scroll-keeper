@@ -252,12 +252,14 @@ export function getFailedRequirements(
 	const trait = allTraitsList[traitKey]
 	const failedRequirements = {}
 
+
 	// check if trait is already owned
-	if (contains(traitKey, characterTraitList.slice(0, characterTraitList.length - 1))) {
+	if (contains(traitKey, characterTraitList)) {
 		failedRequirements.isAlreadyOwned = true
 	}
 
 	if (trait.requirements) {
+
 		// check required traits
 		if (trait.requirements.traits) {
 			const requiredTraitKeysList = trait.requirements.traits
@@ -272,6 +274,7 @@ export function getFailedRequirements(
 				failedRequirements.traits = (failedRequiredTraitsKeysList)
 			}
 		}
+
 		// check required attributes
 		if (trait.requirements.attributes) {
 			const requiredAttributeList = Object.keys(trait.requirements.attributes)
@@ -311,12 +314,14 @@ export function getFailedRequirements(
 			}
 		}
 	}
+
 	return failedRequirements
 }
 
 
 
 export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) {
+
     let traitsErrorString = ""
 
     // failed traits
@@ -374,11 +379,10 @@ export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) 
                 ? failedRequirementsString + ', ' + levelErrorString
                 : levelErrorString
     }
+
     // already owned
     let isAlreadyOwnedErrorString = ''
-
     if (failedTraitRequirements.isAlreadyOwned) isAlreadyOwnedErrorString = 'Redan vald'
-
 
     if (isAlreadyOwnedErrorString
         && (attributesErrorString.length === 0 && traitsErrorString.length === 0)

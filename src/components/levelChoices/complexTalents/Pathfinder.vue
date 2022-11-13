@@ -1,9 +1,17 @@
 <template>
 	<div class="padding-small">
-		<div class="card margin-bottom-nano" :key="pathfinderSkill.key" v-for="pathfinderSkill in pathfinderOptions.list">
+
+		<div v-for="pathfinderSkill in pathfinderOptions.list" class="card margin-bottom-nano" :key="pathfinderSkill.key">
 
 			<!-- not owned -->
-			<div class="padding-bottom-tiny" v-if="!contains(pathfinderSkill.key, characterSheet.traits)">
+			<div 
+				v-if="!isOwned(pathfinderSkill.key)"
+				class="padding-bottom-tiny"
+				:class="{
+					'touched-by-error': pathfinderSkillIsTouchedByError(pathfinderSkill.key),
+					'invalid-background': pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)
+				}"
+			>
 				<input type="radio"
 					v-model="selected"
 					:value="pathfinderSkill.key"
@@ -11,15 +19,10 @@
 					@change="inputEventHandler"
 					class="margin-tiny vertical-align-top"
 					:disabled="(
-						!canChooseTrait(
-							pathfinderSkill.key,
-							characterTraits,
-							characterSheet.attributes,
-							false,
-							characterSheet.metadata.level
-						)
-						||
-						contains(pathfinderSkill.key, characterTraits)
+						(
+							!canChoosePathfinderSkill(pathfinderSkill.key)
+							&& !isSelected(pathfinderSkill.key)
+						) || !canChoosePathfinderSkill('pathfinder')
 					)"
 				/>
 				<label :for="pathfinderSkill.key">{{pathfinderSkill.name}}</label>
@@ -27,7 +30,7 @@
 
 			<!-- already owned -->
 			<div
-				v-if="contains(pathfinderSkill.key, characterSheet.traits)"
+				v-if="isOwned(pathfinderSkill.key)"
 				:class="{
 					'touched-by-error': pathfinderSkillIsTouchedByError(pathfinderSkill.key),
 					'invalid-background': pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)}"
@@ -41,7 +44,7 @@
 					class="margin-tiny vertical-align-top"
 				/>
 				<label :for="pathfinderSkill.key + '-owned'" class="display-inline-block" >
-					{{ pathfinderSkill.name }}
+					{{pathfinderSkill.name}}
 					<div
 						v-if="
 							!canChoosePathfinderSkill(pathfinderSkill.key)
@@ -60,6 +63,11 @@
 </template>
 
 <script>
+
+	/* 
+		saker som redan finns är inte touched by error, eftersom de får finnas
+	*/
+
 	import { ref } from 'vue'
 	import { canChooseTrait, getFailedRequirements, getFailedTraitRequirementsErrorMessage } from '../../../rules/characteristics/traits'
 	import { pathfinder } from '../../../rules/characteristics/traitLists/talents'
@@ -78,16 +86,15 @@
 			const pathfinderOptions = pathfinder.complexTrait[0]
 
 			let originalPathfinderChoiceKey = ''
-			if (characterStore.history[validationSheet.metadata.selectedLevel].complexPayload
-				&& characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder
-				&& characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder.choices.toString()
+
+			if (characterStore.history[selectedLevel]
+				&& characterStore.history[selectedLevel].complexPayload
+				&& characterStore.history[selectedLevel].complexPayload.pathfinder
+				&& characterStore.history[selectedLevel].complexPayload.pathfinder.choices.toString()
 			){
-				originalPathfinderChoiceKey = characterStore.history[validationSheet.metadata.selectedLevel].complexPayload.pathfinder.choices.toString()
+				originalPathfinderChoiceKey = characterStore.history[selectedLevel].complexPayload.pathfinder.choices.toString()
 			}
 
-			if (originalPathfinderChoiceKey != '' && contains(originalPathfinderChoiceKey, characterTraits)) {
-				originalPathfinderChoiceKey = ''
-			}
 			const selected = ref(originalPathfinderChoiceKey)
 
 			return {
@@ -106,6 +113,8 @@
 				invalidChoiceIsNotUnChecked,
 				getFailedRequirements,
 				getFailedTraitRequirementsErrorMessage,
+
+				originalPathfinderChoiceKey
 			}
 		},
 		methods: {
@@ -136,21 +145,36 @@
 					this.characterSheet.metadata.level
 				)
 			},
+			isOwned(pathfinderSkillKey) {
+				return contains(pathfinderSkillKey, this.characterTraits)
+			},
+			isSelected(pathfinderSkillKey) {
+				return pathfinderSkillKey === this.selected
+			},
 			invalidPathfinderSkillChoiceIsNotUnselected(key) {
 				return this.invalidChoiceIsNotUnChecked(key, this.validationSheet.metadata.invalidLevels, this.originalPathfinderChoiceKey, this.selectedList)
 			},
 			pathfinderSkillIsTouchedByError(key) {
-				return this.isTouchedByError(key, this.validationSheet.metadata.invalidLevels)
+				return (this.isTouchedByError(
+					key,
+					this.validationSheet.metadata.invalidLevels
+					) || (key === this.selected && contains(key, this.characterTraits))
+				)
 			},
 			pathfinderSkillIsInvalidAtThisLevel(key) {
-				return this.isInvalidAtThisLevel(key, this.validationSheet.metadata.invalidLevels, this.selectedLevel)
+				return (this.isInvalidAtThisLevel(
+					key, 
+					this.validationSheet.metadata.invalidLevels, 
+					this.selectedLevel
+					) || (key === this.selected && contains(key, this.characterTraits))
+				)
 			},
 			getFailedTraitRequirements(traitKey) {
 				return getFailedRequirements(
 					traitKey,
-					this.tempCharacterSheet.traits,
-					this.tempCharacterSheet.attributes,
-					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.validationSheet.traits,
+					this.characterSheet.attributes,
+					this.characterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 			},
