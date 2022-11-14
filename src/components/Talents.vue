@@ -7,7 +7,7 @@
 			:key='talent.key'
 			class='width-whole flex'
 		>
-			<div 
+			<div v-if="talent.key !== 'background'"
 				:class="{ 'touched-by-error': 
 					isTouchedByError(
 						talent.key,
@@ -28,7 +28,7 @@
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterTalents } from '../rules/characteristics/traits'
 	import { contains, explodeInvalidList } from '../rules/utils'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../utilities/validators'
+	import { isTouchedByError } from '../utilities/validators'
 
 	export default {
 		setup() {

@@ -78,8 +78,7 @@
 						<div
 							v-if="
 								scholarSkillIsInvalidAtThisLevel(scholarSkill.key)
-								&& isChecked(scholarSkill.key)
-							"
+								&& isChecked(scholarSkill.key)"
 							class="font-size-tiny display-inline"
 						>
 							{{getErrorMessage(scholarSkill.key)}}
@@ -97,9 +96,8 @@
 	import { ref } from 'vue'
 	import { canChooseTrait, getTraitNiceName, getFailedTraitRequirementsErrorMessage, getFailedRequirements } from '../../../rules/characteristics/traits'
 	import { scholar } from '../../../rules/characteristics/traitLists/talents'
-
 	import { contains } from '../../../rules/utils'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
+	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
 
 	export default {
 		props: ['tempCharacterSheet', 'tempValidationSheet', 'characterStore'],
@@ -123,10 +121,9 @@
 			if (currentLevel
 				&& currentLevel.complexPayload
 				&& currentLevel.complexPayload.scholar
-			) {
-				originalScholarChoices = [currentLevel.complexPayload.scholar.choices].flat(2)
-			}
-			const selectedList = ref(checkedOptionsList.value.filter( // checkedOptionsList
+			) originalScholarChoices = [currentLevel.complexPayload.scholar.choices].flat(2)
+
+			const selectedList = ref(checkedOptionsList.value.filter(
 				skill => (
 					!contains(skill, characterTraits)
 					|| contains(skill, originalScholarChoices)
@@ -139,22 +136,19 @@
 				scholarOptions,
 				choicesAmount,
 				checkedOptionsList,
+				originalScholarChoices,
 				selectedList,
 				contains,
 				canChooseTrait,
 				scholar,
 				getTraitNiceName,
 				selectedLevel,
-
-				validationSheet,
-				invalidChoiceIsNotDeselected,
 				isInvalidAtThisLevel,
 				isTouchedByError,
 				invalidChoiceIsNotUnChecked,
 				originalCheckedOptionsList,
 				getFailedRequirements,
-				getFailedTraitRequirementsErrorMessage,
-				originalScholarChoices,
+				getFailedTraitRequirementsErrorMessage
 			}
 		},
 		methods: {
@@ -202,7 +196,7 @@
 			invalidScholarSkillChoiceIsNotUnchecked(key) {
 				return this.invalidChoiceIsNotUnChecked(
 					key,
-					this.validationSheet.metadata.invalidLevels,
+					this.characterStore.metadata.invalidLevels,
 					this.originalCheckedOptionsList,
 					this.selectedList
 				)
@@ -210,16 +204,16 @@
 			scholarSkillIsTouchedByError(key) {
 				return (this.isTouchedByError(
 					key,
-					this.validationSheet.metadata.invalidLevels
-					) || (contains(key, this.selectedList) && contains(key, this.characterSheet.traits))
+					this.characterStore.metadata.invalidLevels
+					) || (this.isSelected(key) && this.isOwned(key))
 				)
 			},
 			scholarSkillIsInvalidAtThisLevel(key) {
 				return (this.isInvalidAtThisLevel(
 					key, 
-					this.validationSheet.metadata.invalidLevels, 
+					this.characterStore.metadata.invalidLevels, 
 					this.selectedLevel
-					) || (contains(key, this.selectedList) && contains(key, this.characterSheet.traits))
+					) || (this.isSelected(key) && this.isOwned(key))
 				)
 			},
 			getFailedTraitRequirements(traitKey) {

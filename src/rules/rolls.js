@@ -1,10 +1,5 @@
 // * * * R O L L S  /  T Ä R N I N G S S L A G * * * //
 
-
-// * * * C O N T E N T * * * //
-
-import { Logger } from 'sass'
-
 // * * * Internal functions * * * //
 
 /**

@@ -1,4 +1,3 @@
-
 import { tryApplyTraitEffectOnValue } from '../traits'
 
 const baseValue = {

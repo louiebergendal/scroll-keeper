@@ -3,7 +3,7 @@
 		<div class="align-center level">{{ level }}</div>
 		<div class="align-center card light margin-tiny capitalize">
 			{{ levelBonus }}
-			<span class="" v-if="hasChosen">
+			<span v-if="hasChosen" class="">
 				<span v-if="choice">: </span>
 				{{ choice }}
 			</span></div>

@@ -231,12 +231,12 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 
 export function canChooseTrait(traitKey, characterTraitList, characterAttributes, isChosenByFate, selectedLevel){
 	const error = getFailedRequirements(
-			traitKey,
-			characterTraitList,
-			characterAttributes,
-			isChosenByFate,
-			selectedLevel
-		)
+		traitKey,
+		characterTraitList,
+		characterAttributes,
+		isChosenByFate,
+		selectedLevel
+	)
 	return Object.keys(error).length === 0
 }
 
@@ -318,13 +318,11 @@ export function getFailedRequirements(
 	return failedRequirements
 }
 
-
-
 export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) {
 
     let traitsErrorString = ""
 
-    // failed traits
+    // designing error strings
     if (failedTraitRequirements.traits) {
         Object.values(failedTraitRequirements.traits).forEach((traitKey, index) => {
             const traitNiceName = getTraitNiceName(traitKey)
@@ -336,7 +334,6 @@ export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) 
         })
     }
 
-    // failed attributes
     let attributesErrorString = ""
     if (failedTraitRequirements.attributes) {
         Object.keys(failedTraitRequirements.attributes).forEach((attributeKey, index) => {
@@ -359,6 +356,7 @@ export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) 
         levelErrorString = 'Erfarenhet: ' + failedTraitRequirements.metadata.level
     }
 
+	// putting error strings together
     attributesErrorString =
         (traitsErrorString && attributesErrorString)
             ? attributesErrorString + ', '
@@ -390,7 +388,6 @@ export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) 
         isAlreadyOwnedErrorString === isAlreadyOwnedErrorString + ', '
     }
     const otherFailReasonsString = isAlreadyOwnedErrorString
-
     let returnString = otherFailReasonsString ? otherFailReasonsString : 'Kräver: ' + failedRequirementsString
 
     return returnString

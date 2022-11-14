@@ -25,7 +25,7 @@
 						) || !canChoosePathfinderSkill('pathfinder')
 					)"
 				/>
-				<label :for="pathfinderSkill.key">{{pathfinderSkill.name}}</label>
+				<label :for="pathfinderSkill.key">{{ pathfinderSkill.name }}</label>
 			</div>
 
 			<!-- already owned -->
@@ -33,7 +33,8 @@
 				v-if="isOwned(pathfinderSkill.key)"
 				:class="{
 					'touched-by-error': pathfinderSkillIsTouchedByError(pathfinderSkill.key),
-					'invalid-background': pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)}"
+					'invalid-background': (pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key) && isSelected(pathfinderSkill.key))
+				}"
 				class="padding-bottom-tiny"
 			>
 				<input
@@ -44,7 +45,7 @@
 					class="margin-tiny vertical-align-top"
 				/>
 				<label :for="pathfinderSkill.key + '-owned'" class="display-inline-block" >
-					{{pathfinderSkill.name}}
+					{{ pathfinderSkill.name }}
 					<div
 						v-if="
 							!canChoosePathfinderSkill(pathfinderSkill.key)
@@ -52,7 +53,7 @@
 							&& pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)"
 						class="font-size-tiny display-inline"
 					>
-						{{getErrorMessage(pathfinderSkill.key)}}
+						{{ getErrorMessage(pathfinderSkill.key) }}
 					</div>
 				</label>
 			</div>
@@ -63,17 +64,11 @@
 </template>
 
 <script>
-
-	/* 
-		saker som redan finns är inte touched by error, eftersom de får finnas
-	*/
-
 	import { ref } from 'vue'
 	import { canChooseTrait, getFailedRequirements, getFailedTraitRequirementsErrorMessage } from '../../../rules/characteristics/traits'
 	import { pathfinder } from '../../../rules/characteristics/traitLists/talents'
 	import { contains } from '../../../rules/utils'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
-
+	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
 
 	export default {
 		props: ['tempCharacterSheet', 'tempValidationSheet', 'characterStore'],
@@ -100,21 +95,18 @@
 			return {
 				characterSheet,
 				characterTraits,
+				validationSheet,
 				pathfinderOptions,
 				selected,
+				selectedLevel,
+				originalPathfinderChoiceKey,
 				contains,
 				canChooseTrait,
-				validationSheet,
-				selectedLevel,
-
-				invalidChoiceIsNotDeselected,
 				isInvalidAtThisLevel,
 				isTouchedByError,
 				invalidChoiceIsNotUnChecked,
 				getFailedRequirements,
 				getFailedTraitRequirementsErrorMessage,
-
-				originalPathfinderChoiceKey
 			}
 		},
 		methods: {
@@ -133,9 +125,6 @@
 
 				this.$emit('complexPayload', complexPayload)
 			},
-			canChoosePathfinderSkillAndIsSelected(pathfinderSkillKey) {
-				return (!this.canChoosePathfinderSkill(pathfinderSkillKey) && !contains(pathfinderSkillKey, this.selectedList))
-			},
 			canChoosePathfinderSkill(pathfinderSkillKey) {
 				return canChooseTrait(
 					pathfinderSkillKey,
@@ -152,21 +141,25 @@
 				return pathfinderSkillKey === this.selected
 			},
 			invalidPathfinderSkillChoiceIsNotUnselected(key) {
-				return this.invalidChoiceIsNotUnChecked(key, this.validationSheet.metadata.invalidLevels, this.originalPathfinderChoiceKey, this.selectedList)
+				return this.invalidChoiceIsNotUnChecked(
+					key,
+					this.characterStore.metadata.invalidLevels,
+					this.originalPathfinderChoiceKey,
+					this.selectedList)
 			},
 			pathfinderSkillIsTouchedByError(key) {
 				return (this.isTouchedByError(
 					key,
-					this.validationSheet.metadata.invalidLevels
-					) || (key === this.selected && contains(key, this.characterTraits))
+					this.characterStore.metadata.invalidLevels
+					) || (key === this.selected && this.isOwned(key))
 				)
 			},
 			pathfinderSkillIsInvalidAtThisLevel(key) {
 				return (this.isInvalidAtThisLevel(
 					key, 
-					this.validationSheet.metadata.invalidLevels, 
+					this.characterStore.metadata.invalidLevels, 
 					this.selectedLevel
-					) || (key === this.selected && contains(key, this.characterTraits))
+					) || (key === this.selected && this.isOwned(key))
 				)
 			},
 			getFailedTraitRequirements(traitKey) {

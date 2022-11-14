@@ -50,15 +50,15 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
 
-		// COMPETENCE
+		// ADD COMPETENCE
 		if (bonusType === 'competence')
 			baseCharacterSheet.competence++
 
-		// FATE
+		// ADD FATE
 		if (bonusType === 'fate')
 			baseCharacterSheet.fate += 3
 
-		// ATTRIBUTES
+		// ADD ATTRIBUTES
 		for (const attribute in attributes) {
 			if (attribute === chosenBonus){
 				baseCharacterSheet.attributes[chosenBonus]++
@@ -67,7 +67,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 		const oldTraitsList = [...characterTraitList]
 
-		// TRAITS
+		// ADD TRAITS
 		for (const traitKey in traitList) {
 
 			if (traitKey === chosenBonus) {
@@ -93,6 +93,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 								if (!contains(skillChoiceKey, characterTraitList) && skillChoiceKey.length > 0) {
 
+									// validate complexPayload
 									if (bonusType === 'talent' && traitKey !== 'background' && !canChooseTrait(
 										skillChoiceKey,
 										characterTraitList, 
@@ -100,10 +101,8 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 										baseCharacterSheet.metadata.isChosenByFate, 
 										levelIndex
 									)) {
-										// add invalid skill choices to invalidLevelObject
-										if (!contains(skillChoiceKey, invalidComplexTraitLevel)) {
-											invalidComplexTraitLevel.push(skillChoiceKey)
-										}
+										// if there are any errors, push to invalidComplexTraitLevel
+										if (!contains(skillChoiceKey, invalidComplexTraitLevel)) invalidComplexTraitLevel.push(skillChoiceKey)
 									}
 									characterTraitList.push(skillChoiceKey)
 								}
@@ -111,7 +110,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 						}
 					}
 
-					// any invalid skill choices in complexPayload?
+					// if there are invalid skill choices in complexPayload, push complex talent to invalidComplexTraitLevel
 					if (invalidComplexTraitLevel.length > 0) invalidComplexTraitLevel.push(traitKey)
 
 					// validate complex talent
@@ -125,7 +124,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 						invalidComplexTraitLevel.push(traitKey)
 					}
 
-					// if there are any errors, push to invalidlist
+					// if there are any errors, push invalidComplexTraitLevel to invalidlist
 					if (invalidComplexTraitLevel.length > 0) {
 						baseCharacterSheet.metadata.invalidLevels[levelIndex] = invalidComplexTraitLevel
 					}

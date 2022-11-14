@@ -27,7 +27,7 @@
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterSkills } from '../rules/characteristics/traits'
 	import { contains, explodeInvalidList } from '../rules/utils'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../utilities/validators'
+	import { isTouchedByError } from '../utilities/validators'
 
 	export default {
 		setup() {

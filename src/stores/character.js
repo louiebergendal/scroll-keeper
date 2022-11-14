@@ -5,8 +5,6 @@ import { flattenCharacter } from '../utilities/characterFlattener'
 import { createRefs, updateData, removeData } from '../api/firebaseApi'
 import { traitFromKey } from '../rules/characteristics/traits'
 
-const noobUid = '687sdasd7asdt78tsadfvs5sd'
-
 export const useCharacterStore = defineStore('character', {
 	state: () => {
 		const currentLevel = loaderCharacter.metadata.level

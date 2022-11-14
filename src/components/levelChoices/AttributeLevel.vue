@@ -11,7 +11,7 @@
 			<div
 				:class="{
 					'font-contrast-lowest': (
-						!canChooseAttribute(tempCharacterAttributes[attribute.key], selectedLevel)
+						!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)
 						&& !attributeIsTouchedByError(attribute.key)
 					)
 				}"
@@ -30,7 +30,7 @@
 						:value='attribute.key'
 						v-model="tempLevelChoiceKey"
 						name="attribute"
-						:disabled="!canChooseAttribute(tempCharacterAttributes[attribute.key], selectedLevel)"
+						:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
 						class="margin-tiny"
 					/>
 					<!-- <img class="attribute-icon" :src="attributeIcon" /> -->
@@ -41,14 +41,14 @@
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 					class="card light width-fourth margin-left-tiny align-center"
 				>
-					{{tempCharacterAttributes[attribute.key]}} + 1
+					{{characterAttributes[attribute.key]}} + 1
 				</div>
 				<div
 					v-if="tempLevelChoiceKey !== attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 					class="card light width-fourth margin-left-tiny align-center"
 				>
-					{{tempCharacterAttributes[attribute.key]}}
+					{{characterAttributes[attribute.key]}}
 				</div>
 			</div>
 		</div>
@@ -71,24 +71,19 @@
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 
-			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
-			const tempCharacterAttributes = tempCharacterSheet.attributes
-
-			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
-			const invalidLevels = ref(tempValidationSheet.metadata.invalidLevels)
+			const characterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
+			const characterAttributes = characterSheet.attributes
 
 			let originalLevelChoiceKey = ''
 			if (selectedLevel <= characterStore.metadata.level) originalLevelChoiceKey = characterStore.history[selectedLevel].choice
 			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
 
-			const attributeIcon = '/img/' + props.iconUrl + '.png'
 			return {
 				characterStore,
 				selectedLevel,
 				levelIsChangable,
 				attributes,
-				tempCharacterAttributes,
-				invalidLevels,
+				characterAttributes,
 				originalLevelChoiceKey,
 				tempLevelChoiceKey,
 				getAttributeShortName,
@@ -102,18 +97,34 @@
 		},
 		methods: {
 			submitNewAttributeLevel() {
-				this.characterStore.submitNewLevelChoice(this.tempLevelChoiceKey, this.selectedLevel, 'attribute') // tell database
-				this.$emit('update-tabs') // tell level ladder
+				this.characterStore.submitNewLevelChoice(
+					this.tempLevelChoiceKey,
+					this.selectedLevel,
+					'attribute'
+				)
+				this.$emit('update-tabs')
 				this.invalidLevels = this.characterStore.metadata.invalidLevels
 			},
 			invalidAttributeChoiceIsNotDeselected(key) {
-				return this.invalidChoiceIsNotDeselected(key, this.invalidLevels, this.originalLevelChoiceKey, this.tempLevelChoiceKey)
+				return this.invalidChoiceIsNotDeselected(
+					key,
+					this.characterStore.metadata.invalidLevels,
+					this.originalLevelChoiceKey,
+					this.tempLevelChoiceKey
+				)
 			},
 			attributeIsTouchedByError(key) {
-				return this.isTouchedByError(key, this.invalidLevels)
+				return this.isTouchedByError(
+					key,
+					this.characterStore.metadata.invalidLevels
+				)
 			},
 			attributeIsInvalidAtThisLevel(key) {
-				return isInvalidAtThisLevel(key, this.invalidLevels, this.selectedLevel)
+				return isInvalidAtThisLevel(
+					key,
+					this.characterStore.metadata.invalidLevels,
+					this.selectedLevel
+				)
 			}
 		}
 	}

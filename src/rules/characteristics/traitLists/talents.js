@@ -1,8 +1,3 @@
-// * * * N O T E P A D * * * //
-/*
-
-*/
-
 import { 
     addOffensivePowerBonus,
 	addDefensivePowerBonus,

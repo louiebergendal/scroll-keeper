@@ -1,40 +1,48 @@
 <template>
 	<div v-if="hasComplexPayload" class='card dark padding-bottom-small margin-bottom-medium'>
+		
 		<div class="align-center bold padding-tiny">Bakgrund</div>
+
 		<div class="flex">
-			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{backgroundCategoryNiceNames.people}}: </div>
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
+				{{ backgroundCategoryNiceNames.people }}:
+			</div>
 			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{peopleNiceName}}: </span>
+					<span class="bold">{{ peopleNiceName }}: </span>
 					<span class="font-size-nano">
-						{{getTraitNiceName(peopleMandatorySkills)}},
-						{{getTraitNiceName(peopleChosenSkills)}}
+						{{ getTraitNiceName(peopleMandatorySkills) }},
+						{{ getTraitNiceName(peopleChosenSkills) }}
 					</span>
 				</div>
 			</div>
 		</div>
 
 		<div class="flex">
-			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{backgroundCategoryNiceNames.upbringing}}:</div>
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
+				{{ backgroundCategoryNiceNames.upbringing }}:
+			</div>
 			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{upbringingNiceName}}: </span>
+					<span class="bold">{{ upbringingNiceName }}: </span>
 					<span class="font-size-nano">
-						{{getTraitNiceName(upbringingChosenSkills1)}},
-						{{getTraitNiceName(upbringingChosenSkills2)}}
+						{{ getTraitNiceName(upbringingChosenSkills1) }},
+						{{ getTraitNiceName(upbringingChosenSkills2) }}
 					</span>
 				</div>
 			</div>
 		</div>
 
 		<div class="flex">
-			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">{{backgroundCategoryNiceNames.profession}}:</div>
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
+				{{ backgroundCategoryNiceNames.profession }}:
+			</div>
 			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{professionNiceName}}: </span>
+					<span class="bold">{{ professionNiceName }}: </span>
 					<span class="font-size-nano">
-						{{getTraitNiceName(professionChosenSkills1)}},
-						{{getTraitNiceName(professionChosenSkills2)}}
+						{{ getTraitNiceName(professionChosenSkills1) }},
+						{{ getTraitNiceName(professionChosenSkills2) }}
 					</span>
 				</div>
 			</div>
@@ -50,7 +58,7 @@
 	import { ref } from 'vue';
 
 	export default {
-		setup(props) {
+		setup() {
 			const characterStore = useCharacterStore()
 			const hasComplexPayload = ref(characterStore.history[1].complexPayload !== undefined)
 

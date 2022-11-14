@@ -6,11 +6,16 @@
 				<span
 					:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
 					class='trait-card-align attribute-headline font-size-small'>
-						<span class="bold">{{attribute.shortName}}</span>
+						<span class="bold">{{ attribute.shortName }}</span>
 				</span>
 			</div>
 			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
-				<span :class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}" class='font-size-tiny attribute-value-align bold'>{{characterAttributes[attributeProp.key]}}</span>
+				<span
+					:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
+					class='font-size-tiny attribute-value-align bold'
+				>
+					{{ characterAttributes[attributeProp.key] }}
+				</span>
 			</div>
 		</div>
 		<div>
@@ -26,9 +31,10 @@
 						'touched-by-error': characteristicIsTouchedByError(skill.key),
 						'attribute-skill-top': skillIndex === 0,
 						'attribute-skill-bottom': skillIndex === 1
-					}">
+					}"
+				>
 					<div
-						v-if="contains(skill.key, characterTraits)"
+						v-if="isOwned(skill.key)"
 						:class="{
 							'svg-error-filter': characteristicIsTouchedByError(skill.key)
 						}"
@@ -37,7 +43,7 @@
 					</div>
 					<span
 						class='font-size-tiny trait-card-align'
-						:class="{'bold': contains(skill.key, characterTraits)}"
+						:class="{'bold': isOwned(skill.key)}"
 					>
 						{{ skill.name }}
 					</span>
@@ -51,34 +57,37 @@
 				>
 					<div class='padding-left-small width-fourth padding-left-huge'>
 						<span
-							v-if='contains(skill.key, characterTraits)'
+							v-if='isOwned(skill.key)'
 							class='attribute-value-align bold'
-							:class="{'invalid-text': characteristicIsTouchedByError(attribute.key) || characteristicIsTouchedByError(skill.key)}"
+							:class="{
+								'invalid-text':
+									characteristicIsTouchedByError(attribute.key)
+									|| characteristicIsTouchedByError(skill.key)}"
 						>
-							{{skill.addProficiencyBonus(characterAttributes[attributeProp.key])}}
+							{{ skill.addProficiencyBonus(characterAttributes[attributeProp.key]) }}
 						</span>
 						<span
-							v-if='!contains(skill.key, characterTraits)'
+							v-if='!isOwned(skill.key)'
 							class='attribute-value-align'
 							:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
 						>
-							{{characterAttributes[attributeProp.key]}}
+							{{ characterAttributes[attributeProp.key] }}
 						</span>
 					</div>
 					<div class='padding-nano padding-right-medium'>
 						<span
-							v-if='contains(skill.key, characterTraits)'
+							v-if='isOwned(skill.key)'
 							class='trait-card-align font-size-tiny align-right bold'
 							:class='{"invalid-text": characteristicIsTouchedByError(skill.key)}'
 						>
-							{{setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key]))}}
+							{{ setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key])) }}
 						</span>
 						<span
-							v-if='!contains(skill.key, characterTraits)'
+							v-if='!isOwned(skill.key)'
 							class='trait-card-align font-size-tiny align-right'
 							:class='{ "font-contrast-lowest": characterAttributes[attributeProp.key] < (skill.addProficiencyBonus(baseValue)) }'
 						>
-							{{setAttributeValueName(characterAttributes[attributeProp.key])}}
+							{{ setAttributeValueName(characterAttributes[attributeProp.key]) }}
 						</span>
 					</div>
 				</div>
@@ -141,6 +150,9 @@
 			characteristicIsTouchedByError(key) {
 				return this.isTouchedByError(key, this.invalidLevels)
 			},
+			isOwned(traitKey){
+				return contains(traitKey, this.characterTraits)
+			}
 		}
 	}
 </script>

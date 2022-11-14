@@ -1,5 +1,4 @@
 import { contains, explodeInvalidList } from '../rules/utils'
-import { equals } from './utils'
 
 export const invalidChoiceIsNotDeselected = (key, invalidLevels, originalLevelChoiceKey, tempLevelChoiceKey) => {
 	return isTouchedByError(
@@ -22,4 +21,21 @@ export const isInvalidAtThisLevel = (key, invalidLevels, selectedLevel) => {
 		if (typeof invalidLevels[selectedLevel] === 'string') return invalidLevels[selectedLevel] === key
 		return contains(key, invalidLevels[selectedLevel])
 	} return false
+}
+
+// prototype touched-by-error error message handler
+export const isInvalidAtLevel = (key, invalidLevels) => {
+	for (const level in invalidLevels) {
+		const invalidLevel = invalidLevels[level]
+
+		if (isKey(key, invalidLevel)) return level
+
+	}
+	return false
+}
+
+function isKey(key, invalidLevel) {
+	if (typeof invalidLevel === 'object' || 'array') {
+		return contains(key, invalidLevel)
+	}	return key === invalidLevel
 }
