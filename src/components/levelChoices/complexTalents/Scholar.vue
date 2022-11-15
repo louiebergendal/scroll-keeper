@@ -204,7 +204,6 @@
 				)
 			},
 			scholarSkillsIsTouchedByError(scholarKeyList) {
-				console.log(scholarKeyList)
 				for (const item in scholarKeyList) {
 				 	if (this.scholarSkillIsTouchedByError(scholarKeyList[item].key)) return true
 				}

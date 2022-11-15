@@ -10,14 +10,16 @@
 				:disabled="contains(option, invalidOptions)"
 				@change="emitOption(option)" 
 			/>
-				{{ option }}
+				<span v-if="getTraitNiceName(option)">{{ getTraitNiceName(option) }}</span>
+				<span v-if="getBackgroundSkillsListNiceNames(option)">{{ getBackgroundSkillsListNiceNames(option) }}</span>
 		</label>
 	</div>
 </template>
   
 <script>
 	import { contains } from '../../rules/utils'
-	import { ref } from 'vue'
+	import { getTraitNiceName } from '../../rules/characteristics/traits'
+	import { getBackgroundSkillsListNiceNames } from '../../rules/complexTraits/background/background'
 
 	export default {
 		name: 'BaseRadioButtonGroup',
@@ -25,11 +27,15 @@
 		setup(props) {
 			const selectedOptions = props.selected ? props.selected : ['']
 			const invalidOptions = props.invalidOptionsList ? props.invalidOptionsList : ['']
+			const name = props.name
 
 			return {
-				contains,
 				selectedOptions,
-				invalidOptions
+				invalidOptions,
+				name,
+				getTraitNiceName,
+				getBackgroundSkillsListNiceNames,
+				contains,
 			}
 		},
 		watch: {
@@ -41,7 +47,7 @@
 				immediate: true
 			},
 			invalidOptionsList: {
-				handler(newVal, oldVal) {
+				handler(newVal) {
 					this.invalidOptions = newVal
 				},
 				immediate: true

@@ -2,16 +2,20 @@
 	<div>
 		<!-- NAME -->
 		<div class="card margin-small padding-small">
-			NAME:
-			<label for="character-name" >
-				<input type="text" id="character-name" v-model="characterName" @change="renameCharacter">
+			<h3>Karaktärens namn:</h3>
+			<label for="character-name">
+				<input 
+					type="text"
+					id="character-name"
+					v-model="characterName"
+					@change="renameCharacter"
+				>
 			</label>
-
 		</div>
 
 		<!-- PEOPLES -->
 		<div class="card margin-small padding-small">
-			Peoples: 
+			<h3>Folk:</h3>
 			<RadioButtonGroup
 				:options="Object.keys(peoplesOptions)"
 				:selected="peoplesChoiceKey"
@@ -25,7 +29,7 @@
 					<div :key="skill" v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills">
 						<label :for="'mandatory-' + skill">
 							<input type="radio" :id="'mandatory-' + skill" checked="true" disabled="true">
-							{{skill}}
+							{{getTraitNiceName(skill)}}
 						</label>
 					</div>
 				</div>
@@ -33,7 +37,10 @@
 				<div>
 					<RadioButtonGroup
 						:options="peoplesOptions[peoplesChoiceKey].skillsLists[0].list"
-						:selected="setSelectedIfValid(invalidKnowledgeSkillsForPeoplesChoicesList, peoplesSkillsChoiceList?.[0]?.toString())"
+						:selected="setSelectedIfValid(
+							invalidKnowledgeSkillsForPeoplesChoicesList,
+							peoplesSkillsChoiceList?.[0]?.toString()
+						)"
 						:name="'peoples' + '-' + 'skillList' + '-' + 0"
 						:invalidOptionsList="invalidPeoplesChoicesList" 
 						@input="inputEventHandler"
@@ -45,7 +52,7 @@
 
 		<!-- UPBRINGINGS -->
 		<div class="card margin-small padding-small">
-			Upbringings:
+			<h3>Uppväxt:</h3>
 			<RadioButtonGroup
 				:options="Object.keys(upbringingsOptions)"
 				:selected="upbringingsChoiceKey"
@@ -58,7 +65,10 @@
 				<div>
 					<RadioButtonGroup
 						:options="upbringingsOptions[upbringingsChoiceKey].skillsLists[0].list"
-						:selected="setSelectedIfValid(invalidKnowledgeSkillsForUpbringingsChoicesList, upbringingsSkillsChoiceList?.[0]?.toString())"
+						:selected="setSelectedIfValid(
+							invalidKnowledgeSkillsForUpbringingsChoicesList,
+							upbringingsSkillsChoiceList?.[0]?.toString()
+						)"
 						:name="'upbringings' + '-' + 'skillList' + '-' + 0"
 						:invalidOptionsList="invalidUpbringingsChoicesList" 
 						@input="inputEventHandler"
@@ -66,7 +76,10 @@
 					<hr>
 					<RadioButtonGroup
 						:options="upbringingsOptions[upbringingsChoiceKey].skillsLists[1].list"
-						:selected="setSelectedIfValid(invalidKnowledgeSkillsForUpbringingsChoicesList, upbringingsSkillsChoiceList?.[1]?.toString())"
+						:selected="setSelectedIfValid(
+							invalidKnowledgeSkillsForUpbringingsChoicesList,
+							upbringingsSkillsChoiceList?.[1]?.toString()
+						)"
 						:name="'upbringings' + '-' + 'skillList' + '-' + 1"
 						:invalidOptionsList="invalidUpbringingsChoicesList" 
 						@input="inputEventHandler"
@@ -78,7 +91,7 @@
 
 		<!-- PROFESSIONS -->
 		<div class="card margin-small padding-small">
-			Professions:
+			<h3>Livnäring:</h3>
 			<RadioButtonGroup
 				:options="Object.keys(professionsOptions)"
 				:selected="professionsChoiceKey"
@@ -91,7 +104,10 @@
 				<div>
 					<RadioButtonGroup
 						:options="professionsOptions[professionsChoiceKey].skillsLists[0].list"
-						:selected="setSelectedIfValid(invalidKnowledgeSkillsForProfessionsChoicesList, professionsSkillsChoiceList?.[0]?.toString())"
+						:selected="setSelectedIfValid(
+							invalidKnowledgeSkillsForProfessionsChoicesList,
+							professionsSkillsChoiceList?.[0]?.toString()
+						)"
 						:name="'professions' + '-' + 'skillList' + '-' + 0"
 						:invalidOptionsList="invalidProfessionsChoicesList"
 						@input="inputEventHandler"
@@ -99,7 +115,10 @@
 					<hr>
 					<RadioButtonGroup
 						:options="professionsOptions[professionsChoiceKey].skillsLists[1].list"
-						:selected="setSelectedIfValid(invalidKnowledgeSkillsForProfessionsChoicesList, professionsSkillsChoiceList?.[1]?.toString())"
+						:selected="setSelectedIfValid(
+							invalidKnowledgeSkillsForProfessionsChoicesList,
+							professionsSkillsChoiceList?.[1]?.toString()
+						)"
 						:name="'professions' + '-' + 'skillList' + '-' + 1"
 						:invalidOptionsList="invalidProfessionsChoicesList"
 						@input="inputEventHandler"
@@ -114,7 +133,7 @@
 
 <script>
 	import { ref } from 'vue'
-	import { canChooseTrait } from '../../../rules/characteristics/traits'
+	import { canChooseTrait, getTraitNiceName } from '../../../rules/characteristics/traits'
 	import { background } from '../../../rules/characteristics/traitLists/talents'
 	import { knowledgeSkillKeysList } from '../../../rules/characteristics/traitLists/knowledgeSkills'
 	import RadioButtonGroup from '../../generic/RadioButtonGroup.vue'
@@ -207,7 +226,8 @@
 				invalidKnowledgeSkillsForProfessionsChoicesList,
 
 				knowledgeSkillKeysList,
-				canChooseTrait
+				canChooseTrait,
+				getTraitNiceName
 			}
 		},
 		beforeMount() {
