@@ -9,8 +9,9 @@
 			<!-- not owned -->
 			<div v-if="!isOwned(scholarSkill.key) || isSelected(scholarSkill.key) ">
 				<div
-					class="card padding-nano padding-left-small padding-bottom-tiny trait-card-align"
+					class="card padding-nano padding-left-small padding-bottom-tiny margin-bottom-nano trait-card-align"
 					:class="{
+						'medium': !scholarSkillsIsTouchedByError(scholarOptions.list),
 						'touched-by-error': scholarSkillIsTouchedByError(scholarSkill.key),
 						'invalid-background':
 								isChecked(scholarSkill.key)
@@ -25,18 +26,18 @@
 						:id="scholarSkill.key"
 						:value="scholarSkill.key"
 						@change="inputEventHandler"
-						class="checkbox-align margin-right-small vertical-align-top margin-bottom-nano"
+						class="checkbox-align margin-right-small vertical-align-top margin-bottom-tiny"
 						:disabled="(
 								(!canChooseScholarSkill(scholarSkill.key)
 									|| selectedList.length >= choicesAmount
 									|| !canChooseScholarSkill('scholar')
 								)
-								&& 
+								&&
 								!isSelected(scholarSkill.key)
 						)"
 					/>
 					<label class="display-inline-block" :for="scholarSkill.key">
-						<div>{{getTraitNiceName(scholarSkill.key)}}</div>
+						<div class="padding-top-nano">{{getTraitNiceName(scholarSkill.key)}}</div>
 
 						<div
 							v-if="
@@ -54,8 +55,9 @@
 			<!-- owned, not selected -->
 			<div v-if="isOwned(scholarSkill.key) && !isSelected(scholarSkill.key)">
 				<div
-					class="card padding-nano padding-left-small padding-bottom-tiny trait-card-align"
+					class="card padding-nano padding-left-small padding-bottom-tiny margin-bottom-nano trait-card-align"
 					:class="{
+						'medium': !scholarSkillsIsTouchedByError(scholarOptions.list),
 						'touched-by-error': scholarSkillIsTouchedByError(scholarSkill.key),
 						'invalid-background':
 								isChecked(scholarSkill.key)
@@ -71,10 +73,10 @@
 						:id="scholarSkill.key"
 						:value="scholarSkill.key"
 						@change="inputEventHandler"
-						class="checkbox-align margin-right-small vertical-align-top margin-bottom-nano"
+						class="checkbox-align margin-right-small vertical-align-top margin-bottom-tiny"
 					/>
 					<label class="display-inline-block" :for="scholarSkill.key">
-						<div>{{getTraitNiceName(scholarSkill.key)}}</div>
+						<div class="padding-top-nano">{{getTraitNiceName(scholarSkill.key)}}</div>
 						<div
 							v-if="
 								scholarSkillIsInvalidAtThisLevel(scholarSkill.key)
@@ -201,6 +203,13 @@
 					this.selectedList
 				)
 			},
+			scholarSkillsIsTouchedByError(scholarKeyList) {
+				console.log(scholarKeyList)
+				for (const item in scholarKeyList) {
+				 	if (this.scholarSkillIsTouchedByError(scholarKeyList[item].key)) return true
+				}
+				return false
+			},
 			scholarSkillIsTouchedByError(key) {
 				return (this.isTouchedByError(
 					key,
@@ -210,18 +219,18 @@
 			},
 			scholarSkillIsInvalidAtThisLevel(key) {
 				return (this.isInvalidAtThisLevel(
-					key, 
-					this.characterStore.metadata.invalidLevels, 
+					key,
+					this.characterStore.metadata.invalidLevels,
 					this.selectedLevel
 					) || (this.isSelected(key) && this.isOwned(key))
 				)
 			},
 			getFailedTraitRequirements(traitKey) {
 				return getFailedRequirements(
-					traitKey, 
-					this.characterSheet.traits, 
-					this.characterSheet.attributes, 
-					this.characterSheet.metadata.isChosenByFate, 
+					traitKey,
+					this.characterSheet.traits,
+					this.characterSheet.attributes,
+					this.characterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 			},

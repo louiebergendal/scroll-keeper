@@ -4,7 +4,7 @@
 		<div v-for="pathfinderSkill in pathfinderOptions.list" class="card margin-bottom-nano" :key="pathfinderSkill.key">
 
 			<!-- not owned -->
-			<div 
+			<div
 				v-if="!isOwned(pathfinderSkill.key)"
 				class="padding-bottom-tiny"
 				:class="{
@@ -17,7 +17,7 @@
 					:value="pathfinderSkill.key"
 					:id="pathfinderSkill.key"
 					@change="inputEventHandler"
-					class="margin-tiny vertical-align-top"
+					class="margin-tiny vertical-align-top radio-margins"
 					:disabled="(
 						(
 							!canChoosePathfinderSkill(pathfinderSkill.key)
@@ -25,7 +25,7 @@
 						) || !canChoosePathfinderSkill('pathfinder')
 					)"
 				/>
-				<label :for="pathfinderSkill.key">{{ pathfinderSkill.name }}</label>
+				<label class="display-inline-block text-margins" :for="pathfinderSkill.key">{{pathfinderSkill.name}}</label>
 			</div>
 
 			<!-- already owned -->
@@ -42,10 +42,10 @@
 					:id="pathfinderSkill.key + '-owned'"
 					disabled
 					checked='true'
-					class="margin-tiny vertical-align-top"
+					class="margin-tiny vertical-align-top radio-margins"
 				/>
-				<label :for="pathfinderSkill.key + '-owned'" class="display-inline-block" >
-					{{ pathfinderSkill.name }}
+				<label :for="pathfinderSkill.key + '-owned'" class="display-inline-block text-margins" >
+					{{pathfinderSkill.name}}
 					<div
 						v-if="
 							!canChoosePathfinderSkill(pathfinderSkill.key)
@@ -156,8 +156,8 @@
 			},
 			pathfinderSkillIsInvalidAtThisLevel(key) {
 				return (this.isInvalidAtThisLevel(
-					key, 
-					this.characterStore.metadata.invalidLevels, 
+					key,
+					this.characterStore.metadata.invalidLevels,
 					this.selectedLevel
 					) || (key === this.selected && this.isOwned(key))
 				)
@@ -180,3 +180,13 @@
 		}
 	}
 </script>
+<style>
+	.radio-margins {
+		margin-top: 1rem !important;
+		margin-left: 1rem !important;
+		margin-right: 1rem !important;
+	}
+	.text-margins {
+		margin-top: 0.3rem !important;
+	}
+</style>

@@ -6,6 +6,7 @@
 #app {
   height: 100vh;
   width: 100vw;
+  overflow: hidden;
 }
 
 nav {
@@ -17,17 +18,65 @@ nav {
   align-items: center;
   border-bottom: 1px solid #6a5f49;
 }
+.main-nav {
+  position: relative;
+  background-image: url('/img/monochromeNoise.png');
+}
 
-.foldout-menu {
-  position: absolute;
-  top: 1rem;
-  right: 1.5rem;
-  height: 3rem;
-  width: 4.42rem;
+.foldout-menu-trigger {
   background-image: url('/img/menu.svg');
   background-size: cover;
-  filter: brightness(0) invert(1);
+  text-shadow: 0px -1px 1px rgb(103 0 0 / 70%);
+  padding: 1rem;
+  height: 3rem;
+  width: 4.42rem;
 }
+.menu-trigger-wrapper {
+  cursor: pointer;
+  position: absolute;
+  top: 0rem;
+  right: 0rem;
+  padding: 1rem;
+  padding-bottom: calc(1rem - 1px);
+  background-color: transparent;
+  background: url(/img/monochromeNoise.png), linear-gradient(90deg, rgb(36 35 32) 0%, rgb(29 25 22) 100%);
+  &:hover {
+    background: url(/img/monochromeNoise.png), linear-gradient(90deg, rgb(36 35 32) 0%, rgb(29 25 22) 100%) !important;
+  }
+  &.closed {
+    background: transparent !important;
+    &:hover {
+      background: url(/img/monochromeNoise.png), linear-gradient(90deg, rgb(36 35 32) 0%, rgb(29 25 22) 100%) !important;
+    }
+  }
+}
+.foldout-menu {
+  position: absolute;
+  top: 5rem;
+  right: 0;
+  height: calc(100vh - 5rem);
+  width: 20rem;
+  text-align: right;
+  background-image: url('/img/monochromeNoise.png');
+  background-color: #2f2d29;
+  transition: 0.3s;
+  &.closed {
+    right: -20rem;
+  }
+  .menu-item {
+    display: block;
+    padding: $size-medium;
+    border-bottom: 1px solid #4f4634;
+    border-top: 1px solid #2a2418;
+    padding-top: 1rem;
+    padding-right: $size-large;
+    background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgb(47, 45, 41) 0%, rgb(41 37 33) 100%) !important;
+    &:hover {
+      background: url(/img/monochromeNoise.png), linear-gradient(90deg, rgb(36 35 32) 0%, rgb(29 25 22) 100%) !important;
+    }
+  }
+}
+
 
 .main-bg {
   background-color: $background-brightness-low;
@@ -36,14 +85,14 @@ nav {
 }
 
 .logo {
-  background-image: url('/img/omen-logo.png');
+  background-image: url('/img/omen-logo.svg');
   height: 29px;
   width: 86px;
   background-size: cover;
   position: absolute;
   top: $size-small;
-  left: $size-medium;
-  filter: brightness(0) invert(1);
+  left: calc(50% - 43px + 3rem);
+  cursor: pointer;
 }
 
 .faux-modal-container {
@@ -247,7 +296,9 @@ nav {
       margin-top: -7px;
       font-weight: bold;
       i {
-        //font-style: normal !important;
+        font-style: normal !important;
+        font-weight: bold;
+        padding-left: 2px;
       }
     }
     .fw-list-progress {
@@ -261,6 +312,7 @@ nav {
     }
     .fw-squared-tab {
       border: 2px solid #aead9f;
+      box-shadow: 0px 1px 6px 0px rgb(51 28 0 / 23%);
     }
   }
   .fw-body {
@@ -305,8 +357,10 @@ nav {
   box-shadow: 0px 1px 6px 0px rgb(255 138 0);
   .fw-step-container {
     font-size: $font-size-medium !important;
+    color: #bd994d;
+    text-shadow: 0px -1px 1px rgb(103 0 0 / 70%);
     font-weight: normal;
-    margin-top: -9px !important;
+    margin-top: -10px !important;
   }
 
 
@@ -337,6 +391,12 @@ nav {
   overflow: scroll;
   border-top: 1px solid #6a5f49;
   background-color: $background-brightness-low;
+  overflow: hidden;
+  transition: 0.3s;
+  &.closed {
+    margin-left: calc(-100vw + 6rem);
+    height: calc(100vh - 5rem);
+  }
 }
 .levels {
   height: 100%;
@@ -347,10 +407,7 @@ nav {
 .drawer-handle {
   width: 6rem;
   height: calc(100vh - 5rem);
-  background-color: rgb(126 117 104);
-}
-.closed {
-  margin-left: calc(-100vw + 6rem);
-  height: calc(100vh - 5rem);
-  overflow: hidden;
+
+  background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(126, 117, 104, 1) 0%, rgba(86, 80, 71, 1) 100%);
+  cursor: pointer;
 }

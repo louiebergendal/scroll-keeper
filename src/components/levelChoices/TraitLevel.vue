@@ -17,7 +17,7 @@
 			"
 				class="card width-whole dark margin-bottom-nano"
 				:class="{
-					'touched-by-error': 
+					'touched-by-error':
 						traitIsTouchedByError(trait.key)
 						&& contains('complexTrait', Object.keys(trait))
 						&& isSelected(trait.key)
@@ -31,10 +31,10 @@
 							traitIsInvalidAtThisLevel(trait.key)
 							&& isSelected(trait.key)
 						,
-						'font-contrast-lowest': 
+						'font-contrast-lowest':
 							invalidTraitChoiceIsNotDeselected(trait.key)
 							&& !traitIsTouchedByError(trait.key),
-						' -angled-bottom': 
+						' -angled-bottom':
 							contains('complexTrait', Object.keys(trait))
 							&& isSelected(trait.key)
 					}"
@@ -45,11 +45,11 @@
 						:value="key"
 						:id="key"
 						:disabled="cannotChooseTrait(trait.key)"
-						class="margin-tiny vertical-align-top"
+						class="margin-tiny vertical-align-top radio-margins"
 					/>
 					<label
 						:for="key"
-						class="display-inline-block"
+						class="display-inline-block text-margins"
 						:class="{
 							'font-contrast-lowest':
 								(cannotChooseTrait(trait.key)
@@ -62,7 +62,7 @@
 						>
 							{{getErrorMessage(trait.key)}}
 						</p>
-						
+
 					</label>
 				</div>
 
@@ -72,13 +72,13 @@
 					class="width-whole angled-top"
 					:class="{
 						'touched-by-error': traitIsTouchedByError(trait.key),
-						'font-contrast-lowest': 
+						'font-contrast-lowest':
 							invalidTraitChoiceIsNotDeselected(trait.key)
 							&& !traitIsTouchedByError(trait.key)
 					}"
 				>
 					<div v-if="trait.key === 'background'">
-						<Background 
+						<Background
 							:characterStore="characterStore"
 							@complex-payload="complexPayload"
 						/>
@@ -110,7 +110,7 @@
 					class="padding-bottom-tiny padding-top-nano width-whole"
 					:class="{
 						'touched-by-error': traitIsTouchedByError(trait.key),
-						'invalid-background': 
+						'invalid-background':
 							traitIsInvalidAtThisLevel(trait.key)
 							&& invalidTraitChoiceIsNotDeselected(trait.key)
 					}"
@@ -120,11 +120,11 @@
 						:id="key + '-owned'"
 						disabled
 						checked='true'
-						class="margin-tiny vertical-align-top"
+						class="margin-tiny vertical-align-top radio-margins"
 					/>
 					<label
 						:for="key + '-owned'"
-						class="display-inline-block"
+						class="display-inline-block text-margins"
 						:class="{ 'font-contrast-low' : !traitIsTouchedByError(trait.key) }"
 					>
 						<span class="display-inline">{{ trait.name }}</span>
@@ -263,7 +263,7 @@
 			},
 			invalidTraitChoiceIsNotDeselected(traitKey) {
 				return this.invalidChoiceIsNotDeselected(
-					traitKey, 
+					traitKey,
 					this.characterStore.metadata.invalidLevels,
 					this.originalLevelChoiceKey,
 					this.tempLevelChoiceKey
@@ -312,4 +312,12 @@
 </script>
 
 <style>
+	.radio-margins {
+		margin-top: 1rem !important;
+		margin-left: 1rem !important;
+		margin-right: 1rem !important;
+	}
+	.text-margins {
+		margin-top: 0.3rem !important;
+	}
 </style>

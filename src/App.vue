@@ -1,40 +1,45 @@
 <template>
   <nav class="main-nav">
-    <router-link class="logo float-left" :to="{ name: 'Home' }"></router-link>
+    <router-link class="logo" @click="close($event)"  :to="{ name: 'Home' }"></router-link>
     <!--<router-link class="margin-small" :to="{ name: 'Vendic Dictionary' }">
       Vendic Dictionary
     </router-link>
     |
     -->
-    <div class="foldout-menu">
+      <div
+        :class="{ 'closed' : isClosed }"
+        class="menu-trigger-wrapper"
+        @click="toggleFoldOut($event)"
+      >
+        <div class="foldout-menu-trigger">
+        </div>
+      </div>
+    <div
+      :class="{ 'closed' : isClosed }"
+      class="foldout-menu"
+    >
+      <router-link v-if="userUid" @click="toggleFoldOut($event)" class="menu-item" :to="{ name: 'Characters', params: {
+        userUid: userUid,
+        userDisplayName: userDisplayName
+      } }">
+        Characters
+      </router-link>
+      <router-link class="menu-item" @click="toggleFoldOut($event)" :to="{ name: 'Home' }">
+        Home
+      </router-link>
+      <router-link class="menu-item" @click="toggleFoldOut($event)" :to="{ name: 'Profile' }">
+        Profile
+      </router-link>
+      <a v-if="this.isLoggedIn" class="menu-item padding-bottom-large" @click="logOut"> Logout </a>
+      <div v-else>
+        <router-link class="menu-item" @click="toggleFoldOut($event)" :to="{ name: 'Register' }">
+          Register
+        </router-link>
+        <router-link class="menu-item" @click="toggleFoldOut($event)" :to="{ name: 'Login' }">
+          Login
+        </router-link>
+      </div>
     </div>
-    <router-link v-if="userUid" class="margin-small" :to="{ name: 'Characters', params: {
-      userUid: userUid,
-      userDisplayName: userDisplayName
-    } }">
-      Characters
-    </router-link>
-    |
-    <router-link class="margin-small" :to="{ name: 'Home' }">
-      Home
-    </router-link>
-    |
-    <router-link class="margin-small" :to="{ name: 'Profile' }">
-      Profile
-    </router-link>
-    |
-    <span v-if="this.isLoggedIn">
-      <a class="margin-small" @click="logOut"> Logout </a>
-    </span>
-    <span v-else>
-      <router-link class="margin-small" :to="{ name: 'Register' }">
-        Register
-      </router-link>
-      |
-      <router-link class="margin-small" :to="{ name: 'Login' }">
-        Login
-      </router-link>
-    </span>
   </nav>
   <router-view />
 </template>
@@ -56,6 +61,8 @@ export default {
     const userUid = ref("");
     const userDisplayName = ref("");
 
+    const isClosed = ref(true);
+
     return {
       router,
       route,
@@ -65,8 +72,8 @@ export default {
       isLoggedIn,
       auth,
       userUid,
-      userDisplayName
-
+      userDisplayName,
+      isClosed
     };
   },
   beforeMount() {
@@ -82,7 +89,14 @@ export default {
     });
   },
   methods: {
+    toggleFoldOut(_event) {
+      this.isClosed = !this.isClosed
+    },
+    close(_event) {
+      this.isClosed = true
+    },
     logOut() {
+      this.toggleFoldOut();
       signOut(this.auth)
         .then(() => {
           console.log("Successfully logged out");
@@ -98,4 +112,5 @@ export default {
 
 <style lang="scss">
   @import "./style/themes/_warm.scss";
+
 </style>

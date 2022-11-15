@@ -31,7 +31,7 @@
 						v-model="tempLevelChoiceKey"
 						name="attribute"
 						:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
-						class="margin-tiny"
+						class="margin-tiny radio-margins"
 					/>
 					<!-- <img class="attribute-icon" :src="attributeIcon" /> -->
 					<label for="{{attribute.key}}"> {{getAttributeLongName(attribute.key)}} </label>
@@ -39,14 +39,14 @@
 				<div
 					v-if="tempLevelChoiceKey === attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
-					class="card light width-fourth margin-left-tiny align-center"
+					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
 				>
 					{{characterAttributes[attribute.key]}} + 1
 				</div>
 				<div
 					v-if="tempLevelChoiceKey !== attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
-					class="card light width-fourth margin-left-tiny align-center"
+					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
 				>
 					{{characterAttributes[attribute.key]}}
 				</div>
@@ -134,5 +134,13 @@
 <style>
 	.invalid {
 		background: rgb(247, 63, 46) !important;
+	}
+	.radio-margins {
+		margin-top: 1rem !important;
+		margin-left: 1rem !important;
+		margin-right: 1rem !important;
+	}
+	.text-margins {
+		margin-top: 0.3rem !important;
 	}
 </style>
