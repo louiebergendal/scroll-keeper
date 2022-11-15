@@ -1,15 +1,18 @@
 <template>
-
-	<div v-for="(character, key) in charactersVref" :key='key' class="flex width-half center">
-		<router-link  v-if='key' class="margin-small" :to="{ name: 'Character', params: {
+<div class="main-bg padding-medium">
+	<h2 class="align-center">Karaktärer</h2>
+	<div v-for="(character, key) in charactersVref" :key='key' class="flex card -h-spread medium">
+		<router-link  v-if='key' class="padding-tiny padding-bottom-small padding-left-small" :to="{ name: 'Character', params: {
 			userUid: userUid,
 			characterUid: key
 		} }">
 			{{character.metadata.name}} ({{character.metadata.level}})
 		</router-link>
+		<span class="align-right icon-delete" @click="removeCharacter(key)"></span>
 	</div>
 
 	<button type="submit" class="margin-top-tiny margin-left-nano" @click="createNewCharacter()">Ny karaktär</button>
+</div>
 </template>
 
 <script>
@@ -17,7 +20,7 @@
 	import { blankCharacter } from '../mocks/blankCharacterHistory'
 	import { useRoute } from 'vue-router'
 	import { onValue } from 'firebase/database'
-	import { createRefs, pushDataToCollection } from '../api/firebaseApi'
+	import { createRefs, pushDataToCollection, removeData } from '../api/firebaseApi'
 	import { ref as Vref } from 'vue';
 
 	export default {
@@ -45,6 +48,11 @@
 				onValue(createRefs(charactersRefString), (snapshot) => {
 					this.charactersVref = snapshot.val()
 				})
+			},
+			removeCharacter(charUid) {
+				const characterRefString = 'users/' + this.userUid + '/characters' + '/' + charUid
+				removeData(characterRefString)
+
 			},
 			createNewCharacter() {
 				const charactersRefString = 'users/' + this.userUid + '/characters'
