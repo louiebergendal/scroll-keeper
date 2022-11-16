@@ -21,7 +21,7 @@
 			<Health />
 
 		</div>
-		<LevelLadder :characterStore="characterStore" />
+		<Sidebar :characterStore="characterStore" />
 	</div>
 </template>
 
@@ -31,7 +31,7 @@
 	import Skills from '../components/Skills.vue'
 	import Talents from '../components/Talents.vue'
 	import Competence from '../components/Competence.vue'
-	import LevelLadder from '../components/LevelLadder.vue'
+	import Sidebar from '../components/Sidebar.vue'
 	import { useCharacterStore } from '../stores/character'
 	import { useRoute } from 'vue-router'
 	import Biography from '../components/Biography.vue'
@@ -44,8 +44,8 @@
 			Skills,
 			Talents,
 			Competence,
-			LevelLadder,
-			Biography
+			Biography,
+			Sidebar
 		},
 		setup() {
 			const route = useRoute()
