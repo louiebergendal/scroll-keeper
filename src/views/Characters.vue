@@ -1,8 +1,8 @@
 <template>
 <div class="main-bg padding-medium">
 	<h2 class="align-center">Karaktärer</h2>
-	<div v-for="(character, key) in charactersVref" :key='key' class="flex card -h-spread medium">
-		<router-link  v-if='key' class="padding-tiny padding-bottom-small padding-left-small" :to="{ name: 'Character', params: {
+	<div v-for="(character, key) in charactersVref" :key='key' class="flex card -h-spread medium -hoverable">
+		<router-link  v-if='key' class="width-whole padding-tiny padding-bottom-small padding-left-small" :to="{ name: 'Character', params: {
 			userUid: userUid,
 			characterUid: key
 		} }">

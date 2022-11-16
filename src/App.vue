@@ -27,7 +27,9 @@
       <router-link class="menu-item" @click="toggleFoldOut($event)" :to="{ name: 'Home' }">
         Home
       </router-link>
-      <router-link class="menu-item" @click="toggleFoldOut($event)" :to="{ name: 'Profile' }">
+      <router-link class="menu-item" @click="toggleFoldOut($event)" :to="{ name: 'Profile', params: {
+        userUid: userUid,
+        } }">
         Profile
       </router-link>
       <a v-if="this.isLoggedIn" class="menu-item padding-bottom-large" @click="logOut"> Logout </a>

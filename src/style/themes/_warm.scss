@@ -94,7 +94,7 @@ nav {
   background-size: cover;
   position: absolute;
   top: $size-small;
-  left: calc(50% - 43px + 3rem);
+  left: 1rem;
   cursor: pointer;
 }
 
@@ -129,6 +129,19 @@ nav {
   }
   &.-fill {
     min-height: calc(100vh - 5rem) !important;
+  }
+  &.-hoverable {
+    &:hover {
+      &.dark {
+          background-color: lighten($background-brightness-low, 3%);
+      }
+      &.medium {
+          background-color: lighten($background-brightness-medium, 3%);
+      }
+      &.light {
+          background-color: lighten($background-brightness-high, 3%);
+      }
+    }
   }
 }
 
