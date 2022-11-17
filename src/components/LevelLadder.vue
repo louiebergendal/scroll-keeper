@@ -52,7 +52,6 @@
 				</div>
 			</Wizard>
 		</div>
-		<div class="drawer-handle" @click='toggleFoldOut'></div>
 	</div>
 </template>
 
@@ -169,10 +168,6 @@
 					this.levelTabDataList.push(levelTabItem)
 					this.levelList.push(level)
 				}
-			},
-			toggleFoldOut(_event) {
-				this.isClosed = !this.isClosed
-				this.updateLevelTabData()
 			},
 			onChangeCurrentTab(index) {
 				this.currentTabIndex = index + 1

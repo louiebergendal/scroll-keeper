@@ -67,7 +67,7 @@ export const getAttributeLongName = (attributeKey) => {
 
 /** 
 * Checks wether a specific attriubute can be chosen as a levelBonus.
-* Returns true och false.
+* Returns true or false.
 * @param {number} attributeValue
 * @param {number} characterLevel
 */

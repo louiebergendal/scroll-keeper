@@ -393,7 +393,14 @@ nav {
   }
 }
 
-.level-ladder {
+.levels {
+  height: 100%;
+  max-width: calc(100vw - 6rem);
+  min-width: calc(100vw - 6rem);
+  width: calc(100vw - 6rem);
+}
+
+.sidebar {
   position: absolute;
   top: 49px;
   left: 0;
@@ -414,18 +421,30 @@ nav {
     height: calc(100vh - 5rem);
   }
 }
-.levels {
-  height: 100%;
-  max-width: calc(100vw - 6rem);
-  min-width: calc(100vw - 6rem);
-  width: calc(100vw - 6rem);
-}
-.drawer-handle {
+.drawer-handle-wrapper {
   width: 6rem;
   height: calc(100vh - 5rem);
-
   background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(126, 117, 104, 1) 0%, rgba(86, 80, 71, 1) 100%);
+  right: 0;
+  top: 0;
+  position: absolute;
   cursor: pointer;
+  .drawer-handle {
+    height:100%;
+  }
+  .icon {
+    width: 6rem;
+    height: 7rem;
+    background-size: 4rem;
+    background-repeat: no-repeat;
+    background-position: center center;
+    &.-level-ladder {
+      background-image: url('/img/iconLevelLadder.svg');
+    }
+    &.-biography {
+      background-image: url('/img/iconBiography.svg');
+    }
+  }
 }
 
 .icon-delete {
