@@ -10,9 +10,20 @@
             <h2 class="align-center margin-top-huge">H J Ö N K</h2>
         </div>
         <div class="drawer-handle-wrapper">
-            <div class="icon -level-ladder" @click="setSelected('level-ladder')" ></div>
-            <div class="icon -biography" @click="setSelected('biography')" ></div>
-            <div class="drawer-handle" @click="toggleFoldOut"></div>
+            <div
+                :class="{'selected': isSelected === 'level-ladder'}"
+                class="icon -level-ladder"
+                @click="setSelected('level-ladder')" >
+            </div>
+            <div
+                :class="{'selected': isSelected === 'biography'}"
+                class="icon -biography"
+                @click="setSelected('biography')" >
+            </div>
+            <div
+                class="drawer-handle"
+                @click="toggleFoldOut">
+            </div>
         </div>
 	</div>
 </template>
@@ -43,12 +54,12 @@
 				this.isClosed = !this.isClosed
 			},
             setSelected(moduleKey) {
-                this.isClosed = false
                 if (this.isSelected === moduleKey) {
                     this.isClosed = true
                     this.isSelected = ''
                     return
                 }
+                this.isClosed = false
                 this.isSelected = moduleKey
 			},
 		}

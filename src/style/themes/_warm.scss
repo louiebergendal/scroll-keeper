@@ -16,7 +16,7 @@ nav {
   display: flex;
   justify-content: center;
   align-items: center;
-  border-bottom: 1px solid #6a5f49;
+  border-bottom: 1px solid #2e281c;
 }
 .main-nav {
   position: relative;
@@ -443,6 +443,12 @@ nav {
     }
     &.-biography {
       background-image: url('/img/iconBiography.svg');
+    }
+    &.selected {
+      background-color: rgba(0,0,0,0.3);
+    }
+    &:hover:not(.selected) {
+      background-color: rgba(0,0,0,0.15);
     }
   }
 }
