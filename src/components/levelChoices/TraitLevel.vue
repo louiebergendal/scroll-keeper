@@ -57,6 +57,11 @@
 					>
 						{{ trait.name }}
 						<br>
+
+						<span v-if="traitIsTouchedByError(trait.key) && !traitIsInvalidAtThisLevel(trait.key)">
+							{{getInvalidOccurences(trait.key)}}
+						</span>						
+						
 						<p v-if="cannotChooseTrait(trait.key) && isSelected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
@@ -128,6 +133,11 @@
 						:class="{ 'font-contrast-low' : !traitIsTouchedByError(trait.key) }"
 					>
 						<span class="display-inline">{{ trait.name }}</span>
+
+						<span v-if="traitIsTouchedByError(trait.key) && !traitIsInvalidAtThisLevel(trait.key)">
+							{{getInvalidOccurences(trait.key)}}
+						</span>
+
 						<p v-if="traitIsInvalidAtThisLevel(trait.key) && invalidTraitChoiceIsNotDeselected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
@@ -306,6 +316,28 @@
 				const failedRequirements = this.getFailedTraitRequirements(traitKey)
 				const errorMessage = this.getFailedTraitRequirementsErrorMessage(failedRequirements)
 				return errorMessage
+			},
+			getInvalidOccurences(key) {
+				let invalidLevels = this.characterStore.metadata.invalidLevels
+				let invalidOccurrencesList = []
+
+				for (const invalidLevel in invalidLevels) {
+					const invalidLevelBonus = invalidLevels[invalidLevel]
+
+					if (typeof invalidLevelBonus === 'object'
+						&& contains(key, invalidLevelBonus)
+					) {
+						invalidOccurrencesList.push(invalidLevel)
+					}
+
+					if (typeof invalidLevelBonus === 'string'
+						&& invalidLevelBonus === key
+					) {
+						invalidOccurrencesList.push(invalidLevel)
+					}
+				}
+				
+				return invalidOccurrencesList
 			}
 		}
 	}

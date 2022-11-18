@@ -34,7 +34,13 @@
 						class="margin-tiny radio-margins"
 					/>
 					<!-- <img class="attribute-icon" :src="attributeIcon" /> -->
-					<label for="{{attribute.key}}"> {{getAttributeLongName(attribute.key)}} </label>
+					<label for="{{attribute.key}}">
+						{{ getAttributeLongName(attribute.key) }}
+
+						<span v-if="attributeIsTouchedByError(attribute.key) && !attributeIsInvalidAtThisLevel(attribute.key)">
+							{{getInvalidOccurences(attribute.key)}}
+						</span>				
+					</label>
 				</div>
 				<div
 					v-if="tempLevelChoiceKey === attribute.key"
@@ -69,6 +75,7 @@
 	import { ref } from 'vue'
 	import { attributes, getAttributeShortName, getAttributeLongName, canChooseAttribute } from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
+	import { contains } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
 
 	export default {
@@ -132,6 +139,28 @@
 					this.characterStore.metadata.invalidLevels,
 					this.selectedLevel
 				)
+			},
+			getInvalidOccurences(key) {
+				let invalidLevels = this.characterStore.metadata.invalidLevels
+				let invalidOccurrencesList = []
+
+				for (const invalidLevel in invalidLevels) {
+					const invalidLevelBonus = invalidLevels[invalidLevel]
+
+					if (typeof invalidLevelBonus === 'object'
+						&& contains(key, invalidLevelBonus)
+					) {
+						invalidOccurrencesList.push(invalidLevel)
+					}
+
+					if (typeof invalidLevelBonus === 'string'
+						&& invalidLevelBonus === key
+					) {
+						invalidOccurrencesList.push(invalidLevel)
+					}
+				}
+				
+				return invalidOccurrencesList
 			}
 		}
 	}

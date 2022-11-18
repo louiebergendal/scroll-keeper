@@ -26,7 +26,6 @@
 <script>
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterSkills } from '../rules/characteristics/traits'
-	import { contains, explodeInvalidList } from '../rules/utils'
 	import { isTouchedByError } from '../utilities/validators'
 
 	export default {
@@ -36,8 +35,6 @@
 			return {
 				characterStore,
 				independentCharacterSkills,
-				contains,
-				explodeInvalidList,
 				isTouchedByError
 			}
 		}

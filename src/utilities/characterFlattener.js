@@ -91,7 +91,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 									invalidComplexTraitLevel.push(skillChoiceKey)
 								}
 
-								if (!contains(skillChoiceKey, characterTraitList) && skillChoiceKey.length > 0) {
+								if (skillChoiceKey && skillChoiceKey.length > 0 && !contains(skillChoiceKey, characterTraitList)) {
 
 									// validate complexPayload
 									if (bonusType === 'talent' && traitKey !== 'background' && !canChooseTrait(
