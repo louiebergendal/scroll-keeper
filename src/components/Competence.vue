@@ -1,5 +1,5 @@
 <template>
-	<div class='card dark competence padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
+	<div class='competence fancy padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half align-center trait-card-align'>
 				<span class='font-size-tiny trait-card-align bold'>Erfarenhetsbonus</span>
@@ -34,9 +34,5 @@
 	}
 	.vertical-correction {
 		vertical-align: text-bottom;
-	}
-	.attribute-value {
-		background: rgb(255,251,246);
-		background: linear-gradient(90deg, rgba(255,251,246,0) 0%, rgba(255,251,246,1) 50%, rgba(255,251,246,0) 100%);
 	}
 </style>

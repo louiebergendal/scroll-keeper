@@ -1,9 +1,6 @@
 <template>
 	<div class="main-bg" v-if="characterStore.metadata.name !== 'Loader'">
 		<div class='character padding-medium'>
-			<div class="align-center bold">
-				<h2 class="character-name">{{characterStore.metadata.name}} ( {{characterStore.metadata.level}} )</h2>
-			</div>
 			<div class='width-whole flex'>
 				<div class='wrapper flex width-whole'>
 					<Attributes />

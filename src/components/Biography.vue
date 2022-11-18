@@ -1,13 +1,22 @@
 <template>
-	<div v-if="hasComplexPayload" class='card dark padding-bottom-small margin-bottom-medium'>
-		
-		<div class="align-center bold padding-tiny">Bakgrund</div>
+	<div v-if="hasComplexPayload" class='fancy padding-small margin-bottom-medium'>
+
+		<div class="flex">
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
+				Namn:
+			</div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
+				<div class="align padding-bottom-tiny">
+					<span class="bold">{{ characterName }} </span>
+				</div>
+			</div>
+		</div>
 
 		<div class="flex">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				{{ backgroundCategoryNiceNames.people }}:
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
 					<span class="bold">{{ peopleNiceName }}: </span>
 					<span class="font-size-nano">
@@ -22,7 +31,7 @@
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				{{ backgroundCategoryNiceNames.upbringing }}:
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
 					<span class="bold">{{ upbringingNiceName }}: </span>
 					<span class="font-size-nano">
@@ -37,7 +46,7 @@
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				{{ backgroundCategoryNiceNames.profession }}:
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano margin-right-small">
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
 					<span class="bold">{{ professionNiceName }}: </span>
 					<span class="font-size-nano">
@@ -62,6 +71,8 @@
 			const characterStore = useCharacterStore()
 			const hasComplexPayload = ref(characterStore.history[1].complexPayload !== undefined)
 
+			const characterName = ref('')
+
 			const peopleNiceName = ref('')
 			const peopleMandatorySkills = ref([])
 			const peopleChosenSkills = ref([])
@@ -76,6 +87,8 @@
 
 			return {
 				characterStore,
+				characterName,
+
 				hasComplexPayload,
 
 				peopleNiceName,
@@ -97,6 +110,8 @@
 		},
 		beforeMount() {
 			this.characterStore.$subscribe((_mutation, state) => {
+
+				this.characterName = state.metadata.name
 
 				const complexPayload = state.history[1].complexPayload
 

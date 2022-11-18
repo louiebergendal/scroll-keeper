@@ -1,6 +1,6 @@
 <template>
-	<div class='skills-wrapper card dark padding-small margin-bottom-nano width-whole flex'>
-		<h3 class='margin-top-nano align-center'>Färdigheter</h3>
+	<div class='fancy skills-wrapper padding-small width-whole flex'>
+		<h3 class='align-center'>Färdigheter</h3>
 		<div
 			v-for='skill in independentCharacterSkills(characterStore.sheet.traits)'
 			:key='skill.key'
@@ -13,7 +13,7 @@
 						characterStore.sheet.metadata.invalidLevels
 					)
 				}"
-				class='width-whole card medium padding-nano margin-nano align-center'
+				class='width-whole card medium padding-nano align-center'
 			>
 				<span class='trait-card-align font-size-nano'>
 					{{ skill.name }}

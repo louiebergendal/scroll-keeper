@@ -1,5 +1,5 @@
 <template>
-	<div class='attribute padding-right-tiny padding-left-tiny margin-bottom-nano flex'>
+	<div class='attribute padding-right-tiny padding-left-tiny padding-top-nano margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
 			<div class='padding-nano width-half attribute-headline align-center'>
 				<img class="attribute-icon" :src="attributeIcon" />

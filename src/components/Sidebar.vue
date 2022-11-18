@@ -7,18 +7,18 @@
             <LevelLadder :characterStore="characterStore" />
         </div>
         <div v-if="isSelected === 'biography'">
-            <h2 class="align-center margin-top-huge">H J Ö N K</h2>
+            <Flavour :characterStore="characterStore" />
         </div>
         <div class="drawer-handle-wrapper">
             <div
                 :class="{'selected': isSelected === 'level-ladder'}"
                 class="icon -level-ladder"
-                @click="setSelected('level-ladder')" >
+                @click="toggleOrShow('level-ladder')" >
             </div>
             <div
                 :class="{'selected': isSelected === 'biography'}"
                 class="icon -biography"
-                @click="setSelected('biography')" >
+                @click="toggleOrShow('biography')" >
             </div>
             <div
                 class="drawer-handle"
@@ -31,10 +31,13 @@
 <script>
 	import { ref } from 'vue'
     import LevelLadder from '../components/LevelLadder.vue'
+    import Flavour from '../components/Flavour.vue'
 
 	export default {
 		components: {
-			LevelLadder
+			LevelLadder,
+            Flavour
+            
 		},
 		props: ['characterStore'],
 		setup(props) {
@@ -53,14 +56,17 @@
                 if (this.isClosed && !this.isSelected) return
 				this.isClosed = !this.isClosed
 			},
-            setSelected(moduleKey) {
+            openFoldOutAndSelect(moduleKey) {
+                this.isClosed = false
+                this.isSelected = moduleKey
+            },
+            toggleOrShow(moduleKey) {
                 if (this.isSelected === moduleKey) {
                     this.isClosed = true
                     this.isSelected = ''
                     return
                 }
-                this.isClosed = false
-                this.isSelected = moduleKey
+                this.openFoldOutAndSelect(moduleKey)
 			},
 		}
 	}

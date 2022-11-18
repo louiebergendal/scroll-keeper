@@ -1,6 +1,6 @@
 <template>
-	<div class='talents-wrapper card dark padding-small margin-bottom-nano width-whole flex'>
-		<h3 class='margin-top-nano align-center'>Talanger</h3>
+	<div class='fancy talents-wrapper padding-small width-whole flex'>
+		<h3 class='align-center'>Talanger</h3>
 
 		<div
 			v-for='talent in independentCharacterTalents(characterStore.sheet.traits)'
@@ -14,7 +14,7 @@
 						characterStore.sheet.metadata.invalidLevels
 					)
 				}"
-				class='width-whole card medium padding-nano margin-nano align-center'>
+				class='width-whole card medium padding-nano margin-bottom-nano align-center'>
 				<span class='font-size-nano trait-card-align'>
 					{{ talent.name }}
 				</span>

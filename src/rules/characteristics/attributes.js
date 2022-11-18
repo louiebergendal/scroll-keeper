@@ -42,11 +42,11 @@ export const baseValue = 3
 */
 export const setAttributeValueName = (attributeValue) => {
 	const chosenPoints = attributeValue - baseValue
-	if (chosenPoints <= 1) return 'Kass'
-	if (chosenPoints <= 3) return 'Halvdan'
+	if (chosenPoints <= 1) return 'Dålig'
+	if (chosenPoints <= 3) return 'Medelmåttig'
 	if (chosenPoints <= 5) return 'Duglig'
 	if (chosenPoints <= 7) return 'Skicklig'
-	if (chosenPoints <= 9) return 'Ypperlig'
+	if (chosenPoints <= 9) return 'Framstående'
 	return 'Mästerlig'
 }
 

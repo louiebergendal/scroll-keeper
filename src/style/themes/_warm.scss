@@ -109,6 +109,13 @@ nav {
     margin: 0 auto;
   }
 }
+.corner {
+  background-image: url('/img/corner.png');
+  background-size: cover;
+  height: 3rem;
+  width: 3rem;
+  position: absolute;
+}
 
 .card {
   border-radius: $border-radius;
@@ -261,12 +268,11 @@ nav {
 // --- Don't mind .fancy, I am working on it //Leo
 
 .fancy {
-  margin: 100px;
   border:10px solid transparent;
-  border-image-slice: 45;
-  border-width: 20px;
-  border-image-outset: 8px;
-  border-image-repeat: repeat;
+  border-image-slice: 39;
+  border-image-width: 10px;
+  border-image-outset: 0px;
+  border-image-repeat: repeat repeat;
   border-image-source: url('/img/border-sandstone.png')
 }
 

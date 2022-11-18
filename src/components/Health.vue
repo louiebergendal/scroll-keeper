@@ -1,5 +1,5 @@
 <template>
-	<div class='card dark padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
+	<div class='fancy padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
 
 		<h3 class='health margin-top-nano align-center'>Hälsa ({{characterStore.sheet.health.well.max}})</h3>
 
@@ -13,7 +13,7 @@
 			</div>
 		</div>
 
-		<div class='health-wrapper card medium padding-top-small padding-bottom-tiny padding-right-small flex'>
+		<div class='health-wrapper flex'>
 				<div v-if="characterStore.sheet.fate" class='flex'>
 					<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
 					<div
@@ -125,7 +125,7 @@
 	.health-point {
 		width: 100%;
 		height: 1.5rem;
-		background-color: rgb(152, 204, 107);
+		background-color: rgb(168, 213, 129);
 		box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
 		border: 1px solid #559c1e;
 		border-radius: 5px;
@@ -137,7 +137,7 @@
 		border: 1px solid #9c1e1e;
 	}
 	.fatigue {
-		background-color: rgb(255 242 96);
+		background-color: rgb(246, 237, 138);
 		box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
 		border: 1px solid #b7a312;
 	}
