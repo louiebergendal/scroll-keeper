@@ -1,6 +1,10 @@
 <template>
-	<div class="main-bg" v-if="characterStore.metadata.name !== 'Loader'">
-		<div class='character padding-medium'>
+	<div class="main-bg padding-medium" v-if="characterStore.metadata.name !== 'Loader'">
+		<div class='character padding-small'>
+			<div class="corner -top-left"></div>
+			<div class="corner -top-right"></div>
+			<div class="corner -bottom-left"></div>
+			<div class="corner -bottom-right"></div>
 			<div class='width-whole flex'>
 				<div class='wrapper flex width-whole'>
 					<Attributes />

@@ -1,5 +1,5 @@
 <template>
-	<div class='fancy padding-top-nano padding-right-tiny padding-left-tiny'>
+	<div class='fancy padding-right-tiny padding-left-tiny'>
 		<Attribute :attribute='attributes.battle' :iconUrl='"iconKam"' />
 		<Attribute :attribute='attributes.agility' :iconUrl='"iconSmi"'/>
 		<Attribute :attribute='attributes.spirit' :iconUrl='"iconAnd"'/>

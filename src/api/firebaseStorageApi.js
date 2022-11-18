@@ -6,7 +6,6 @@ import {
 } from "firebase/storage"
 
 import firebase from "firebase/app";
-import "firebase/storage";
 import { firebaseConfig } from "../config.js"
 
 firebase.apps && !firebase.apps.length

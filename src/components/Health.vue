@@ -137,9 +137,9 @@
 		border: 1px solid #9c1e1e;
 	}
 	.fatigue {
-		background-color: rgb(246, 237, 138);
-		box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
-		border: 1px solid #b7a312;
+		background-color: rgb(237, 229, 134);
+		box-shadow: inset 0 1px 0 rgb(247, 240, 165);
+		border: 1px solid #948d54;
 	}
 	.fate {
 		background-color: rgb(149, 178, 198);

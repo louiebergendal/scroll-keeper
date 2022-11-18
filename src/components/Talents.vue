@@ -1,6 +1,6 @@
 <template>
-	<div class='fancy talents-wrapper padding-small width-whole flex'>
-		<h3 class='align-center'>Talanger</h3>
+	<div class='fancy talents-wrapper padding-left-small padding-right-small padding-bottom-small padding-top-tiny width-whole flex'>
+		<h3 class='align-center margin-bottom-tiny padding-bottom-nano padding-top-nano'>Talanger</h3>
 
 		<div
 			v-for='talent in independentCharacterTalents(characterStore.sheet.traits)'
