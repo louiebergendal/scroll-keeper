@@ -1,5 +1,7 @@
 <template>
-	<div class='fancy padding-right-tiny padding-left-tiny'>
+	<div class='fancy padding-right-tiny padding-left-tiny position-relative'>
+		<div class="corner -inner-top-right"></div>
+		<div class="corner -inner-bottom-left-side"></div>
 		<Attribute :attribute='attributes.battle' :iconUrl='"iconKam"' />
 		<Attribute :attribute='attributes.agility' :iconUrl='"iconSmi"'/>
 		<Attribute :attribute='attributes.spirit' :iconUrl='"iconAnd"'/>

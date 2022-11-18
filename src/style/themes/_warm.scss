@@ -129,10 +129,45 @@ nav {
     bottom: 2.1rem;
     left: -0.9rem;
   }
+  &.-inner-bottom-left-side {
+    background-image: url('/img/inner-corner-bottom-left-side.svg');
+    bottom: -0.4rem;
+    left: -2.3rem;
+  }
   &.-bottom-right {
     background-image: url('/img/corner-bottom-right.svg');
     bottom: 2.1rem;
     right: -0.9rem;
+  }
+  &.-inner-top-left {
+    background-image: url('/img/inner-corner-top-left.svg');
+    top: -2.3rem;
+    left: -0.4rem;
+  }
+  &.-inner-top-left-side {
+    background-image: url('/img/inner-corner-top-left-side.svg');
+    top: -0.4rem;
+    left: -2.3rem;
+  }
+  &.-inner-top-right {
+    background-image: url('/img/inner-corner-top-right.svg');
+    top: -2.3rem;
+    right: -0.4rem;
+  }
+  &.-inner-top-right-side {
+    background-image: url('/img/inner-corner-top-right-side.svg');
+    top: -0.4rem;
+    right: -2.3rem;
+  }
+  &.-inner-bottom-right {
+    background-image: url('/img/inner-corner-bottom-right.svg');
+    bottom: -0.4rem;
+    right: -2.3rem;
+  }
+  &.-inner-bottom-right-side {
+    background-image: url('/img/inner-corner-bottom-right-side.svg');
+    bottom: -0.4rem;
+    right: -2.3rem;
   }
 }
 

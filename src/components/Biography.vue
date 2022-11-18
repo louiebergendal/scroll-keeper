@@ -1,6 +1,7 @@
 <template>
-	<div v-if="hasComplexPayload" class='fancy padding-small margin-bottom-medium'>
-
+	<div v-if="hasComplexPayload" class='fancy padding-small margin-bottom-medium position-relative'>
+		<div class="corner -inner-top-left-side"></div>
+		<div class="corner -inner-bottom-left-side"></div>
 		<div class="flex">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				Namn:

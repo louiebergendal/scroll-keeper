@@ -1,6 +1,9 @@
 <template>
-	<div class='fancy padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center'>
-
+	<div class='fancy padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center position-relative'>
+		<div class="corner -inner-top-left-side"></div>
+		<div class="corner -inner-bottom-left-side"></div>
+		<div class="corner -inner-top-right-side"></div>
+		<div class="corner -inner-bottom-right-side"></div>
 		<h3 class='health margin-top-nano align-center'>Hälsa ({{characterStore.sheet.health.well.max}})</h3>
 
 		<div class="flex">

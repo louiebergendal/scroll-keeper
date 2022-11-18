@@ -1,5 +1,7 @@
 <template>
-	<div class='fancy talents-wrapper padding-left-small padding-right-small padding-bottom-small padding-top-tiny width-whole flex'>
+	<div class='fancy talents-wrapper padding-left-small padding-right-small padding-bottom-small padding-top-tiny width-whole flex position-relative'>
+		<div class="corner -inner-top-right-side"></div>
+		<div class="corner -inner-bottom-right-side"></div>
 		<h3 class='align-center margin-bottom-tiny padding-bottom-nano padding-top-nano'>Färdigheter</h3>
 		<div
 			v-for='skill in independentCharacterSkills(characterStore.sheet.traits)'

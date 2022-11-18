@@ -1,5 +1,7 @@
 <template>
-	<div class='fancy talents-wrapper padding-left-small padding-right-small padding-bottom-small padding-top-tiny width-whole flex'>
+	<div class='fancy talents-wrapper padding-left-small padding-right-small padding-bottom-small padding-top-tiny width-whole flex position-relative'>
+		<div class="corner -inner-top-left"></div>
+		<div class="corner -inner-bottom-right"></div>
 		<h3 class='align-center margin-bottom-tiny padding-bottom-nano padding-top-nano'>Talanger</h3>
 
 		<div
