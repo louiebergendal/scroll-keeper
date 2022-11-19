@@ -72,11 +72,19 @@ export const getAttributeLongName = (attributeKey) => {
 * @param {number} characterLevel
 */
 export const canChooseAttribute = (attributeValue, characterLevel) => {
+	if (attributeValue >= getAttributeLvlCeiling(characterLevel)) { return false }
+	return true
+}
+
+/** 
+* Calculates the maximum value a characteristic can have at a certain level.
+* Returns a number.
+* @param {number} characterLevel
+*/
+export const getAttributeLvlCeiling = (characterLevel) => {
 	const levelEquivalenceClass = ((Math.trunc((characterLevel - 1) / 10) * 2) + 1)
 	const levelEquivalenceClassRepresentant = characterLevel % 10
 	let lvlCeil = levelEquivalenceClass + baseValue
 	if (levelEquivalenceClassRepresentant >= 8 || levelEquivalenceClassRepresentant === 0) { lvlCeil++ }
-	if (attributeValue >= lvlCeil) { return false }
-	return true
+	return lvlCeil
 }
-

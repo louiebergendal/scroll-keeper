@@ -202,7 +202,7 @@ export const masterSpellCaster = {
 			level: 31
 		},
 		attributes: {
-			agility: 7
+			spirit: 7
 		},
 		traits: ['spellCaster']
 	},
@@ -215,7 +215,7 @@ export const brutal = {
 	name: 'Brutal',
 	requirements: {
 		attributes: {
-			battle: 7,
+			battle: 6,
 		},
 		traits: ['melee']
 	},
@@ -231,8 +231,8 @@ export const massive = {
 	name: 'Massiv',
 	requirements: {
 		attributes: {
-			battle: 5,
-			physique: 7,
+			battle: 6,
+			physique: 6,
 		},
 		traits: ['hardy', 'steady']
 	},

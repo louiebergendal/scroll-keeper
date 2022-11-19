@@ -34,7 +34,19 @@
 						class="margin-tiny radio-margins"
 					/>
 					<label :for='attribute.key' class="display-inline-block text-margins">
+
 						<div>{{ getAttributeLongName(attribute.key) }}</div>
+
+						<div 
+							v-if="
+								attributeIsInvalidAtThisLevel(attribute.key)
+								&& invalidAttributeChoiceIsNotDeselected(attribute.key)
+							"
+							class="font-size-tiny"
+						>
+							Man får inte ha mer än {{getAttributeLvlCeiling(selectedLevel)}} på den här erfarenhetsnivån.
+						</div>
+
 						<div 
 							v-if="
 								((
@@ -85,7 +97,13 @@
 
 <script>
 	import { ref } from 'vue'
-	import { attributes, getAttributeShortName, getAttributeLongName, canChooseAttribute } from '../../rules/characteristics/attributes'
+	import {
+		attributes,
+		getAttributeShortName,
+		getAttributeLongName,
+		canChooseAttribute,
+		getAttributeLvlCeiling
+	} from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import { contains } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
@@ -119,7 +137,7 @@
 				getAttributeShortName,
 				getAttributeLongName,
 				canChooseAttribute,
-
+				getAttributeLvlCeiling,
 				invalidChoiceIsNotDeselected,
 				isInvalidAtThisLevel,
 				isTouchedByError,
