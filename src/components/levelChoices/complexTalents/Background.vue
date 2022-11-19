@@ -1,17 +1,5 @@
 <template>
 	<div>
-		<!-- NAME -->
-		<div class="card margin-small padding-small">
-			<h3>Karaktärens namn:</h3>
-			<label for="character-name">
-				<input 
-					type="text"
-					id="character-name"
-					v-model="characterName"
-					@change="renameCharacter"
-				>
-			</label>
-		</div>
 
 		<!-- PEOPLES -->
 		<div class="card margin-small padding-small">
@@ -146,7 +134,6 @@
 		props: ['characterStore'],
 		setup(props) {
 			const characterStore = props.characterStore // should we use store or tempSheet?
-			const characterName = ref(characterStore.metadata.name)
 
 			// --- PEOPLES ---
 
@@ -204,7 +191,6 @@
 
 			return {
 				characterStore,
-				characterName,
 
 				peoplesOptions,
 				peoplesChoiceKey,
@@ -362,9 +348,6 @@
 				}
 
 				this.$emit('complexPayload', complexPayload)
-			},
-			renameCharacter(data) {
-				this.characterStore.updateCharacterName(data.target.value)
 			}
 		}
 	}

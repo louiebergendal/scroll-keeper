@@ -4,15 +4,23 @@
 		<div class="corner -inner-bottom-left-side"></div>
 		<div class="corner -inner-top-right-side"></div>
 		<div class="corner -inner-bottom-right-side"></div>
-		<h3 class='health margin-top-nano align-center'>Hälsa ({{characterStore.sheet.health.well.max}})</h3>
 
 		<div class="flex">
 			<div class="health-level-title"></div>
-			<div class="flex margin-bottom-tiny health-button-wrapper">
-				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(dealDamage)">Tag 1 Skada</button>
-				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(dealFatigue)">Tag 1 Utmattning</button>
-				<button type="submit" class="health-button margin-right-tiny margin-bottom-tiny -small" @click="addStrainToDB(healDamage)">Läk 1 Skada</button>
-				<button type="submit" class="health-button margin-bottom-tiny -small" @click="addStrainToDB(healFatigue)">Läk 1 Utmattning</button>
+			<div class="flex -h-center margin-bottom-tiny health-button-wrapper">
+
+				<div class="flex card padding-tiny width-fifth margin-bottom-tiny">
+					<label for="damage-button-group">Skada:</label>
+					<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(dealDamage)">+</button>
+					<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(healDamage)">-</button>
+				</div>
+
+				<div class="flex card padding-tiny width-fifth margin-bottom-tiny">
+					<label for="fatigue-button-group">Utmattnig:</label>
+					<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(dealFatigue)">+</button>
+					<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(healFatigue)">-</button>
+				</div>
+
 			</div>
 		</div>
 
@@ -149,9 +157,6 @@
 		border: 1px solid #58758a;
 	}
 	.health-button-wrapper {
-		width: 100%;
-	}
-	.health-button {
 		width: 100%;
 	}
 	.health-level-title {

@@ -56,6 +56,9 @@ export const useCharacterStore = defineStore('character', {
 		},
 		updateCharacterName(name) {
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { name: name })
+		},
+		updateCharacterDescription(description) {
+			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { description: description })
 		}
 	},
 })

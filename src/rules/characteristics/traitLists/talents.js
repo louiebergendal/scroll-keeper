@@ -146,7 +146,7 @@ export const spellCaster = {
 	name: 'Besvärjare',
 	requirements: {
 		metadata: {
-			level: 21,
+			level: 11,
 			isChosenByFate: true,
 		},
 		attributes: {
