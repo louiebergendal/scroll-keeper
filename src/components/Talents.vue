@@ -2,6 +2,8 @@
 	<div class='fancy talents-wrapper padding-left-small padding-right-small padding-bottom-small padding-top-tiny width-whole flex position-relative'>
 		<div class="corner -inner-top-left"></div>
 		<div class="corner -inner-bottom-right"></div>
+		<div class="corner -top-middle-small"></div>
+		<div v-if="Object.keys(independentCharacterTalents(characterStore.sheet.traits)).length > 1" class="corner -right-middle-small"></div>
 		<h3 class='align-center margin-bottom-tiny padding-bottom-nano padding-top-nano'>Talanger</h3>
 
 		<div

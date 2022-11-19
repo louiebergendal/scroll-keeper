@@ -175,7 +175,34 @@ nav {
     width: 16rem;
     top: -2.4rem;
     left: calc(50% - 8.3rem);
-
+  }
+  &.-top-middle-small {
+    background-image: url('/img/top-middle-small.svg');
+    height: 4rem;
+    width: 8rem;
+    top: -2.4rem;
+    left: calc(50% - 4rem);
+  }
+  &.-right-middle {
+    background-image: url('/img/right-middle.svg');
+    height: 16rem;
+    width: 4rem;
+    top: calc(50% - 8.3rem);
+    right: -2.4rem;
+  }
+  &.-right-middle-small {
+    background-image: url('/img/right-middle-small.svg');
+    height: 8rem;
+    width: 4rem;
+    top: calc(50% - 4rem);
+    right: -2.4rem;
+  }
+  &.-left-middle {
+    background-image: url('/img/left-middle.svg');
+    height: 16rem;
+    width: 4rem;
+    top: calc(50% - 8.3rem);
+    left: -2.4rem;
   }
 }
 
