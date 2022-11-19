@@ -21,6 +21,8 @@ nav {
 .main-nav {
   position: relative;
   background-image: url('/img/monochromeNoise.png');
+  position: fixed;
+  width: 100%;
 }
 
 .foldout-menu-trigger {
@@ -84,6 +86,7 @@ nav {
 .main-bg {
   background-color: $background-brightness-low;
   background-size: 50%;
+  margin-top: 50px;
 }
 
 .logo {
@@ -244,7 +247,8 @@ nav {
 .character {
   position: relative;
   margin-left: 6rem;
-  height: calc(100vh - 6.5rem);
+  padding-bottom: 4rem;
+  min-height: calc(100vh - 6.5rem);
   background-image: url('/img/monochromeNoise.png');
 
   .character-name {
