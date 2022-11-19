@@ -56,10 +56,18 @@
 								&& !traitIsTouchedByError(trait.key))}"
 					>
 						{{ trait.name }}
-						<br>
 
-						<span v-if="traitIsTouchedByError(trait.key) && !traitIsInvalidAtThisLevel(trait.key)">
-							{{getInvalidOccurences(trait.key)}}
+						<span 
+							v-if="
+								traitIsTouchedByError(trait.key)
+								&& !traitIsInvalidAtThisLevel(trait.key)"
+							class="font-size-tiny"
+						>
+							<InvalidOccurrence 
+								:characteristic="trait.key"
+								:characterStore="characterStore"
+								:selectedLevel="selectedLevel"
+							/>
 						</span>						
 						
 						<p v-if="cannotChooseTrait(trait.key) && isSelected(trait.key)"
@@ -134,9 +142,17 @@
 					>
 						<span class="display-inline">{{ trait.name }}</span>
 
-						<span v-if="traitIsTouchedByError(trait.key) && !traitIsInvalidAtThisLevel(trait.key)">
-							{{getInvalidOccurences(trait.key)}}
-						</span>
+						<div
+							v-if="
+								traitIsTouchedByError(trait.key)
+								&& !traitIsInvalidAtThisLevel(trait.key)"
+							>
+								<InvalidOccurrence 
+									:characteristic="trait.key"
+									:characterStore="characterStore"
+									:selectedLevel="selectedLevel"
+								/>
+						</div>
 
 						<p v-if="traitIsInvalidAtThisLevel(trait.key) && invalidTraitChoiceIsNotDeselected(trait.key)"
 							class="font-size-tiny display-inline"
@@ -190,6 +206,7 @@
 	import { contains } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
+	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
 	import Background from './complexTalents/Background.vue'
 	import Scholar from './complexTalents/Scholar.vue'
 	import Pathfinder from './complexTalents/Pathfinder.vue'
@@ -198,7 +215,8 @@
 		components: {
 			Pathfinder,
 			Background,
-			Scholar
+			Scholar,
+			InvalidOccurrence
 		},
 		props: ['selectedLevel', 'traitType', 'characterStore'],
 		emits: ['complexPayload', 'update-tabs'],
@@ -238,6 +256,7 @@
 				isInvalidAtThisLevel,
 				isTouchedByError,
 				getFailedTraitRequirementsErrorMessage,
+				
 			}
 		},
 		methods: {
@@ -317,7 +336,7 @@
 				const errorMessage = this.getFailedTraitRequirementsErrorMessage(failedRequirements)
 				return errorMessage
 			},
-			getInvalidOccurences(key) {
+			getInvalidOccurrences(key) {
 				let invalidLevels = this.characterStore.metadata.invalidLevels
 				let invalidOccurrencesList = []
 

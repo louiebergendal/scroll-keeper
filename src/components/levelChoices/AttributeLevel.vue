@@ -26,20 +26,32 @@
 				>
 					<input
 						type="radio"
-						id="{{attribute.key}}"
-						:value='attribute.key'
+						:id="attribute.key"
+						:value="attribute.key"
 						v-model="tempLevelChoiceKey"
 						name="attribute"
 						:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
 						class="margin-tiny radio-margins"
 					/>
-					<!-- <img class="attribute-icon" :src="attributeIcon" /> -->
-					<label for="{{attribute.key}}">
-						{{ getAttributeLongName(attribute.key) }}
+					<label :for='attribute.key' class="display-inline-block text-margins">
+						<div>{{ getAttributeLongName(attribute.key) }}</div>
+						<div 
+							v-if="
+								((
+									attributeIsInvalidAtThisLevel(attribute.key)) 
+									&& invalidAttributeChoiceIsNotDeselected(attribute.key)
+								|| (
+									attributeIsTouchedByError(attribute.key) && (!attributeIsInvalidAtThisLevel(attribute.key))
+								)) || !invalidAttributeChoiceIsNotDeselected(attribute.key)
+							"
+						>
+							<InvalidOccurrence 
+								:characteristic="attribute.key"
+								:characterStore="characterStore"
+								:selectedLevel="selectedLevel"
+							/>
+						</div>
 
-						<span v-if="attributeIsTouchedByError(attribute.key) && !attributeIsInvalidAtThisLevel(attribute.key)">
-							{{getInvalidOccurences(attribute.key)}}
-						</span>				
 					</label>
 				</div>
 				<div
@@ -77,8 +89,12 @@
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import { contains } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
+	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
 
 	export default {
+		components: {
+			InvalidOccurrence
+		},
 		props: ['selectedLevel', 'characterStore'],
 		setup(props) {
 			const characterStore = props.characterStore
@@ -119,19 +135,24 @@
 				this.$emit('update-tabs')
 				this.invalidLevels = this.characterStore.metadata.invalidLevels
 			},
+			isSelected(attributeKey){
+				return attributeKey === this.tempLevelChoiceKey
+			},
 			invalidAttributeChoiceIsNotDeselected(key) {
-				return this.invalidChoiceIsNotDeselected(
+				const isInvalidChoiceNotDeselected = this.invalidChoiceIsNotDeselected(
 					key,
 					this.characterStore.metadata.invalidLevels,
 					this.originalLevelChoiceKey,
 					this.tempLevelChoiceKey
 				)
+				return isInvalidChoiceNotDeselected
 			},
 			attributeIsTouchedByError(key) {
-				return this.isTouchedByError(
+				const isTouchedByError = this.isTouchedByError(
 					key,
 					this.characterStore.metadata.invalidLevels
 				)
+				return isTouchedByError
 			},
 			attributeIsInvalidAtThisLevel(key) {
 				return isInvalidAtThisLevel(
@@ -140,12 +161,12 @@
 					this.selectedLevel
 				)
 			},
-			getInvalidOccurences(key) {
-				let invalidLevels = this.characterStore.metadata.invalidLevels
+			getInvalidOccurrences(key) {
+
 				let invalidOccurrencesList = []
 
-				for (const invalidLevel in invalidLevels) {
-					const invalidLevelBonus = invalidLevels[invalidLevel]
+				for (const invalidLevel in this.characterStore.metadata.invalidLevels) {
+					const invalidLevelBonus = this.characterStore.metadata.invalidLevels[invalidLevel]
 
 					if (typeof invalidLevelBonus === 'object'
 						&& contains(key, invalidLevelBonus)
@@ -175,8 +196,8 @@
 		margin-top: 1rem !important;
 		margin-left: 1rem !important;
 		margin-right: 1rem !important;
+		vertical-align: top;
 	}
 	.text-margins {
-		margin-top: 0.3rem !important;
 	}
 </style>
