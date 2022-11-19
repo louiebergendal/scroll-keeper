@@ -73,7 +73,7 @@
 						<p v-if="cannotChooseTrait(trait.key) && isSelected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
-							{{getErrorMessage(trait.key)}}
+							{{ getErrorMessage(trait.key) }}
 						</p>
 
 					</label>
@@ -157,7 +157,7 @@
 						<p v-if="traitIsInvalidAtThisLevel(trait.key) && invalidTraitChoiceIsNotDeselected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
-							{{getErrorMessage(trait.key)}}
+							{{ getErrorMessage(trait.key) }}
 						</p>
 					</label>
 				</div>

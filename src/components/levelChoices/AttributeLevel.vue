@@ -2,6 +2,7 @@
 	<div class='card square medium padding-large -fill'>
 
 		<h3 class="align-center margin-top-nano margin-bottom-tiny">Öka en grundegenskap!</h3>
+		Tak {{ getAttributeLvlCeiling(selectedLevel) }}
 
 		<div
 			v-for='attribute in attributes'
@@ -44,7 +45,7 @@
 							"
 							class="font-size-tiny"
 						>
-							Man får inte ha mer än {{getAttributeLvlCeiling(selectedLevel)}} på den här erfarenhetsnivån.
+							Man får inte ha mer än {{ getAttributeLvlCeiling(selectedLevel) }} på den här erfarenhetsnivån.
 						</div>
 
 						<div 
@@ -78,7 +79,7 @@
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
 				>
-					{{characterAttributes[attribute.key]}}
+					{{ characterAttributes[attribute.key] }}
 				</div>
 			</div>
 		</div>

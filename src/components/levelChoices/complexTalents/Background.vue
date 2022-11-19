@@ -17,7 +17,7 @@
 					<div :key="skill" v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills">
 						<label :for="'mandatory-' + skill">
 							<input type="radio" :id="'mandatory-' + skill" checked="true" disabled="true">
-							{{getTraitNiceName(skill)}}
+							{{ getTraitNiceName(skill) }}
 						</label>
 					</div>
 				</div>

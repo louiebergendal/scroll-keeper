@@ -4,15 +4,12 @@ import {
 	uploadBytesResumable,
 	getDownloadURL
 } from "firebase/storage"
-
-import firebase from "firebase/app";
+import { initializeApp } from "firebase/app"
 import { firebaseConfig } from "../config.js"
 
-firebase.apps && !firebase.apps.length
-  ? firebase.initializeApp(firebaseConfig)
-  : "";
+const storageApp = initializeApp(firebaseConfig)
 
-export default FirebaseStorage = firebase.storage();
+export const storage = getStorage(storageApp);
 
 const createStorageRefs = (refString) => {
 	const storage = getStorage();
@@ -28,8 +25,8 @@ const uploadFile = (
 	return uploadBytesResumable(ref, file, metadata)
 }
 
-export const uploadAndGetUrl = (refString, file, metadata) => {
-	uploadTask = uploadFile(refString, file, metadata)
+export const uploadAndGetUrl = (refString, file, metadata, callback) => {
+	const uploadTask = uploadFile(refString, file, metadata)
 	uploadTask.on('state_changed',
 	(snapshot) => {
 		const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
@@ -60,7 +57,8 @@ export const uploadAndGetUrl = (refString, file, metadata) => {
 	() => {
 		// Upload completed successfully
 		getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-			console.log('File available at', downloadURL)
+			console.log("downloadURL: ", downloadURL)
+			callback(downloadURL)
 		})
 	})
 }

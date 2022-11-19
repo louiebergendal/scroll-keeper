@@ -8,7 +8,7 @@
 			</div>
 			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ characterName }} </span>
+					<span class="bold">{{ characterName }} ({{ characterStore.metadata.level }}) </span>
 				</div>
 			</div>
 		</div>
@@ -54,6 +54,17 @@
 						{{ getTraitNiceName(professionChosenSkills1) }},
 						{{ getTraitNiceName(professionChosenSkills2) }}
 					</span>
+				</div>
+			</div>
+		</div>
+
+		<div v-if="characterStore.sheet.metadata.description.trimStart()" class="flex">
+			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
+				Beskrivning:
+			</div>
+			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
+				<div class="align padding-bottom-tiny">
+					<span class="font-size-nano">{{ characterStore.sheet.metadata.description.trimStart() }}</span>
 				</div>
 			</div>
 		</div>

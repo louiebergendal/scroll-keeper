@@ -24,6 +24,7 @@ export const useCharacterStore = defineStore('character', {
 				const newCharacterState = snapshot.val()
 				newCharacterState.metadata.characterRefString = characterRefString
 				newCharacterState.metadata.invalidLevels = {}
+
 				const currentLevel = newCharacterState.metadata.level
 				const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)
 				this.metadata = newCharacterState.metadata
@@ -53,6 +54,10 @@ export const useCharacterStore = defineStore('character', {
 
 			removeData(levelRefString + '/complexPayload')
 			this.updateCharacterField(levelRefString, level)
+		},
+		updateCharacterAvatarUrl(url) {
+			console.log("url: ", url)
+			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', {avatarUrl: url})
 		},
 		updateCharacterName(name) {
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { name: name })
