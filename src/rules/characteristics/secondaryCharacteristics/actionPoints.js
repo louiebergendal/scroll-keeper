@@ -1,5 +1,11 @@
 import { tryApplyTraitEffectOnValue } from '../traits'
 
+export const niceName = "Handlingspoäng"
+export const typesNiceNames = {
+	basic: "Normala",
+	quick: "Snabba"
+}
+
 export const baseValue = {
     basic: 2,
     quick: 1

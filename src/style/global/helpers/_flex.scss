@@ -1,5 +1,6 @@
 .flex {
     display: flex !important;
+    &.-dir-col { flex-direction: column; }
     &.-h-center { justify-content: center !important; }
     &.-h-spread { justify-content: space-between !important; }
     &.-h-stretch {

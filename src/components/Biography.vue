@@ -1,25 +1,26 @@
 <template>
-	<div v-if="hasComplexPayload" class='fancy padding-small margin-bottom-medium position-relative'>
-		<div class="corner -inner-top-left-side"></div>
-		<div class="corner -inner-bottom-left-side"></div>
-		<div class="flex">
+	<div v-if="hasComplexPayload" class='fancy width-whole padding-small margin-bottom-medium position-relative'>
+		<div class="corner -inner-top-right-side"></div>
+		<div class="corner -inner-bottom-right"></div>
+		<div class="corner -right-middle-small"></div>
+		<div class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
-				Namn:
+				Namn
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
+			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-top-nano padding-left-small padding-right-small padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
 					<span class="bold">{{ characterName }} ({{ characterStore.metadata.level }}) </span>
 				</div>
 			</div>
 		</div>
 
-		<div class="flex">
+		<div class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
-				{{ backgroundCategoryNiceNames.people }}:
+				{{ backgroundCategoryNiceNames.people }}
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
+			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-left-small padding-right-small padding-top-nano padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ peopleNiceName }}: </span>
+					<span class="bold">{{ peopleNiceName }} </span><br/>
 					<span class="font-size-nano">
 						{{ getTraitNiceName(peopleMandatorySkills) }},
 						{{ getTraitNiceName(peopleChosenSkills) }}
@@ -28,13 +29,13 @@
 			</div>
 		</div>
 
-		<div class="flex">
+		<div class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
-				{{ backgroundCategoryNiceNames.upbringing }}:
+				{{ backgroundCategoryNiceNames.upbringing }}
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
+			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-top-nano padding-left-small padding-right-small padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ upbringingNiceName }}: </span>
+					<span class="bold">{{ upbringingNiceName }} </span><br/>
 					<span class="font-size-nano">
 						{{ getTraitNiceName(upbringingChosenSkills1) }},
 						{{ getTraitNiceName(upbringingChosenSkills2) }}
@@ -43,13 +44,13 @@
 			</div>
 		</div>
 
-		<div class="flex">
+		<div class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
-				{{ backgroundCategoryNiceNames.profession }}:
+				{{ backgroundCategoryNiceNames.profession }}
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
+			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-top-nano padding-left-small padding-right-small padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ professionNiceName }}: </span>
+					<span class="bold">{{ professionNiceName }} </span><br/>
 					<span class="font-size-nano">
 						{{ getTraitNiceName(professionChosenSkills1) }},
 						{{ getTraitNiceName(professionChosenSkills2) }}
@@ -62,7 +63,7 @@
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				Beskrivning:
 			</div>
-			<div class="card font-size-tiny medium width-whole padding-left-small padding-top-nano padding-bottom-nano">
+			<div class="card font-size-tiny margin-top-tiny medium width-whole padding-top-nano padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
 					<span class="font-size-nano">{{ characterStore.sheet.metadata.description.trimStart() }}</span>
 				</div>
@@ -152,8 +153,7 @@
 		vertical-align: super;
 	}
 	.background-title {
-		text-align: right;
-		min-width: 10rem;
+		text-align:center;
 		padding-top: 3px;
 	}
 </style>

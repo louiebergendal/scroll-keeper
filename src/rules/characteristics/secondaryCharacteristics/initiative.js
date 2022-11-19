@@ -1,5 +1,6 @@
 import { allTraits } from '../traits'
 
+export const niceName = "Initiativ"
 export const baseValue = 0
 
 export const calculateInitiative = (battleValue, characterTraitList, currentLevel, size = 0) => {

@@ -260,6 +260,14 @@ nav {
   flex-direction: column;
 }
 
+// Avatar
+
+.avatar {
+  background-size: cover;
+  border-radius: $border-radius;
+  box-shadow: inset 0px 0px 22px 0px rgba(128,99,63,1);
+}
+
 // Traits
 
 .trait-card-align {

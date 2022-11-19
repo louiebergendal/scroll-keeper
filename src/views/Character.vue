@@ -11,13 +11,20 @@
 					<div class='padding-bottom-medium'></div>
 					<Competence />
 					<div class='padding-bottom-medium'></div>
-					<Biography />
+					<secondary-characteristics />
+					<div class='padding-bottom-medium'></div>
+
 				</div>
-				<span class='wrapper flex -v-center width-half margin-left-medium'>
+				<div class="width-half margin-left-medium">
 					<Talents />
 					<div class='padding-bottom-medium'></div>
 					<Skills />
-				</span>
+				</div>
+				<div class='wrapper flex -v-center width-half margin-left-medium'>
+					<Avatar />
+					<div class='padding-bottom-medium'></div>
+					<Biography />
+				</div>
 			</div>
 			<Health />
 
@@ -28,25 +35,29 @@
 
 <script>
 	import Attributes from '../components/Attributes.vue'
+	import Avatar from '../components/Avatar.vue'
 	import Health from '../components/Health.vue'
 	import Skills from '../components/Skills.vue'
 	import Talents from '../components/Talents.vue'
 	import Competence from '../components/Competence.vue'
+	import SecondaryCharacteristics from '../components/SecondaryCharacteristics.vue'
+	import Biography from '../components/Biography.vue'
 	import Sidebar from '../components/Sidebar.vue'
 	import { useCharacterStore } from '../stores/character'
 	import { useRoute } from 'vue-router'
-	import Biography from '../components/Biography.vue'
-	import { ref } from 'vue'
+
 
 	export default {
 		components: {
 			Attributes,
+			Avatar,
 			Health,
 			Skills,
 			Talents,
 			Competence,
+			SecondaryCharacteristics,
 			Biography,
-			Sidebar
+			Sidebar,
 		},
 		setup() {
 			const route = useRoute()

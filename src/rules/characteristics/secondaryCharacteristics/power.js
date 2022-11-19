@@ -1,5 +1,11 @@
 import { tryApplyTraitEffectOnValue } from '../traits'
 
+export const niceName = "Skadebonus";
+export const typesNiceNames = {
+	offensive: "Offensiv",
+	defensive: "Defensiv"
+}
+
 const baseValue = {
 	offensive: 0,
 	defensive: 0

@@ -7,6 +7,7 @@
 
 import { tryApplyTraitEffectOnValue } from '../traits'
 
+export const niceName = "Hälsa"
 const baseValue = 2
 
 const createtHealthLevelState = (healthValue, strainValue) => {

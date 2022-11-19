@@ -73,8 +73,7 @@
 
 				const metadata = {contentType: file.type}
 				const refPath = characterRefString + avatarStorageString
-				console.log(refPath, file, metadata)
-				const url = this.uploadAndGetUrl(refPath, file, metadata, this.characterStore.updateCharacterAvatarUrl)
+				this.uploadAndGetUrl(refPath, file, metadata, this.characterStore.updateCharacterAvatarUrl)
 			},
 			renameCharacter(data) {
 				this.characterStore.updateCharacterName(data.target.value)
