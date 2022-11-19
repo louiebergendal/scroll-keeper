@@ -59,7 +59,7 @@
 			</div>
 		</div>
 
-		<div v-if="characterStore.sheet.metadata.description.trimStart()" class="flex">
+		<div v-if="characterStore.sheet.metadata.description" class="flex">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				Beskrivning:
 			</div>

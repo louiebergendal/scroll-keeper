@@ -6,8 +6,8 @@
 		<div class="corner -right-middle-small"></div>
         <div
 			class="avatar"
-			:style="{ backgroundImage: 'url(' + characterStore.metadata.avatarUrl + ')' }">
-			<img class="transparent" :src="characterStore.metadata.avatarUrl" alt="avatar">
+			:style="{ backgroundImage: 'url(' + avatarUrl + ')' }">
+			<img class="transparent" :src="avatarUrl" alt="avatar">
 		</div>
     </div>
 </template>
@@ -20,13 +20,17 @@
 		setup() {
 			const characterStore = useCharacterStore()
 			const characterName = ref(characterStore.metadata.name)
+			const avatarUrl = ref(characterStore.metadata.avatarUrl || '/img/default-avatar.png')
 
 			return {
-                characterStore
+                characterStore,
+				avatarUrl
 			}
 		},
-		methods: {
-
+		beforeMount() {
+			this.characterStore.$subscribe((_mutation, state) => {
+				this.avatarUrl = state.metadata.avatarUrl
+			})
 		}
 	}
 </script>
