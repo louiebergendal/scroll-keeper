@@ -84,7 +84,6 @@ nav {
 .main-bg {
   background-color: $background-brightness-low;
   background-size: 50%;
-  min-height: calc(100vh - 5rem);
 }
 
 .logo {
@@ -126,7 +125,7 @@ nav {
   }
   &.-bottom-left {
     background-image: url('/img/corner-bottom-left.svg');
-    bottom: 2.1rem;
+    bottom: 0.6rem;
     left: -0.9rem;
   }
   &.-inner-bottom-left-side {
@@ -136,7 +135,7 @@ nav {
   }
   &.-bottom-right {
     background-image: url('/img/corner-bottom-right.svg');
-    bottom: 2.1rem;
+    bottom: 0.6rem;
     right: -0.9rem;
   }
   &.-inner-top-left {
@@ -245,7 +244,7 @@ nav {
 .character {
   position: relative;
   margin-left: 6rem;
-  height: calc(100vh - 5rem);
+  height: calc(100vh - 6.5rem);
   background-image: url('/img/monochromeNoise.png');
 
   .character-name {

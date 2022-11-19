@@ -1,6 +1,6 @@
 <template>
-	<div class="main-bg padding-medium" v-if="characterStore.metadata.name !== 'Loader'">
-		<div class='character padding-small'>
+	<div class="main-bg padding-top-medium padding-left-medium padding-right-medium" v-if="characterStore.metadata.name !== 'Loader'">
+		<div class='character padding-top-medium padding-left-medium padding-right-medium'>
 			<div class="corner -top-left"></div>
 			<div class="corner -top-right"></div>
 			<div class="corner -bottom-left"></div>
