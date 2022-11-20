@@ -9,7 +9,7 @@
 			</div>
 			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-top-nano padding-left-small padding-right-small padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ characterName }} ({{ characterStore.metadata.level }}) </span>
+					<span class="font-size-nano">{{ characterName }} ({{ characterStore.metadata.level }}) </span>
 				</div>
 			</div>
 		</div>
@@ -20,11 +20,7 @@
 			</div>
 			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-left-small padding-right-small padding-top-nano padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ peopleNiceName }} </span><br/>
-					<span class="font-size-nano">
-						{{ getTraitNiceName(peopleMandatorySkills) }},
-						{{ getTraitNiceName(peopleChosenSkills) }}
-					</span>
+					<span class="font-size-nano">{{ peopleNiceName }} </span><br/>
 				</div>
 			</div>
 		</div>
@@ -35,11 +31,7 @@
 			</div>
 			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-top-nano padding-left-small padding-right-small padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ upbringingNiceName }} </span><br/>
-					<span class="font-size-nano">
-						{{ getTraitNiceName(upbringingChosenSkills1) }},
-						{{ getTraitNiceName(upbringingChosenSkills2) }}
-					</span>
+					<span class="font-size-nano">{{ upbringingNiceName }} </span><br/>
 				</div>
 			</div>
 		</div>
@@ -50,11 +42,7 @@
 			</div>
 			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-top-nano padding-left-small padding-right-small padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="bold">{{ professionNiceName }} </span><br/>
-					<span class="font-size-nano">
-						{{ getTraitNiceName(professionChosenSkills1) }},
-						{{ getTraitNiceName(professionChosenSkills2) }}
-					</span>
+					<span class="font-size-nano">{{ professionNiceName }} </span><br/>
 				</div>
 			</div>
 		</div>

@@ -16,11 +16,28 @@
 				}"
 				class='width-whole card medium padding-nano align-center'
 			>
-				<span class='trait-card-align font-size-nano'>
-					{{ skill.name }}
+				<span class='flextrait-card-align font-size-nano'>
+					<span v-if="isBackgroundSkill(skill.key)" class="bold align left">
+						x
+						<span>
+							{{ skill.name }}
+						</span>
+					</span>
 				</span>
+				<span class='flextrait-card-align font-size-nano'>
+					<span v-if="!isBackgroundSkill(skill.key)" class="bold align left">
+						o
+						<span>
+							{{ skill.name }}
+						</span>
+					</span>
+				</span>
+
 			</div>
 		</div>
+
+
+
 	</div>
 </template>
 
@@ -28,6 +45,7 @@
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterSkills } from '../rules/characteristics/traits'
 	import { isTouchedByError } from '../utilities/validators'
+	import { contains } from '../rules/utils'
 
 	export default {
 		setup() {
@@ -36,7 +54,24 @@
 			return {
 				characterStore,
 				independentCharacterSkills,
-				isTouchedByError
+				isTouchedByError,
+				contains
+			}
+		},
+		methods: {
+			isBackgroundSkill(traitKey) {
+				const peopleSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.people).flat(2)
+				const upbringingSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.upbringing).flat(2)
+				const proffessionSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.profession).flat(2)
+
+				if (
+					contains(traitKey, peopleSkillKeysList)
+					||
+					contains(traitKey, upbringingSkillKeysList)
+					||
+					contains(traitKey, proffessionSkillKeysList)
+				) { return true }
+				return false
 			}
 		}
 	}
