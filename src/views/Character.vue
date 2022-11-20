@@ -42,7 +42,7 @@
 	import Competence from '../components/Competence.vue'
 	import SecondaryCharacteristics from '../components/SecondaryCharacteristics.vue'
 	import Biography from '../components/Biography.vue'
-	import Sidebar from '../components/Sidebar.vue'
+	import Sidebar from '../components/sidebar/Sidebar.vue'
 	import { useCharacterStore } from '../stores/character'
 	import { useRoute } from 'vue-router'
 

@@ -57,15 +57,15 @@
 
 <script>
 	import { ref } from 'vue'
-	import experienceTableMaker from '../rules/experienceTableMaker.js'
+	import experienceTableMaker from '../../rules/experienceTableMaker.js'
 	import Wizard from 'form-wizard-vue3'
-	import TraitLevel from '../components/levelChoices/TraitLevel.vue'
-	import AttributeLevel from '../components/levelChoices/AttributeLevel.vue'
-	import StaticLevel from '../components/levelChoices/StaticLevel.vue'
-	import { getTraitNiceName } from '../rules/characteristics/traits'
-	import { getAttributeLongName } from '../rules/characteristics/attributes'
-	import { contains } from '../rules/utils'
-	import { getLevelBonusNiceName } from '../rules/level'
+	import TraitLevel from '../../components/levelChoices/TraitLevel.vue'
+	import AttributeLevel from '../../components/levelChoices/AttributeLevel.vue'
+	import StaticLevel from '../../components/levelChoices/StaticLevel.vue'
+	import { getTraitNiceName } from '../../rules/characteristics/traits'
+	import { getAttributeLongName } from '../../rules/characteristics/attributes'
+	import { contains } from '../../rules/utils'
+	import { getLevelBonusNiceName } from '../../rules/level'
 
 	export default {
 		components: {
@@ -178,5 +178,5 @@
 </script>
 
 <style lang='scss'>
-	@import '../assets/wizard/form-wizard-vue3.scss';
+	@import '../../assets/wizard/form-wizard-vue3.scss';
 </style>

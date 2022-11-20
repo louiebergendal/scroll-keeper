@@ -30,8 +30,8 @@
 
 <script>
 	import { ref } from 'vue'
-    import LevelLadder from '../components/LevelLadder.vue'
-    import Flavour from '../components/Flavour.vue'
+    import LevelLadder from './LevelLadder.vue'
+    import Flavour from './Flavour.vue'
 
 	export default {
 		components: {

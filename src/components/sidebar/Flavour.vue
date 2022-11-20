@@ -43,8 +43,8 @@
 	</div>
 </template>
 <script>
-	import { useCharacterStore } from '../stores/character'
-	import { uploadAndGetUrl } from '../api/firebaseStorageApi'
+	import { useCharacterStore } from '../../stores/character'
+	import { uploadAndGetUrl } from '../../api/firebaseStorageApi'
 	import { ref } from 'vue'
 
 	export default {
