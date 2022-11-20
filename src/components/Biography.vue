@@ -59,13 +59,13 @@
 			</div>
 		</div>
 
-		<div v-if="characterStore.sheet.metadata.description" class="flex">
+		<div v-if="characterStore.sheet.metadata.description" class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				Beskrivning:
 			</div>
-			<div class="card font-size-tiny margin-top-tiny medium width-whole padding-top-nano padding-bottom-nano">
+			<div class="card align-center margin-top-tiny font-size-tiny medium width-whole padding-top-nano padding-left-small padding-right-small padding-bottom-nano">
 				<div class="align padding-bottom-tiny">
-					<span class="font-size-nano">{{ characterStore.sheet.metadata.description.trimStart() }}</span>
+					<span class="font-size-nano">{{ characterStore.sheet.metadata.description }}</span>
 				</div>
 			</div>
 		</div>
