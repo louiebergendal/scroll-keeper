@@ -29,7 +29,7 @@
 		},
 		beforeMount() {
 			this.characterStore.$subscribe((_mutation, state) => {
-				this.avatarUrl = state.metadata.avatarUrl
+				this.avatarUrl = state.metadata.avatarUrl || '/img/default-avatar.png'
 			})
 		}
 	}
