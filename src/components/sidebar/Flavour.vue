@@ -1,21 +1,8 @@
 <template>
-	<div>
-		<div>H J Ö N K</div>
-		<div>{{characterStore.metadata.avatarUrl}}</div>
-		<img :src="characterStore.metadata.avatarUrl" alt="avatar">
-		<div class="file-upload">
-			<form className='form'>
-        		<input type='file' />
-        		<button
-					@click="uploadAvatar"
-					type='submit'
-				>
-					Ladda Upp
-				</button>
-      		</form>
-		</div>
+<div class="flex levels padding-large">
+	<div class="flex card dark padding-small width-whole margin-right-medium -dir-col">
 		<div>
-			<div class="card margin-small padding-small">
+			<div class="margin-bottom-small">
 				<h3>Namn:</h3>
 				<label for="character-name">
 					<input 
@@ -26,8 +13,7 @@
 					>
 				</label>
 			</div>
-
-			<div class="card margin-small padding-small">
+			<div class="">
 				<h3>Beskrivning:</h3>
 				<label for="character-description">
 					<textarea
@@ -38,9 +24,23 @@
 					></textarea>
 				</label>
 			</div>
-
 		</div>
 	</div>
+	<div class="flex card dark padding-small width-whole -dir-col">
+		<img class="avatar-preview" :src="characterStore.metadata.avatarUrl" alt="avatar">
+		<div class="file-upload align-center">
+			<form className='form'>
+				<input type='file' />
+				<button
+					@click="uploadAvatar"
+					type='submit'
+				>
+					Ladda Upp
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
 </template>
 <script>
 	import { useCharacterStore } from '../../stores/character'
@@ -85,4 +85,17 @@
 	}
 </script>
 
-<style></style>
+<style>
+	.avatar-preview {
+		width: 100%;
+	}
+	input[type="file"] {
+    	display: none;
+	}
+	.file-upload {
+		display: inline-block;
+		padding: 6px 12px;
+		cursor: pointer;
+	}
+
+</style>

@@ -77,9 +77,25 @@ nav {
     padding-right: $size-large;
     background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgb(47, 45, 41) 0%, rgb(41 37 33) 100%) !important;
     &:hover {
-      background: url(/img/monochromeNoise.png), linear-gradient(90deg, rgb(36 35 32) 0%, rgb(29 25 22) 100%) !important;
+      background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgb(36 35 32) 0%, rgb(29 25 22) 100%) !important;
     }
   }
+}
+
+input[type="text"] {
+  border-radius: $border-radius;
+  width: 100%;
+  padding: $size-tiny $size-small $size-small $size-small;
+  border: 1px solid $border-contrast-high;
+  font-family: "DulcineaSerif";
+}
+
+textarea {
+  border-radius: $border-radius;
+  width: 100%;
+  padding: $size-tiny $size-small $size-small $size-small;
+  border: 1px solid $border-contrast-high;
+  font-family: "DulcineaSerif";
 }
 
 
