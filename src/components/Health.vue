@@ -16,7 +16,7 @@
 				</div>
 
 				<div class="flex card padding-tiny width-fifth margin-bottom-tiny">
-					<label for="fatigue-button-group">Utmattnig:</label>
+					<label for="fatigue-button-group">Utmattning:</label>
 					<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(dealFatigue)">+</button>
 					<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(healFatigue)">-</button>
 				</div>
