@@ -103,7 +103,7 @@ const hardy = {
 // PUT IN PLUGIN
 const flight = {
     key: 'flight',
-    name: 'flyga',
+    name: 'Flyga',
     softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
