@@ -19,6 +19,15 @@ const uploadFile = (
 	return uploadBytesResumable(ref, file, metadata)
 }
 
+/**
+* Use this to upload a file to storage bucket. urlReturnHandler is a
+* callback function that handles the returned URL when the download is complete.
+* the function does not return the URL, it is handled with a callback.
+* @param refString string to file structure position, including path to user dir
+* @param file file from upload input (e.target?.form[0]?.files[0])
+* @param metadata metadata {contentType: file.type}
+* @param urlReturnHandler callback function(url: string): any
+*/
 export const uploadAndGetUrl = (refString, file, metadata, urlReturnHandler) => {
 	const uploadTask = uploadFile(refString, file, metadata)
 	uploadTask.on('state_changed',
