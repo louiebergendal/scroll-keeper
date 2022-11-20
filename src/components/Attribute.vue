@@ -1,7 +1,7 @@
 <template>
 	<div class='attribute padding-right-tiny padding-left-tiny padding-top-nano margin-bottom-nano flex'>
 		<div class='width-whole flex margin-bottom-nano'>
-			<div class='padding-nano width-half attribute-headline align-center'>
+			<div class='padding-nano width-whole attribute-headline align-center'>
 				<img class="attribute-icon" :src="attributeIcon" />
 				<span
 					:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
@@ -9,7 +9,7 @@
 						<span class="bold">{{ attribute.shortName }}</span>
 				</span>
 			</div>
-			<div class='attribute-value padding-left-small padding-nano margin-left-tiny align-center width-half'>
+			<div class='attribute-value margin-left-tiny align-center width-half'>
 				<span
 					:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
 					class='font-size-tiny attribute-value-align bold'
@@ -26,7 +26,7 @@
 			>
 
 				<div
-					class='attribute-skill width-half card medium padding-nano align-center'
+					class='attribute-skill width-whole card medium padding-nano align-center margin-right-tiny'
 					:class="{
 						'touched-by-error': characteristicIsTouchedByError(skill.key),
 						'attribute-skill-top': skillIndex === 0,
@@ -49,13 +49,13 @@
 					</span>
 				</div>
 				<div
-					class='skill-value card light flex width-half margin-left-tiny'
+					class='skill-value card light flex -h-center width-half'
 					:class="{
 						'attribute-skill-top': skillIndex === 0,
 						'attribute-skill-bottom': skillIndex === 1
 					}"
 				>
-					<div class='padding-left-small width-fourth padding-left-huge'>
+					<div class='align-center width-full'>
 						<span
 							v-if='isOwned(skill.key)'
 							class='attribute-value-align bold'
@@ -74,22 +74,7 @@
 							{{ characterAttributes[attributeProp.key] }}
 						</span>
 					</div>
-					<div class='padding-nano padding-right-medium'>
-						<span
-							v-if='isOwned(skill.key)'
-							class='trait-card-align font-size-tiny align-right bold'
-							:class='{"invalid-text": characteristicIsTouchedByError(skill.key)}'
-						>
-							{{ setAttributeValueName(skill.addProficiencyBonus(characterAttributes[attributeProp.key])) }}
-						</span>
-						<span
-							v-if='!isOwned(skill.key)'
-							class='trait-card-align font-size-tiny align-right'
-							:class='{ "font-contrast-lowest": characterAttributes[attributeProp.key] < (skill.addProficiencyBonus(baseValue)) }'
-						>
-							{{ setAttributeValueName(characterAttributes[attributeProp.key]) }}
-						</span>
-					</div>
+
 				</div>
 			</div>
 		</div>
