@@ -100,6 +100,13 @@ const hardy = {
     addMaxHealthBonus: (health) => health += 2
 }
 
+// PUT IN PLUGIN
+const flight = {
+    key: 'flight',
+    name: 'flyga',
+    softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
 const intrusion = {
     key: 'intrusion',
     name: 'Inbrott',
@@ -219,5 +226,7 @@ export default {
     vigilant,
     warfare,
     wayfinding,
-    weatherBeaten
+    weatherBeaten,
+
+    flight
 }

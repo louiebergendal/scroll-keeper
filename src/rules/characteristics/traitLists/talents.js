@@ -158,6 +158,22 @@ export const spellCaster = {
 	canCastSpells: () => canCastSpells()
 }
 
+// PUT IN PLUGIN
+export const engineer = {
+	key: 'engineer',
+	name: 'Ingenjör',
+	requirements: {
+		metadata: {
+			level: 31,
+			isChosenByFate: true,
+		},
+		attributes: {
+			knowledge: 7
+		},
+		traits: ['bookworm', 'crafting', 'artisan']
+	},
+}
+
 export const marksman = {
 	key: 'marksman',
 	name: 'Skarpskytt',
@@ -296,5 +312,7 @@ export default {
 	brutal,
 	massive,
 	artisan,
-	trustedHenchmen
+	trustedHenchmen,
+
+	engineer
 }
