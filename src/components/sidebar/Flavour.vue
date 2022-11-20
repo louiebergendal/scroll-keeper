@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="flex card dark padding-small width-whole -dir-col">
+	<div class="flex card dark padding-small width-half -dir-col">
 		<img class="avatar-preview" :src="characterStore.metadata.avatarUrl" alt="avatar">
 		<div class="file-upload align-center">
 			<form className='form'>
