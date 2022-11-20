@@ -2,11 +2,16 @@
     <div class="fancy width-whole padding-small position-relative">
 		<div class="corner -inner-top-left"></div>
 		<div class="corner -inner-bottom-right"></div>
-		<div class="corner -top-middle-small"></div>
+		<div class="corner -top-middle-small-2"></div>
 		<div class="corner -right-middle-small"></div>
         <div
-			class="avatar"
-			:style="{ backgroundImage: 'url(' + avatarUrl + ')' }">
+			class="avatar position-relative"
+			:style="{ backgroundImage: 'url(' + avatarUrl + ')' }"
+		>
+			<div class="corner img -img-top-right"></div>
+			<div class="corner img -img-top-left"></div>
+			<div class="corner img -img-bottom-right"></div>
+			<div class="corner img -img-bottom-left"></div>
 			<img class="transparent" :src="avatarUrl" alt="avatar">
 		</div>
     </div>
