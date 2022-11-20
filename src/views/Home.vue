@@ -1,6 +1,6 @@
 <template>
-  <div class="home main-bg">
-    <div class="padding-top-medium align-center">
+	<div class="main-bg padding-top-medium padding-left-medium padding-right-medium">
+		<div class='inner-bg padding-top-small padding-left-small padding-right-small'>
       <h2>Omen Alpha WIP</h2>
       <b>todo:</b>
       <div class="">
@@ -14,8 +14,21 @@
           <span>A traits API function that takes in a list of character 'traits', and returns only the 'talents'</span><br>
       </div>
     </div>
-
+    <Sidebar />
   </div>
 </template>
+<script>
+	import Sidebar from '../components/sidebar/Sidebar.vue'
+
+	export default {
+		components: {
+			Sidebar
+		},
+		setup() {
+			return {
+			}
+		}
+	}
+</script>
 
 <style></style>

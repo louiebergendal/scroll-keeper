@@ -96,8 +96,7 @@ nav {
   background-size: cover;
   position: absolute;
   top: $size-small;
-  margin-left: 2.5rem;
-  left: calc(50% - 43px);
+  margin-right: -6rem;
   cursor: pointer;
 }
 
@@ -277,7 +276,7 @@ nav {
 }
 
 // character
-.character {
+.inner-bg {
   position: relative;
   margin-left: 6rem;
   padding-bottom: 4rem;
@@ -568,6 +567,14 @@ nav {
   top: 0;
   position: absolute;
   cursor: pointer;
+  .disabled {
+    &.icon {
+      &:hover {
+      background-color: inherit !important;
+      cursor: initial;
+    }
+    }
+  }
   .drawer-handle {
     height:100%;
   }

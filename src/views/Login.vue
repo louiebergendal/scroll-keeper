@@ -1,27 +1,32 @@
 <template>
-  <div class="faux-modal-container">
-    <div class="card dark padding-small faux-modal">
-      <h2>Login</h2>
-      <form>
-        <p>
-          <input
-            type="text"
-            placeholder="Email"
-            class="margin-bottom-small"
-            v-model="email"
-          />
-        </p>
-        <p>
-          <input
-            type="password"
-            placeholder="Password"
-            class="margin-bottom-small"
-            v-model="password"
-          />
-        </p>
-      </form>
-      <p class="align-right"><button @click="signIn">Submit</button></p>
+  <div class="main-bg padding-top-medium padding-left-medium padding-right-medium">
+		<div class='inner-bg padding-top-small padding-left-small padding-right-small'>
+      <div class="faux-modal-container">
+        <div class="card dark padding-small faux-modal">
+          <h2>Login</h2>
+          <form>
+            <p>
+              <input
+                type="text"
+                placeholder="Email"
+                class="margin-bottom-small"
+                v-model="email"
+              />
+            </p>
+            <p>
+              <input
+                type="password"
+                placeholder="Password"
+                class="margin-bottom-small"
+                v-model="password"
+              />
+            </p>
+          </form>
+          <p class="align-right"><button @click="signIn">Submit</button></p>
+        </div>
+      </div>
     </div>
+    <Sidebar />
   </div>
 </template>
 
@@ -29,8 +34,12 @@
 import { ref } from "vue";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useRouter } from "vue-router";
+import Sidebar from '../components/sidebar/Sidebar.vue'
 
 export default {
+  components: {
+		Sidebar
+	},
   setup() {
     const email = ref("");
     const password = ref("");

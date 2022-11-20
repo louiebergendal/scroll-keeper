@@ -1,35 +1,40 @@
 <template>
-  <div class="faux-modal-container">
-    <div class="card dark padding-small faux-modal">
-      <h2>Create an Account</h2>
-      <form>
-        <p>
-          <input
-            type="text"
-            placeholder="Email"
-            class="margin-bottom-small"
-            v-model="email"
-          />
-        </p>
-        <p>
-          <input
-            type="text"
-            placeholder="Name"
-            class="margin-bottom-small"
-            v-model="username"
-          />
-        </p>
-        <p>
-          <input
-            type="password"
-            placeholder="Password"
-            class="margin-bottom-small"
-            v-model="password"
-          />
-        </p>
-      </form>
-      <p class="align-right"><button @click="register">Submit</button></p>
+  <div class="main-bg padding-top-medium padding-left-medium padding-right-medium">
+		<div class='inner-bg padding-top-small padding-left-small padding-right-small'>
+      <div class="faux-modal-container">
+        <div class="card dark padding-small faux-modal">
+          <h2>Create an Account</h2>
+          <form>
+            <p>
+              <input
+                type="text"
+                placeholder="Email"
+                class="margin-bottom-small"
+                v-model="email"
+              />
+            </p>
+            <p>
+              <input
+                type="text"
+                placeholder="Name"
+                class="margin-bottom-small"
+                v-model="username"
+              />
+            </p>
+            <p>
+              <input
+                type="password"
+                placeholder="Password"
+                class="margin-bottom-small"
+                v-model="password"
+              />
+            </p>
+          </form>
+          <p class="align-right"><button @click="register">Submit</button></p>
+        </div>
+      </div>
     </div>
+    <Sidebar />
   </div>
 </template>
 
@@ -38,8 +43,12 @@ import { ref as vRef } from "vue";
 import { ref as fbRef, getDatabase, set } from "firebase/database";
 import { getAuth, createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useRouter } from "vue-router";
+import Sidebar from '../components/sidebar/Sidebar.vue'
 
 export default {
+  components: {
+		Sidebar
+	},
   setup() {
     const db = getDatabase();
     const email = vRef("");

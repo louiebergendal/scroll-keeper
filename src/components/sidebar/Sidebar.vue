@@ -11,14 +11,19 @@
         </div>
         <div class="drawer-handle-wrapper">
             <div
-                :class="{'selected': isSelected === 'level-ladder'}"
+                :class="{
+                    'selected': isSelected === 'level-ladder',
+                    'disabled': !hasCharacter 
+                }"
                 class="icon -level-ladder"
-                @click="toggleOrShow('level-ladder')" >
+                @click="hasCharacter ? toggleOrShow('level-ladder') : () => {}" >
             </div>
             <div
-                :class="{'selected': isSelected === 'biography'}"
+                :class="{
+                    'selected': isSelected === 'biography',
+                    'disabled': !hasCharacter }"
                 class="icon -biography"
-                @click="toggleOrShow('biography')" >
+                @click="hasCharacter ? toggleOrShow('biography') : () => {}" >
             </div>
             <div
                 class="drawer-handle"
@@ -44,13 +49,23 @@
 			const characterStore = props.characterStore // hela storen behöver passas ned eftersom traits och attributes kollar requirements
 			const isClosed = ref(true)
             const isSelected = ref('')
+            const hasCharacter = props.characterStore ? true : false
 
 			return {
 				characterStore,
 				isClosed,
-                isSelected
+                isSelected,
+                hasCharacter
 			}
 		},
+        watch: {
+			characterStore: {
+				handler(newVal) {
+					this.hasCharacter = newVal ? true : false
+				},
+				immediate: true
+			}
+        },
 		methods: {
 			toggleFoldOut(_event) {
                 if (this.isClosed && !this.isSelected) return
