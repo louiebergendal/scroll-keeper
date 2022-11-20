@@ -94,17 +94,17 @@ const fast = {
     addSprintMovementBonus:  (movement) => movement += 2
 }
 
-const hardy = {
-    key: 'hardy',
-    name: 'Härdad',
-    addMaxHealthBonus: (health) => health += 2
-}
-
 // PUT IN PLUGIN
 const flight = {
     key: 'flight',
     name: 'Flyga',
     softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
+const hardy = {
+    key: 'hardy',
+    name: 'Härdad',
+    addMaxHealthBonus: (health) => health += 2
 }
 
 const intrusion = {
