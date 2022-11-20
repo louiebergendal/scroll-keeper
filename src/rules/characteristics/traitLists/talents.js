@@ -264,7 +264,7 @@ export const artisan = {
 	name: 'Hantverkig',
 	requirements: {
 		metadata: {
-			level: 21
+			level: 20
 		},
 		attributes: {
 			knowledge: 4,
