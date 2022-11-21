@@ -10,7 +10,7 @@ export const mechanicsName = 'Spelmekanik'
 const softUnlockBonus = 6
 
 export const removeSucRollPenalty = (fv) => fv + softUnlockBonus
-export const freeReroll = (roll) => console.log(roll)    // <--- this needs roll mechanics too
+export const freeReroll = (roll) => console.log(roll)    // <--- this needs roll mechanics
 export const canPickExtractsOnForageRoll = (roll) => console.log(roll) // <--- this needs foraging
 export const canChoseExtraEffects = () => console.log('can choose extra effects!');
 export const canUseVia = () => console.log('can use via!');
@@ -20,14 +20,14 @@ export const addProficiencyBonus = (fv, increment) => fv + increment
 export const addAdvantage = (roll, increment) => console.log(roll, increment)  // <--- this needs roll mechanics
 export const multiplyActionTime = (actionTime, factor) => actionTime * factor
 export const refineProvisions = (provisions, quality) => console.log(provisions, quality) // <--- this needs gear
-export const addMaxCarryingCapacityBonus = (carryingCapacity) => console.log(carryingCapacity) // <--- this needs carryingCapacity
+export const addMaxCarryingCapacityBonus = (carryingCapacity, quantity) => carryingCapacity + quantity
 export const addForagingBonus = (provisions, increment) => provisions + increment
 
 export const addOffensivePowerBonus = (power, increment) => {
-    power.offensive += increment
-    return power
+	power.offensive += increment
+	return power
 }
 export const addDefensivePowerBonus = (power, increment) => {
-    power.defensive += increment
-    return power
+	power.defensive += increment
+	return power
 }

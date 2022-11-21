@@ -12,12 +12,14 @@
 				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level" >
 						<div v-if="level.levelBonus === 'skill'">
+
 							<TraitLevel
 								:selectedLevel="currentTabIndex"
 								:characterStore="characterStore"
 								:traitType="'skill'"
 								@update-tabs="updateLevelTabData"
 							/>
+
 						</div>
 						<div v-if="level.levelBonus === 'attribute'">
 							<AttributeLevel

@@ -56,7 +56,6 @@ export const useCharacterStore = defineStore('character', {
 			this.updateCharacterField(levelRefString, level)
 		},
 		updateCharacterAvatarUrl(url) {
-			console.log("url: ", url)
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', {avatarUrl: url})
 		},
 		updateCharacterName(name) {
@@ -64,6 +63,9 @@ export const useCharacterStore = defineStore('character', {
 		},
 		updateCharacterDescription(description) {
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { description: description })
+		},
+		updateIsChosenByFate(isChosenByFate) {
+			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { isChosenByFate: isChosenByFate })
 		}
 	},
 })

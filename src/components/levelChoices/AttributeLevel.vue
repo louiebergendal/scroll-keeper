@@ -152,7 +152,6 @@
 					'attribute'
 				)
 				this.$emit('update-tabs')
-				this.invalidLevels = this.characterStore.metadata.invalidLevels
 			},
 			isSelected(attributeKey){
 				return attributeKey === this.tempLevelChoiceKey

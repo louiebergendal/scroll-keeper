@@ -164,7 +164,8 @@ export const engineer = {
 	name: 'Ingenjör',
 	requirements: {
 		metadata: {
-			level: 30
+			level: 30,
+			isChosenByFate: true,
 		},
 		attributes: {
 			knowledge: 7

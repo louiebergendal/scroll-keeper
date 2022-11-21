@@ -133,7 +133,10 @@
 		},
 		props: ['characterStore'],
 		setup(props) {
-			const characterStore = props.characterStore // should we use store or tempSheet?
+			const characterStore = props.characterStore
+
+			// --- IS CHOSEN BY FATE ---
+			const isChosenByFate = ref(characterStore.metadata.isChosenByFate)
 
 			// --- PEOPLES ---
 
@@ -191,6 +194,8 @@
 
 			return {
 				characterStore,
+
+				isChosenByFate,
 
 				peoplesOptions,
 				peoplesChoiceKey,

@@ -17,7 +17,7 @@
 				class='width-whole card medium padding-nano align-center'
 			>
 				<span class='flextrait-card-align font-size-nano'>
-					<span v-if="isBackgroundSkill(skill.key)" class="bold align left">
+					<span v-if="isBackgroundSkill(skill.key)" class="align left">
 						x
 						<span>
 							{{ skill.name }}
@@ -25,7 +25,7 @@
 					</span>
 				</span>
 				<span class='flextrait-card-align font-size-nano'>
-					<span v-if="!isBackgroundSkill(skill.key)" class="bold align left">
+					<span v-if="!isBackgroundSkill(skill.key)" class="align left">
 						o
 						<span>
 							{{ skill.name }}

@@ -91,6 +91,7 @@
 					}"
 				>
 					<div v-if="trait.key === 'background'">
+						<RuleRelevantMetadata :characterStore="characterStore" @update-data="$emit('update-tabs')" />	
 						<Background
 							:characterStore="characterStore"
 							@complex-payload="complexPayload"
@@ -207,16 +208,18 @@
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
+	import RuleRelevantMetadata from './RuleRelevantMetadata.vue'
 	import Background from './complexTalents/Background.vue'
 	import Scholar from './complexTalents/Scholar.vue'
 	import Pathfinder from './complexTalents/Pathfinder.vue'
 
 	export default {
 		components: {
+			InvalidOccurrence,
+			RuleRelevantMetadata,
 			Pathfinder,
 			Background,
-			Scholar,
-			InvalidOccurrence
+			Scholar
 		},
 		props: ['selectedLevel', 'traitType', 'characterStore'],
 		emits: ['complexPayload', 'update-tabs'],
@@ -272,6 +275,7 @@
 			},
 			complexPayload(data) {
 				let isValid = true
+
 				for (const option in data) {
 					for (const choiceGroup in data[option].choices) {
 						for (const skillChoice in data[option].choices[choiceGroup]) {

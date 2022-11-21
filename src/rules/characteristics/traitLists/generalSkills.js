@@ -18,7 +18,7 @@ const animalHusbandry = {
 const beastOfBurden = {
     key: 'beastOfBurden',
     name: 'Packåsna',
-    addMaxCarryingCapacityBonus: (carryingCapacity) => addMaxCarryingCapacityBonus(carryingCapacity)
+    addMaxCarryingCapacityBonus: (carryingCapacity) => addMaxCarryingCapacityBonus(carryingCapacity, 1)
 }
 
 const bookworm = {
