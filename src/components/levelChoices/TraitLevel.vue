@@ -91,7 +91,7 @@
 					}"
 				>
 					<div v-if="trait.key === 'background'">
-						<RuleRelevantMetadata :characterStore="characterStore" @update-data="$emit('update-tabs')" />	
+						<RuleRelevantMetadata :characterStore="characterStore" @update-tabs="$emit('update-tabs')" />	
 						<Background
 							:characterStore="characterStore"
 							@complex-payload="complexPayload"
