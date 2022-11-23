@@ -55,7 +55,7 @@
 	export default {
 		setup() {
 			const characterStore = useCharacterStore()
-			console.log(powerNiceName)
+			
 			return {
 				characterStore,
 				powerNiceName,

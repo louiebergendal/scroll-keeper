@@ -20,18 +20,22 @@ export const useCharacterStore = defineStore('character', {
 		// Downstream
 		setPath() {
 			const characterRefString = this.router.currentRoute.value.fullPath
-			onValue(createRefs(characterRefString), (snapshot) => {
-				const newCharacterState = snapshot.val()
-				newCharacterState.metadata.characterRefString = characterRefString
-				newCharacterState.metadata.invalidLevels = {}
-
-				const currentLevel = newCharacterState.metadata.level
-				const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)
-				this.metadata = newCharacterState.metadata
-				this.sheet = newCharacterSheet
-				this.history = newCharacterState.history
-				this.state = newCharacterState.state
-			})
+			onValue(
+				createRefs(characterRefString), (snapshot) => {
+					const newCharacterState = snapshot.val()
+					if (newCharacterState !== null) {
+						newCharacterState.metadata.characterRefString = characterRefString
+						newCharacterState.metadata.invalidLevels = {}
+	
+						const currentLevel = newCharacterState.metadata.level
+						const newCharacterSheet = flattenCharacter(newCharacterState, currentLevel)
+						this.metadata = newCharacterState.metadata
+						this.sheet = newCharacterSheet
+						this.history = newCharacterState.history
+						this.state = newCharacterState.state
+					}
+				}
+			)
 		},
 
 		// Upstream

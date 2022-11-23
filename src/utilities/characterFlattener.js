@@ -55,8 +55,11 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			baseCharacterSheet.competence++
 
 		// ADD FATE
-		if (bonusType === 'fate')
+		if (bonusType === 'fate') 
 			baseCharacterSheet.fate += 3
+		if (!databaseCharacter.metadata.isChosenByFate) {
+			baseCharacterSheet.fate = baseCharacterSheet.fate * 0
+		}
 
 		// ADD ATTRIBUTES
 		for (const attribute in attributes) {

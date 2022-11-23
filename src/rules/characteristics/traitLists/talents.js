@@ -158,22 +158,6 @@ export const spellCaster = {
 	canCastSpells: () => canCastSpells()
 }
 
-// PUT IN PLUGIN
-export const engineer = {
-	key: 'engineer',
-	name: 'Ingenjör',
-	requirements: {
-		metadata: {
-			level: 30,
-			isChosenByFate: true,
-		},
-		attributes: {
-			knowledge: 7
-		},
-		traits: ['bookworm', 'crafting', 'artisan']
-	},
-}
-
 export const marksman = {
 	key: 'marksman',
 	name: 'Skarpskytt',
@@ -218,7 +202,7 @@ export const masterSpellCaster = {
 			level: 31
 		},
 		attributes: {
-			spirit: 7
+			spirit: 6
 		},
 		traits: ['spellCaster']
 	},
@@ -288,6 +272,22 @@ export const trustedHenchmen = {
 		}
 	},
 	addLoyalMook: (mooksList) => addLoyalMook(mooksList)
+}
+
+// PUT IN PLUGIN
+export const engineer = {
+	key: 'engineer',
+	name: 'Ingenjör',
+	requirements: {
+		metadata: {
+			level: 30,
+			isChosenByFate: true,
+		},
+		attributes: {
+			knowledge: 7
+		},
+		traits: ['bookworm', 'crafting', 'artisan']
+	},
 }
 
 export const complexTalents = [

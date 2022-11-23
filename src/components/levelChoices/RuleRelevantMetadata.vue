@@ -3,8 +3,9 @@
 
 		<div class="flex card margin-small padding-small">
 
-			<h3>Ödesvald:</h3>
-			<div class="flex card margin-small padding-small width-whole">
+			
+			<div class=" width-whole">
+				<h3 class="display-inline">Ödesvald:</h3>
 				<input
 					type="checkbox"
 					id="is-chosen-by-fate"

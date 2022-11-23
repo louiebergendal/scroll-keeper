@@ -1,7 +1,6 @@
 <template>
 	<div class="card square medium padding-large -fill">
 
-
 		<div v-if="traitType === 'skill' && selectedLevel !== 1">
 			<h3 v-if="traitType === 'skill'" class="align-center margin-top-nano margin-bottom-tiny">Välj en färdighet!</h3>
 			<h3 v-if="traitType === 'talent'" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang!</h3>
@@ -9,6 +8,8 @@
 
 		<!--loop traits-->
 		<div v-for="(trait, key) in traits" :key='key' class="flex">
+
+			<!-- break up into "SkillGroup"-components. One for general skills, one for attributeskills etc -->
 
 			<!-- not owned -->
 			<div v-if="
@@ -55,6 +56,7 @@
 								(cannotChooseTrait(trait.key)
 								&& !traitIsTouchedByError(trait.key))}"
 					>
+
 						{{ trait.name }}
 
 						<span 
@@ -91,7 +93,7 @@
 					}"
 				>
 					<div v-if="trait.key === 'background'">
-						<RuleRelevantMetadata :characterStore="characterStore" @update-tabs="$emit('update-tabs')" />	
+						<RuleRelevantMetadata :characterStore="characterStore" @update-tabs="$emit('update-tabs')" />
 						<Background
 							:characterStore="characterStore"
 							@complex-payload="complexPayload"
@@ -141,7 +143,7 @@
 						class="display-inline-block text-margins"
 						:class="{ 'font-contrast-low' : !traitIsTouchedByError(trait.key) }"
 					>
-						<span class="display-inline">{{ trait.name }}</span>
+						<p class="display-inline">{{ trait.name }}</p>
 
 						<div
 							v-if="

@@ -25,35 +25,38 @@
 		</div>
 
 		<div class='health-wrapper flex'>
-				<div v-if="characterStore.sheet.fate" class='flex'>
-					<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
-					<div
-						v-for='index in characterStore.sheet.fate'
-						:key='index'
-						class='health-point fate margin-bottom-small'
-					>
+			<div v-if="characterStore.sheet.fate" class='flex'>
+				<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
+				<div
+					v-for='index in characterStore.sheet.fate'
+					:key='index'
+					class='health-point fate margin-bottom-small'
+				>
 				</div>
 			</div>
-			<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='flex'>
-				<div class='health-level-title bold font-size-nano padding-right-small'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}:</div>
-				<div
-					v-for='index in healthLevel.currentStrain.damage'
-					:key='"damage-" + index'
-					class='health-point damage'
-				>
-				</div>
-				<div
-					v-for='index in healthLevel.currentStrain.fatigue'
-					:key='"fatigue-" + index'
-					class='health-point fatigue'
-				>
-				</div>
-				<div
-					v-for='index in healthLevel._frontend_remainder'
-					:key='"health-" + index'
-					class='health-point'
-				>
-				</div>
+		</div>
+		
+		<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='flex'>
+			<div class='health-level-title bold font-size-nano padding-right-small'>
+				{{ getHealthLevelNiceName(healthLevel._frontend_key) }}:
+			</div>
+			<div
+				v-for='index in healthLevel.currentStrain.damage'
+				:key='"damage-" + index'
+				class='health-point damage'
+			>
+			</div>
+			<div
+				v-for='index in healthLevel.currentStrain.fatigue'
+				:key='"fatigue-" + index'
+				class='health-point fatigue'
+			>
+			</div>
+			<div
+				v-for='index in healthLevel._frontend_remainder'
+				:key='"health-" + index'
+				class='health-point'
+			>
 			</div>
 		</div>
 
