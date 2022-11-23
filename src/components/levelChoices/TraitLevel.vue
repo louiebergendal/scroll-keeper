@@ -72,13 +72,35 @@
 							/>
 						</span>						
 						
-						<p v-if="cannotChooseTrait(trait.key) && isSelected(trait.key)"
+						<p 
+							v-if="cannotChooseTrait(trait.key) && isSelected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
 							{{ getErrorMessage(trait.key) }}
 						</p>
 
+						<span
+							v-if="
+								contains(trait.key, characterStore.sheet.traits)
+								&& trait.key !== tempLevelChoiceKey
+								&& !isOwned(trait.key)
+								&& !traitIsTouchedByError(trait.key)"
+							class="font-size-tiny display-inline"
+						>
+							 - this is taken at a later level
+						</span>
+
+						<span
+							v-if="cannotChooseTrait(trait.key) && !traitIsTouchedByError(trait.key)"
+							class="font-size-nano display-inline"
+						>
+							({{getErrorMessage(trait.key)}}) 
+						</span>
+
 					</label>
+
+
+
 				</div>
 
 				<!-- complex traits -->
@@ -119,7 +141,8 @@
 			</div>
 
 			<!-- already owned -->
-			<div v-if="isOwned(trait.key)"
+			<div 
+				v-if="isOwned(trait.key)"
 				class="card dark width-whole flex margin-bottom-nano"
 			>
 				<div
@@ -157,7 +180,9 @@
 								/>
 						</div>
 
-						<p v-if="traitIsInvalidAtThisLevel(trait.key) && invalidTraitChoiceIsNotDeselected(trait.key)"
+						<p 
+							v-if="traitIsInvalidAtThisLevel(trait.key)
+							&& invalidTraitChoiceIsNotDeselected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
 							{{ getErrorMessage(trait.key) }}

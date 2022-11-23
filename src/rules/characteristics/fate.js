@@ -16,3 +16,4 @@ export const accountForFate = (strainSum, fate) => {
 
 	return remainder
 }
+
