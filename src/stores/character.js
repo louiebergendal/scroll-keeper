@@ -68,6 +68,9 @@ export const useCharacterStore = defineStore('character', {
 		updateCharacterDescription(description) {
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { description: description })
 		},
+		updatePeopleDescription(peopleDescription) {
+			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { peopleDescription: peopleDescription })
+		},
 		updateIsChosenByFate(isChosenByFate) {
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { isChosenByFate: isChosenByFate })
 		}

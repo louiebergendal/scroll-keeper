@@ -32,11 +32,11 @@
 						v-model="tempLevelChoiceKey"
 						name="attribute"
 						:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
-						class="margin-tiny radio-margins"
+						class=""
 					/>
 					<label :for='attribute.key' class="display-inline-block text-margins">
 
-						<div>{{ getAttributeLongName(attribute.key) }}</div>
+						<div class="margin-left-small">{{ getAttributeLongName(attribute.key) }}</div>
 
 						<div 
 							v-if="
@@ -106,7 +106,7 @@
 		getAttributeLvlCeiling
 	} from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import { contains } from '../../rules/utils'
+	import { containsKey } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
 	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
 
@@ -187,7 +187,7 @@
 					const invalidLevelBonus = this.characterStore.metadata.invalidLevels[invalidLevel]
 
 					if (typeof invalidLevelBonus === 'object'
-						&& contains(key, invalidLevelBonus)
+						&& containsKey(key, invalidLevelBonus)
 					) {
 						invalidOccurrencesList.push(invalidLevel)
 					}
@@ -209,13 +209,5 @@
 <style>
 	.invalid {
 		background: rgb(247, 63, 46) !important;
-	}
-	.radio-margins {
-		margin-top: 1rem !important;
-		margin-left: 1rem !important;
-		margin-right: 1rem !important;
-		vertical-align: top;
-	}
-	.text-margins {
 	}
 </style>

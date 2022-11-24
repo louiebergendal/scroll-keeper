@@ -6,8 +6,8 @@
 				:name="name"
 				:value="option"
 				:id="name + '-' + option"
-				:checked="contains(option, selectedOptions) && !contains(option, invalidOptions)"
-				:disabled="contains(option, invalidOptions)"
+				:checked="containsKey(option, selectedOptions) && !containsKey(option, invalidOptions)"
+				:disabled="containsKey(option, invalidOptions)"
 				@change="emitOption(option)" 
 			/>
 				<span v-if="getTraitNiceName(option)">{{ getTraitNiceName(option) }}</span>
@@ -17,7 +17,7 @@
 </template>
   
 <script>
-	import { contains } from '../../rules/utils'
+	import { containsKey } from '../../rules/utils'
 	import { getTraitNiceName } from '../../rules/characteristics/traits'
 	import { getBackgroundSkillsListNiceNames } from '../../rules/complexTraits/background/background'
 
@@ -35,7 +35,7 @@
 				name,
 				getTraitNiceName,
 				getBackgroundSkillsListNiceNames,
-				contains,
+				containsKey,
 			}
 		},
 		watch: {

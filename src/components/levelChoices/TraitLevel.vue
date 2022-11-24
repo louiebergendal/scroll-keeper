@@ -20,12 +20,12 @@
 				:class="{
 					'touched-by-error':
 						traitIsTouchedByError(trait.key)
-						&& contains('complexTrait', Object.keys(trait))
+						&& containsKey('complexTrait', Object.keys(trait))
 						&& isSelected(trait.key)
 				}"
 			>
 				<div
-					class="padding-bottom-tiny"
+					class=""
 					:class="{
 						'touched-by-error -sub': traitIsTouchedByError(trait.key),
 						'invalid-background':
@@ -36,28 +36,27 @@
 							invalidTraitChoiceIsNotDeselected(trait.key)
 							&& !traitIsTouchedByError(trait.key),
 						' -angled-bottom':
-							contains('complexTrait', Object.keys(trait))
+							containsKey('complexTrait', Object.keys(trait))
 							&& isSelected(trait.key)
 					}"
 				>
-					<input
-						type="radio"
-						v-model="tempLevelChoiceKey"
-						:value="key"
-						:id="key"
-						:disabled="cannotChooseTrait(trait.key)"
-						class="margin-tiny vertical-align-top radio-margins"
-					/>
 					<label
 						:for="key"
-						class="display-inline-block text-margins"
+						class="display-inline-block"
 						:class="{
 							'font-contrast-lowest':
 								(cannotChooseTrait(trait.key)
 								&& !traitIsTouchedByError(trait.key))}"
 					>
-
-						{{ trait.name }}
+						<input
+							type="radio"
+							v-model="tempLevelChoiceKey"
+							:value="key"
+							:id="key"
+							:disabled="cannotChooseTrait(trait.key)"
+							class="margin-tiny vertical-align-top"
+						/>
+						<span class="margin-top-tiny">{{ trait.name }}</span>
 
 						<span 
 							v-if="
@@ -72,40 +71,36 @@
 							/>
 						</span>						
 						
+						<span
+							v-if="
+								containsKey(trait.key, characterStore.sheet.traits)
+								&& !containsKey(trait.key, tempValidationSheet.traits)
+								&& !traitIsTouchedByError(trait.key)"
+							class="font-size-nano display-inline font-contrast-lowest margin-left-small"
+						>
+							Vald på en senare erfarenhetsnivå
+						</span>
+
 						<p 
 							v-if="cannotChooseTrait(trait.key) && isSelected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
-							{{ getErrorMessage(trait.key) }}
+							{{ getFailedRequirementsMessage(trait.key) }}
 						</p>
 
 						<span
-							v-if="
-								contains(trait.key, characterStore.sheet.traits)
-								&& trait.key !== tempLevelChoiceKey
-								&& !isOwned(trait.key)
-								&& !traitIsTouchedByError(trait.key)"
-							class="font-size-tiny display-inline"
-						>
-							 - this is taken at a later level
-						</span>
-
-						<span
 							v-if="cannotChooseTrait(trait.key) && !traitIsTouchedByError(trait.key)"
-							class="font-size-nano display-inline"
+							class="font-size-nano display-inline margin-left-small"
 						>
-							({{getErrorMessage(trait.key)}}) 
+							{{ getFailedRequirementsMessage(trait.key) }}
 						</span>
-
 					</label>
-
-
 
 				</div>
 
 				<!-- complex traits -->
 				<div
-					v-if="contains('complexTrait', Object.keys(trait))"
+					v-if="containsKey('complexTrait', Object.keys(trait))"
 					class="width-whole angled-top"
 					:class="{
 						'touched-by-error': traitIsTouchedByError(trait.key),
@@ -159,14 +154,14 @@
 						:id="key + '-owned'"
 						disabled
 						checked='true'
-						class="margin-tiny vertical-align-top radio-margins"
+						class="margin-tiny vertical-align-top"
 					/>
 					<label
 						:for="key + '-owned'"
-						class="display-inline-block text-margins"
+						class="display-inline-block"
 						:class="{ 'font-contrast-low' : !traitIsTouchedByError(trait.key) }"
 					>
-						<p class="display-inline">{{ trait.name }}</p>
+						<span>{{ trait.name }}</span>
 
 						<div
 							v-if="
@@ -185,7 +180,7 @@
 							&& invalidTraitChoiceIsNotDeselected(trait.key)"
 							class="font-size-tiny display-inline"
 						>
-							{{ getErrorMessage(trait.key) }}
+							{{ getFailedRequirementsMessage(trait.key) }}
 						</p>
 					</label>
 				</div>
@@ -231,7 +226,7 @@
 		getFailedRequirements,
 		getFailedTraitRequirementsErrorMessage
 	} from '../../rules/characteristics/traits'
-	import { contains } from '../../rules/utils'
+	import { containsKey } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
@@ -254,9 +249,11 @@
 			const characterStore = props.characterStore
 			const selectedLevel = props.selectedLevel
 			const traitType = props.traitType
-
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
-			const tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
+			let tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
+			console.log("tempCharacterSheet: ", tempCharacterSheet.metadata.level, tempCharacterSheet.metadata.selectedLevel)
+			console.log("tempValidationSheet: ", tempValidationSheet.metadata.level, tempValidationSheet.metadata.selectedLevel)
+			console.log('tempValidationSheet.traits: ', tempValidationSheet.traits);
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()
 
@@ -275,11 +272,10 @@
 				tempValidationSheet,
 				originalLevelChoiceKey,
 				tempLevelChoiceKey,
-				characterStore,
 				selectedLevel,
 				complexTraitData,
 				hasFullComplexPayload,
-				contains,
+				containsKey,
 				canChooseTrait,
 				getFailedRequirements,
 				invalidChoiceIsNotDeselected,
@@ -298,7 +294,7 @@
 					this.complexTraitData
 				)
 				this.$emit('update-tabs')
-				this.tempValidationSheet = this.tempValidationSheet
+				this.tempValidationSheet = flattenCharacter(this.characterStore, this.selectedLevel)
 			},
 			complexPayload(data) {
 				let isValid = true
@@ -316,7 +312,7 @@
 				this.complexTraitData = data
 			},
 			isOwned(traitKey){
-				return contains(traitKey, this.tempCharacterSheet.traits)
+				return containsKey(traitKey, this.tempCharacterSheet.traits)
 			},
 			isSelected(traitKey){
 				return traitKey === this.tempLevelChoiceKey
@@ -362,7 +358,7 @@
 				)
 				return failedRequirements
 			},
-			getErrorMessage(traitKey) {
+			getFailedRequirementsMessage(traitKey) {
 				const failedRequirements = this.getFailedTraitRequirements(traitKey)
 				const errorMessage = this.getFailedTraitRequirementsErrorMessage(failedRequirements)
 				return errorMessage
@@ -375,7 +371,7 @@
 					const invalidLevelBonus = invalidLevels[invalidLevel]
 
 					if (typeof invalidLevelBonus === 'object'
-						&& contains(key, invalidLevelBonus)
+						&& containsKey(key, invalidLevelBonus)
 					) {
 						invalidOccurrencesList.push(invalidLevel)
 					}
@@ -394,12 +390,5 @@
 </script>
 
 <style>
-	.radio-margins {
-		margin-top: 1rem !important;
-		margin-left: 1rem !important;
-		margin-right: 1rem !important;
-	}
-	.text-margins {
-		margin-top: 0.3rem !important;
-	}
+
 </style>

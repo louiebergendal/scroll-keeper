@@ -2,19 +2,18 @@
 	<div>
 
 		<div class="flex card margin-small padding-small">
-
 			
 			<div class=" width-whole">
 				<h3 class="display-inline">Ödesvald:</h3>
 				<input
 					type="checkbox"
 					id="is-chosen-by-fate"
-					class="margin-tiny vertical-align-top radio-margins"
+					class="margin-tiny vertical-align-top"
 					v-model="isChosenByFate"
 				/>
 				<label
 					for="is-chosen-by-fate"
-					class="display-inline-block text-margins"
+					class="display-inline-block"
 				>
 					Är ödesvald: {{ isChosenByFate }}
 				</label>
@@ -35,7 +34,6 @@
 
 <script>
 	import { ref } from 'vue'
-
 
 	export default {
 		props: ['characterStore'],

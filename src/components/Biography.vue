@@ -14,6 +14,7 @@
 			</div>
 		</div>
 
+		<!-- people -->
 		<div class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				{{ backgroundCategoryNiceNames.people }}
@@ -25,6 +26,7 @@
 			</div>
 		</div>
 
+		<!-- upbringing -->
 		<div class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				{{ backgroundCategoryNiceNames.upbringing }}
@@ -36,6 +38,7 @@
 			</div>
 		</div>
 
+		<!-- profession -->
 		<div class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				{{ backgroundCategoryNiceNames.profession }}
@@ -47,6 +50,7 @@
 			</div>
 		</div>
 
+		<!-- description -->
 		<div v-if="characterStore.sheet.metadata.description" class="flex -dir-col">
 			<div class="bold align margin-right-small padding-left-small font-size-tiny background-title">
 				Beskrivning:
@@ -73,6 +77,7 @@
 			const hasComplexPayload = ref(characterStore.history[1].complexPayload !== undefined)
 
 			const characterName = ref('')
+			const characterDescription = ref('')
 
 			const peopleNiceName = ref('')
 			const peopleMandatorySkills = ref([])
@@ -89,6 +94,7 @@
 			return {
 				characterStore,
 				characterName,
+				characterDescription,
 
 				hasComplexPayload,
 
@@ -113,6 +119,7 @@
 			this.characterStore.$subscribe((_mutation, state) => {
 
 				this.characterName = state.metadata.name
+				this.changeCharacterDescription = state.metadata.description
 
 				const complexPayload = state.history[1].complexPayload
 

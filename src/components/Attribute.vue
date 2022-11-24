@@ -84,7 +84,7 @@
 <script>
 	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
 	import { specificAttributeSkills } from '../rules/characteristics/traits'
-	import { contains, explodeInvalidList } from '../rules/utils'
+	import { containsKey, explodeInvalidList } from '../rules/utils'
 	import { useCharacterStore } from '../stores/character'
 	import { ref } from 'vue'
 	import { isTouchedByError } from '../utilities/validators'
@@ -116,7 +116,7 @@
 				baseValue,
 
 				setAttributeValueName,
-				contains,
+				containsKey,
 				explodeInvalidList,
 
 				isTouchedByError
@@ -136,7 +136,7 @@
 				return this.isTouchedByError(key, this.invalidLevels)
 			},
 			isOwned(traitKey){
-				return contains(traitKey, this.characterTraits)
+				return containsKey(traitKey, this.characterTraits)
 			}
 		}
 	}

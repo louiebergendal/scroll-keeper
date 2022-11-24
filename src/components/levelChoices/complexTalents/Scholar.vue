@@ -37,17 +37,41 @@
 						)"
 					/>
 					<label class="display-inline-block" :for="scholarSkill.key">
-						<div class="padding-top-nano">{{getTraitNiceName(scholarSkill.key)}}</div>
+						<span class="padding-top-nano">{{ getTraitNiceName(scholarSkill.key) }}</span>
 
-						<div
+						<span 
+							v-if="
+								scholarSkillIsTouchedByError(scholarSkill.key)
+								&& !scholarSkillIsInvalidAtThisLevel(scholarSkill.key)"
+							class="font-size-tiny"
+						>
+							<InvalidOccurrence 
+								:characteristic="scholarSkill.key"
+								:characterStore="characterStore"
+								:selectedLevel="selectedLevel"
+							/>
+						</span>	
+
+						<span
+							v-if="
+								containsKey(scholarSkill.key, characterStore.sheet.traits)
+								&& !containsKey(scholarSkill.key, tempValidationSheet.traits)
+								&& !scholarSkillIsTouchedByError(scholarSkill.key)"
+							class="font-size-nano display-inline font-contrast-lowest margin-left-small"
+						>
+							Vald på en senare erfarenhetsnivå
+						</span>
+
+						<p
 							v-if="
 								scholarSkillIsInvalidAtThisLevel(scholarSkill.key)
 								&& isChecked(scholarSkill.key)
 							"
 							class="font-size-tiny display-inline"
 						>
-							{{getErrorMessage(scholarSkill.key)}} <!-- säger "Redan vald, fast så inte är fallet" -->
-						</div>
+							{{ getErrorMessage(scholarSkill.key) }}
+						</p>
+
 					</label>
 				</div>
 			</div>
@@ -76,15 +100,27 @@
 						class="checkbox-align margin-right-small vertical-align-top margin-bottom-tiny"
 					/>
 					<label class="display-inline-block" :for="scholarSkill.key">
-						<div class="padding-top-nano">{{getTraitNiceName(scholarSkill.key)}}</div>
-						<div
+						<span class="padding-top-nano">{{ getTraitNiceName(scholarSkill.key) }}</span>
+						<span 
+							v-if="
+								scholarSkillIsTouchedByError(scholarSkill.key)
+								&& !scholarSkillIsInvalidAtThisLevel(scholarSkill.key)"
+							class="font-size-tiny"
+						>
+							<InvalidOccurrence 
+								:characteristic="scholarSkill.key"
+								:characterStore="characterStore"
+								:selectedLevel="selectedLevel"
+							/>
+						</span>
+						<p
 							v-if="
 								scholarSkillIsInvalidAtThisLevel(scholarSkill.key)
 								&& isChecked(scholarSkill.key)"
 							class="font-size-tiny display-inline"
 						>
-							{{getErrorMessage(scholarSkill.key)}}
-						</div>
+							{{ getErrorMessage(scholarSkill.key) }}
+						</p>
 					</label>
 				</div>
 			</div>
@@ -98,23 +134,27 @@
 	import { ref } from 'vue'
 	import { canChooseTrait, getTraitNiceName, getFailedTraitRequirementsErrorMessage, getFailedRequirements } from '../../../rules/characteristics/traits'
 	import { scholar } from '../../../rules/characteristics/traitLists/talents'
-	import { contains } from '../../../rules/utils'
+	import { containsKey } from '../../../rules/utils'
 	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
+	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
 
 	export default {
+		components: {
+			InvalidOccurrence
+		},
 		props: ['tempCharacterSheet', 'tempValidationSheet', 'characterStore'],
 		setup(props) {
 			const characterStore = props.characterStore
 			const characterSheet = props.tempCharacterSheet
-			const validationSheet = props.tempValidationSheet
-			const selectedLevel = validationSheet.metadata.selectedLevel
+			const validationSheet = ref(props.tempValidationSheet)
+			const selectedLevel = validationSheet.value.metadata.selectedLevel
 			const characterTraits = characterSheet.traits
 			const scholarOptions = scholar.complexTrait[0]
 			const choicesAmount = scholarOptions.choices
 			const currentLevel = Object.values(characterStore.history)[selectedLevel - 1]
 
-			const originalCheckedOptionsList = validationSheet.traits.filter(
-				skill => contains(skill, Object.keys(scholarOptions.list))
+			const originalCheckedOptionsList = validationSheet.value.traits.filter(
+				skill => containsKey(skill, Object.keys(scholarOptions.list))
 			)
 			const checkedOptionsList = ref(originalCheckedOptionsList)
 
@@ -127,8 +167,8 @@
 
 			const selectedList = ref(checkedOptionsList.value.filter(
 				skill => (
-					!contains(skill, characterTraits)
-					|| contains(skill, originalScholarChoices)
+					!containsKey(skill, characterTraits)
+					|| containsKey(skill, originalScholarChoices)
 				))
 			)
 
@@ -140,7 +180,7 @@
 				checkedOptionsList,
 				originalScholarChoices,
 				selectedList,
-				contains,
+				containsKey,
 				canChooseTrait,
 				scholar,
 				getTraitNiceName,
@@ -153,12 +193,22 @@
 				getFailedTraitRequirementsErrorMessage
 			}
 		},
+		watch: {
+			tempValidationSheet: {
+				handler(newVal) {
+					console.log('ping!');
+					console.log('newVal: ', newVal);
+					this.validationSheet = newVal
+				},
+				immediate: true
+			}
+		},
 		methods: {
 			inputEventHandler() {
 
 				this.selectedList = this.checkedOptionsList.filter(skill => (
-					!contains(skill, this.characterTraits)
-					|| contains(skill, this.originalScholarChoices)
+					!containsKey(skill, this.characterTraits)
+					|| containsKey(skill, this.originalScholarChoices)
 				))
 
 				const complexPayload = {
@@ -187,13 +237,13 @@
 				)
 			},
 			isOwned(scholarSkillKey) {
-				return contains(scholarSkillKey, this.characterTraits)
+				return containsKey(scholarSkillKey, this.characterTraits)
 			},
 			isSelected(scholarSkillKey) {
-				return contains(scholarSkillKey, this.selectedList)
+				return containsKey(scholarSkillKey, this.selectedList)
 			},
 			isChecked(scholarSkillKey) {
-				return contains(scholarSkillKey, this.checkedOptionsList)
+				return containsKey(scholarSkillKey, this.checkedOptionsList)
 			},
 			invalidScholarSkillChoiceIsNotUnchecked(key) {
 				return this.invalidChoiceIsNotUnChecked(

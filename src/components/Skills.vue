@@ -45,7 +45,7 @@
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterSkills } from '../rules/characteristics/traits'
 	import { isTouchedByError } from '../utilities/validators'
-	import { contains } from '../rules/utils'
+	import { containsKey } from '../rules/utils'
 
 	export default {
 		setup() {
@@ -55,7 +55,7 @@
 				characterStore,
 				independentCharacterSkills,
 				isTouchedByError,
-				contains
+				containsKey
 			}
 		},
 		methods: {
@@ -65,11 +65,11 @@
 				const proffessionSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.profession).flat(2)
 
 				if (
-					contains(traitKey, peopleSkillKeysList)
+					containsKey(traitKey, peopleSkillKeysList)
 					||
-					contains(traitKey, upbringingSkillKeysList)
+					containsKey(traitKey, upbringingSkillKeysList)
 					||
-					contains(traitKey, proffessionSkillKeysList)
+					containsKey(traitKey, proffessionSkillKeysList)
 				) { return true }
 				return false
 			}

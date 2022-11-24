@@ -5,7 +5,7 @@
 </template>
 
 <script>
-	import { contains } from '../../rules/utils'
+	import { containsKey } from '../../rules/utils'
 	import { ref } from 'vue'
 
 	export default {
@@ -13,7 +13,7 @@
 		setup(props) {
 			const errorString = ref('')
 			return {
-				contains,
+				containsKey,
 				errorString
 			}
 		},
@@ -36,7 +36,7 @@
 			},
 			getLevelErrors() {
 				const errorList = this.getInvalidOccurrences(this.characteristic)
-				if (contains(this.selectedLevel.toString(), errorList)) {
+				if (containsKey(this.selectedLevel.toString(), errorList)) {
 					errorList.splice(errorList.indexOf(this.selectedLevel.toString()), 1)
 					return { errorList, isTouchedByError: true }
 				}
@@ -50,7 +50,7 @@
 					const invalidLevelBonus = invalidLevels[invalidLevel]
 
 					if (typeof invalidLevelBonus === 'object'
-						&& contains(key, invalidLevelBonus)
+						&& containsKey(key, invalidLevelBonus)
 					) {
 						invalidOccurrencesList.push(invalidLevel)
 					}

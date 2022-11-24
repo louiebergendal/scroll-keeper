@@ -66,7 +66,7 @@
 	import StaticLevel from '../../components/levelChoices/StaticLevel.vue'
 	import { getTraitNiceName } from '../../rules/characteristics/traits'
 	import { getAttributeLongName } from '../../rules/characteristics/attributes'
-	import { contains } from '../../rules/utils'
+	import { containsKey } from '../../rules/utils'
 	import { getLevelBonusNiceName } from '../../rules/level'
 
 	export default {
@@ -137,7 +137,7 @@
 					// as an external dependency -
 					// the creator is still updating it (nov 2022)
 
-					const containsInvalidChoice = contains(
+					const containsInvalidChoice = containsKey(
 						levelIndex.toString(),
 						Object.keys(this.characterStore.metadata.invalidLevels)
 					)

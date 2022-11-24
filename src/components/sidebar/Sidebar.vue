@@ -49,7 +49,7 @@
 			const characterStore = props.characterStore // hela storen behöver passas ned eftersom traits och attributes kollar requirements
 			const isClosed = ref(true)
             const isSelected = ref('')
-            const hasCharacter = props.characterStore ? true : false
+            const hasCharacter = characterStore ? true : false
 
 			return {
 				characterStore,

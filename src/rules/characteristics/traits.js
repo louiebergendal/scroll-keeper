@@ -11,7 +11,7 @@ import generalSkillsImport from './traitLists/generalSkills'
 import knowledgeSkillsImport from './traitLists/knowledgeSkills'
 import favouredTerrainSkillsImport from './traitLists/favouredTerrainSkills'
 import talentsListImport from './traitLists/talents'
-import { contains } from '../utils'
+import { containsKey } from '../utils'
 
 
 const name = 'Färdigheter och Talanger'
@@ -254,7 +254,7 @@ export function getFailedRequirements(
 
 
 	// check if trait is already owned
-	if (contains(traitKey, characterTraitList)) {
+	if (containsKey(traitKey, characterTraitList)) {
 		failedRequirements.isAlreadyOwned = true
 	}
 
@@ -266,7 +266,7 @@ export function getFailedRequirements(
 			let failedRequiredTraitsKeysList = []
 
 			requiredTraitKeysList.forEach(requiredTraitKey => {
-				if(!contains(requiredTraitKey, characterTraitList)) {
+				if(!containsKey(requiredTraitKey, characterTraitList)) {
 					failedRequiredTraitsKeysList.push(requiredTraitKey)
 				}
 			})

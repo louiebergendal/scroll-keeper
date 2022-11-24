@@ -6,15 +6,15 @@
 			<div class="width-half margin-right-tiny">
 				<div class="font-size-tiny align-center bold">{{ powerNiceName }}</div>
 				<div class="card margin-top-tiny font-size-tiny align-center padding-left-small padding-right-small padding-bottom-tiny medium">
-					{{powerTypesNiceNames.offensive}}: {{characterStore.sheet.power.offensive}},
-					{{powerTypesNiceNames.defensive}}: {{characterStore.sheet.power.defensive}}
+					{{ powerTypesNiceNames.offensive }}: {{ characterStore.sheet.power.offensive }},
+					{{ powerTypesNiceNames.defensive }}: {{ characterStore.sheet.power.defensive }}
 				</div>
 			</div>
 			<div class="width-half">
 				<div class="font-size-tiny align-center bold">{{ actionPointsNiceName }}</div>
 				<div class="card margin-top-tiny font-size-tiny align-center padding-left-small padding-right-small padding-bottom-tiny medium">
-					{{actionPointsTypesNiceNames.basic}}: {{characterStore.sheet.actionPoints.basic}},
-					{{actionPointsTypesNiceNames.quick}}: {{characterStore.sheet.actionPoints.quick}}
+					{{ actionPointsTypesNiceNames.basic }}: {{ characterStore.sheet.actionPoints.basic }},
+					{{ actionPointsTypesNiceNames.quick }}: {{ characterStore.sheet.actionPoints.quick }}
 				</div>
 			</div>
 		</div>
@@ -22,13 +22,13 @@
 			<div class="width-half margin-right-tiny">
 				<div class="font-size-tiny align-center bold">{{ carryingCapacityNiceName }}</div>
 				<div class="card margin-top-tiny font-size-tiny align-center padding-left-small padding-right-small padding-bottom-tiny medium">
-					{{characterStore.sheet.carryingCapacity / 4}}
+					{{ characterStore.sheet.carryingCapacity / 4 }}
 				</div>
 			</div>
 			<div class="width-half">
 				<div class="font-size-tiny align-center bold">{{ movementNiceName }}</div>
 				<div class="card margin-top-tiny font-size-tiny align-center padding-left-small padding-right-small padding-bottom-tiny medium">
-					{{characterStore.sheet.movement}}
+					{{ characterStore.sheet.movement }}
 				</div>
 			</div>
 		</div>

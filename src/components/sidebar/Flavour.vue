@@ -1,31 +1,45 @@
 <template>
 <div class="flex levels padding-large">
+
 	<div class="flex card dark padding-small width-whole margin-right-medium -dir-col">
-		<div>
-			<div class="margin-bottom-small">
-				<h3>Namn:</h3>
-				<label for="character-name">
-					<input 
-						type="text"
-						id="character-name"
-						v-model="characterName"
-						@change="renameCharacter"
-					>
-				</label>
-			</div>
-			<div class="">
-				<h3>Beskrivning:</h3>
-				<label for="character-description">
-					<textarea
-						placeholder="beskriv din karaktär"
-						id="character-description"
-						v-model="characterDescription"
-						@change="changeCharacterDescription"
-					></textarea>
-				</label>
-			</div>
+		<div class="margin-bottom-small">
+			<h3>Namn:</h3>
+			<label for="character-name">
+				<input 
+					type="text"
+					id="character-name"
+					v-model="characterName"
+					@change="renameCharacter"
+				>
+			</label>
 		</div>
+
+		<div>
+			<h3>Beskrivning:</h3>
+			<label for="character-description">
+				<textarea
+					placeholder="beskriv din karaktär"
+					id="character-description"
+					v-model="characterDescription"
+					@change="changeCharacterDescription"
+				></textarea>
+			</label>
+		</div>
+
+		<div v-if="characterStore.history[1].complexPayload">
+			{{characterStore.history[1].complexPayload['people'].key}}
+			<label for="people-description">
+				<textarea
+					placeholder="stamm, region etc."
+					id="people-description"
+					v-model="peopleDescription"
+					@change="changePeopleDescription"
+				></textarea>
+			</label>
+		</div>
+
 	</div>
+
 	<div class="flex card dark padding-small width-half -dir-col">
 		<img class="avatar-preview" :src="characterStore.metadata.avatarUrl" alt="avatar">
 		<div class="file-upload align-center">
@@ -40,8 +54,10 @@
 			</form>
 		</div>
 	</div>
+
 </div>
 </template>
+
 <script>
 	import { useCharacterStore } from '../../stores/character'
 	import { uploadAndGetUrl } from '../../api/firebaseStorageApi'
@@ -52,11 +68,13 @@
 			const characterStore = useCharacterStore()
 			const characterName = ref(characterStore.metadata.name)
 			const characterDescription = ref(characterStore.metadata.description)
-			console.log("characterStore: ", characterStore)
+			const peopleDescription = ref(characterStore.metadata.peopleDescription)
+
 			return {
 				characterStore,
 				characterName,
 				characterDescription,
+				peopleDescription,
 				uploadAndGetUrl
 			}
 		},
@@ -80,6 +98,9 @@
 			},
 			changeCharacterDescription(data) {
 				this.characterStore.updateCharacterDescription(data.target.value)
+			},
+			changePeopleDescription(data) {
+				this.characterStore.updatePeopleDescription(data.target.value)
 			}
 		}
 	}

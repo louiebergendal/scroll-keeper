@@ -1,4 +1,4 @@
-import { contains, explodeInvalidList } from '../rules/utils'
+import { containsKey, explodeInvalidList } from '../rules/utils'
 
 export const invalidChoiceIsNotDeselected = (
 	key,
@@ -22,20 +22,20 @@ export const invalidChoiceIsNotUnChecked = (
 	return isTouchedByError(
 		key, invalidLevels)
 		&& !(
-			contains(key, originalLevelChoiceKeysList)
-			&& !contains(key, tempLevelChoiceKeysList)
+			containsKey(key, originalLevelChoiceKeysList)
+			&& !containsKey(key, tempLevelChoiceKeysList)
 		)
 }
 
 export const isTouchedByError = (key, invalidLevels) => {
-	const isTouchedByError = contains(key, explodeInvalidList(invalidLevels))
+	const isTouchedByError = containsKey(key, explodeInvalidList(invalidLevels))
 	return isTouchedByError
 }
 
 export const isInvalidAtThisLevel = (key, invalidLevels, selectedLevel) => {
 	if (isTouchedByError(key, invalidLevels)) {
 		if (typeof invalidLevels[selectedLevel] === 'string') return invalidLevels[selectedLevel] === key
-		return contains(key, invalidLevels[selectedLevel])
+		return containsKey(key, invalidLevels[selectedLevel])
 	} return false
 }
 
@@ -50,6 +50,6 @@ export const isInvalidAtLevel = (key, invalidLevels) => {
 
 function isKey(key, invalidLevel) {
 	if (typeof invalidLevel === 'object' || 'array') {
-		return contains(key, invalidLevel)
+		return containsKey(key, invalidLevel)
 	}	return key === invalidLevel
 }

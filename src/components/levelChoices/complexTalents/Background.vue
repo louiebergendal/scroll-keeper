@@ -116,16 +116,33 @@
 			</div>
 		</div>
 
+		<!-- CHOSEN BY FATE -->
+		<div class="card margin-small padding-small">
+			<h3>Fri färdighet:</h3>
+			<div v-if="isChosenByFate">
+				<RadioButtonGroup
+					:options="allTraitListKeys"
+					:selected="setSelectedIfValid(
+						invalidKnowledgeSkillsForProfessionsChoicesList,
+						professionsSkillsChoiceList?.[0]?.toString()
+					)"
+					:name="'professions' + '-' + 'skillList' + '-' + 0"
+					:invalidOptionsList="invalidProfessionsChoicesList"
+					@input="inputEventHandler"
+				/>
+			</div>
+		</div>
+
 	</div>
 </template>
 
 <script>
 	import { ref } from 'vue'
-	import { canChooseTrait, getTraitNiceName } from '../../../rules/characteristics/traits'
+	import { canChooseTrait, getTraitNiceName, allTraitListKeys } from '../../../rules/characteristics/traits'
 	import { background } from '../../../rules/characteristics/traitLists/talents'
 	import { knowledgeSkillKeysList } from '../../../rules/characteristics/traitLists/knowledgeSkills'
 	import RadioButtonGroup from '../../generic/RadioButtonGroup.vue'
-	import { contains } from '../../../rules/utils'
+	import { containsKey } from '../../../rules/utils'
 
 	export default {
 		components: {
@@ -137,6 +154,8 @@
 
 			// --- IS CHOSEN BY FATE ---
 			const isChosenByFate = ref(characterStore.metadata.isChosenByFate)
+			const invalidFreeOptionChoicesList = ref()
+
 
 			// --- PEOPLES ---
 
@@ -196,6 +215,7 @@
 				characterStore,
 
 				isChosenByFate,
+				allTraitListKeys,
 
 				peoplesOptions,
 				peoplesChoiceKey,
@@ -226,7 +246,7 @@
 		},
 		methods: {
 			setSelectedIfValid(invalidList, key) {
-				if (contains(key, invalidList)) key = ''
+				if (containsKey(key, invalidList)) key = ''
 				return key
 			},
 			validateKnowledgeSkills(choiceList) {
@@ -250,6 +270,7 @@
 				this.invalidPeoplesChoicesList.length = 0
 				this.invalidUpbringingsChoicesList.length = 0
 				this.invalidProfessionsChoicesList.length = 0
+/* 				this.invalidChosenByFateChoicesList.length = 0 */
 
 				// peoples
 				this.invalidPeoplesChoicesList = this.invalidPeoplesChoicesList.concat(

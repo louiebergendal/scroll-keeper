@@ -5,7 +5,7 @@ import { baseValue as actionPointBaseValue } from '../rules/characteristics/seco
 import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { baseValue as competenceBaseValue } from '../rules/characteristics/competence'
 import { baseValue as fateBaseValue } from '../rules/characteristics/fate'
-import { contains, findDuplicates } from '../rules/utils'
+import { containsKey, findDuplicates } from '../rules/utils'
 import { calculateMaxHealthValue, createHealth } from '../rules/characteristics/secondaryCharacteristics/health'
 import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { calculateInitiative } from '../rules/characteristics/secondaryCharacteristics/initiative'
@@ -15,11 +15,9 @@ import { calculateMaxActionPoints } from '../rules/characteristics/secondaryChar
 const flattenCharacter = (databaseCharacter, targetLevel) => {
 	let characterTraitList = []
 
-	databaseCharacter.metadata.selectedLevel = targetLevel
-
 	let baseCharacterSheet = {
-		metadata: databaseCharacter.metadata,
-		state: databaseCharacter.state,
+		metadata: Object.assign({}, databaseCharacter.metadata), // P R O K Z Y K I L L A H
+		state: Object.assign({}, databaseCharacter.state), // P R O K Z Y K I L L A H
 		attributes: {
 			battle: attributeBaseValue,
 			agility: attributeBaseValue,
@@ -41,6 +39,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		initiative: {},
 		actionPoints: actionPointBaseValue
 	}
+	baseCharacterSheet.metadata.selectedLevel = targetLevel
 
 	// one-index because level starts at one
 	for (let levelIndex = 1; levelIndex <= targetLevel; levelIndex++) {
@@ -89,12 +88,12 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 								const skillChoiceKey = skillChoicesList[choiceGroup][choiceKey]
 
 								// if any of the traits in the complexPayload are already owned, traitKey is invalid
-								if (contains(skillChoiceKey, characterTraitList)) {
+								if (containsKey(skillChoiceKey, characterTraitList)) {
 									invalidComplexTraitLevel.push(traitKey)
 									invalidComplexTraitLevel.push(skillChoiceKey)
 								}
 
-								if (skillChoiceKey && skillChoiceKey.length > 0 && !contains(skillChoiceKey, characterTraitList)) {
+								if (skillChoiceKey && skillChoiceKey.length > 0 && !containsKey(skillChoiceKey, characterTraitList)) {
 
 									// validate complexPayload
 									if (bonusType === 'talent' && traitKey !== 'background' && !canChooseTrait(
@@ -105,7 +104,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 										levelIndex
 									)) {
 										// if there are any errors, push to invalidComplexTraitLevel
-										if (!contains(skillChoiceKey, invalidComplexTraitLevel)) invalidComplexTraitLevel.push(skillChoiceKey)
+										if (!containsKey(skillChoiceKey, invalidComplexTraitLevel)) invalidComplexTraitLevel.push(skillChoiceKey)
 									}
 									characterTraitList.push(skillChoiceKey)
 								}
@@ -117,7 +116,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 					if (invalidComplexTraitLevel.length > 0) invalidComplexTraitLevel.push(traitKey)
 
 					// validate complex talent
-					if ((!contains(traitKey, invalidComplexTraitLevel)) && !canChooseTrait(
+					if ((!containsKey(traitKey, invalidComplexTraitLevel)) && !canChooseTrait(
 						traitKey,
 						characterTraitList, 
 						baseCharacterSheet.attributes, 
@@ -206,6 +205,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		...baseCharacterSheet,
 		traits: characterTraitList
 	}
+
 	return flattenedCharacter
 }
 
