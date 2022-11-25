@@ -14,36 +14,36 @@
 						<div v-if="level.levelBonus === 'skill'">
 
 							<TraitLevel
-								:selectedLevel="currentTabIndex"
-								:traitType="'skill'"
+								:selectedLevelProp="currentTabIndex"
+								:traitTypeProp="'skill'"
 								@update-tabs="updateLevelTabData"
 							/>
 
 						</div>
 						<div v-if="level.levelBonus === 'attribute'">
 							<AttributeLevel
-								:selectedLevel="currentTabIndex"
+								:selectedLevelProp="currentTabIndex"
 								@update-tabs="updateLevelTabData"
 							/>
 						</div>
 						<div v-if="level.levelBonus === 'talent'">
 							<TraitLevel
-								:selectedLevel="currentTabIndex"
-								:traitType="'talent'"
+								:selectedLevelProp="currentTabIndex"
+								:traitTypeProp="'talent'"
 								@update-tabs="updateLevelTabData"
 							/>
 						</div>
 						<div v-if="level.levelBonus === 'fate'">
 							<StaticLevel
-								:selectedLevel="currentTabIndex"
-								:characteristic="'fate'"
+								:selectedLevelProp="currentTabIndex"
+								:characteristicProp="'fate'"
 								@update-tabs="updateLevelTabData"
 							/>
 						</div>
 						<div v-if="level.levelBonus === 'competence'">
 							<StaticLevel
-								:selectedLevel="currentTabIndex"
-								:characteristic="'competence'"
+								:selectedLevelProp="currentTabIndex"
+								:characteristicProp="'competence'"
 								@update-tabs="updateLevelTabData"
 							/>
 						</div>

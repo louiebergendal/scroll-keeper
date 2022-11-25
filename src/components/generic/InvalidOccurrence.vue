@@ -1,6 +1,6 @@
 <template>
    <span class="font-size-tiny">
-	 	{{createErrorLevelString()}}
+	 	{{ createErrorLevelString() }}
 	</span>
 </template>
 
@@ -10,7 +10,7 @@
 	import { useCharacterStore } from '../../stores/character'
 
 	export default {
-		props: ['characteristic', 'selectedLevel'],
+		props: ['characteristicProp', 'selectedLevelProp'],
 		setup(props) {
 			const errorString = ref('')
 			const characterStore = useCharacterStore()
@@ -31,9 +31,9 @@
 				}
 			},
 			getLevelErrors() {
-				const errorList = this.getInvalidOccurrences(this.characteristic)
-				if (containsKey(this.selectedLevel.toString(), errorList)) {
-					errorList.splice(errorList.indexOf(this.selectedLevel.toString()), 1)
+				const errorList = this.getInvalidOccurrences(this.characteristicProp)
+				if (containsKey(this.selectedLevelProp.toString(), errorList)) {
+					errorList.splice(errorList.indexOf(this.selectedLevelProp.toString()), 1)
 					return { errorList, isTouchedByError: true }
 				}
 				return { errorList, isTouchedByError: false }

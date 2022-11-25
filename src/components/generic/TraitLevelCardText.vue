@@ -10,8 +10,8 @@
             class="font-size-tiny"
         >
             <InvalidOccurrence 
-                :characteristic="trait.key"
-                :selectedLevel="selectedLevel"
+                :characteristicProp="trait.key"
+                :selectedLevelProp="selectedLevel"
             />
         </span>						
         
@@ -43,7 +43,6 @@
 </template>
 
 <script>
-	import { ref } from 'vue'
 	import { useCharacterStore } from '../../stores/character'
 	import {
 		canChooseTrait,
@@ -52,21 +51,20 @@
 	} from '../../rules/characteristics/traits'
 	import { containsKey } from '../../rules/utils'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../validators/validators'
-	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import InvalidOccurrence from './InvalidOccurrence.vue'
 
 	export default {
 		components: {
 			InvalidOccurrence
 		},
-		props: ['traitProp' ,'selectedLevel', 'traitType', 'tempValidationSheet', 'tempCharacterSheet','selectedChoiceKeyProp'],
+		props: ['traitProp' ,'selectedLevelProp', 'traitTypeProp', 'tempValidationSheetProp', 'tempCharacterSheetProp','selectedChoiceKeyProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const selectedLevel = props.selectedLevel
-			const traitType = props.traitType
+			const selectedLevel = props.selectedLevelProp
+			const traitType = props.traitTypeProp
 			const trait = props.traitProp
-			const characterSheet = props.tempCharacterSheet
-			const validationSheet = props.tempValidationSheet
+			const characterSheet = props.tempCharacterSheetProp
+			const validationSheet = props.tempValidationSheetProp
 			const selectedChoiceKey = props.selectedChoiceKeyProp
 
 			return {
@@ -88,13 +86,13 @@
 			}
 		},
 		watch: {
-			tempValidationSheet: {
+			tempValidationSheetProp: {
 				handler(newVal) {
 					this.validationSheet = newVal
 				},
 				immediate: true
 			},
-			tempCharacterSheet: {
+			tempCharacterSheetProp: {
 				handler(newVal) {
 					this.characterSheet = newVal
 				},
@@ -117,7 +115,7 @@
 		},
 		methods: {
 			isOwned(){
-				return containsKey(this.trait.key, this.tempCharacterSheet.traits)
+				return containsKey(this.trait.key, this.characterSheet.traits)
 			},
 			isSelected(){
 				return this.trait.key === this.selectedChoiceKey
@@ -150,18 +148,18 @@
 			cannotChooseTrait() {
 				return !canChooseTrait(
 					this.trait.key,
-					this.tempCharacterSheet.traits,
-					this.tempCharacterSheet.attributes,
-					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.characterSheet.traits,
+					this.characterSheet.attributes,
+					this.characterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 			},
 			getFailedTraitRequirements() {
 				const failedRequirements = this.getFailedRequirements(
 					this.trait.key,
-					this.tempCharacterSheet.traits,
-					this.tempCharacterSheet.attributes,
-					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.characterSheet.traits,
+					this.characterSheet.attributes,
+					this.characterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 				return failedRequirements

@@ -7,7 +7,7 @@
 					userUid: userUid,
 					characterUid: key
 				} }">
-					{{character.metadata.name}} ({{character.metadata.level}})
+					{{ character.metadata.name }} ({{ character.metadata.level }})
 				</router-link>
 				<span class="align-right icon-delete" @click="removeCharacter(key)"></span>
 			</div>

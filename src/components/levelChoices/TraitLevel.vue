@@ -57,11 +57,11 @@
 							class="margin-tiny vertical-align-top"
 						/>
 						<TraitLevelCardText
-							:traitProp="trait"
-							:selectedLevel="selectedLevel"
-							:traitType="traitType"
-							:tempValidationSheet="tempValidationSheet"
-							:tempCharacterSheet="tempCharacterSheet"
+							:traitProp="trait"									
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="traitType"
+							:tempValidationSheetProp="tempValidationSheet"
+							:tempCharacterSheetProp="tempCharacterSheet"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 						/>
 					</label>
@@ -131,10 +131,10 @@
 						/>
 						<TraitLevelCardText
 							:traitProp="trait"
-							:selectedLevel="selectedLevel"
-							:traitType="traitType"
-							:tempValidationSheet="tempValidationSheet"
-							:tempCharacterSheet="tempCharacterSheet"
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="traitType"
+							:tempValidationSheetProp="tempValidationSheet"
+							:tempCharacterSheetProp="tempCharacterSheet"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 						/>
 					</label>
@@ -181,7 +181,6 @@
 	import { invalidChoiceIsNotDeselected, isTouchedByError, isInvalidAtThisLevel } from '../../validators/validators'
 	import { containsKey } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
 	import RuleRelevantMetadata from './RuleRelevantMetadata.vue'
 	import TraitLevelCardText from '../generic/TraitLevelCardText.vue'
 	import Background from './complexTalents/Background.vue'
@@ -190,19 +189,18 @@
 
 	export default {
 		components: {
-			InvalidOccurrence,
 			RuleRelevantMetadata,
 			TraitLevelCardText,
 			Pathfinder,
 			Background,
 			Scholar
 		},
-		props: ['selectedLevel', 'traitType'],
+		props: ['selectedLevelProp', 'traitTypeProp'],
 		emits: ['complexPayload', 'update-tabs'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const selectedLevel = props.selectedLevel
-			const traitType = props.traitType
+			const selectedLevel = props.selectedLevelProp
+			const traitType = props.traitTypeProp
 			
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
 			let tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
@@ -215,6 +213,8 @@
 			let traits
 			if (traitType === 'skill') { traits = allSkills() }
 			if (traitType === 'talent') { traits = allTalents() }
+
+			// console.log('traits: ', Object.values(traits).sort());
 
 			return {
 				characterStore,

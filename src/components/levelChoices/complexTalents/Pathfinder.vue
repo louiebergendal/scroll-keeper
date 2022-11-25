@@ -37,11 +37,11 @@
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
-							:characteristic="pathfinderSkill.key"
-							:selectedLevel="selectedLevel"
+							:characteristicProp="pathfinderSkill.key"
+							:selectedLevelProp="selectedLevel"
 						/>
 					</span>
-					{{validationSheet.metadata.selectedLevel}}
+					{{ validationSheet.metadata.selectedLevel }}
 					<span
 						v-if="
 							containsKey(pathfinderSkill.key, characterStore.sheet.traits)
@@ -84,8 +84,8 @@
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
-							:characteristic="pathfinderSkill.key"
-							:selectedLevel="selectedLevel"
+							:characteristicProp="pathfinderSkill.key"
+							:selectedLevelProp="selectedLevel"
 						/>
 					</span>
 

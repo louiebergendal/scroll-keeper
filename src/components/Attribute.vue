@@ -14,7 +14,7 @@
 					:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
 					class='font-size-tiny attribute-value-align bold'
 				>
-					{{ characterAttributes[attributeProp.key] }}
+					{{ characterAttributes[attribute.key] }}
 				</span>
 			</div>
 		</div>
@@ -64,14 +64,14 @@
 									characteristicIsTouchedByError(attribute.key)
 									|| characteristicIsTouchedByError(skill.key)}"
 						>
-							{{ skill.addProficiencyBonus(characterAttributes[attributeProp.key]) }}
+							{{ skill.addProficiencyBonus(characterAttributes[attribute.key]) }}
 						</span>
 						<span
 							v-if='!isOwned(skill.key)'
 							class='attribute-value-align'
 							:class="{'invalid-text': characteristicIsTouchedByError(attribute.key)}"
 						>
-							{{ characterAttributes[attributeProp.key] }}
+							{{ characterAttributes[attribute.key] }}
 						</span>
 					</div>
 
@@ -90,21 +90,19 @@
 	import { isTouchedByError } from '../validators/validators'
 
 	export default {
-		props: ['attribute', 'iconUrl'],
+		props: ['attributeProp', 'iconUrlProp'], // ska "iconURL" vara här?
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const attributeProp = props.attribute
+			const attribute = props.attributeProp
+			const attributeIcon = '/img/' + props.iconUrlProp + '.png'
 
 			const characterTraits = ref([])
 			const characterAttributes = ref({})
 			const invalidLevels = ref({})
-
-			const attributeSkills = specificAttributeSkills(attributeProp.key, characterStore.sheet.traits)
-
-			const attributeIcon = '/img/' + props.iconUrl + '.png'
+			const attributeSkills = specificAttributeSkills(attribute.key, characterStore.sheet.traits)
 
 			return {
-				attributeProp,
+				attribute,
 				attributeIcon,
 				characterStore,
 

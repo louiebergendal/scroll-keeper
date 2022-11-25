@@ -19,11 +19,11 @@
 	import { useCharacterStore } from '../../stores/character'
 
 	export default {
-		props: ['characteristic', 'selectedLevel'],
+		props: ['characteristicProp', 'selectedLevelProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const traitToBeIncreased = props.characteristic
-			const selectedLevel = props.selectedLevel
+			const traitToBeIncreased = props.characteristicProp
+			const selectedLevel = props.selectedLevelProp
 
 			return {
 				characterStore,

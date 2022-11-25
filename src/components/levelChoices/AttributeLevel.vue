@@ -59,8 +59,8 @@
 							"
 						>
 							<InvalidOccurrence 
-								:characteristic="attribute.key"
-								:selectedLevel="selectedLevel"
+								:characteristicProp="attribute.key"
+								:selectedLevelProp="selectedLevel"
 							/>
 						</div>
 
@@ -71,7 +71,7 @@
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
 				>
-					{{characterAttributes[attribute.key]}} + 1
+					{{ characterAttributes[attribute.key] }} + 1
 				</div>
 				<div
 					v-if="selectedChoiceKey !== attribute.key"
@@ -113,10 +113,10 @@
 		components: {
 			InvalidOccurrence
 		},
-		props: ['selectedLevel'],
+		props: ['selectedLevelProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const selectedLevel = props.selectedLevel
+			const selectedLevel = props.selectedLevelProp
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 
 			const characterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling

@@ -27,7 +27,7 @@
 		</div>
 
 		<div v-if="characterStore.history[1].complexPayload">
-			{{characterStore.history[1].complexPayload['people'].key}}
+			{{ characterStore.history[1].complexPayload['people'].key }}
 			<label for="people-description">
 				<textarea
 					placeholder="stamm, region etc."

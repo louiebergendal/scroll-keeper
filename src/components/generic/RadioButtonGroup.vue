@@ -23,30 +23,33 @@
 
 	export default {
 		name: 'BaseRadioButtonGroup',
-		props: ['name', 'options', 'selected', 'invalidOptionsList'],
+		props: ['nameProp', 'optionsProp', 'selectedProp', 'invalidOptionsListProp'],
 		setup(props) {
-			const selectedOptions = props.selected ? props.selected : ['']
-			const invalidOptions = props.invalidOptionsList ? props.invalidOptionsList : ['']
-			const name = props.name
+			const name = props.nameProp
+			const options = props.optionsProp
+			const selectedOptions = props.selectedProp ? props.selectedProp : ['']
+			const invalidOptions = props.invalidOptionsListProp ? props.invalidOptionsListProp : ['']
+
 
 			return {
+				name,
+				options,
 				selectedOptions,
 				invalidOptions,
-				name,
 				getTraitNiceName,
 				getBackgroundSkillsListNiceNames,
 				containsKey,
 			}
 		},
 		watch: {
-			selected: {
+			selectedProp: {
 				handler(newVal) {
 					this.selectedOptions = newVal
 					this.emitOption(newVal)
 				},
 				immediate: true
 			},
-			invalidOptionsList: {
+			invalidOptionsListProp: {
 				handler(newVal) {
 					this.invalidOptions = newVal
 				},

@@ -46,8 +46,8 @@
 							class="font-size-tiny"
 						>
 							<InvalidOccurrence 
-								:characteristic="scholarSkill.key"
-								:selectedLevel="selectedLevel"
+								:characteristicProp="scholarSkill.key"
+								:selectedLevelProp="selectedLevel"
 							/>
 						</span>	
 
@@ -107,8 +107,8 @@
 							class="font-size-tiny"
 						>
 							<InvalidOccurrence 
-								:characteristic="scholarSkill.key"
-								:selectedLevel="selectedLevel"
+								:characteristicProp="scholarSkill.key"
+								:selectedLevelProp="selectedLevel"
 							/>
 						</span>
 						<p
