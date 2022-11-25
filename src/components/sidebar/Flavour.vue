@@ -41,7 +41,7 @@
 	</div>
 
 	<div class="flex card dark padding-small width-half -dir-col">
-		<img class="avatar-preview" :src="characterStore.metadata.avatarUrl" alt="avatar">
+		<img class="avatar-preview" :src="characterStore.metadata.avatarUrl || '/img/default-avatar.png'" alt="avatar">
 		<div class="file-upload align-center">
 			<form className='form'>
 				<input type='file' />
@@ -109,11 +109,6 @@
 <style>
 	.avatar-preview {
 		width: 100%;
-	}
-	.file-upload {
-		display: inline-block;
-		padding: 6px 12px;
-		cursor: pointer;
 	}
 
 </style>

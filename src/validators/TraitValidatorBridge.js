@@ -5,50 +5,46 @@ import {
 import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from './validators'
 import { containsKey } from '../rules/utils'
 import { useCharacterStore } from '../stores/character'
+import { flattenCharacter } from '../utilities/characterFlattener'
 
 
 export default class TraitValidatorBridge {
     constructor (
-        traits,
-        attributes,
         selectedLevel,
-        invalidLevels,
         tempLevelChoiceKey,
-        tempCharacterSheet,
         originalLevelChoiceKey,
     ) {
+        console.log("-------------------------------------------")
+        console.log("LOUIE! ")
+        console.log("METADATA.INVALIDLEVELS ÄR PROXY IBLAND")
+        console.log("METADATA.SELECTEDLEVEL HAR ETT INKONSEKVENT BETEENDE. FINNS IBLAND, ÄR ALLTID FEL.")
+        console.log("BORDE VARA EN LEVEL LÄGRE")
+
+        console.log("INGET FEL PÅ LOGIKEN I VALIDERINGEN")
+        console.log("DET ÄR RESPONSIVITETSRELATERAT OCH RELATERAT TILL FEL SELECTEDLEVEL")
+        console.log("DU KAN SE PROBLEMET I METADATAN SOM LOGGAS UT")
+        console.log("-------------------------------------------")
         this.characterStore = useCharacterStore()
-        this.localCharacterStore = {}
+        this.invalidLevels = Object.assign({}, this.characterStore.metadata.invalidLevels)
 
-        this.characterStore.$subscribe((_mutation, state)=> {
-            this.localCharacterStore = Object.assign({}, state)
-        })
-
-        this.traits = traits
-        this.attributes = attributes
-        this.selectedLevel = selectedLevel
-        this.invalidLevels = invalidLevels
+        this.selectedLevel = selectedLevel - 1
         this.tempLevelChoiceKey = tempLevelChoiceKey
-        this.tempCharacterSheet = tempCharacterSheet
         this.originalLevelChoiceKey = originalLevelChoiceKey
+
+        this.tempCharacterSheet = flattenCharacter(this.characterStore, this.selectedLevel) // -1 to account for current lvling
+        console.log("this.tempCharacterSheet metadata (constructor): ", this.tempCharacterSheet.metadata)
     }
-
-    update(
-        traits,
-        attributes,
-        selectedLevel,
-        invalidLevels,
-        tempLevelChoiceKey,
-        tempCharacterSheet,
-        originalLevelChoiceKey,
-    ) {
-        this.traits = traits
-        this.attributes = attributes
-        this.selectedLevel = selectedLevel
-        this.invalidLevels = invalidLevels
-        this.tempLevelChoiceKey = tempLevelChoiceKey
-        this.tempCharacterSheet = tempCharacterSheet
-        this.originalLevelChoiceKey = originalLevelChoiceKey
+    init() {
+        this.characterStore.$subscribe((_mutation, state) => {
+            this.selectedLevel = Object.assign({}, state.metadata.selectedLevel)
+            this.tempCharacterSheet = flattenCharacter(state, this.selectedLevel - 1) // -1 to account for current lvling
+            this.tempCharacterSheet.metadata.selectedLevel = this.selectedLevel - 1
+            console.log("this.tempCharacterSheet metadata (init): ", this.tempCharacterSheet.metadata)
+            this.traits = this.tempCharacterSheet.traits
+            this.attributes = this.tempCharacterSheet.attributes
+            this.invalidLevels = Object.assign({}, state.metadata.invalidLevels)
+            console.log("init in TVB: ", state)
+        })
     }
     traitIsChecked(scholarSkillKey, checkedOptionsList) {
         return containsKey(scholarSkillKey, checkedOptionsList)

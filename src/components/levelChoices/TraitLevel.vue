@@ -1,6 +1,6 @@
 <template>
 	<div class="card square medium padding-large -fill">
-
+		{{selectedLevel}}
 		<div v-if="traitType === 'skill' && selectedLevel !== 1">
 			<h3 v-if="traitType === 'skill'" class="align-center margin-top-nano margin-bottom-tiny">Välj en färdighet!</h3>
 			<h3 v-if="traitType === 'talent'" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang!</h3>
@@ -203,11 +203,11 @@
 			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevel
 			const traitType = props.traitType
+			console.log("selectedLevel: ", selectedLevel)
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
 			let tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()
-			let validate = undefined
 
 			let originalLevelChoiceKey = ''
 			if (selectedLevel <= characterStore.metadata.level) { originalLevelChoiceKey = characterStore.history[selectedLevel].choice }
@@ -215,6 +215,13 @@
 			let traits
 			if (traitType === 'skill') { traits = allSkills() }
 			if (traitType === 'talent') { traits = allTalents() }
+
+			const validate = new TraitValidatorBridge(
+				selectedLevel,
+				tempLevelChoiceKey,
+				originalLevelChoiceKey
+			)
+
 			return {
 				characterStore,
 				traitType,
@@ -233,18 +240,10 @@
 			}
 		},
 		beforeMount() {
-			this.validate = new TraitValidatorBridge(
-				this.tempCharacterSheet.traits,
-				this.tempCharacterSheet.attributes,
-				this.selectedLevel,
-				this.characterStore.metadata.invalidLevels,
-				this.tempLevelChoiceKey,
-				this.tempCharacterSheet,
-				this.originalLevelChoiceKey
-			)
 			this.characterStore.$subscribe((_mutation, state) => {
-
 			})
+			this.validate.init()
+			console.log("this.validate: ", this.validate)
 		},
 		methods: {
 			submitNewTraitLevel() {

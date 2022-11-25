@@ -3,7 +3,8 @@ export const loaderCharacter = {
 		name: 'Loader',
 		level: 0,
 		isChosenByFate: false,
-		invalidLevels: {}
+		invalidLevels: {},
+		selectedLevel: 1,
 	},
     state: {
 		currentStrain: {

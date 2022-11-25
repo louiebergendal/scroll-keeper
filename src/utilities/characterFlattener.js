@@ -5,7 +5,7 @@ import { baseValue as actionPointBaseValue } from '../rules/characteristics/seco
 import { baseValue as carryingCapacityBaseValue } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { baseValue as competenceBaseValue } from '../rules/characteristics/competence'
 import { baseValue as fateBaseValue } from '../rules/characteristics/fate'
-import { containsKey, findDuplicates } from '../rules/utils'
+import { containsKey } from '../rules/utils'
 import { calculateMaxHealthValue, createHealth } from '../rules/characteristics/secondaryCharacteristics/health'
 import { calculateCarryingCapacity } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
 import { calculateInitiative } from '../rules/characteristics/secondaryCharacteristics/initiative'
@@ -40,6 +40,10 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		actionPoints: actionPointBaseValue
 	}
 	baseCharacterSheet.metadata.selectedLevel = targetLevel
+	// ---
+	// baseCharacterSheet.metadata.invalidLevels = Object.assign({}, databaseCharacter.metadata.invalidLevels) // <--- ATT DÖDA PROXYN TAR BORT ALL FELMARKERING
+	console.log("databaseCharacter.metadata.invalidLevels: ", databaseCharacter.metadata.invalidLevels)
+	console.log("baseCharacterSheet.metadata: ", baseCharacterSheet.metadata)
 
 	// one-index because level starts at one
 	for (let levelIndex = 1; levelIndex <= targetLevel; levelIndex++) {
@@ -62,7 +66,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 		// ADD ATTRIBUTES
 		for (const attribute in attributes) {
-			if (attribute === chosenBonus){
+			if (attribute === chosenBonus) {
 				baseCharacterSheet.attributes[chosenBonus]++
 			}
 		}

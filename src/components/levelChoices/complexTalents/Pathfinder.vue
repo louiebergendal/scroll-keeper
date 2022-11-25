@@ -41,7 +41,7 @@
 							:selectedLevel="selectedLevel"
 						/>
 					</span>
-
+					{{validationSheet.metadata.selectedLevel}}
 					<span
 						v-if="
 							containsKey(pathfinderSkill.key, characterStore.sheet.traits)
@@ -128,8 +128,6 @@
 			const validationSheet = props.tempValidationSheet
 			const selectedLevel = validationSheet.metadata.selectedLevel
 			const pathfinderOptions = pathfinder.complexTrait[0]
-
-			let validate = undefined
 			let originalPathfinderChoiceKey = ''
 
 			if (characterStore.history[selectedLevel]
@@ -139,8 +137,14 @@
 			){
 				originalPathfinderChoiceKey = characterStore.history[selectedLevel].complexPayload.pathfinder.choices.toString()
 			}
-
 			const selected = ref(originalPathfinderChoiceKey)
+
+			const validate = new TraitValidatorBridge(
+				selectedLevel,
+				selected,
+				originalPathfinderChoiceKey
+			)
+			validate.init()
 
 			return {
 				characterStore,
@@ -162,30 +166,13 @@
 			}
 		},
 		beforeMount() {
-			this.validate = new TraitValidatorBridge(
-				this.characterSheet.traits,
-				this.characterSheet.attributes,
-				this.selectedLevel,
-				this.characterStore.metadata.invalidLevels,
-				this.selected,
-				this.characterSheet,
-				this.originalPathfinderChoiceKey
-			)
 			this.characterStore.$subscribe((_mutation, state) => {
-				this.validate.update(
-					this.characterSheet.traits,
-					this.characterSheet.attributes,
-					this.selectedLevel,
-					state.metadata.invalidLevels,
-					this.selected,
-					this.characterSheet,
-					this.originalPathfinderChoiceKey
-				)
 			})
 		},
 		watch: {
 			tempValidationSheet: {
 				handler(newVal) {
+					console.log("newVal: ", newVal)
 					this.validationSheet = newVal
 				},
 				immediate: true
@@ -206,52 +193,6 @@
 				}
 
 				this.$emit('complexPayload', complexPayload)
-			},
-			canChoosePathfinderSkill(pathfinderSkillKey) {
-				return canChooseTrait(
-					pathfinderSkillKey,
-					this.characterSheet.traits,
-					this.characterSheet.attributes,
-					this.characterSheet.metadata.isChosenByFate,
-					this.characterSheet.metadata.level
-				)
-			},
-			isOwned(pathfinderSkillKey) {
-				return containsKey(pathfinderSkillKey, this.characterTraits)
-			},
-			isSelected(pathfinderSkillKey) {
-				return pathfinderSkillKey === this.selected
-			},
-			invalidPathfinderSkillChoiceIsNotUnselected(key) {
-				return this.invalidChoiceIsNotUnChecked(
-					key,
-					this.characterStore.metadata.invalidLevels,
-					this.originalPathfinderChoiceKey,
-					this.selectedList)
-			},
-			pathfinderSkillIsTouchedByError(key) {
-				return (this.isTouchedByError(
-					key,
-					this.characterStore.metadata.invalidLevels
-					) || (key === this.selected && this.isOwned(key))
-				)
-			},
-			pathfinderSkillIsInvalidAtThisLevel(key) {
-				return (this.isInvalidAtThisLevel(
-					key,
-					this.characterStore.metadata.invalidLevels,
-					this.selectedLevel
-					) || (key === this.selected && this.isOwned(key))
-				)
-			},
-			getFailedTraitRequirements(traitKey) {
-				return getFailedRequirements(
-					traitKey,
-					this.validationSheet.traits,
-					this.characterSheet.attributes,
-					this.characterSheet.metadata.isChosenByFate,
-					this.selectedLevel
-				)
 			},
 			getErrorMessage(traitKey) {
 				return getFailedTraitRequirementsErrorMessage(

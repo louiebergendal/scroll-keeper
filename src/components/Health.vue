@@ -1,65 +1,65 @@
 <template>
-	<div class='fancy padding-right-small padding-top-tiny padding-left-small padding-bottom-small align-center position-relative'>
+	<div class='fancy padding-small align-center position-relative'>
 		<div class="corner -inner-top-left-side"></div>
 		<div class="corner -inner-bottom-left-side"></div>
 		<div class="corner -inner-top-right-side"></div>
 		<div class="corner -inner-bottom-right-side"></div>
 
-		<div class="flex">
-			<div class="health-level-title"></div>
-			<div class="flex -h-center margin-bottom-tiny health-button-wrapper">
-
-				<div class="flex card padding-tiny width-fifth margin-bottom-tiny">
-					<label for="damage-button-group">Skada:</label>
-					<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(dealDamage)">+</button>
-					<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(healDamage)">-</button>
-				</div>
-
-				<div class="flex card padding-tiny width-fifth margin-bottom-tiny">
-					<label for="fatigue-button-group">Utmattning:</label>
-					<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(dealFatigue)">+</button>
-					<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(healFatigue)">-</button>
-				</div>
-
-			</div>
-		</div>
-
 		<div class='health-wrapper flex'>
-			<div v-if="characterStore.sheet.fate" class='flex'>
-				<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
-				<div
-					v-for='index in characterStore.sheet.fate'
-					:key='index'
-					class='health-point fate margin-bottom-small'
-				>
+			<div class="flex width-whole -dir-col margin-top-small margin-right-small">
+				<div v-if="characterStore.sheet.fate" class='flex margin-bottom-small'>
+					<div class='health-level-title bold font-size-nano padding-right-small'>{{ fateNiceName }}:</div>
+					<div
+						v-for='index in characterStore.sheet.fate'
+						:key='index'
+						class='health-point fate'
+					>
+					</div>
+				</div>
+				<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='flex'>
+					<div class='health-level-title bold font-size-nano padding-right-small'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}:</div>
+					<div
+						v-for='index in healthLevel.currentStrain.damage'
+						:key='"damage-" + index'
+						class='health-point damage'
+					>
+					</div>
+					<div
+						v-for='index in healthLevel.currentStrain.fatigue'
+						:key='"fatigue-" + index'
+						class='health-point fatigue'
+					>
+					</div>
+					<div
+						v-for='index in healthLevel._frontend_remainder'
+						:key='"health-" + index'
+						class='health-point'
+					>
+					</div>
+				</div>
+			</div>
+			<div class="flex width-fourth -dir-col margin-bottom-tiny margin-top-small health-button-wrapper">
+				<div class="flex -h-spread card margin-bottom-tiny background-brightness-medium margin-bottom-tiny">
+					<div>
+						<label for="damage-button-group" class="font-size-tiny padding-left-tiny">Skada</label>
+					</div>
+					<div>
+						<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(dealDamage)">+</button>
+						<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(healDamage)">-</button>
+					</div>
+				</div>
+
+				<div class="flex -h-spread card margin-bottom-tiny background-brightness-medium">
+					<div>
+						<label for="fatigue-button-group" class="font-size-tiny padding-left-tiny">Utmattning</label>
+					</div>
+					<div>
+						<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(dealFatigue)">+</button>
+						<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(healFatigue)">-</button>
+					</div>
 				</div>
 			</div>
 		</div>
-		
-		<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='flex'>
-			<div class='health-level-title bold font-size-nano padding-right-small'>
-				{{ getHealthLevelNiceName(healthLevel._frontend_key) }}:
-			</div>
-			<div
-				v-for='index in healthLevel.currentStrain.damage'
-				:key='"damage-" + index'
-				class='health-point damage'
-			>
-			</div>
-			<div
-				v-for='index in healthLevel.currentStrain.fatigue'
-				:key='"fatigue-" + index'
-				class='health-point fatigue'
-			>
-			</div>
-			<div
-				v-for='index in healthLevel._frontend_remainder'
-				:key='"health-" + index'
-				class='health-point'
-			>
-			</div>
-		</div>
-
 	</div>
 </template>
 
@@ -133,7 +133,6 @@
 
 <style>
 	.health-wrapper {
-		flex-direction: column
 
 	}
 	.health-point {

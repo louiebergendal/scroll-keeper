@@ -3,7 +3,8 @@ export const blankCharacter = {
 		name: 'Noob',
 		level: 1,
 		isChosenByFate: false,
-		invalidLevels: {}
+		invalidLevels: {},
+		selectedLevel: 1,
 	},
 	state: {
 		currentStrain: {
