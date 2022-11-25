@@ -29,7 +29,7 @@
 						type="radio"
 						:id="attribute.key"
 						:value="attribute.key"
-						v-model="tempLevelChoiceKey"
+						v-model="selectedChoiceKey"
 						name="attribute"
 						:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
 						class=""
@@ -67,14 +67,14 @@
 					</label>
 				</div>
 				<div
-					v-if="tempLevelChoiceKey === attribute.key"
+					v-if="selectedChoiceKey === attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
 				>
 					{{characterAttributes[attribute.key]}} + 1
 				</div>
 				<div
-					v-if="tempLevelChoiceKey !== attribute.key"
+					v-if="selectedChoiceKey !== attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
 				>
@@ -124,7 +124,7 @@
 
 			let originalLevelChoiceKey = ''
 			if (selectedLevel <= characterStore.metadata.level) originalLevelChoiceKey = characterStore.history[selectedLevel].choice
-			const tempLevelChoiceKey = ref(originalLevelChoiceKey)
+			const selectedChoiceKey = ref(originalLevelChoiceKey)
 
 			return {
 				characterStore,
@@ -133,7 +133,7 @@
 				attributes,
 				characterAttributes,
 				originalLevelChoiceKey,
-				tempLevelChoiceKey,
+				selectedChoiceKey,
 				getAttributeShortName,
 				getAttributeLongName,
 				canChooseAttribute,
@@ -146,7 +146,7 @@
 		methods: {
 			submitNewAttributeLevel() {
 				this.characterStore.submitNewLevelChoice(
-					this.tempLevelChoiceKey,
+					this.selectedChoiceKey,
 					this.selectedLevel,
 					'attribute'
 				)
@@ -157,7 +157,7 @@
 					key,
 					this.characterStore.metadata.invalidLevels,
 					this.originalLevelChoiceKey,
-					this.tempLevelChoiceKey
+					this.selectedChoiceKey
 				)
 				return isInvalidChoiceNotDeselected
 			},

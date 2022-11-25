@@ -5,26 +5,26 @@
 
 			<!-- not owned -->
 			<div
-				v-if="!this.validate.traitIsOwned(pathfinderSkill.key)"
+				v-if="!traitIsOwned(pathfinderSkill.key)"
 				class="padding-bottom-tiny"
 				:class="{
-					'touched-by-error': this.validate.traitIsTouchedByError(pathfinderSkill.key),
-					'invalid-background': this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)
+					'touched-by-error': traitIsTouchedByError(pathfinderSkill.key),
+					'invalid-background': traitIsInvalidAtThisLevel(pathfinderSkill.key)
 				}"
 			>
 				
 				<label class="display-inline-block text-margins" :for="pathfinderSkill.key">
 					<input type="radio"
-						v-model="selected"
+						v-model="selectedChoiceKey"
 						:value="pathfinderSkill.key"
 						:id="pathfinderSkill.key"
 						@change="inputEventHandler"
 						class="margin-tiny vertical-align-top"
 						:disabled="(
 							(
-								this.validate.cannotChooseTrait(pathfinderSkill.key)
-								&& !this.validate.traitIsSelected(pathfinderSkill.key)
-							) || this.validate.cannotChooseTrait('pathfinder')
+								cannotChooseTrait(pathfinderSkill.key)
+								&& !traitIsSelected(pathfinderSkill.key)
+							) || cannotChooseTrait('pathfinder')
 						)"
 					/>
 
@@ -32,8 +32,8 @@
 
 					<span 
 						v-if="
-							this.validate.traitIsTouchedByError(pathfinderSkill.key)
-							&& !this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)"
+							traitIsTouchedByError(pathfinderSkill.key)
+							&& !traitIsInvalidAtThisLevel(pathfinderSkill.key)"
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
@@ -46,7 +46,7 @@
 						v-if="
 							containsKey(pathfinderSkill.key, characterStore.sheet.traits)
 							&& !containsKey(pathfinderSkill.key, validationSheet.traits)
-							&& !this.validate.traitIsTouchedByError(pathfinderSkill.key)"
+							&& !traitIsTouchedByError(pathfinderSkill.key)"
 						class="font-size-nano display-inline font-contrast-lowest margin-left-small"
 					>
 						Vald på en senare erfarenhetsnivå
@@ -57,12 +57,12 @@
 
 			<!-- already owned -->
 			<div
-				v-if="this.validate.traitIsOwned(pathfinderSkill.key)"
+				v-if="traitIsOwned(pathfinderSkill.key)"
 				:class="{
-					'touched-by-error': this.validate.traitIsTouchedByError(pathfinderSkill.key),
+					'touched-by-error': traitIsTouchedByError(pathfinderSkill.key),
 					'invalid-background': (
-						this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)
-						&& this.validate.traitIsSelected(pathfinderSkill.key)
+						traitIsInvalidAtThisLevel(pathfinderSkill.key)
+						&& traitIsSelected(pathfinderSkill.key)
 					)
 				}"
 				class="padding-bottom-tiny"
@@ -79,8 +79,8 @@
 
 					<span 
 						v-if="
-							this.validate.traitIsTouchedByError(pathfinderSkill.key)
-							&& !this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)"
+							traitIsTouchedByError(pathfinderSkill.key)
+							&& !traitIsInvalidAtThisLevel(pathfinderSkill.key)"
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
@@ -91,9 +91,9 @@
 
 					<div
 						v-if="
-							this.validate.cannotChooseTrait(pathfinderSkill.key)
-							&& pathfinderSkill.key === selected
-							&& this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)"
+							cannotChooseTrait(pathfinderSkill.key)
+							&& pathfinderSkill.key === selectedChoiceKey
+							&& traitIsInvalidAtThisLevel(pathfinderSkill.key)"
 						class="font-size-tiny display-inline"
 					>
 						{{ getErrorMessage(pathfinderSkill.key) }}
@@ -112,7 +112,6 @@
 	import { canChooseTrait, getFailedRequirements, getFailedTraitRequirementsErrorMessage } from '../../../rules/characteristics/traits'
 	import { pathfinder } from '../../../rules/characteristics/traitLists/talents'
 	import { containsKey } from '../../../rules/utils'
-	import TraitValidatorBridge from '../../../validators/TraitValidatorBridge'
 	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../validators/validators'
 	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
 
@@ -137,14 +136,8 @@
 			){
 				originalPathfinderChoiceKey = characterStore.history[selectedLevel].complexPayload.pathfinder.choices.toString()
 			}
-			const selected = ref(originalPathfinderChoiceKey)
+			const selectedChoiceKey = ref(originalPathfinderChoiceKey)
 
-			const validate = new TraitValidatorBridge(
-				selectedLevel,
-				selected,
-				originalPathfinderChoiceKey
-			)
-			validate.init()
 
 			return {
 				characterStore,
@@ -152,10 +145,9 @@
 				characterTraits,
 				validationSheet,
 				pathfinderOptions,
-				selected,
+				selectedChoiceKey,
 				selectedLevel,
 				originalPathfinderChoiceKey,
-				validate,
 				containsKey,
 				canChooseTrait,
 				isInvalidAtThisLevel,
@@ -172,7 +164,6 @@
 		watch: {
 			tempValidationSheet: {
 				handler(newVal) {
-					console.log("newVal: ", newVal)
 					this.validationSheet = newVal
 				},
 				immediate: true
@@ -185,7 +176,7 @@
 					pathfinder: {
 						choices: {
 							0: {
-								0: this.selected
+								0: this.selectedChoiceKey
 							}
 						},
 						key: 'pathfinder'
@@ -198,7 +189,54 @@
 				return getFailedTraitRequirementsErrorMessage(
 					this.getFailedTraitRequirements(traitKey)
 				)
-			}
+			},
+			traitIsOwned(traitKey){
+				return containsKey(traitKey, this.tempCharacterSheet.traits)
+			},
+			traitIsSelected(traitKey){
+				return traitKey === this.selectedChoiceKey
+			},
+			invalidTraitChoiceIsNotDeselected(traitKey) {
+				return invalidChoiceIsNotDeselected(
+					traitKey,
+					this.characterStore.metadata.invalidLevels,
+					this.originalLevelChoiceKey,
+					this.selectedChoiceKey
+				)
+			},
+			traitIsTouchedByError(traitKey) {
+				return (isTouchedByError(
+					traitKey,
+					this.characterStore.metadata.invalidLevels
+					) || (this.traitIsSelected(traitKey) && this.traitIsOwned(traitKey))
+				)
+			},
+			traitIsInvalidAtThisLevel(traitKey) {
+				return isInvalidAtThisLevel(
+					traitKey,
+					this.characterStore.metadata.invalidLevels,
+					this.selectedLevel
+				)
+			},
+			cannotChooseTrait(traitKey) {
+				return !canChooseTrait(
+					traitKey,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.selectedLevel
+				)
+			},
+			getFailedTraitRequirements(traitKey) {
+				const failedRequirements = getFailedRequirements(
+					traitKey,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.selectedLevel
+				)
+				return failedRequirements
+			},
 
 		}
 	}

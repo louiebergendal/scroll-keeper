@@ -4,12 +4,12 @@ export const invalidChoiceIsNotDeselected = (
 	key,
 	invalidLevels,
 	originalLevelChoiceKey,
-	tempLevelChoiceKey
+	selectedChoiceKey
 ) => {
 	return isTouchedByError(key, invalidLevels)
 		&& !(
 			originalLevelChoiceKey === key
-			&& originalLevelChoiceKey !== tempLevelChoiceKey
+			&& originalLevelChoiceKey !== selectedChoiceKey
 		)
 }
 
@@ -17,13 +17,13 @@ export const invalidChoiceIsNotUnChecked = (
 	key,
 	invalidLevels,
 	originalLevelChoiceKeysList,
-	tempLevelChoiceKeysList
+	selectedChoiceKeysList
 ) => {
 	return isTouchedByError(
 		key, invalidLevels
 		) && !(
 			containsKey(key, originalLevelChoiceKeysList)
-			&& !containsKey(key, tempLevelChoiceKeysList)
+			&& !containsKey(key, selectedChoiceKeysList)
 		)
 }
 

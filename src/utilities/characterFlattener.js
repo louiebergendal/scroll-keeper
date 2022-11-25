@@ -40,10 +40,6 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		actionPoints: actionPointBaseValue
 	}
 	baseCharacterSheet.metadata.selectedLevel = targetLevel
-	// ---
-	// baseCharacterSheet.metadata.invalidLevels = Object.assign({}, databaseCharacter.metadata.invalidLevels) // <--- ATT DÖDA PROXYN TAR BORT ALL FELMARKERING
-	console.log("databaseCharacter.metadata.invalidLevels: ", databaseCharacter.metadata.invalidLevels)
-	console.log("baseCharacterSheet.metadata: ", baseCharacterSheet.metadata)
 
 	// one-index because level starts at one
 	for (let levelIndex = 1; levelIndex <= targetLevel; levelIndex++) {

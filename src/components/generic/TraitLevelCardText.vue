@@ -59,7 +59,7 @@
 		components: {
 			InvalidOccurrence
 		},
-		props: ['traitProp' ,'selectedLevel', 'traitType', 'tempValidationSheet', 'tempCharacterSheet','tempLevelChoiceKeyProp'],
+		props: ['traitProp' ,'selectedLevel', 'traitType', 'tempValidationSheet', 'tempCharacterSheet','selectedChoiceKeyProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevel
@@ -67,7 +67,7 @@
 			const trait = props.traitProp
 			const characterSheet = props.tempCharacterSheet
 			const validationSheet = props.tempValidationSheet
-			const tempLevelChoiceKey = props.tempLevelChoiceKeyProp
+			const selectedChoiceKey = props.selectedChoiceKeyProp
 
 			return {
 				characterStore,
@@ -75,7 +75,7 @@
 				traitType,
 				characterSheet,
 				validationSheet,
-				tempLevelChoiceKey,
+				selectedChoiceKey,
 				selectedLevel,
 				containsKey,
 				canChooseTrait,
@@ -100,10 +100,10 @@
 				},
 				immediate: true
 			},
-			tempLevelChoiceKeyProp: {
+			selectedChoiceKeyProp: {
 				handler(newVal) {
 
-					this.tempLevelChoiceKey = newVal
+					this.selectedChoiceKey = newVal
 				},
 				immediate: true
 			},
@@ -120,7 +120,7 @@
 				return containsKey(this.trait.key, this.tempCharacterSheet.traits)
 			},
 			isSelected(){
-				return this.trait.key === this.tempLevelChoiceKey
+				return this.trait.key === this.selectedChoiceKey
 			},
 			traitIsTouchedByError() {
 				return (
@@ -144,7 +144,7 @@
 					traitKey,
 					this.characterStore.metadata.invalidLevels,
 					this.originalLevelChoiceKey,
-					this.tempLevelChoiceKey
+					this.selectedChoiceKey
 				)
 			},
 			cannotChooseTrait() {
