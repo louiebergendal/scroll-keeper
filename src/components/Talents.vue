@@ -29,7 +29,7 @@
 <script>
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterTalents } from '../rules/characteristics/traits'
-	import { isTouchedByError } from '../utilities/validators'
+	import { isTouchedByError } from '../validators/validators'
 
 	export default {
 		setup() {

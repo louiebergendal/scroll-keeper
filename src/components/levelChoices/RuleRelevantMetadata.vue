@@ -34,12 +34,12 @@
 
 <script>
 	import { ref } from 'vue'
+	import { useCharacterStore } from '../../stores/character'
 
 	export default {
-		props: ['characterStore'],
 		emits: ['update-tabs'],
 		setup(props) {
-			const characterStore = props.characterStore
+			const characterStore = useCharacterStore()
 			const isChosenByFate = ref(characterStore.metadata.isChosenByFate)
 
 			return {

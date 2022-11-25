@@ -47,7 +47,6 @@
 						>
 							<InvalidOccurrence 
 								:characteristic="scholarSkill.key"
-								:characterStore="characterStore"
 								:selectedLevel="selectedLevel"
 							/>
 						</span>	
@@ -109,7 +108,6 @@
 						>
 							<InvalidOccurrence 
 								:characteristic="scholarSkill.key"
-								:characterStore="characterStore"
 								:selectedLevel="selectedLevel"
 							/>
 						</span>
@@ -132,19 +130,20 @@
 
 <script>
 	import { ref } from 'vue'
+	import { useCharacterStore } from '../../../stores/character'
 	import { canChooseTrait, getTraitNiceName, getFailedTraitRequirementsErrorMessage, getFailedRequirements } from '../../../rules/characteristics/traits'
 	import { scholar } from '../../../rules/characteristics/traitLists/talents'
 	import { containsKey } from '../../../rules/utils'
-	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
+	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../validators/validators'
 	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
 
 	export default {
 		components: {
 			InvalidOccurrence
 		},
-		props: ['tempCharacterSheet', 'tempValidationSheet', 'characterStore'],
+		props: ['tempCharacterSheet', 'tempValidationSheet'],
 		setup(props) {
-			const characterStore = props.characterStore
+			const characterStore = useCharacterStore()
 			const characterSheet = props.tempCharacterSheet
 			const validationSheet = ref(props.tempValidationSheet)
 			const selectedLevel = validationSheet.value.metadata.selectedLevel
@@ -173,6 +172,7 @@
 			)
 
 			return {
+				characterStore,
 				characterSheet,
 				characterTraits,
 				scholarOptions,
@@ -196,8 +196,6 @@
 		watch: {
 			tempValidationSheet: {
 				handler(newVal) {
-					console.log('ping!');
-					console.log('newVal: ', newVal);
 					this.validationSheet = newVal
 				},
 				immediate: true

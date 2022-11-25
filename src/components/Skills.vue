@@ -44,7 +44,7 @@
 <script>
 	import { useCharacterStore } from '../stores/character'
 	import { independentCharacterSkills } from '../rules/characteristics/traits'
-	import { isTouchedByError } from '../utilities/validators'
+	import { isTouchedByError } from '../validators/validators'
 	import { containsKey } from '../rules/utils'
 
 	export default {

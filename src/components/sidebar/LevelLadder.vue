@@ -15,7 +15,6 @@
 
 							<TraitLevel
 								:selectedLevel="currentTabIndex"
-								:characterStore="characterStore"
 								:traitType="'skill'"
 								@update-tabs="updateLevelTabData"
 							/>
@@ -24,14 +23,12 @@
 						<div v-if="level.levelBonus === 'attribute'">
 							<AttributeLevel
 								:selectedLevel="currentTabIndex"
-								:characterStore="characterStore"
 								@update-tabs="updateLevelTabData"
 							/>
 						</div>
 						<div v-if="level.levelBonus === 'talent'">
 							<TraitLevel
 								:selectedLevel="currentTabIndex"
-								:characterStore="characterStore"
 								:traitType="'talent'"
 								@update-tabs="updateLevelTabData"
 							/>
@@ -59,6 +56,7 @@
 
 <script>
 	import { ref } from 'vue'
+	import { useCharacterStore } from '../../stores/character'
 	import experienceTableMaker from '../../rules/experienceTableMaker.js'
 	import Wizard from 'form-wizard-vue3'
 	import TraitLevel from '../../components/levelChoices/TraitLevel.vue'
@@ -76,9 +74,8 @@
 			TraitLevel,
 			StaticLevel
 		},
-		props: ['characterStore'],
 		setup(props) {
-			const characterStore = props.characterStore // hela storen behöver passas ned eftersom traits och attributes kollar requirements
+			const characterStore = useCharacterStore()
 			const experienceTable = ref(experienceTableMaker(characterStore.metadata.level + 1)) // HÅRDKODAT
 			const isClosed = ref(true)
 			const currentTabIndex = ref(0)

@@ -20,8 +20,8 @@ export const invalidChoiceIsNotUnChecked = (
 	tempLevelChoiceKeysList
 ) => {
 	return isTouchedByError(
-		key, invalidLevels)
-		&& !(
+		key, invalidLevels
+		) && !(
 			containsKey(key, originalLevelChoiceKeysList)
 			&& !containsKey(key, tempLevelChoiceKeysList)
 		)

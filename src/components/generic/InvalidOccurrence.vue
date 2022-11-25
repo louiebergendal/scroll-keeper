@@ -7,23 +7,19 @@
 <script>
 	import { containsKey } from '../../rules/utils'
 	import { ref } from 'vue'
+	import { useCharacterStore } from '../../stores/character'
 
 	export default {
-		props: ['characteristic', 'characterStore', 'selectedLevel'],
+		props: ['characteristic', 'selectedLevel'],
 		setup(props) {
 			const errorString = ref('')
+			const characterStore = useCharacterStore()
+
 			return {
 				containsKey,
+				characterStore,
 				errorString
 			}
-		},
-		watch: {
-			characterStore: {
-				handler(newVal) {
-					this.errorString = this.createErrorLevelString()
-				},
-				immediate: true
-			},
 		},
 		methods: {
 			createErrorLevelString() {

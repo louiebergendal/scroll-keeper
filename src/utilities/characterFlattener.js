@@ -77,6 +77,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 				// complex payload
 				if (currentLevel.complexPayload) {
+
 					const levelComplexPayload = currentLevel.complexPayload
 
 					for (const choiceCategory in levelComplexPayload) { // ex. 'people'

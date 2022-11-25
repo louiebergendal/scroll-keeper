@@ -60,7 +60,6 @@
 						>
 							<InvalidOccurrence 
 								:characteristic="attribute.key"
-								:characterStore="characterStore"
 								:selectedLevel="selectedLevel"
 							/>
 						</div>
@@ -98,6 +97,7 @@
 
 <script>
 	import { ref } from 'vue'
+	import { useCharacterStore } from '../../stores/character'
 	import {
 		attributes,
 		getAttributeShortName,
@@ -106,17 +106,16 @@
 		getAttributeLvlCeiling
 	} from '../../rules/characteristics/attributes'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import { containsKey } from '../../rules/utils'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../utilities/validators'
+	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../validators/validators'
 	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
 
 	export default {
 		components: {
 			InvalidOccurrence
 		},
-		props: ['selectedLevel', 'characterStore'],
+		props: ['selectedLevel'],
 		setup(props) {
-			const characterStore = props.characterStore
+			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevel
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 
@@ -153,9 +152,6 @@
 				)
 				this.$emit('update-tabs')
 			},
-			isSelected(attributeKey){
-				return attributeKey === this.tempLevelChoiceKey
-			},
 			invalidAttributeChoiceIsNotDeselected(key) {
 				const isInvalidChoiceNotDeselected = this.invalidChoiceIsNotDeselected(
 					key,
@@ -178,28 +174,6 @@
 					this.characterStore.metadata.invalidLevels,
 					this.selectedLevel
 				)
-			},
-			getInvalidOccurrences(key) {
-
-				let invalidOccurrencesList = []
-
-				for (const invalidLevel in this.characterStore.metadata.invalidLevels) {
-					const invalidLevelBonus = this.characterStore.metadata.invalidLevels[invalidLevel]
-
-					if (typeof invalidLevelBonus === 'object'
-						&& containsKey(key, invalidLevelBonus)
-					) {
-						invalidOccurrencesList.push(invalidLevel)
-					}
-
-					if (typeof invalidLevelBonus === 'string'
-						&& invalidLevelBonus === key
-					) {
-						invalidOccurrencesList.push(invalidLevel)
-					}
-				}
-				
-				return invalidOccurrencesList
 			}
 		}
 	}

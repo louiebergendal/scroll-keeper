@@ -110,9 +110,6 @@
 	.avatar-preview {
 		width: 100%;
 	}
-	input[type="file"] {
-    	display: none;
-	}
 	.file-upload {
 		display: inline-block;
 		padding: 6px 12px;

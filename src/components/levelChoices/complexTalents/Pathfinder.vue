@@ -5,11 +5,11 @@
 
 			<!-- not owned -->
 			<div
-				v-if="!isOwned(pathfinderSkill.key)"
+				v-if="!this.validate.traitIsOwned(pathfinderSkill.key)"
 				class="padding-bottom-tiny"
 				:class="{
-					'touched-by-error': pathfinderSkillIsTouchedByError(pathfinderSkill.key),
-					'invalid-background': pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)
+					'touched-by-error': this.validate.traitIsTouchedByError(pathfinderSkill.key),
+					'invalid-background': this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)
 				}"
 			>
 				
@@ -22,9 +22,9 @@
 						class="margin-tiny vertical-align-top"
 						:disabled="(
 							(
-								!canChoosePathfinderSkill(pathfinderSkill.key)
-								&& !isSelected(pathfinderSkill.key)
-							) || !canChoosePathfinderSkill('pathfinder')
+								this.validate.cannotChooseTrait(pathfinderSkill.key)
+								&& !this.validate.traitIsSelected(pathfinderSkill.key)
+							) || this.validate.cannotChooseTrait('pathfinder')
 						)"
 					/>
 
@@ -32,13 +32,12 @@
 
 					<span 
 						v-if="
-							pathfinderSkillIsTouchedByError(pathfinderSkill.key)
-							&& !pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)"
+							this.validate.traitIsTouchedByError(pathfinderSkill.key)
+							&& !this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)"
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
 							:characteristic="pathfinderSkill.key"
-							:characterStore="characterStore"
 							:selectedLevel="selectedLevel"
 						/>
 					</span>
@@ -47,7 +46,7 @@
 						v-if="
 							containsKey(pathfinderSkill.key, characterStore.sheet.traits)
 							&& !containsKey(pathfinderSkill.key, validationSheet.traits)
-							&& !pathfinderSkillIsTouchedByError(pathfinderSkill.key)"
+							&& !this.validate.traitIsTouchedByError(pathfinderSkill.key)"
 						class="font-size-nano display-inline font-contrast-lowest margin-left-small"
 					>
 						Vald på en senare erfarenhetsnivå
@@ -58,12 +57,12 @@
 
 			<!-- already owned -->
 			<div
-				v-if="isOwned(pathfinderSkill.key)"
+				v-if="this.validate.traitIsOwned(pathfinderSkill.key)"
 				:class="{
-					'touched-by-error': pathfinderSkillIsTouchedByError(pathfinderSkill.key),
+					'touched-by-error': this.validate.traitIsTouchedByError(pathfinderSkill.key),
 					'invalid-background': (
-						pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)
-						&& isSelected(pathfinderSkill.key)
+						this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)
+						&& this.validate.traitIsSelected(pathfinderSkill.key)
 					)
 				}"
 				class="padding-bottom-tiny"
@@ -80,22 +79,21 @@
 
 					<span 
 						v-if="
-							pathfinderSkillIsTouchedByError(pathfinderSkill.key)
-							&& !pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)"
+							this.validate.traitIsTouchedByError(pathfinderSkill.key)
+							&& !this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)"
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
 							:characteristic="pathfinderSkill.key"
-							:characterStore="characterStore"
 							:selectedLevel="selectedLevel"
 						/>
 					</span>
 
 					<div
 						v-if="
-							!canChoosePathfinderSkill(pathfinderSkill.key)
+							this.validate.cannotChooseTrait(pathfinderSkill.key)
 							&& pathfinderSkill.key === selected
-							&& pathfinderSkillIsInvalidAtThisLevel(pathfinderSkill.key)"
+							&& this.validate.traitIsInvalidAtThisLevel(pathfinderSkill.key)"
 						class="font-size-tiny display-inline"
 					>
 						{{ getErrorMessage(pathfinderSkill.key) }}
@@ -110,25 +108,28 @@
 
 <script>
 	import { ref } from 'vue'
+	import { useCharacterStore } from '../../../stores/character'
 	import { canChooseTrait, getFailedRequirements, getFailedTraitRequirementsErrorMessage } from '../../../rules/characteristics/traits'
 	import { pathfinder } from '../../../rules/characteristics/traitLists/talents'
 	import { containsKey } from '../../../rules/utils'
-	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../utilities/validators'
+	import TraitValidatorBridge from '../../../validators/TraitValidatorBridge'
+	import { isInvalidAtThisLevel, isTouchedByError, invalidChoiceIsNotUnChecked } from '../../../validators/validators'
 	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
 
 	export default {
 		components: {
 			InvalidOccurrence
 		},
-		props: ['tempCharacterSheet', 'tempValidationSheet', 'characterStore'],
+		props: ['tempCharacterSheet', 'tempValidationSheet'],
 		setup(props) {
-			const characterStore = props.characterStore
+			const characterStore = useCharacterStore()
 			const characterSheet = props.tempCharacterSheet
 			const characterTraits = characterSheet.traits
 			const validationSheet = props.tempValidationSheet
 			const selectedLevel = validationSheet.metadata.selectedLevel
 			const pathfinderOptions = pathfinder.complexTrait[0]
 
+			let validate = undefined
 			let originalPathfinderChoiceKey = ''
 
 			if (characterStore.history[selectedLevel]
@@ -142,6 +143,7 @@
 			const selected = ref(originalPathfinderChoiceKey)
 
 			return {
+				characterStore,
 				characterSheet,
 				characterTraits,
 				validationSheet,
@@ -149,6 +151,7 @@
 				selected,
 				selectedLevel,
 				originalPathfinderChoiceKey,
+				validate,
 				containsKey,
 				canChooseTrait,
 				isInvalidAtThisLevel,
@@ -157,6 +160,28 @@
 				getFailedRequirements,
 				getFailedTraitRequirementsErrorMessage,
 			}
+		},
+		beforeMount() {
+			this.validate = new TraitValidatorBridge(
+				this.characterSheet.traits,
+				this.characterSheet.attributes,
+				this.selectedLevel,
+				this.characterStore.metadata.invalidLevels,
+				this.selected,
+				this.characterSheet,
+				this.originalPathfinderChoiceKey
+			)
+			this.characterStore.$subscribe((_mutation, state) => {
+				this.validate.update(
+					this.characterSheet.traits,
+					this.characterSheet.attributes,
+					this.selectedLevel,
+					state.metadata.invalidLevels,
+					this.selected,
+					this.characterSheet,
+					this.originalPathfinderChoiceKey
+				)
+			})
 		},
 		watch: {
 			tempValidationSheet: {

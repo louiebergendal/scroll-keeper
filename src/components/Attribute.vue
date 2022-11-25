@@ -87,7 +87,7 @@
 	import { containsKey, explodeInvalidList } from '../rules/utils'
 	import { useCharacterStore } from '../stores/character'
 	import { ref } from 'vue'
-	import { isTouchedByError } from '../utilities/validators'
+	import { isTouchedByError } from '../validators/validators'
 
 	export default {
 		props: ['attribute', 'iconUrl'],

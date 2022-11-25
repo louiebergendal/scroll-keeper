@@ -4,10 +4,10 @@
         :class="{ closed: isClosed}"
     >
         <div v-if="isSelected === 'level-ladder'">
-            <LevelLadder :characterStore="characterStore" />
+            <LevelLadder />
         </div>
         <div v-if="isSelected === 'biography'">
-            <Flavour :characterStore="characterStore" />
+            <Flavour />
         </div>
         <div class="drawer-handle-wrapper">
             <div
@@ -35,6 +35,7 @@
 
 <script>
 	import { ref } from 'vue'
+    import { useCharacterStore } from '../../stores/character'
     import LevelLadder from './LevelLadder.vue'
     import Flavour from './Flavour.vue'
 
@@ -44,9 +45,8 @@
             Flavour
             
 		},
-		props: ['characterStore'],
 		setup(props) {
-			const characterStore = props.characterStore // hela storen behöver passas ned eftersom traits och attributes kollar requirements
+			const characterStore = useCharacterStore()
 			const isClosed = ref(true)
             const isSelected = ref('')
             const hasCharacter = characterStore ? true : false
@@ -58,14 +58,6 @@
                 hasCharacter
 			}
 		},
-        watch: {
-			characterStore: {
-				handler(newVal) {
-					this.hasCharacter = newVal ? true : false
-				},
-				immediate: true
-			}
-        },
 		methods: {
 			toggleFoldOut(_event) {
                 if (this.isClosed && !this.isSelected) return

@@ -80,16 +80,8 @@
 			const characterDescription = ref('')
 
 			const peopleNiceName = ref('')
-			const peopleMandatorySkills = ref([])
-			const peopleChosenSkills = ref([])
-
 			const upbringingNiceName = ref('')
-			const upbringingChosenSkills1 = ref([])
-			const upbringingChosenSkills2 = ref([])
-
 			const professionNiceName = ref('')
-			const professionChosenSkills1 = ref([])
-			const professionChosenSkills2 = ref([])
 
 			return {
 				characterStore,
@@ -99,16 +91,8 @@
 				hasComplexPayload,
 
 				peopleNiceName,
-				peopleMandatorySkills,
-				peopleChosenSkills,
-
 				upbringingNiceName,
-				upbringingChosenSkills1,
-				upbringingChosenSkills2,
-
 				professionNiceName,
-				professionChosenSkills1,
-				professionChosenSkills2,
 
 				getTraitNiceName,
 				backgroundCategoryNiceNames,
@@ -126,16 +110,8 @@
 				this.hasComplexPayload = complexPayload.people.key !== ''
 				if (this.hasComplexPayload) {
 					this.peopleNiceName = background.peoples[complexPayload.people.key].niceName
-					this.peopleMandatorySkills = complexPayload.people.choices[0]
-					this.peopleChosenSkills = complexPayload.people.choices[1]
-
 					this.upbringingNiceName = background.upbringings[complexPayload.upbringing.key].niceName
-					this.upbringingChosenSkills1 = complexPayload.upbringing.choices[0]
-					this.upbringingChosenSkills2 = complexPayload.upbringing.choices[1]
-
 					this.professionNiceName = background.professions[complexPayload.profession.key].niceName
-					this.professionChosenSkills1 = complexPayload.profession.choices[0]
-					this.professionChosenSkills2 = complexPayload.profession.choices[1]
 				}
 			})
 		}

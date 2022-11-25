@@ -1,0 +1,180 @@
+<template>
+	<div>
+
+        <span class="margin-top-tiny">{{ trait.name }}</span>
+
+        <span 
+            v-if="
+                traitIsTouchedByError()
+                && !traitIsInvalidAtThisLevel()"
+            class="font-size-tiny"
+        >
+            <InvalidOccurrence 
+                :characteristic="trait.key"
+                :selectedLevel="selectedLevel"
+            />
+        </span>						
+        
+        <span
+            v-if="
+                containsKey(trait.key, characterStore.sheet.traits)
+                && !containsKey(trait.key, validationSheet.traits)
+                && !traitIsTouchedByError()"
+            class="font-size-nano display-inline font-contrast-lowest margin-left-small"
+        >
+            Vald på en senare erfarenhetsnivå
+        </span>
+
+        <p 
+            v-if="cannotChooseTrait() && isSelected()"
+            class="font-size-tiny display-inline"
+        >
+            {{ getFailedRequirementsMessage() }}
+        </p>
+
+        <span
+            v-if="cannotChooseTrait() && !traitIsTouchedByError() && !isOwned()"
+            class="font-size-nano display-inline margin-left-small"
+        >
+            {{ getFailedRequirementsMessage() }}
+        </span>
+
+	</div>
+</template>
+
+<script>
+	import { ref } from 'vue'
+	import { useCharacterStore } from '../../stores/character'
+	import {
+		canChooseTrait,
+		getFailedRequirements,
+		getFailedTraitRequirementsErrorMessage
+	} from '../../rules/characteristics/traits'
+	import { containsKey } from '../../rules/utils'
+	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../validators/validators'
+	import { flattenCharacter } from '../../utilities/characterFlattener'
+	import InvalidOccurrence from './InvalidOccurrence.vue'
+
+	export default {
+		components: {
+			InvalidOccurrence
+		},
+		props: ['traitProp' ,'selectedLevel', 'traitType', 'tempValidationSheet', 'tempCharacterSheet','tempLevelChoiceKeyProp'],
+		setup(props) {
+			const characterStore = useCharacterStore()
+			const selectedLevel = props.selectedLevel
+			const traitType = props.traitType
+			const trait = props.traitProp
+			const characterSheet = props.tempCharacterSheet
+			const validationSheet = props.tempValidationSheet
+			const tempLevelChoiceKey = props.tempLevelChoiceKeyProp
+
+			return {
+				characterStore,
+				trait,
+				traitType,
+				characterSheet,
+				validationSheet,
+				tempLevelChoiceKey,
+				selectedLevel,
+				containsKey,
+				canChooseTrait,
+				getFailedRequirements,
+				invalidChoiceIsNotDeselected,
+				isInvalidAtThisLevel,
+				isTouchedByError,
+				getFailedTraitRequirementsErrorMessage,
+				
+			}
+		},
+		watch: {
+			tempValidationSheet: {
+				handler(newVal) {
+					this.validationSheet = newVal
+				},
+				immediate: true
+			},
+			tempCharacterSheet: {
+				handler(newVal) {
+					this.characterSheet = newVal
+				},
+				immediate: true
+			},
+			tempLevelChoiceKeyProp: {
+				handler(newVal) {
+
+					this.tempLevelChoiceKey = newVal
+				},
+				immediate: true
+			},
+			traitProp: {
+				handler(newVal) {
+					this.trait = newVal
+				},
+				immediate: true
+			},
+
+		},
+		methods: {
+			isOwned(){
+				return containsKey(this.trait.key, this.tempCharacterSheet.traits)
+			},
+			isSelected(){
+				return this.trait.key === this.tempLevelChoiceKey
+			},
+			traitIsTouchedByError() {
+				return (
+					this.isTouchedByError(
+						this.trait.key,
+						this.characterStore.metadata.invalidLevels
+					) || (
+						this.isSelected() && this.isOwned()
+					)
+				)
+			},
+			traitIsInvalidAtThisLevel() {
+				return isInvalidAtThisLevel(
+					this.trait.key,
+					this.characterStore.metadata.invalidLevels,
+					this.selectedLevel
+				)
+			},
+			invalidTraitChoiceIsNotDeselected(traitKey) {
+				return this.invalidChoiceIsNotDeselected(
+					traitKey,
+					this.characterStore.metadata.invalidLevels,
+					this.originalLevelChoiceKey,
+					this.tempLevelChoiceKey
+				)
+			},
+			cannotChooseTrait() {
+				return !canChooseTrait(
+					this.trait.key,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.selectedLevel
+				)
+			},
+			getFailedTraitRequirements() {
+				const failedRequirements = this.getFailedRequirements(
+					this.trait.key,
+					this.tempCharacterSheet.traits,
+					this.tempCharacterSheet.attributes,
+					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.selectedLevel
+				)
+				return failedRequirements
+			},
+			getFailedRequirementsMessage() {
+				const failedRequirements = this.getFailedTraitRequirements()
+				const errorMessage = this.getFailedTraitRequirementsErrorMessage(failedRequirements)
+				return errorMessage
+			}
+		}
+	}
+
+</script>
+
+<style>
+</style>

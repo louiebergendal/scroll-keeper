@@ -39,7 +39,6 @@
 
 <script>
 	import { useCharacterStore } from '../stores/character'
-	import { isTouchedByError } from '../utilities/validators'
 	import {
 		niceName as powerNiceName,
 		typesNiceNames as powerTypesNiceNames 

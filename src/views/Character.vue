@@ -29,7 +29,7 @@
 			<Health />
 
 		</div>
-		<Sidebar :characterStore="characterStore" />
+		<Sidebar />
 	</div>
 </template>
 
