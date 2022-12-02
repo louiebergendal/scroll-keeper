@@ -5,9 +5,9 @@
 		<div class="card margin-small padding-small">
 			<h3>Folk:</h3>
 			<RadioButtonGroup
+				:nameProp="'peoples'"
 				:optionsProp="Object.keys(peoplesOptions)"
 				:selectedProp="peoplesChoiceKey"
-				:nameProp="'peoples'"
 				@input="inputEventHandler"
 			/>
 			<div v-if="peoplesChoiceKey">
@@ -24,12 +24,12 @@
 				<hr>
 				<div>
 					<RadioButtonGroup
+						:nameProp="'peoples' + '-' + 'skillList' + '-' + 0"
 						:optionsProp="peoplesOptions[peoplesChoiceKey].skillsLists[0].list"
 						:selectedProp="setSelectedIfValid(
 							invalidKnowledgeSkillsForPeoplesChoicesList,
 							peoplesSkillsChoiceList?.[0]?.toString()
 						)"
-						:nameProp="'peoples' + '-' + 'skillList' + '-' + 0"
 						:invalidOptionsListProp="invalidPeoplesChoicesList" 
 						@input="inputEventHandler"
 					/>
@@ -42,9 +42,9 @@
 		<div class="card margin-small padding-small">
 			<h3>Uppväxt:</h3>
 			<RadioButtonGroup
+				:nameProp="'upbringings'"
 				:optionsProp="Object.keys(upbringingsOptions)"
 				:selectedProp="upbringingsChoiceKey"
-				:nameProp="'upbringings'"
 				@input="inputEventHandler"
 			/>
 			<div v-if="upbringingsChoiceKey">
@@ -52,23 +52,23 @@
 				<hr>
 				<div>
 					<RadioButtonGroup
+						:nameProp="'upbringings' + '-' + 'skillList' + '-' + 0"
 						:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[0].list"
 						:selectedProp="setSelectedIfValid(
 							invalidKnowledgeSkillsForUpbringingsChoicesList,
 							upbringingsSkillsChoiceList?.[0]?.toString()
 						)"
-						:nameProp="'upbringings' + '-' + 'skillList' + '-' + 0"
 						:invalidOptionsListProp="invalidUpbringingsChoicesList" 
 						@input="inputEventHandler"
 					/>
 					<hr>
 					<RadioButtonGroup
+						:nameProp="'upbringings' + '-' + 'skillList' + '-' + 1"
 						:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[1].list"
 						:selectedProp="setSelectedIfValid(
 							invalidKnowledgeSkillsForUpbringingsChoicesList,
 							upbringingsSkillsChoiceList?.[1]?.toString()
 						)"
-						:nameProp="'upbringings' + '-' + 'skillList' + '-' + 1"
 						:invalidOptionsListProp="invalidUpbringingsChoicesList" 
 						@input="inputEventHandler"
 					/>
@@ -81,9 +81,9 @@
 		<div class="card margin-small padding-small">
 			<h3>Livnäring:</h3>
 			<RadioButtonGroup
+				:nameProp="'professions'"
 				:optionsProp="Object.keys(professionsOptions)"
 				:selectedProp="professionsChoiceKey"
-				:nameProp="'professions'"
 				@input="inputEventHandler"
 			/>
 			<div v-if="professionsChoiceKey">
@@ -91,23 +91,23 @@
 				<hr>
 				<div>
 					<RadioButtonGroup
+						:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
 						:optionsProp="professionsOptions[professionsChoiceKey].skillsLists[0].list"
 						:selectedProp="setSelectedIfValid(
 							invalidKnowledgeSkillsForProfessionsChoicesList,
 							professionsSkillsChoiceList?.[0]?.toString()
 						)"
-						:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
 						:invalidOptionsListProp="invalidProfessionsChoicesList"
 						@input="inputEventHandler"
 					/>
 					<hr>
 					<RadioButtonGroup
+						:nameProp="'professions' + '-' + 'skillList' + '-' + 1"
 						:optionsProp="professionsOptions[professionsChoiceKey].skillsLists[1].list"
 						:selectedProp="setSelectedIfValid(
 							invalidKnowledgeSkillsForProfessionsChoicesList,
 							professionsSkillsChoiceList?.[1]?.toString()
 						)"
-						:nameProp="'professions' + '-' + 'skillList' + '-' + 1"
 						:invalidOptionsListProp="invalidProfessionsChoicesList"
 						@input="inputEventHandler"
 					/>
@@ -120,12 +120,12 @@
 		<div v-if="isChosenByFate" class="card margin-small padding-small">
 			<h3>Fri färdighet:</h3>
 			<RadioButtonGroup
+				:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
 				:optionsProp="allTraitListKeys"
 				:selectedProp="setSelectedIfValid(
 					invalidKnowledgeSkillsForProfessionsChoicesList,
 					professionsSkillsChoiceList?.[0]?.toString()
 				)"
-				:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
 				:invalidOptionsListProp="invalidProfessionsChoicesList"
 				@input="inputEventHandler"
 			/>
@@ -245,8 +245,10 @@
 			this.updateInvalidChoicesList()
 
 			this.characterStore.$subscribe((_mutation, state) => {
+
 				this.characterStoreLocal = state
 				this.isChosenByFate = state.metadata.isChosenByFate
+
 			})
 		},
 		methods: {

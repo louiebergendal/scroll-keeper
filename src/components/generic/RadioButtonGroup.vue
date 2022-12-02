@@ -55,10 +55,16 @@
 				},
 				immediate: true
 			},
+			optionsProp: {
+				handler(newVal) {
+					this.options = newVal
+				},
+				immediate: true
+			}
 		},
 		methods: {
 			emitOption(option) {
-				this.$emit("input", {
+				this.$emit('input', {
 					id: this.name,
 					option
 				})

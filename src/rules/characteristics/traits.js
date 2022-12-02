@@ -54,14 +54,12 @@ export const traitsName = name
 * - Returns a 'attributeSkills' list.
 */
 export function attributeSkills() {
-	let explodedList = {}
-	Object.keys(list, (attributeKey) => {
-		explodedList = {
-			...explodedList,
-			...list[attributeKey]
-		}
-	})
-	return explodedList
+	return {
+		...attributeSkillsImport.agility,
+		...attributeSkillsImport.battle,
+		...attributeSkillsImport.knowledge,
+		...attributeSkillsImport.spirit
+	}
 }
 /**
 * Returns an array containing the keys of attributeSkillListKeys

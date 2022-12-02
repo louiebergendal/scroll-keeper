@@ -1,43 +1,43 @@
 <template>
 	<div>
 
-        <span class="margin-top-tiny">{{ trait.name }}</span>
+		<span class="margin-top-tiny">{{ trait.name }}</span>
 
-        <span 
-            v-if="
-                traitIsTouchedByError()
-                && !traitIsInvalidAtThisLevel()"
-            class="font-size-tiny"
-        >
-            <InvalidOccurrence 
-                :characteristicProp="trait.key"
-                :selectedLevelProp="selectedLevel"
-            />
-        </span>						
-        
-        <span
-            v-if="
-                containsKey(trait.key, characterStore.sheet.traits)
-                && !containsKey(trait.key, validationSheet.traits)
-                && !traitIsTouchedByError()"
-            class="font-size-nano display-inline font-contrast-lowest margin-left-small"
-        >
-            Vald på en senare erfarenhetsnivå
-        </span>
+		<span 
+			v-if="
+				traitIsTouchedByError()
+				&& !traitIsInvalidAtThisLevel()"
+			class="font-size-tiny"
+		>
+			<InvalidOccurrence 
+				:characteristicProp="trait.key"
+				:selectedLevelProp="selectedLevel"
+			/>
+		</span>						
+		
+		<span
+			v-if="
+				containsKey(trait.key, characterStore.sheet.traits)
+				&& !containsKey(trait.key, validationSheet.traits)
+				&& !traitIsTouchedByError()"
+			class="font-size-nano display-inline font-contrast-lowest margin-left-small"
+		>
+			Vald på en senare erfarenhetsnivå
+		</span>
 
-        <p 
-            v-if="cannotChooseTrait() && isSelected()"
-            class="font-size-tiny display-inline"
-        >
-            {{ getFailedRequirementsMessage() }}
-        </p>
+		<p 
+			v-if="cannotChooseTrait() && isSelected()"
+			class="font-size-tiny display-inline"
+		>
+			{{ getFailedRequirementsMessage() }}
+		</p>
 
-        <span
-            v-if="cannotChooseTrait() && !traitIsTouchedByError() && !isOwned()"
-            class="font-size-nano display-inline margin-left-small"
-        >
-            {{ getFailedRequirementsMessage() }}
-        </span>
+		<span
+			v-if="cannotChooseTrait() && !traitIsTouchedByError() && !isOwned()"
+			class="font-size-nano display-inline margin-left-small"
+		>
+			{{ getFailedRequirementsMessage() }}
+		</span>
 
 	</div>
 </template>

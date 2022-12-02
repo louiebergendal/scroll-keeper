@@ -90,7 +90,7 @@ const fast = {
         }
     },
     usageRequirements: ['standing'],
-    addFastMovementBonus: (movement) => movement++,
+    addFastMovementBonus: (movement) => movement ++,
     addSprintMovementBonus:  (movement) => movement += 2
 }
 

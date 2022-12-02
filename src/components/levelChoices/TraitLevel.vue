@@ -1,148 +1,61 @@
 <template>
 	<div class="card square medium padding-large -fill">
 
-		<div v-if="traitType === 'skill' && selectedLevel !== 1">
+		<div v-if="selectedLevel !== 1">
 			<h3 v-if="traitType === 'skill'" class="align-center margin-top-nano margin-bottom-tiny">Välj en färdighet!</h3>
 			<h3 v-if="traitType === 'talent'" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang!</h3>
 		</div>
 
-		<!--loop traits-->
-		<div v-for="(trait, key) in traits" :key='key' class="flex">
-
-			<!-- break up into "SkillGroup"-components. One for general skills, one for attributeskills etc -->
-
-			<!-- not owned -->
-			<div v-if="
-				!traitIsOwned(trait.key)
-				&& !(selectedLevel === 1 && trait.key !== 'background')
-			"
-				class="card width-whole dark margin-bottom-nano"
-				:class="{
-					'touched-by-error':
-					traitIsTouchedByError(trait.key)
-						&& containsKey('complexTrait', Object.keys(trait))
-						&& traitIsSelected(trait.key)
-				}"
-			>
-				<div
-					class=""
-					:class="{
-						'touched-by-error -sub': traitIsTouchedByError(trait.key),
-						'invalid-background':
-							traitIsInvalidAtThisLevel(trait.key)
-							&& traitIsSelected(trait.key),
-						'font-contrast-lowest':
-							invalidTraitChoiceIsNotDeselected(trait.key)
-							&& !traitIsTouchedByError(trait.key),
-						' -angled-bottom':
-							containsKey('complexTrait', Object.keys(trait))
-							&& traitIsSelected(trait.key)
-					}"
-				>
-					<label
-						:for="key"
-						class="display-inline-block"
-						:class="{
-							'font-contrast-lowest':
-								(cannotChooseTrait(trait.key)
-								&& !traitIsTouchedByError(trait.key))
-						}"
-					>
-						<input
-							type="radio"
-							v-model="selectedChoiceKey"
-							:value="key"
-							:id="key"
-							:disabled="cannotChooseTrait(trait.key)"
-							class="margin-tiny vertical-align-top"
-						/>
-						<TraitLevelCardText
-							:traitProp="trait"									
-							:selectedLevelProp="selectedLevel"
-							:traitTypeProp="traitType"
-							:tempValidationSheetProp="tempValidationSheet"
-							:tempCharacterSheetProp="tempCharacterSheet"
-							:selectedChoiceKeyProp="selectedChoiceKey"
-						/>
-					</label>
-
-				</div>
-
-				<!-- complex traits -->
-				<div
-					v-if="containsKey('complexTrait', Object.keys(trait))"
-					class="width-whole angled-top"
-					:class="{
-						'touched-by-error': traitIsTouchedByError(trait.key),
-						'font-contrast-lowest':
-						invalidTraitChoiceIsNotDeselected(trait.key)
-							&& !traitIsTouchedByError(trait.key)
-					}"
-				>
-					<div v-if="trait.key === 'background'">
-						<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
-						<Background
-							@complex-payload="complexPayload"
-						/>
-					</div>
-					<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
-						<Scholar
-							:tempCharacterSheet="tempCharacterSheet"
-							:tempValidationSheet="tempValidationSheet"
-							@complex-payload="complexPayload"
-						/>
-					</div>
-					<div v-if="trait.key === 'pathfinder' && selectedChoiceKey === 'pathfinder'">
-						<Pathfinder
-							:tempCharacterSheet="tempCharacterSheet"
-							:tempValidationSheet="tempValidationSheet"
-							@complex-payload="complexPayload"
-						/>
-					</div>
-				</div>
-
-			</div>
-
-			<!-- already owned -->
-			<div 
-				v-if="traitIsOwned(trait.key) && trait.key !== 'background'"
-				class="card dark width-whole flex margin-bottom-nano"
-			>
-				<div
-					class="padding-bottom-tiny padding-top-nano width-whole"
-					:class="{
-						'touched-by-error': traitIsTouchedByError(trait.key),
-						'invalid-background':
-						traitIsInvalidAtThisLevel(trait.key)
-							&& invalidTraitChoiceIsNotDeselected(trait.key)
-					}"
-				>
-					<label
-						:for="key + '-owned'"
-						class="display-inline-block"
-						:class="{ 'font-contrast-lowest' : !traitIsTouchedByError(trait.key) }"
-					>
-						<input
-							type="radio"
-							:id="key + '-owned'"
-							disabled
-							checked='true'
-							class="margin-tiny vertical-align-top"
-						/>
-						<TraitLevelCardText
-							:traitProp="trait"
-							:selectedLevelProp="selectedLevel"
-							:traitTypeProp="traitType"
-							:tempValidationSheetProp="tempValidationSheet"
-							:tempCharacterSheetProp="tempCharacterSheet"
-							:selectedChoiceKeyProp="selectedChoiceKey"
-						/>
-					</label>
-				</div>
-			</div>
-
+		<div v-if="traitType === 'skill'">
+			<TraitLevelTraitGroup 
+				:selected-level-prop="selectedLevel"
+				:trait-type-prop="'attributeSkills'"
+				:selected-choice-key-prop="selectedChoiceKey"
+				:temp-character-sheet-prop="tempCharacterSheet"
+				:temp-validation-sheet-prop="tempValidationSheet"
+				@selected-choiceKey="updateSelectedChoiceKey"
+				@complex-payload="complexPayload"
+			/>
+			<TraitLevelTraitGroup 
+				:selected-level-prop="selectedLevel"
+				:trait-type-prop="'generalSkills'"
+				:selected-choice-key-prop="selectedChoiceKey"
+				:temp-character-sheet-prop="tempCharacterSheet"
+				:temp-validation-sheet-prop="tempValidationSheet"
+				@selected-choiceKey="updateSelectedChoiceKey"
+			/>
+			<TraitLevelTraitGroup 
+				:selected-level-prop="selectedLevel"
+				:trait-type-prop="'knowledgeSkills'"
+				:selected-choice-key-prop="selectedChoiceKey"
+				:temp-character-sheet-prop="tempCharacterSheet"
+				:temp-validation-sheet-prop="tempValidationSheet"
+				@selected-choiceKey="updateSelectedChoiceKey"
+				@complex-payload="complexPayload"
+			/>
+			<TraitLevelTraitGroup 
+				:selected-level-prop="selectedLevel"
+				:trait-type-prop="'favouredTerrainSkills'"
+				:selected-choice-key-prop="selectedChoiceKey"
+				:temp-character-sheet-prop="tempCharacterSheet"
+				:temp-validation-sheet-prop="tempValidationSheet"
+				@selected-choiceKey="updateSelectedChoiceKey"
+				@complex-payload="complexPayload"
+			/>
 		</div>
 
+		<div v-if="traitType === 'talent'">
+			<TraitLevelTraitGroup 
+				:selected-level-prop="selectedLevel"
+				:trait-type-prop="'talents'"
+				:selected-choice-key-prop="selectedChoiceKey"
+				:temp-character-sheet-prop="tempCharacterSheet"
+				:temp-validation-sheet-prop="tempValidationSheet"
+				@selected-choiceKey="updateSelectedChoiceKey"
+				@complex-payload="complexPayload"
+			/>
+		</div>
+		
 		<button
 			:disabled="
 				(
@@ -183,6 +96,7 @@
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import RuleRelevantMetadata from './RuleRelevantMetadata.vue'
 	import TraitLevelCardText from '../generic/TraitLevelCardText.vue'
+	import TraitLevelTraitGroup from './TraitLevelTraitGroup.vue'
 	import Background from './complexTalents/Background.vue'
 	import Scholar from './complexTalents/Scholar.vue'
 	import Pathfinder from './complexTalents/Pathfinder.vue'
@@ -193,17 +107,19 @@
 			TraitLevelCardText,
 			Pathfinder,
 			Background,
-			Scholar
+			Scholar,
+			TraitLevelTraitGroup
 		},
 		props: ['selectedLevelProp', 'traitTypeProp'],
-		emits: ['complexPayload', 'update-tabs'],
+		emits: ['complexPayload', 'update-tabs', 'selected-choiceKey'],
 		setup(props) {
 			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevelProp
 			const traitType = props.traitTypeProp
 			
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
-			let tempValidationSheet = flattenCharacter(characterStore, selectedLevel)
+			let tempValidationSheet = ref(flattenCharacter(characterStore, selectedLevel))
+			
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()
 
@@ -213,8 +129,6 @@
 			let traits
 			if (traitType === 'skill') { traits = allSkills() }
 			if (traitType === 'talent') { traits = allTalents() }
-
-			// console.log('traits: ', Object.values(traits).sort());
 
 			return {
 				characterStore,
@@ -233,8 +147,7 @@
 			}
 		},
 		beforeMount() {
-			this.characterStore.$subscribe((_mutation, state) => {
-			})
+			this.characterStore.$subscribe((_mutation, state) => {})
 		},
 		methods: {
 			submitNewTraitLevel() {
@@ -262,26 +175,8 @@
 				this.hasFullComplexPayload = isValid
 				this.complexTraitData = data
 			},
-			traitIsOwned(traitKey){
-				return containsKey(traitKey, this.tempCharacterSheet.traits)
-			},
-			traitIsSelected(traitKey){
-				return traitKey === this.selectedChoiceKey
-			},
-			invalidTraitChoiceIsNotDeselected(traitKey) {
-				return invalidChoiceIsNotDeselected(
-					traitKey,
-					this.characterStore.metadata.invalidLevels,
-					this.originalLevelChoiceKey,
-					this.selectedChoiceKey
-				)
-			},
-			traitIsTouchedByError(traitKey) {
-				return (isTouchedByError(
-					traitKey,
-					this.characterStore.metadata.invalidLevels
-					) || (this.traitIsSelected(traitKey) && this.traitIsOwned(traitKey))
-				)
+			updateSelectedChoiceKey(data) {
+				this.selectedChoiceKey = data.selectedChoiceKey
 			},
 			traitIsInvalidAtThisLevel(traitKey) {
 				return isInvalidAtThisLevel(
@@ -308,8 +203,7 @@
 					this.selectedLevel
 				)
 				return failedRequirements
-			},
-			
+			}
 		}
 	}
 </script>
