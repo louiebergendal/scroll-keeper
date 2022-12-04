@@ -9,13 +9,13 @@
 					type="checkbox"
 					id="is-chosen-by-fate"
 					class="margin-tiny vertical-align-top"
-					v-model="isChosenByFate"
+					v-model="ChosenByFateIsSelected"
 				/>
 				<label
 					for="is-chosen-by-fate"
 					class="display-inline-block"
 				>
-					Är ödesvald: {{ isChosenByFate }}
+					Är ödesvald: {{ characterStore.metadata.isChosenByFate }}
 				</label>
 			</div>
 
@@ -40,16 +40,16 @@
 		emits: ['update-tabs'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const isChosenByFate = ref(characterStore.metadata.isChosenByFate)
+			const ChosenByFateIsSelected = ref(characterStore.metadata.isChosenByFate)
 
 			return {
 				characterStore,
-				isChosenByFate,
+				ChosenByFateIsSelected,
 			}
 		},
 		methods: {
 			setIsChosenByFate() {
-				this.characterStore.updateIsChosenByFate(this.isChosenByFate)
+				this.characterStore.updateIsChosenByFate(this.ChosenByFateIsSelected)
 				this.$emit('update-tabs')
 			}
 		}

@@ -147,7 +147,6 @@
 	import { useCharacterStore } from '../../stores/character'
 	import {
 		canChooseTrait,
-		getFailedRequirements,
 		allTalents,
 		attributeSkills,
 		generalSkills,
@@ -227,7 +226,6 @@
 				hasFullComplexPayload,
 				containsKey,
 				canChooseTrait,
-				getFailedRequirements,
 			}
 		},
 		beforeMount() {
@@ -291,16 +289,6 @@
 					this.tempCharacterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
-			},
-			getFailedTraitRequirements(traitKey) {
-				const failedRequirements = getFailedRequirements(
-					traitKey,
-					this.tempCharacterSheet.traits,
-					this.tempCharacterSheet.attributes,
-					this.tempCharacterSheet.metadata.isChosenByFate,
-					this.selectedLevel
-				)
-				return failedRequirements
 			},
 			emitOption(selectedChoiceKey) {
 				this.$emit('selected-choiceKey', {

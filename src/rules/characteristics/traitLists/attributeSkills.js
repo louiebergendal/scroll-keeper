@@ -50,7 +50,7 @@ const arcane = {
 
 const battle = {
 	melee,
-	accuracy
+	accuracy,
 }
 
 const agility = {
@@ -74,5 +74,18 @@ const attributeSkills = {
 	spirit,
 	knowledge
 }
+
+const flatAttributeSkills = {
+	melee,
+	accuracy,
+	stealth,
+	athletics,
+	extrasensation,
+	force,
+	lore,
+	arcane,
+}
+
+export const attributeSkillKeysList = () => Object.keys(flatAttributeSkills)
 
 export default attributeSkills

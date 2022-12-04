@@ -119,14 +119,15 @@
 		<!-- CHOSEN BY FATE -->
 		<div v-if="isChosenByFate" class="card margin-small padding-small">
 			<h3>Fri färdighet:</h3>
+
 			<RadioButtonGroup
-				:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
-				:optionsProp="allTraitListKeys"
+				:nameProp="'fate' + '-' + 'skillList' + '-' + 0"
+				:optionsProp="chosenByFateOptions.skillsLists[0].list"
 				:selectedProp="setSelectedIfValid(
-					invalidKnowledgeSkillsForProfessionsChoicesList,
-					professionsSkillsChoiceList?.[0]?.toString()
+					invalidKnowledgeSkillsForChosenByFateChoicesList,
+					chosenByFateSkillsChoiceList?.[0]?.toString()
 				)"
-				:invalidOptionsListProp="invalidProfessionsChoicesList"
+				:invalidOptionsListProp="invalidChosenByFateChoicesList"
 				@input="inputEventHandler"
 			/>
 		</div>
@@ -137,7 +138,7 @@
 <script>
 	import { ref } from 'vue'
 	import { useCharacterStore } from '../../../stores/character'
-	import { canChooseTrait, getTraitNiceName, allTraitListKeys } from '../../../rules/characteristics/traits'
+	import { canChooseTrait, getTraitNiceName } from '../../../rules/characteristics/traits'
 	import { background } from '../../../rules/characteristics/traitLists/talents'
 	import { knowledgeSkillKeysList } from '../../../rules/characteristics/traitLists/knowledgeSkills'
 	import RadioButtonGroup from '../../generic/RadioButtonGroup.vue'
@@ -150,10 +151,6 @@
 		setup(props) {
 			const characterStore = useCharacterStore()
 			const characterStoreLocal = {}
-
-			// --- IS CHOSEN BY FATE ---
-			const isChosenByFate = ref(false)
-			const invalidFreeOptionChoicesList = ref()
 
 
 			// --- PEOPLES ---
@@ -210,12 +207,30 @@
 			const invalidProfessionsChoicesList = ref([])
 			const invalidKnowledgeSkillsForProfessionsChoicesList = ref([])
 
+
+			// --- CHOSEN BY FATE ---
+			const isChosenByFate = ref(characterStore.metadata.isChosenByFate)
+
+			// Available Options
+			const chosenByFateOptions = background.complexTrait.chosenByFate
+
+			// Chosen "Chosen By Fate" Key
+			const chosenByFateChoiceKey = ref(isChosenByFate.value ? 'chosenByFate' : '')
+
+			// Chosen "Chosen By Fate" Optional Skills - PROXY
+			const chosenByFateSkillsChoiceList = 
+				characterStore.history[1].complexPayload.chosenByFate
+				&& characterStore.history[1].complexPayload.chosenByFate.choices
+					? Object.values(characterStore.history[1].complexPayload.chosenByFate.choices)
+					: []
+			const invalidChosenByFateChoicesList = ref([])
+			const invalidKnowledgeSkillsForChosenByFateChoicesList = ref([])
+
 			return {
 				characterStore,
 				characterStoreLocal,
-
 				isChosenByFate,
-				allTraitListKeys,
+
 
 				peoplesOptions,
 				peoplesChoiceKey,
@@ -235,6 +250,12 @@
 				professionsSkillsChoiceList,
 				invalidProfessionsChoicesList,
 				invalidKnowledgeSkillsForProfessionsChoicesList,
+
+				chosenByFateOptions,
+				chosenByFateChoiceKey,
+				chosenByFateSkillsChoiceList,
+				invalidChosenByFateChoicesList,
+				invalidKnowledgeSkillsForChosenByFateChoicesList,
 
 				knowledgeSkillKeysList,
 				canChooseTrait,
@@ -277,7 +298,7 @@
 				this.invalidPeoplesChoicesList.length = 0
 				this.invalidUpbringingsChoicesList.length = 0
 				this.invalidProfessionsChoicesList.length = 0
-/* 				this.invalidChosenByFateChoicesList.length = 0 */
+				this.invalidChosenByFateChoicesList.length = 0
 
 				// peoples
 				this.invalidPeoplesChoicesList = this.invalidPeoplesChoicesList.concat(
@@ -285,6 +306,7 @@
 					this.upbringingsSkillsChoiceList[1],
 					this.professionsSkillsChoiceList[0],
 					this.professionsSkillsChoiceList[1],
+					this.chosenByFateSkillsChoiceList[0],
 				)
 				this.invalidKnowledgeSkillsForPeoplesChoicesList = 
 					this.validateKnowledgeSkills(this.invalidPeoplesChoicesList)
@@ -296,7 +318,8 @@
 					this.peoplesSkillsMandatoryList,
 					this.peoplesSkillsChoiceList[0],
 					this.professionsSkillsChoiceList[0],
-					this.professionsSkillsChoiceList[1]
+					this.professionsSkillsChoiceList[1],
+					this.chosenByFateSkillsChoiceList[0],
 				)
 				this.invalidKnowledgeSkillsForUpbringingsChoicesList = 
 					this.validateKnowledgeSkills(this.invalidUpbringingsChoicesList)
@@ -308,12 +331,29 @@
 					this.peoplesSkillsMandatoryList,
 					this.peoplesSkillsChoiceList[0],
 					this.upbringingsSkillsChoiceList[0],
-					this.upbringingsSkillsChoiceList[1]
+					this.upbringingsSkillsChoiceList[1],
+					this.chosenByFateSkillsChoiceList[0],
+
 				)
 				this.invalidKnowledgeSkillsForProfessionsChoicesList =
 					this.validateKnowledgeSkills(this.invalidProfessionsChoicesList)
 				this.invalidProfessionsChoicesList =
 					this.invalidProfessionsChoicesList.concat(this.invalidKnowledgeSkillsForProfessionsChoicesList)
+
+				// chosenByFate
+				this.invalidChosenByFateChoicesList = this.invalidChosenByFateChoicesList.concat(
+					this.peoplesSkillsMandatoryList,
+					this.peoplesSkillsChoiceList[0],
+					this.upbringingsSkillsChoiceList[0],
+					this.upbringingsSkillsChoiceList[1],
+					this.professionsSkillsChoiceList[0],
+					this.professionsSkillsChoiceList[1],
+				)
+				this.invalidKnowledgeSkillsForChosenByFateChoicesList =
+					this.validateKnowledgeSkills(this.invalidChosenByFateChoicesList)
+				this.invalidChosenByFateChoicesList =
+					this.invalidChosenByFateChoicesList.concat(this.invalidKnowledgeSkillsForChosenByFateChoicesList)
+
 
 			},
 			inputEventHandler(data) {
@@ -341,6 +381,13 @@
 				} 
 				if (data.id === 'professions-skillList-0') this.professionsSkillsChoiceList[0] = data.option
 				if (data.id === 'professions-skillList-1') this.professionsSkillsChoiceList[1] = data.option
+
+				// chosenByFate
+				if (data.id === 'chosenByFate') {
+					this.chosenByFateChoiceKey = data.option
+					this.chosenByFateSkillsChoiceList.length = 0
+				} 
+				if (data.id === 'fate-skillList-0') this.chosenByFateSkillsChoiceList[0] = data.option
 
 				this.updateInvalidChoicesList()
 
@@ -377,7 +424,16 @@
 							},
 						},
 						key: this.professionsChoiceKey
-					}	
+					}
+				}
+
+				if (this.isChosenByFate) {
+					complexPayload.chosenByFate = {}
+					complexPayload.chosenByFate.choices = {}
+					complexPayload.chosenByFate.choices[0] = {
+						0: this.chosenByFateSkillsChoiceList[0]
+					}
+					complexPayload.chosenByFate.key = this.chosenByFateChoiceKey
 				}
 
 				this.$emit('complexPayload', complexPayload)

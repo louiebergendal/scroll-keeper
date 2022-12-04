@@ -13,7 +13,6 @@ import favouredTerrainSkillsImport from './traitLists/favouredTerrainSkills'
 import talentsListImport from './traitLists/talents'
 import { containsKey } from '../utils'
 
-
 const name = 'Färdigheter och Talanger'
 
 const attributeSkillsList = Object.assign({}, attributeSkillsImport)
@@ -250,7 +249,6 @@ export function getFailedRequirements(
 	const trait = allTraitsList[traitKey]
 	const failedRequirements = {}
 
-
 	// check if trait is already owned
 	if (containsKey(traitKey, characterTraitList)) {
 		failedRequirements.isAlreadyOwned = true
@@ -390,7 +388,6 @@ export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) 
 
     return returnString
 }
-
 
 export function traitFromKey(traitKey) {
 	return allTraitsList[traitKey]

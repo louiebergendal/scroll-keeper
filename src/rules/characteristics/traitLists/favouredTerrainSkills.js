@@ -35,5 +35,7 @@ const favouredTerrainSkills = {
 	favouredTerrainUrban
 }
 
+export const favouredTerrainSkillKeysList = () => Object.keys(favouredTerrainSkills)
+
 export default favouredTerrainSkills
 

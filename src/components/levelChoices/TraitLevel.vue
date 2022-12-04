@@ -15,6 +15,7 @@
 				:temp-validation-sheet-prop="tempValidationSheet"
 				@selected-choiceKey="updateSelectedChoiceKey"
 				@complex-payload="complexPayload"
+				@update-tabs="$emit('update-tabs')"
 			/>
 			<TraitLevelTraitGroup 
 				:selected-level-prop="selectedLevel"
@@ -23,6 +24,7 @@
 				:temp-character-sheet-prop="tempCharacterSheet"
 				:temp-validation-sheet-prop="tempValidationSheet"
 				@selected-choiceKey="updateSelectedChoiceKey"
+				@update-tabs="$emit('update-tabs')"
 			/>
 			<TraitLevelTraitGroup 
 				:selected-level-prop="selectedLevel"
@@ -32,6 +34,7 @@
 				:temp-validation-sheet-prop="tempValidationSheet"
 				@selected-choiceKey="updateSelectedChoiceKey"
 				@complex-payload="complexPayload"
+				@update-tabs="$emit('update-tabs')"
 			/>
 			<TraitLevelTraitGroup 
 				:selected-level-prop="selectedLevel"
@@ -41,6 +44,7 @@
 				:temp-validation-sheet-prop="tempValidationSheet"
 				@selected-choiceKey="updateSelectedChoiceKey"
 				@complex-payload="complexPayload"
+				@update-tabs="$emit('update-tabs')"
 			/>
 		</div>
 
@@ -53,6 +57,7 @@
 				:temp-validation-sheet-prop="tempValidationSheet"
 				@selected-choiceKey="updateSelectedChoiceKey"
 				@complex-payload="complexPayload"
+				@update-tabs="$emit('update-tabs')"
 			/>
 		</div>
 		
@@ -64,13 +69,7 @@
 					(traits[selectedChoiceKey].complexTrait
 					&& !hasFullComplexPayload)
 					||
-					!canChooseTrait(
-						traits[selectedChoiceKey].key,
-						tempCharacterSheet.traits,
-						tempCharacterSheet.attributes,
-						tempCharacterSheet.metadata.isChosenByFate,
-						selectedLevel
-					)
+					cannotChooseTrait(traits[selectedChoiceKey].key)
 				)"
 			type="submit"
 			class="margin-top-tiny margin-left-nano"
@@ -91,23 +90,13 @@
 		canChooseTrait,
 		getFailedRequirements
 	} from '../../rules/characteristics/traits'
-	import { invalidChoiceIsNotDeselected, isTouchedByError, isInvalidAtThisLevel } from '../../validators/validators'
+	import { isInvalidAtThisLevel } from '../../validators/validators'
 	import { containsKey } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import RuleRelevantMetadata from './RuleRelevantMetadata.vue'
-	import TraitLevelCardText from '../generic/TraitLevelCardText.vue'
 	import TraitLevelTraitGroup from './TraitLevelTraitGroup.vue'
-	import Background from './complexTalents/Background.vue'
-	import Scholar from './complexTalents/Scholar.vue'
-	import Pathfinder from './complexTalents/Pathfinder.vue'
 
 	export default {
 		components: {
-			RuleRelevantMetadata,
-			TraitLevelCardText,
-			Pathfinder,
-			Background,
-			Scholar,
 			TraitLevelTraitGroup
 		},
 		props: ['selectedLevelProp', 'traitTypeProp'],
@@ -167,6 +156,7 @@
 					for (const choiceGroup in data[option].choices) {
 						for (const skillChoice in data[option].choices[choiceGroup]) {
 							const skillChoiceKey = data[option].choices[choiceGroup][skillChoice]
+
 							if (!skillChoiceKey) isValid = false
 							if (this.traitIsInvalidAtThisLevel(skillChoiceKey)) isValid = false
 						}

@@ -35,7 +35,6 @@ export default class TraitValidatorBridge {
 			this.traits = this.tempCharacterSheet.traits
 			this.attributes = this.tempCharacterSheet.attributes
 			this.invalidLevels = Object.assign({}, state.metadata.invalidLevels)
-			//console.log("init in TVB: ", state)
 		})
 	}
 	traitIsOwned(traitKey){

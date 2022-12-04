@@ -72,6 +72,10 @@ export const useCharacterStore = defineStore('character', {
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { peopleDescription: peopleDescription })
 		},
 		updateIsChosenByFate(isChosenByFate) {
+			if (isChosenByFate === false) {
+
+				removeData(this.metadata.characterRefString + '/history/1/' + '/complexPayload/chosenByFate')
+			}
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { isChosenByFate: isChosenByFate })
 		}
 	},

@@ -63,6 +63,10 @@
 				const peopleSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.people).flat(2)
 				const upbringingSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.upbringing).flat(2)
 				const proffessionSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.profession).flat(2)
+				let chosenByFateSkillKeysList
+				if (this.characterStore.history[1].complexPayload.chosenByFate) {
+					chosenByFateSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.chosenByFate).flat(2)
+				}
 
 				if (
 					containsKey(traitKey, peopleSkillKeysList)
@@ -70,6 +74,9 @@
 					containsKey(traitKey, upbringingSkillKeysList)
 					||
 					containsKey(traitKey, proffessionSkillKeysList)
+					||
+					chosenByFateSkillKeysList
+					&& containsKey(traitKey, chosenByFateSkillKeysList)
 				) { return true }
 				return false
 			}
