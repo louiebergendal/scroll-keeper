@@ -58,7 +58,7 @@
             <tab name="Kunskap">
                 <label
                     :class="{
-                        'selected': containsKey(option, selectedOptions) && !containsKey(option, invalidOptions)
+                        'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
                     }"
                     class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
                     :key="option.key"

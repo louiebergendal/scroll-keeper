@@ -60,12 +60,12 @@
 							@change="emitOption(selectedChoiceKey)" 
 						/>
 						<TraitLevelCardText
-							:traitProp="trait"									
-							:selectedLevelProp="selectedLevel"
-							:traitTypeProp="traitType"
-							:tempValidationSheetProp="tempValidationSheet"
-							:tempCharacterSheetProp="tempCharacterSheet"
-							:selectedChoiceKeyProp="selectedChoiceKey"
+							:trait-prop="trait"									
+							:selected-level-prop="selectedLevel"
+							:trait-type-prop="traitType"
+							:temp-validation-sheet-prop="tempValidationSheet"
+							:temp-character-sheet-prop="tempCharacterSheet"
+							:selected-choice-key-prop="selectedChoiceKey"
 						/>
 					</label>
 
@@ -82,17 +82,25 @@
 							&& !traitIsTouchedByError(trait.key)
 					}"
 				>
+					<div v-if="trait.key === 'background'">
+						<RuleRelevantMetadata
+							@update-tabs="$emit('update-tabs')"
+						/>
+						<Background
+							@complex-payload="complexPayload"
+						/>
+					</div>
 					<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
 						<Scholar
-							:tempCharacterSheet="tempCharacterSheet"
-							:tempValidationSheet="tempValidationSheet"
+							:temp-character-sheet-prop="tempCharacterSheet"
+							:temp-validation-sheet-prop="tempValidationSheet"
 							@complex-payload="complexPayload"
 						/>
 					</div>
 					<div v-if="trait.key === 'pathfinder' && selectedChoiceKey === 'pathfinder'">
 						<Pathfinder
-							:tempCharacterSheet="tempCharacterSheet"
-							:tempValidationSheet="tempValidationSheet"
+							:temp-character-sheet-prop="tempCharacterSheet"
+							:temp-validation-sheet-prop="tempValidationSheet"
 							@complex-payload="complexPayload"
 						/>
 					</div>
@@ -127,12 +135,12 @@
 							class="trait-input"
 						/>
 						<TraitLevelCardText
-							:traitProp="trait"
-							:selectedLevelProp="selectedLevel"
-							:traitTypeProp="traitType"
-							:tempValidationSheetProp="tempValidationSheet"
-							:tempCharacterSheetProp="tempCharacterSheet"
-							:selectedChoiceKeyProp="selectedChoiceKey"
+							:trait-prop="trait"
+							:selected-level-prop="selectedLevel"
+							:trait-type-prop="traitType"
+							:temp-validation-sheet-prop="tempValidationSheet"
+							:temp-character-sheet-prop="tempCharacterSheet"
+							:selected-choice-key-prop="selectedChoiceKey"
 						/>
 					</label>
 				</div>

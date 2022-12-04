@@ -46,8 +46,8 @@
 							class="font-size-nano margin-left-small display-block"
 						>
 							<InvalidOccurrence 
-								:characteristicProp="scholarSkill.key"
-								:selectedLevelProp="selectedLevel"
+								:characteristic-prop="scholarSkill.key"
+								:selected-level-prop="selectedLevel"
 							/>
 						</span>	
 
@@ -107,8 +107,8 @@
 							class="font-size-tiny"
 						>
 							<InvalidOccurrence 
-								:characteristicProp="scholarSkill.key"
-								:selectedLevelProp="selectedLevel"
+								:characteristic-prop="scholarSkill.key"
+								:selectedLevel-prop="selectedLevel"
 							/>
 						</span>
 						<p
@@ -141,11 +141,11 @@
 		components: {
 			InvalidOccurrence
 		},
-		props: ['tempCharacterSheet', 'tempValidationSheet'],
+		props: ['tempCharacterSheetProp', 'tempValidationSheetProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const characterSheet = props.tempCharacterSheet
-			const validationSheet = ref(props.tempValidationSheet)
+			const characterSheet = props.tempCharacterSheetProp
+			const validationSheet = ref(props.tempValidationSheetProp)
 			const selectedLevel = validationSheet.value.metadata.selectedLevel
 			const characterTraits = characterSheet.traits
 			const scholarOptions = scholar.complexTrait[0]

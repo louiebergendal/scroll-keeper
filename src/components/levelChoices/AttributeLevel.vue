@@ -19,6 +19,11 @@
 				<div
 					:class="{
 						'selected': selectedChoiceKey === attribute.key && !attributeIsTouchedByError(attribute.key),
+						'touched-by-error': attributeIsTouchedByError(attribute.key),
+						'invalid-background': (
+							invalidAttributeChoiceIsNotDeselected(attribute.key) 
+							&& attributeIsInvalidAtThisLevel(attribute.key)
+						)
 					}"
 					class="width-whole card dark"
 				>
@@ -41,18 +46,22 @@
 						<div>
 							<div class="margin-top-tiny">{{ getAttributeLongName(attribute.key) }}</div>
 							<div 
-								v-if="
+								v-if="(
 									attributeIsInvalidAtThisLevel(attribute.key)
 									&& invalidAttributeChoiceIsNotDeselected(attribute.key)
-								"
-								class="font-size-nano margin-left-small"
-							>
-								Man får inte ha mer än {{ getAttributeLvlCeiling(selectedLevel) }} på den här erfarenhetsnivån.
-							</div>
+								|| (
+									attributeIsTouchedByError(attribute.key) && (!attributeIsInvalidAtThisLevel(attribute.key))
+								)) || !invalidAttributeChoiceIsNotDeselected(attribute.key)
+							"
+						>
+							<InvalidOccurrence 
+								:characteristic-prop="attribute.key"
+								:selected-level-prop="selectedLevel"
+							/>
+						</div>
 
 							<div 
-								v-if="
-									((
+								v-if="((
 										attributeIsInvalidAtThisLevel(attribute.key)) 
 										&& invalidAttributeChoiceIsNotDeselected(attribute.key)
 									|| (
