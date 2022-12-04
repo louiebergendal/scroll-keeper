@@ -1,5 +1,5 @@
 <template>
-	<div class="">
+	<div class="margin-bottom-small">
 		<!-- loop sortedNiceTraits -->
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
 			<div
@@ -92,15 +92,15 @@
 					</div>
 					<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
 						<Scholar
-							:temp-character-sheet-prop="tempCharacterSheet"
-							:temp-validation-sheet-prop="tempValidationSheet"
+							:characterSheetProp="tempCharacterSheet"
+							:validationSheetProp="tempValidationSheet"
 							@complex-payload="complexPayload"
 						/>
 					</div>
 					<div v-if="trait.key === 'pathfinder' && selectedChoiceKey === 'pathfinder'">
 						<Pathfinder
-							:temp-character-sheet-prop="tempCharacterSheet"
-							:temp-validation-sheet-prop="tempValidationSheet"
+							:characterSheetProp="tempCharacterSheet"
+							:validationSheetProp="tempValidationSheet"
 							@complex-payload="complexPayload"
 						/>
 					</div>

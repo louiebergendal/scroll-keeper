@@ -1,13 +1,17 @@
 <template>
 	<div>
-		<div class="flex card dark padding-tiny">
+		<div
+			:class="{
+				'selected': chosenByFateIsSelected
+			}"
+			class="flex card light padding-top-small padding-bottom-small padding-left-tiny padding-right-small">
 			
 			<div class="width-whole padding-top-nano margin-top-nano">
 				<input
 					type="checkbox"
 					id="is-chosen-by-fate"
 					class="margin-small"
-					v-model="ChosenByFateIsSelected"
+					v-model="chosenByFateIsSelected"
 				/>
 				<label
 					for="is-chosen-by-fate"
@@ -38,16 +42,16 @@
 		emits: ['update-tabs'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const ChosenByFateIsSelected = ref(characterStore.metadata.isChosenByFate)
+			const chosenByFateIsSelected = ref(characterStore.metadata.isChosenByFate)
 
 			return {
 				characterStore,
-				ChosenByFateIsSelected,
+				chosenByFateIsSelected,
 			}
 		},
 		methods: {
 			setIsChosenByFate() {
-				this.characterStore.updateIsChosenByFate(this.ChosenByFateIsSelected)
+				this.characterStore.updateIsChosenByFate(this.chosenByFateIsSelected)
 				this.$emit('update-tabs')
 			}
 		}

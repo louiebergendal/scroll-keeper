@@ -53,7 +53,7 @@
 						</span>
 						<span
 							v-if="
-								containsKey(pathfinderSkill.key, characterStore.sheet.traits)
+								containsKey(pathfinderSkill.key, characterTraits)
 								&& !containsKey(pathfinderSkill.key, validationSheet.traits)
 								&& !traitIsTouchedByError(pathfinderSkill.key)"
 							class="margin-left-small font-size-nano display-inline font-contrast-lowest margin-left-small"
@@ -131,12 +131,13 @@
 		components: {
 			InvalidOccurrence
 		},
-		props: ['tempCharacterSheet', 'tempValidationSheet'],
+		props: ['characterSheetProp', 'validationSheetProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const characterSheet = props.tempCharacterSheet
+			const characterSheet = props.characterSheetProp
 			const characterTraits = characterSheet.traits
-			const validationSheet = props.tempValidationSheet
+			console.log("characterTraits: ", characterTraits)
+			const validationSheet = props.validationSheetProp
 			const selectedLevel = validationSheet.metadata.selectedLevel
 			const pathfinderOptions = pathfinder.complexTrait[0]
 			let originalPathfinderChoiceKey = ''
@@ -203,7 +204,7 @@
 				)
 			},
 			traitIsOwned(traitKey){
-				return containsKey(traitKey, this.tempCharacterSheet.traits)
+				return containsKey(traitKey, this.characterSheet.traits)
 			},
 			traitIsSelected(traitKey){
 				return traitKey === this.selectedChoiceKey
@@ -233,18 +234,18 @@
 			cannotChooseTrait(traitKey) {
 				return !canChooseTrait(
 					traitKey,
-					this.tempCharacterSheet.traits,
-					this.tempCharacterSheet.attributes,
-					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.characterSheet.traits,
+					this.characterSheet.attributes,
+					this.characterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 			},
 			getFailedTraitRequirements(traitKey) {
 				const failedRequirements = getFailedRequirements(
 					traitKey,
-					this.tempCharacterSheet.traits,
-					this.tempCharacterSheet.attributes,
-					this.tempCharacterSheet.metadata.isChosenByFate,
+					this.characterSheet.traits,
+					this.characterSheet.attributes,
+					this.characterSheet.metadata.isChosenByFate,
 					this.selectedLevel
 				)
 				return failedRequirements

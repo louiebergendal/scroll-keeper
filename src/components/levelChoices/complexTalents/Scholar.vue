@@ -53,7 +53,7 @@
 
 						<span
 							v-if="
-								containsKey(scholarSkill.key, characterStore.sheet.traits)
+								containsKey(scholarSkill.key, characterSheet.traits)
 								&& !containsKey(scholarSkill.key, tempValidationSheet.traits)
 								&& !scholarSkillIsTouchedByError(scholarSkill.key)"
 							class="font-size-nano display-block font-contrast-lowest margin-left-small"
@@ -141,11 +141,11 @@
 		components: {
 			InvalidOccurrence
 		},
-		props: ['tempCharacterSheetProp', 'tempValidationSheetProp'],
+		props: ['characterSheetProp', 'validationSheetProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const characterSheet = props.tempCharacterSheetProp
-			const validationSheet = ref(props.tempValidationSheetProp)
+			const characterSheet = props.characterSheetProp
+			const validationSheet = ref(props.validationSheetProp)
 			const selectedLevel = validationSheet.value.metadata.selectedLevel
 			const characterTraits = characterSheet.traits
 			const scholarOptions = scholar.complexTrait[0]

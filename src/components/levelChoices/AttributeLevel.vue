@@ -45,33 +45,18 @@
 						/>
 						<div>
 							<div class="margin-top-tiny">{{ getAttributeLongName(attribute.key) }}</div>
-							<div 
+							<div  
 								v-if="(
 									attributeIsInvalidAtThisLevel(attribute.key)
 									&& invalidAttributeChoiceIsNotDeselected(attribute.key)
 								|| (
-									attributeIsTouchedByError(attribute.key) && (!attributeIsInvalidAtThisLevel(attribute.key))
-								)) || !invalidAttributeChoiceIsNotDeselected(attribute.key)
-							"
-						>
-							<InvalidOccurrence 
-								:characteristic-prop="attribute.key"
-								:selected-level-prop="selectedLevel"
-							/>
-						</div>
-
-							<div 
-								v-if="((
-										attributeIsInvalidAtThisLevel(attribute.key)) 
-										&& invalidAttributeChoiceIsNotDeselected(attribute.key)
-									|| (
-										attributeIsTouchedByError(attribute.key) && (!attributeIsInvalidAtThisLevel(attribute.key))
-									)) || !invalidAttributeChoiceIsNotDeselected(attribute.key)
-								"
+									attributeIsTouchedByError(attribute.key)
+									&& (!attributeIsInvalidAtThisLevel(attribute.key)))
+								) || !invalidAttributeChoiceIsNotDeselected(attribute.key)"
 							>
 								<InvalidOccurrence 
-									:characteristicProp="attribute.key"
-									:selectedLevelProp="selectedLevel"
+									:characteristic-prop="attribute.key"
+									:selected-level-prop="selectedLevel"
 								/>
 							</div>
 						</div>
