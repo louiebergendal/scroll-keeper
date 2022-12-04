@@ -37,8 +37,8 @@
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
-							:characteristicProp="pathfinderSkill.key"
-							:selectedLevelProp="selectedLevel"
+							:characteristic-prop="pathfinderSkill.key"
+							:selected-level-prop="selectedLevel"
 						/>
 					</span>
 					{{ validationSheet.metadata.selectedLevel }}
@@ -84,8 +84,8 @@
 						class="font-size-tiny"
 					>
 						<InvalidOccurrence 
-							:characteristicProp="pathfinderSkill.key"
-							:selectedLevelProp="selectedLevel"
+							:characteristic-prop="pathfinderSkill.key"
+							:selected-level-prop="selectedLevel"
 						/>
 					</span>
 
@@ -119,12 +119,12 @@
 		components: {
 			InvalidOccurrence
 		},
-		props: ['tempCharacterSheet', 'tempValidationSheet'],
+		props: ['tempCharacterSheetProp', 'tempValidationSheetProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const characterSheet = props.tempCharacterSheet
+			const characterSheet = props.tempCharacterSheetProp
 			const characterTraits = characterSheet.traits
-			const validationSheet = props.tempValidationSheet
+			const validationSheet = props.tempValidationSheetProp
 			const selectedLevel = validationSheet.metadata.selectedLevel
 			const pathfinderOptions = pathfinder.complexTrait[0]
 			let originalPathfinderChoiceKey = ''

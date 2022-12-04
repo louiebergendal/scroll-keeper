@@ -22,7 +22,10 @@
 					class="card dark width-whole padding-bottom-tiny"
 					:class="{
 						'touched-by-error': attributeIsTouchedByError(attribute.key),
-						'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key) && attributeIsInvalidAtThisLevel(attribute.key)
+						'invalid-background': (
+							invalidAttributeChoiceIsNotDeselected(attribute.key) 
+							&& attributeIsInvalidAtThisLevel(attribute.key)
+						)
 					}"
 				>
 					<input
@@ -59,8 +62,8 @@
 							"
 						>
 							<InvalidOccurrence 
-								:characteristicProp="attribute.key"
-								:selectedLevelProp="selectedLevel"
+								:characteristic-prop="attribute.key"
+								:selected-level-prop="selectedLevel"
 							/>
 						</div>
 
