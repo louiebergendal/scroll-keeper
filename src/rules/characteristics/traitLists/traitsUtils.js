@@ -1,7 +1,6 @@
 import { getTraitNiceName } from '../traits.js'
 
 export const getNiceNameSortedList = (traits) => {
-    console.log("getNiceNameSortedList traits: ", traits)
     let niceTraitKeysList = []
     for (const traitKey in traits) {
         const trait = traits[traitKey]

@@ -304,7 +304,9 @@ textarea {
   border: 1px solid $border-contrast-medium;
   background-image: url('/img/monochromeNoise.png');
   &.selected {
-    background-color: #e9e3a7 !important;
+    background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(233,227,167,1) 0%, rgba(241,233,147,1) 19%, rgba(233,227,167,1) 100%);
+    box-shadow: inset 0px 1px rgba(255, 255, 255, 0.5) !important;
+    border: 1px solid #d2b02a;
   }
   &.dark {
     background-color: $background-brightness-low;

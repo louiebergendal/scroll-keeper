@@ -1,7 +1,7 @@
 <template>
 	<div class="radio-button-group">
         <tabs>
-            <tab name="Grundfärdigheter">
+            <tab v-for="tab in skillsTabs" :name="tab.niceName">
                 <label
                     :class="{
                         'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
@@ -9,7 +9,7 @@
                     class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
                     :key="option.key"
                     :for="name + '-' + option.key"
-                    v-for="option in sortedAttributeSkills"
+                    v-for="option in tab.list"
                 >
                     <input
                         type="radio"
@@ -22,90 +22,7 @@
                         @change="emitOption(option.key)" 
                     />
                     <div>
-                        <span class="trait-align">
-                            <span v-if="option.niceName">{{ option.niceName }}</span>
-                        </span>
-                    </div>
-		        </label>
-            </tab>
-            <tab name="Allmänna">
-                <label
-                    :class="{
-                        'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
-                    }"
-                    class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
-                    :key="option.key"
-                    :for="name + '-' + option.key"
-                    v-for="option in sortedGeneralSkills"
-                >
-                    <input
-                        type="radio"
-                        class="trait-input"
-                        :name="name"
-                        :value="option.key"
-                        :id="name + '-' + option.key"
-                        :checked="containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)"
-                        :disabled="containsKey(option.key, invalidOptions)"
-                        @change="emitOption(option.key)" 
-                    />
-                    <div>
-                        <span class="trait-align">
-                            <span v-if="option.niceName">{{ option.niceName }}</span>
-                        </span>
-                    </div>
-		        </label>
-            </tab>
-            <tab name="Kunskap">
-                <label
-                    :class="{
-                        'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
-                    }"
-                    class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
-                    :key="option.key"
-                    :for="name + '-' + option.key"
-                    v-for="option in sortedKnowledgeSkills"
-                >
-                    <input
-                        type="radio"
-                        class="trait-input"
-                        :name="name"
-                        :value="option.key"
-                        :id="name + '-' + option.key"
-                        :checked="containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)"
-                        :disabled="containsKey(option.key, invalidOptions)"
-                        @change="emitOption(option.key)" 
-                    />
-                    <div>
-                        <span class="trait-align">
-                            <span v-if="option.niceName">{{ option.niceName }}</span>
-                        </span>
-                    </div>
-		        </label>
-            </tab>
-            <tab name="Terrängvana">
-                <label
-                    :class="{
-                        'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
-                    }"
-                    class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
-                    :key="option.key"
-                    :for="name + '-' + option.key"
-                    v-for="option in sortedTerrainSkills"
-                >
-                    <input
-                        type="radio"
-                        class="trait-input"
-                        :name="name"
-                        :value="option.key"
-                        :id="name + '-' + option.key"
-                        :checked="containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)"
-                        :disabled="containsKey(option.key, invalidOptions)"
-                        @change="emitOption(option.key)" 
-                    />
-                    <div>
-                        <span class="trait-align">
-                            <span v-if="option.niceName">{{ option.niceName }}</span>
-                        </span>
+                        <span class="trait-align">{{ option.niceName }}</span>
                     </div>
 		        </label>
             </tab>
@@ -133,12 +50,24 @@
 			const name = props.nameProp
 			const selectedOptions = props.selectedProp ? props.selectedProp : ['']
 			const invalidOptions = props.invalidOptionsListProp ? props.invalidOptionsListProp : ['']
-
-            const sortedAttributeSkills = getNiceNameSortedList(attributeSkills())
-            const sortedGeneralSkills = getNiceNameSortedList(generalSkills())
-            const sortedKnowledgeSkills = getNiceNameSortedList(knowledgeSkills())
-            const sortedTerrainSkills = getNiceNameSortedList(favouredTerrainSkills())
-            console.log(sortedTerrainSkills)
+            const skillsTabs = {
+                sortedAttributeSkills: {
+                    niceName: 'Grundfärdigheter',
+                    list: getNiceNameSortedList(attributeSkills())
+                },
+                sortedGeneralSkills: {
+                    niceName: 'Allmänna',
+                    list: getNiceNameSortedList(generalSkills())
+                },
+                sortedKnowledgeSkills: {
+                    niceName: 'Kunskap',
+                    list: getNiceNameSortedList(knowledgeSkills())
+                },
+                sortedTerrainSkills: {
+                    niceName: 'Terrängvana',
+                    list: getNiceNameSortedList(favouredTerrainSkills())
+                }
+            }
 
 			return {
 				name,
@@ -148,10 +77,7 @@
 				getBackgroundSkillsListNiceNames,
 				containsKey,
 
-                sortedAttributeSkills,
-                sortedGeneralSkills,
-                sortedKnowledgeSkills,
-                sortedTerrainSkills
+                skillsTabs
 			}
 		},
 		watch: {

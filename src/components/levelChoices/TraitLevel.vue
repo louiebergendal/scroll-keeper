@@ -165,7 +165,6 @@
 					for (const choiceGroup in data[option].choices) {
 						for (const skillChoice in data[option].choices[choiceGroup]) {
 							const skillChoiceKey = data[option].choices[choiceGroup][skillChoice]
-
 							if (!skillChoiceKey) isValid = false
 							if (this.traitIsInvalidAtThisLevel(skillChoiceKey)) isValid = false
 						}

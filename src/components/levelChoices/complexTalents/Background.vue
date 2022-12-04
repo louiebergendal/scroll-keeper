@@ -119,7 +119,7 @@
 				</div>
 			</tab>
 		</tabs>
-		<div v-if="isChosenByFate" class="">
+		<div v-if="isChosenByFate" class="margin-bottom-tiny">
 			<h3 class="align-center">Fri färdighet (från Ödesvald)</h3>
 			<AllSkillsGroup
 				:nameProp="'fate' + '-' + 'skillList' + '-' + 0"
@@ -131,7 +131,6 @@
 				@input="inputEventHandler"
 			/>
 		</div>
-
 	</div>
 </template>
 
