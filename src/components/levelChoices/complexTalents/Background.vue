@@ -1,128 +1,128 @@
 <template>
-	<div>
-
+	<div class="width-whole">
 		<!-- PEOPLES -->
-		<div class="card margin-small padding-small">
-			<h3>Folk:</h3>
-			<RadioButtonGroup
-				:nameProp="'peoples'"
-				:optionsProp="Object.keys(peoplesOptions)"
-				:selectedProp="peoplesChoiceKey"
-				@input="inputEventHandler"
-			/>
-			<div v-if="peoplesChoiceKey">
-				<hr>
-				<hr>
+		<tabs class="margin-bottom-small">
+			<tab name="Folk">
 				<div>
-					<div :key="skill" v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills">
-						<label :for="'mandatory-' + skill">
-							<input type="radio" :id="'mandatory-' + skill" checked="true" disabled="true">
-							{{ getTraitNiceName(skill) }}
-						</label>
+					<div class="background-header-choice margin-bottom-small">
+						<RadioButtonGroup
+							:nameProp="'peoples'"
+							:optionsProp="Object.keys(peoplesOptions)"
+							:selectedProp="peoplesChoiceKey"
+							@input="inputEventHandler"
+					/>
+					</div>
+					<div v-if="peoplesChoiceKey">
+						<div class="margin-bottom-small">
+							<h3 class="align-center">Obligatorisk</h3>
+							<div :key="skill" v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills">
+								<label class="card selected margin-bottom-nano width-whole padding-left-tiny padding-bottom-tiny display-block flex" :for="'mandatory-' + skill">
+									<input class="trait-input" type="radio" :id="'mandatory-' + skill" checked="true">
+									<div><span class="trait-align">{{ getTraitNiceName(skill) }}</span></div>
+								</label>
+							</div>
+						</div>
+						<div>
+							<h3 class="align-center">Val</h3>
+							<RadioButtonGroup
+								:nameProp="'peoples' + '-' + 'skillList' + '-' + 0"
+								:optionsProp="peoplesOptions[peoplesChoiceKey].skillsLists[0].list"
+								:selectedProp="setSelectedIfValid(
+									invalidKnowledgeSkillsForPeoplesChoicesList,
+									peoplesSkillsChoiceList?.[0]?.toString()
+								)"
+								:invalidOptionsListProp="invalidPeoplesChoicesList" 
+								@input="inputEventHandler"
+							/>
+						</div>
 					</div>
 				</div>
-				<hr>
+			</tab>
+			<tab name="Uppväxt">
 				<div>
-					<RadioButtonGroup
-						:nameProp="'peoples' + '-' + 'skillList' + '-' + 0"
-						:optionsProp="peoplesOptions[peoplesChoiceKey].skillsLists[0].list"
-						:selectedProp="setSelectedIfValid(
-							invalidKnowledgeSkillsForPeoplesChoicesList,
-							peoplesSkillsChoiceList?.[0]?.toString()
-						)"
-						:invalidOptionsListProp="invalidPeoplesChoicesList" 
-						@input="inputEventHandler"
-					/>
+					<div class="background-header-choice margin-bottom-small">
+						<RadioButtonGroup
+							:nameProp="'upbringings'"
+							:optionsProp="Object.keys(upbringingsOptions)"
+							:selectedProp="upbringingsChoiceKey"
+							@input="inputEventHandler"
+						/>
+					</div>
+					<div v-if="upbringingsChoiceKey">
+						<div>
+							<h3 class="align-center">Val 1</h3>
+							<div class="margin-bottom-small">
+								<RadioButtonGroup
+									:nameProp="'upbringings' + '-' + 'skillList' + '-' + 0"
+									:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[0].list"
+									:selectedProp="setSelectedIfValid(
+										invalidKnowledgeSkillsForUpbringingsChoicesList,
+										upbringingsSkillsChoiceList?.[0]?.toString()
+									)"
+									:invalidOptionsListProp="invalidUpbringingsChoicesList" 
+									@input="inputEventHandler"
+								/>
+							</div>
+							<h3 class="align-center">Val 2</h3>
+							<RadioButtonGroup
+								:nameProp="'upbringings' + '-' + 'skillList' + '-' + 1"
+								:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[1].list"
+								:selectedProp="setSelectedIfValid(
+									invalidKnowledgeSkillsForUpbringingsChoicesList,
+									upbringingsSkillsChoiceList?.[1]?.toString()
+								)"
+								:invalidOptionsListProp="invalidUpbringingsChoicesList" 
+								@input="inputEventHandler"
+							/>
+						</div>
+					</div>
 				</div>
-				<hr>
-			</div>
-		</div>
-
-		<!-- UPBRINGINGS -->
-		<div class="card margin-small padding-small">
-			<h3>Uppväxt:</h3>
-			<RadioButtonGroup
-				:nameProp="'upbringings'"
-				:optionsProp="Object.keys(upbringingsOptions)"
-				:selectedProp="upbringingsChoiceKey"
-				@input="inputEventHandler"
-			/>
-			<div v-if="upbringingsChoiceKey">
-				<hr>
-				<hr>
+			</tab>
+			<tab name="Livnäring">
 				<div>
-					<RadioButtonGroup
-						:nameProp="'upbringings' + '-' + 'skillList' + '-' + 0"
-						:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[0].list"
-						:selectedProp="setSelectedIfValid(
-							invalidKnowledgeSkillsForUpbringingsChoicesList,
-							upbringingsSkillsChoiceList?.[0]?.toString()
-						)"
-						:invalidOptionsListProp="invalidUpbringingsChoicesList" 
-						@input="inputEventHandler"
-					/>
-					<hr>
-					<RadioButtonGroup
-						:nameProp="'upbringings' + '-' + 'skillList' + '-' + 1"
-						:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[1].list"
-						:selectedProp="setSelectedIfValid(
-							invalidKnowledgeSkillsForUpbringingsChoicesList,
-							upbringingsSkillsChoiceList?.[1]?.toString()
-						)"
-						:invalidOptionsListProp="invalidUpbringingsChoicesList" 
-						@input="inputEventHandler"
-					/>
+					<div class="background-header-choice margin-bottom-small">
+						<RadioButtonGroup
+							:nameProp="'professions'"
+							:optionsProp="Object.keys(professionsOptions)"
+							:selectedProp="professionsChoiceKey"
+							@input="inputEventHandler"
+						/>
+					</div>
+					<div v-if="professionsChoiceKey">
+						<div>
+							<h3 class="align-center">Val 1</h3>
+							<div class="margin-bottom-small">
+								<RadioButtonGroup
+									:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
+									:optionsProp="professionsOptions[professionsChoiceKey].skillsLists[0].list"
+									:selectedProp="setSelectedIfValid(
+										invalidKnowledgeSkillsForProfessionsChoicesList,
+										professionsSkillsChoiceList?.[0]?.toString()
+									)"
+									:invalidOptionsListProp="invalidProfessionsChoicesList"
+									@input="inputEventHandler"
+								/>
+							</div>
+							<h3 class="align-center">Val 2</h3>
+							<RadioButtonGroup
+								:nameProp="'professions' + '-' + 'skillList' + '-' + 1"
+								:optionsProp="professionsOptions[professionsChoiceKey].skillsLists[1].list"
+								:selectedProp="setSelectedIfValid(
+									invalidKnowledgeSkillsForProfessionsChoicesList,
+									professionsSkillsChoiceList?.[1]?.toString()
+								)"
+								:invalidOptionsListProp="invalidProfessionsChoicesList"
+								@input="inputEventHandler"
+							/>
+						</div>
+					</div>
 				</div>
-				<hr>
-			</div>
-		</div>
-
-		<!-- PROFESSIONS -->
-		<div class="card margin-small padding-small">
-			<h3>Livnäring:</h3>
-			<RadioButtonGroup
-				:nameProp="'professions'"
-				:optionsProp="Object.keys(professionsOptions)"
-				:selectedProp="professionsChoiceKey"
-				@input="inputEventHandler"
-			/>
-			<div v-if="professionsChoiceKey">
-				<hr>
-				<hr>
-				<div>
-					<RadioButtonGroup
-						:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
-						:optionsProp="professionsOptions[professionsChoiceKey].skillsLists[0].list"
-						:selectedProp="setSelectedIfValid(
-							invalidKnowledgeSkillsForProfessionsChoicesList,
-							professionsSkillsChoiceList?.[0]?.toString()
-						)"
-						:invalidOptionsListProp="invalidProfessionsChoicesList"
-						@input="inputEventHandler"
-					/>
-					<hr>
-					<RadioButtonGroup
-						:nameProp="'professions' + '-' + 'skillList' + '-' + 1"
-						:optionsProp="professionsOptions[professionsChoiceKey].skillsLists[1].list"
-						:selectedProp="setSelectedIfValid(
-							invalidKnowledgeSkillsForProfessionsChoicesList,
-							professionsSkillsChoiceList?.[1]?.toString()
-						)"
-						:invalidOptionsListProp="invalidProfessionsChoicesList"
-						@input="inputEventHandler"
-					/>
-				</div>
-				<hr>
-			</div>
-		</div>
-
-		<!-- CHOSEN BY FATE -->
-		<div v-if="isChosenByFate" class="card margin-small padding-small">
-			<h3>Fri färdighet:</h3>
-
-			<RadioButtonGroup
+			</tab>
+		</tabs>
+		<div v-if="isChosenByFate" class="">
+			<h3 class="align-center">Fri färdighet (från Ödesvald)</h3>
+			<AllSkillsGroup
 				:nameProp="'fate' + '-' + 'skillList' + '-' + 0"
-				:optionsProp="chosenByFateOptions.skillsLists[0].list"
 				:selectedProp="setSelectedIfValid(
 					invalidKnowledgeSkillsForChosenByFateChoicesList,
 					chosenByFateSkillsChoiceList?.[0]?.toString()
@@ -142,11 +142,13 @@
 	import { background } from '../../../rules/characteristics/traitLists/talents'
 	import { knowledgeSkillKeysList } from '../../../rules/characteristics/traitLists/knowledgeSkills'
 	import RadioButtonGroup from '../../generic/RadioButtonGroup.vue'
+	import AllSkillsGroup from '../../generic/AllSkillsGroup.vue'
 	import { containsKey } from '../../../rules/utils'
 
 	export default {
 		components: {
-			RadioButtonGroup
+			RadioButtonGroup,
+			AllSkillsGroup
 		},
 		setup(props) {
 			const characterStore = useCharacterStore()

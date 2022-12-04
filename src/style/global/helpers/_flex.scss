@@ -7,6 +7,7 @@
       > * { flex-grow: 1; }
     }
     &.-v-center { align-items: center !important; }
+    &.-v-start { align-items: start !important }
     &.-v-spread { align-content: space-between !important; }
     &.-v-stretch { align-content: stretch !important; }
     &.-h-end { justify-content: flex-end !important; }

@@ -1,30 +1,28 @@
 <template>
 	<div>
-
-		<div class="flex card margin-small padding-small">
+		<div class="flex card dark padding-tiny">
 			
-			<div class=" width-whole">
-				<h3 class="display-inline">Ödesvald:</h3>
+			<div class="width-whole padding-top-nano margin-top-nano">
 				<input
 					type="checkbox"
 					id="is-chosen-by-fate"
-					class="margin-tiny vertical-align-top"
+					class="margin-small"
 					v-model="ChosenByFateIsSelected"
 				/>
 				<label
 					for="is-chosen-by-fate"
-					class="display-inline-block"
+					class="display-inline-block margin-top-tiny"
 				>
-					Är ödesvald: {{ characterStore.metadata.isChosenByFate }}
+					Ödesvald
 				</label>
 			</div>
 
 			<button
 				type="submit"
-				class="margin-top-tiny margin-left-nano"
+				class="margin-left-nano width-fourth"
 				@click="setIsChosenByFate()"
 			>
-				Submitta!
+				Ändra
 			</button>
 
 		</div>

@@ -1,4 +1,5 @@
 import { addProficiencyBonus, addForagingBonus } from '../../mechanics.js'
+import { getNiceNameSortedList } from './traitsUtils.js'
 
 const favouredTerrainForest = {
 	key: 'favouredTerrainForest',
@@ -36,6 +37,7 @@ const favouredTerrainSkills = {
 }
 
 export const favouredTerrainSkillKeysList = () => Object.keys(favouredTerrainSkills)
+export const favouredTerrainSkillKeysListNiceNameSorted = () => getNiceNameSortedList(favouredTerrainSkillKeysList())
 
 export default favouredTerrainSkills
 

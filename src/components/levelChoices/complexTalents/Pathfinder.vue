@@ -1,25 +1,31 @@
 <template>
-	<div class="padding-small">
+	<div class="padding-left-small padding-right-small padding-bottom-small padding-top-small">
 
-		<div v-for="pathfinderSkill in pathfinderOptions.list" class="card margin-bottom-nano" :key="pathfinderSkill.key">
+		<div
+			v-for="pathfinderSkill in pathfinderOptions.list"
+			:key="pathfinderSkill.key"
+			:class="{
+				'card medium margin-bottom-nano': !traitIsTouchedByError(pathfinderSkill.key),
+				'selected': !traitIsTouchedByError(pathfinderSkill.key) && traitIsSelected(pathfinderSkill.key)
+			}"
+		>
 
 			<!-- not owned -->
 			<div
 				v-if="!traitIsOwned(pathfinderSkill.key)"
-				class="padding-bottom-tiny"
 				:class="{
-					'touched-by-error': traitIsTouchedByError(pathfinderSkill.key),
+					'touched-by-error card medium margin-bottom-nano': traitIsTouchedByError(pathfinderSkill.key),
 					'invalid-background': traitIsInvalidAtThisLevel(pathfinderSkill.key)
 				}"
 			>
 				
-				<label class="display-inline-block text-margins" :for="pathfinderSkill.key">
+				<label class="flex -v-start padding-left-tiny padding-right-tiny padding-bottom-tiny" :for="pathfinderSkill.key">
 					<input type="radio"
 						v-model="selectedChoiceKey"
 						:value="pathfinderSkill.key"
 						:id="pathfinderSkill.key"
 						@change="inputEventHandler"
-						class="margin-tiny vertical-align-top"
+						class="trait-input"
 						:disabled="(
 							(
 								cannotChooseTrait(pathfinderSkill.key)
@@ -27,30 +33,34 @@
 							) || cannotChooseTrait('pathfinder')
 						)"
 					/>
-
-					<span>{{ pathfinderSkill.name }}</span>
-
-					<span 
-						v-if="
-							traitIsTouchedByError(pathfinderSkill.key)
-							&& !traitIsInvalidAtThisLevel(pathfinderSkill.key)"
-						class="font-size-tiny"
-					>
-						<InvalidOccurrence 
-							:characteristicProp="pathfinderSkill.key"
-							:selectedLevelProp="selectedLevel"
-						/>
-					</span>
-					{{ validationSheet.metadata.selectedLevel }}
-					<span
-						v-if="
-							containsKey(pathfinderSkill.key, characterStore.sheet.traits)
-							&& !containsKey(pathfinderSkill.key, validationSheet.traits)
-							&& !traitIsTouchedByError(pathfinderSkill.key)"
-						class="font-size-nano display-inline font-contrast-lowest margin-left-small"
-					>
-						Vald på en senare erfarenhetsnivå
-					</span>
+					<div>
+						<span
+							class="trait-align"
+							:class="{
+								'font-contrast-medium normal': !traitIsTouchedByError(pathfinderSkill.key)
+							}"
+						>{{ pathfinderSkill.name }}</span>
+						<span 
+							v-if="
+								traitIsTouchedByError(pathfinderSkill.key)
+								&& !traitIsInvalidAtThisLevel(pathfinderSkill.key)"
+							class="font-size-nano margin-left-small"
+						>
+							<InvalidOccurrence 
+								:characteristicProp="pathfinderSkill.key"
+								:selectedLevelProp="selectedLevel"
+							/>
+						</span>
+						<span
+							v-if="
+								containsKey(pathfinderSkill.key, characterStore.sheet.traits)
+								&& !containsKey(pathfinderSkill.key, validationSheet.traits)
+								&& !traitIsTouchedByError(pathfinderSkill.key)"
+							class="margin-left-small font-size-nano display-inline font-contrast-lowest margin-left-small"
+						>
+							Vald på en senare erfarenhetsnivå
+						</span>
+					</div>
 
 				</label>
 			</div>
@@ -59,44 +69,46 @@
 			<div
 				v-if="traitIsOwned(pathfinderSkill.key)"
 				:class="{
-					'touched-by-error': traitIsTouchedByError(pathfinderSkill.key),
+					'touched-by-error margin-bottom-nano': traitIsTouchedByError(pathfinderSkill.key),
 					'invalid-background': (
 						traitIsInvalidAtThisLevel(pathfinderSkill.key)
 						&& traitIsSelected(pathfinderSkill.key)
 					)
 				}"
-				class="padding-bottom-tiny"
 			>
-				<input
-					type="radio"
-					:id="pathfinderSkill.key + '-owned'"
-					disabled
-					checked='true'
-					class="margin-tiny vertical-align-top"
-				/>
-				<label :for="pathfinderSkill.key + '-owned'" class="display-inline-block text-margins" >
-					<span>{{ pathfinderSkill.name }}</span>
+				<label :for="pathfinderSkill.key + '-owned'" class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny flex -v-start" >
+					<input
+						type="radio"
+						:id="pathfinderSkill.key + '-owned'"
+						disabled
+						checked='true'
+						class="trait-input"
+					/>
+					<div>
+						<span class="trait-align">{{ pathfinderSkill.name }}</span>
+						<div 
+							v-if="
+								traitIsTouchedByError(pathfinderSkill.key)
+								&& !traitIsInvalidAtThisLevel(pathfinderSkill.key)
+							"
+							class="font-size-nano margin-left-small"
+						>
+							<InvalidOccurrence 
+								:characteristicProp="pathfinderSkill.key"
+								:selectedLevelProp="selectedLevel"
+							/>
+						</div>
 
-					<span 
-						v-if="
-							traitIsTouchedByError(pathfinderSkill.key)
-							&& !traitIsInvalidAtThisLevel(pathfinderSkill.key)"
-						class="font-size-tiny"
-					>
-						<InvalidOccurrence 
-							:characteristicProp="pathfinderSkill.key"
-							:selectedLevelProp="selectedLevel"
-						/>
-					</span>
-
-					<div
-						v-if="
-							cannotChooseTrait(pathfinderSkill.key)
-							&& pathfinderSkill.key === selectedChoiceKey
-							&& traitIsInvalidAtThisLevel(pathfinderSkill.key)"
-						class="font-size-tiny display-inline"
-					>
-						{{ getErrorMessage(pathfinderSkill.key) }}
+						<div
+							v-if="
+								cannotChooseTrait(pathfinderSkill.key)
+								&& pathfinderSkill.key === selectedChoiceKey
+								&& traitIsInvalidAtThisLevel(pathfinderSkill.key)
+							"
+							class="font-size-nano margin-left-small"
+						>
+							{{ getErrorMessage(pathfinderSkill.key) }}
+						</div>
 					</div>
 				</label>
 			</div>

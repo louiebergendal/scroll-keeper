@@ -256,10 +256,56 @@ textarea {
 
 }
 
+.tabs-component {
+  border-radius: $border-radius;
+  .tabs-component-tabs {
+    display: flex;
+    list-style: none;
+    font-size: $font-size-nano;
+    padding: 0;
+    .tabs-component-tab {
+      padding: 0;
+      width: 100%;
+      text-align: center;
+      cursor: pointer;
+      .tabs-component-tab-a {
+        padding: $size-small;
+        display: block;
+        border-radius: $border-radius $border-radius 0 0;
+        border-width: 1px 1px 0 1px;
+        padding-bottom: $size-medium;
+        font-weight: bold;
+        cursor: pointer;
+        background-image: url('/img/monochromeNoise.png');
+        background-color: $background-brightness-low;
+        border-color: $border-contrast-medium;
+        border-style: solid;
+        border-width: 1px 1px 0 1px;
+        &.is-active {
+          background-color: $background-brightness-high;
+        }
+      }
+    }
+  }
+  .tabs-component-panel {
+    border-radius: 0 0 $border-radius $border-radius;
+    border-color: $border-contrast-medium;
+    border-style: solid;
+    border-width: 0 1px 1px 1px;
+    background-image: url('/img/monochromeNoise.png');
+    background-color: $background-brightness-high;
+    padding: $size-small;
+
+  }
+}
+
 .card {
   border-radius: $border-radius;
   border: 1px solid $border-contrast-medium;
   background-image: url('/img/monochromeNoise.png');
+  &.selected {
+    background-color: #e9e3a7 !important;
+  }
   &.dark {
     background-color: $background-brightness-low;
   }
@@ -289,6 +335,9 @@ textarea {
       }
     }
   }
+}
+.card:has(input[checked$="true"]) {
+  background-color: #c2e294 !important;
 }
 
 // character
@@ -323,6 +372,12 @@ textarea {
   line-height: 2.2rem !important;
 }
 
+.trait-input {
+  margin: $size-tiny;
+  margin-right: $size-small;
+  margin-top: calc($size-small + 2px);
+
+}
 // Attributes
 
 .attribute {
@@ -370,10 +425,10 @@ textarea {
 }
 
 .attribute-skill-top {
-  border-radius:  $border-radius $border-radius 0 0;
+  border-radius:  $border-radius $border-radius 0 0 !important;
 }
 .attribute-skill-bottom {
-  border-radius: 0 0 $border-radius $border-radius;
+  border-radius: 0 0 $border-radius $border-radius !important;
 }
 
 // Errors

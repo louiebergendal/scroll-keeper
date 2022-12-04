@@ -43,7 +43,7 @@
 							v-if="
 								scholarSkillIsTouchedByError(scholarSkill.key)
 								&& !scholarSkillIsInvalidAtThisLevel(scholarSkill.key)"
-							class="font-size-tiny"
+							class="font-size-nano margin-left-small display-block"
 						>
 							<InvalidOccurrence 
 								:characteristicProp="scholarSkill.key"
@@ -56,7 +56,7 @@
 								containsKey(scholarSkill.key, characterStore.sheet.traits)
 								&& !containsKey(scholarSkill.key, tempValidationSheet.traits)
 								&& !scholarSkillIsTouchedByError(scholarSkill.key)"
-							class="font-size-nano display-inline font-contrast-lowest margin-left-small"
+							class="font-size-nano display-block font-contrast-lowest margin-left-small"
 						>
 							Vald på en senare erfarenhetsnivå
 						</span>
@@ -66,7 +66,7 @@
 								scholarSkillIsInvalidAtThisLevel(scholarSkill.key)
 								&& isChecked(scholarSkill.key)
 							"
-							class="font-size-tiny display-inline"
+							class="margin-left-small font-size-nano display-block"
 						>
 							{{ getErrorMessage(scholarSkill.key) }}
 						</p>

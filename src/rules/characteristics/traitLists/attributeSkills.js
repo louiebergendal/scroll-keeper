@@ -1,4 +1,5 @@
 import { addProficiencyBonus } from '../../mechanics.js'
+import { getNiceNameSortedList } from './traitsUtils.js'
 
 const melee = {
 	key: 'melee',
@@ -86,6 +87,7 @@ const flatAttributeSkills = {
 	arcane,
 }
 
-export const attributeSkillKeysList = () => Object.keys(flatAttributeSkills)
+export const attributeSkillKeysList = () => Object.keys(flatAttributeSkills).sort()
+export const attributeSkillKeysListNiceNameSorted = () => getNiceNameSortedList(attributeSkillKeysList())
 
 export default attributeSkills

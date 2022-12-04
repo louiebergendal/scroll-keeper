@@ -1,8 +1,17 @@
 <template>
 	<div class="radio-button-group">
-		<label :key="option" :for="name + '-' + option" v-for="option in options">
+		<label
+			:class="{
+				'selected': containsKey(option, selectedOptions) && !containsKey(option, invalidOptions)
+			}"
+			class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
+			:key="option"
+			:for="name + '-' + option"
+			v-for="option in options"
+		>
 			<input
-				type="radio" 
+				type="radio"
+				class="trait-input"
 				:name="name"
 				:value="option"
 				:id="name + '-' + option"
@@ -10,8 +19,12 @@
 				:disabled="containsKey(option, invalidOptions)"
 				@change="emitOption(option)" 
 			/>
-				<span v-if="getTraitNiceName(option)">{{ getTraitNiceName(option) }}</span>
-				<span v-if="getBackgroundSkillsListNiceNames(option)">{{ getBackgroundSkillsListNiceNames(option) }}</span>
+			<div>
+				<span class="trait-align">
+					<span v-if="getTraitNiceName(option)">{{ getTraitNiceName(option) }}</span>
+					<span v-if="getBackgroundSkillsListNiceNames(option)">{{ getBackgroundSkillsListNiceNames(option) }}</span>
+				</span>
+			</div>
 		</label>
 	</div>
 </template>

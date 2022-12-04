@@ -1,7 +1,7 @@
 <template>
 	<div>
 
-		<span class="margin-top-tiny">{{ trait.name }}</span>
+		<span class="trait-align">{{ trait.name }}</span>
 
 		<span 
 			v-if="
@@ -20,21 +20,21 @@
 				containsKey(trait.key, characterStore.sheet.traits)
 				&& !containsKey(trait.key, validationSheet.traits)
 				&& !traitIsTouchedByError()"
-			class="font-size-nano display-inline font-contrast-lowest margin-left-small"
+			class="trait-align display-block font-size-nano font-contrast-lowest margin-left-small"
 		>
 			Vald på en senare erfarenhetsnivå
 		</span>
 
 		<p 
 			v-if="cannotChooseTrait() && isSelected()"
-			class="font-size-tiny display-inline"
+			class="font-size-nano display-block margin-left-small"
 		>
 			{{ getFailedRequirementsMessage() }}
 		</p>
 
 		<span
 			v-if="cannotChooseTrait() && !traitIsTouchedByError() && !isOwned()"
-			class="font-size-nano display-inline margin-left-small"
+			class="font-size-nano display-block margin-left-small"
 		>
 			{{ getFailedRequirementsMessage() }}
 		</span>
@@ -175,4 +175,7 @@
 </script>
 
 <style>
+	.trait-align {
+		vertical-align: middle;
+	}
 </style>

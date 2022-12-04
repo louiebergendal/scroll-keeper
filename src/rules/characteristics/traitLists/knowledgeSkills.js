@@ -7,6 +7,7 @@ import {
     canUseVia,
     canUseSigns
 } from '../../mechanics.js'
+import { getNiceNameSortedList } from './traitsUtils.js'
 
 
 
@@ -159,5 +160,6 @@ const knowledgeSkills = {
 }
 
 export const knowledgeSkillKeysList = () => Object.keys(knowledgeSkills)
+export const knowledgeSkillKeysListNiceNameSorted = () => getNiceNameSortedList(knowledgeSkillKeysList())
 
 export default knowledgeSkills

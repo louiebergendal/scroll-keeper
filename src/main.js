@@ -4,10 +4,15 @@ import App from "./App.vue"
 import router from "./router"
 import { initializeApp } from "firebase/app"
 import { firebaseConfig } from "./config"
+import Tab from './components/generic/tabs/Tab.vue'
+import Tabs from './components/generic/tabs/Tabs.vue'
 
 initializeApp(firebaseConfig)
 const pinia = createPinia()
 const app = createApp(App)
+  .component('tabs', Tabs)
+  .component('tab', Tab)
+
 pinia.use(({ store }) => {
   store.router = markRaw(router)
 })

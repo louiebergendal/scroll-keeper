@@ -1,13 +1,11 @@
 <template>
-	<div class='card square medium padding-large -fill'>
+	<div class='card flex -dir-col square medium padding-large -fill'>
 
-		<h3 class="align-center margin-top-nano margin-bottom-tiny">Öka en grundegenskap!</h3>
-		Tak {{ getAttributeLvlCeiling(selectedLevel) }}
-
+		<h3 class="align-center margin-top-nano margin-bottom-medium">Öka en grundegenskap!</h3>
 		<div
 			v-for='attribute in attributes'
 			:key='attribute.key'
-			class='width-whole flex margin-nano width-whole'
+			class='width-whole flex margin-bottom-nano width-whole'
 		>
 			<div
 				:class="{
@@ -19,69 +17,88 @@
 				class="width-whole flex"
 			>
 				<div
-					class="card dark width-whole padding-bottom-tiny"
 					:class="{
-						'touched-by-error': attributeIsTouchedByError(attribute.key),
-						'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key) && attributeIsInvalidAtThisLevel(attribute.key)
+						'selected': selectedChoiceKey === attribute.key && !attributeIsTouchedByError(attribute.key),
 					}"
+					class="width-whole card dark"
 				>
-					<input
-						type="radio"
-						:id="attribute.key"
-						:value="attribute.key"
-						v-model="selectedChoiceKey"
-						name="attribute"
-						:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
-						class=""
-					/>
-					<label :for='attribute.key' class="display-inline-block text-margins">
-
-						<div class="margin-left-small">{{ getAttributeLongName(attribute.key) }}</div>
-
-						<div 
-							v-if="
-								attributeIsInvalidAtThisLevel(attribute.key)
-								&& invalidAttributeChoiceIsNotDeselected(attribute.key)
-							"
-							class="font-size-tiny"
-						>
-							Man får inte ha mer än {{ getAttributeLvlCeiling(selectedLevel) }} på den här erfarenhetsnivån.
-						</div>
-
-						<div 
-							v-if="
-								((
-									attributeIsInvalidAtThisLevel(attribute.key)) 
+					<label
+						:for='attribute.key'
+						class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start"
+						:class="{
+							'touched-by-error': attributeIsTouchedByError(attribute.key),
+							'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key) && attributeIsInvalidAtThisLevel(attribute.key)
+						}">
+						<input
+							type="radio"
+							:id="attribute.key"
+							:value="attribute.key"
+							v-model="selectedChoiceKey"
+							name="attribute"
+							:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
+							class="trait-input"
+						/>
+						<div>
+							<div class="margin-top-tiny">{{ getAttributeLongName(attribute.key) }}</div>
+							<div 
+								v-if="
+									attributeIsInvalidAtThisLevel(attribute.key)
 									&& invalidAttributeChoiceIsNotDeselected(attribute.key)
-								|| (
-									attributeIsTouchedByError(attribute.key) && (!attributeIsInvalidAtThisLevel(attribute.key))
-								)) || !invalidAttributeChoiceIsNotDeselected(attribute.key)
-							"
-						>
-							<InvalidOccurrence 
-								:characteristicProp="attribute.key"
-								:selectedLevelProp="selectedLevel"
-							/>
-						</div>
+								"
+								class="font-size-nano margin-left-small"
+							>
+								Man får inte ha mer än {{ getAttributeLvlCeiling(selectedLevel) }} på den här erfarenhetsnivån.
+							</div>
 
+							<div 
+								v-if="
+									((
+										attributeIsInvalidAtThisLevel(attribute.key)) 
+										&& invalidAttributeChoiceIsNotDeselected(attribute.key)
+									|| (
+										attributeIsTouchedByError(attribute.key) && (!attributeIsInvalidAtThisLevel(attribute.key))
+									)) || !invalidAttributeChoiceIsNotDeselected(attribute.key)
+								"
+							>
+								<InvalidOccurrence 
+									:characteristicProp="attribute.key"
+									:selectedLevelProp="selectedLevel"
+								/>
+							</div>
+						</div>
 					</label>
 				</div>
 				<div
 					v-if="selectedChoiceKey === attribute.key"
-					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
-					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
+					class="width-fourth flex margin-left-tiny"
 				>
-					{{ characterAttributes[attribute.key] }} + 1
+					<div
+						:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
+						class="card light width-half align-center"
+					>
+						<span class="vertical-align-middle bold font-size-small">+ 1</span>
+					</div>
+					<div class="card light width-half align-center margin-left-nano">
+						<div class="bold font-size-medium attribute-result">{{ characterAttributes[attribute.key] + 1}} </div>
+					</div>
 				</div>
 				<div
 					v-if="selectedChoiceKey !== attribute.key"
 					:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
-					class="card padding-top-nano light width-fourth margin-left-tiny align-center"
+					class="width-fourth card light margin-left-tiny align-center"
 				>
-					{{ characterAttributes[attribute.key] }}
+					<span class="vertical-align-middle">{{ characterAttributes[attribute.key] }} </span>
 				</div>
 			</div>
 		</div>
+		<div class="width-whole flex">
+			<div class="width-whole padding-left-small">
+			</div>
+			<div class="width-fourth align-center">
+				<span>Tak: {{ getAttributeLvlCeiling(selectedLevel) }}</span>
+			</div>
+		</div>
+
 
 		<button
 			:disabled="!levelIsChangable"
@@ -183,5 +200,8 @@
 <style>
 	.invalid {
 		background: rgb(247, 63, 46) !important;
+	}
+	.attribute-result {
+		margin-top: -1px;
 	}
 </style>

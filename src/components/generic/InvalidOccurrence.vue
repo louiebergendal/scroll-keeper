@@ -1,5 +1,5 @@
 <template>
-   <span class="font-size-tiny">
+   <span class="font-size-nano display-block margin-left-small">
 	 	{{ createErrorLevelString() }}
 	</span>
 </template>

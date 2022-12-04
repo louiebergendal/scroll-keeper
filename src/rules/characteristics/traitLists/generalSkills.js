@@ -7,6 +7,7 @@ import {
 	refineProvisions,
 	addMaxCarryingCapacityBonus
 } from '../../mechanics.js'
+import { getNiceNameSortedList } from './traitsUtils.js'
 
 const animalHusbandry = {
 	key: 'animalHusbandry',
@@ -232,5 +233,6 @@ const generalSkills = {
 }
 
 export const generalSkillKeysList = () => Object.keys(generalSkills)
+export const generalSkillKeysListNiceNameSorted = () => getNiceNameSortedList(generalSkillKeysList())
 
 export default generalSkills

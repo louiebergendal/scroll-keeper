@@ -1,22 +1,29 @@
 <template>
-	<div class="card square medium padding-large">
-
-		{{traitType}}
-
+	<div class="">
 		<!-- loop sortedNiceTraits -->
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
-
+			<div
+				class="width-whole"
+				v-if="(selectedLevel === 1 && trait.key === 'background') && trait.key === 'background'"
+			>
+				<div class="margin-bottom-small"><RuleRelevantMetadata @update-tabs="$emit('update-tabs')" /></div>
+				<Background
+					@complex-payload="complexPayload"
+				/>
+			</div>
 			<!-- not owned -->
 			<div v-if="
 				!traitIsOwned(trait.key)
 				&& !(selectedLevel === 1 && trait.key !== 'background')
+				&& trait.key !== 'background'
 			"
 				class="card width-whole dark margin-bottom-nano"
 				:class="{
 					'touched-by-error':
-					traitIsTouchedByError(trait.key)
+						traitIsTouchedByError(trait.key)
 						&& containsKey('complexTrait', Object.keys(trait))
-						&& traitIsSelected(trait.key)
+						&& traitIsSelected(trait.key),
+					'selected': traitIsSelected(trait.key) && !traitIsTouchedByError(trait.key)
 				}"
 			>
 				<div
@@ -36,7 +43,7 @@
 				>
 					<label
 						:for="trait.key"
-						class="display-inline-block"
+						class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start"
 						:class="{
 							'font-contrast-lowest':
 								(cannotChooseTrait(trait.key)
@@ -49,7 +56,7 @@
 							:value="trait.key"
 							:id="trait.key"
 							:disabled="cannotChooseTrait(trait.key)"
-							class="margin-tiny vertical-align-top"
+							class="trait-input"
 							@change="emitOption(selectedChoiceKey)" 
 						/>
 						<TraitLevelCardText
@@ -75,12 +82,6 @@
 							&& !traitIsTouchedByError(trait.key)
 					}"
 				>
-					<div v-if="trait.key === 'background'">
-						<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
-						<Background
-							@complex-payload="complexPayload"
-						/>
-					</div>
 					<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
 						<Scholar
 							:tempCharacterSheet="tempCharacterSheet"
@@ -105,7 +106,7 @@
 				class="card dark width-whole flex margin-bottom-nano"
 			>
 				<div
-					class="padding-bottom-tiny padding-top-nano width-whole"
+					class="width-whole"
 					:class="{
 						'touched-by-error': traitIsTouchedByError(trait.key),
 						'invalid-background':
@@ -115,7 +116,7 @@
 				>
 					<label
 						:for="key + '-owned'"
-						class="display-inline-block"
+						class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start"
 						:class="{ 'font-contrast-lowest' : !traitIsTouchedByError(trait.key) }"
 					>
 						<input
@@ -123,7 +124,7 @@
 							:id="key + '-owned'"
 							disabled
 							checked='true'
-							class="margin-tiny vertical-align-top"
+							class="trait-input"
 						/>
 						<TraitLevelCardText
 							:traitProp="trait"
