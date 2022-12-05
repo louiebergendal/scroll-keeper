@@ -1,73 +1,97 @@
 <template>
 	<div class="radio-button-group">
-        <tabs>
-            <tab v-for="tab in skillsTabs" :name="tab.niceName">
-                <label
-                    :class="{
-                        'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
-                    }"
-                    class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
-                    :key="option.key"
-                    :for="name + '-' + option.key"
-                    v-for="option in tab.list"
-                >
-                    <input
-                        type="radio"
-                        class="trait-input"
-                        :name="name"
-                        :value="option.key"
-                        :id="name + '-' + option.key"
-                        :checked="containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)"
-                        :disabled="containsKey(option.key, invalidOptions)"
-                        @change="emitOption(option.key)" 
-                    />
-                    <div>
-                        <span class="trait-align">{{ option.niceName }}</span>
-                    </div>
-		        </label>
-            </tab>
-        </tabs>
+		<tabs>
+			<tab v-for="tab in skillsTabs" :name="tab.niceName" :key="tab">
+				<label
+					:class="{
+						'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
+					}"
+					class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
+					:key="option.key"
+					:for="name + '-' + option.key"
+					v-for="option in tab.list"
+				>
+					<input
+						type="radio"
+						class="trait-input"
+						:name="name"
+						:value="option.key"
+						:id="name + '-' + option.key"
+						:checked="containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)"
+						:disabled="containsKey(option.key, invalidOptions)"
+						@change="emitOption(option.key)" 
+					/>
+					<div>
+						<span class="trait-align">{{ option.niceName }}</span>
+					</div>
+				</label>
+			</tab>
+		</tabs>
 	</div>
 </template>
   
 <script>
 	import { containsKey } from '../../rules/utils'
-    import {
-		allTalents,
+	import {
 		attributeSkills,
 		generalSkills,
 		knowledgeSkills,
 		favouredTerrainSkills,
-		getTraitNiceName
+		getTraitNiceName,
+		removeTraitsWithRequirements
 	} from '../../rules/characteristics/traits'
-    import { getNiceNameSortedList } from '../../rules/characteristics/traitLists/traitsUtils'
+	import { getNiceNameSortedList } from '../../rules/characteristics/traitLists/traitsUtils'
 	import { getBackgroundSkillsListNiceNames } from '../../rules/complexTraits/background/background'
 
 	export default {
 		name: 'BaseRadioButtonGroup',
-		props: ['nameProp', 'selectedProp', 'invalidOptionsListProp'],
+		props: ['nameProp', 'selectedProp', 'invalidOptionsListProp', 'isBackground'],
 		setup(props) {
 			const name = props.nameProp
 			const selectedOptions = props.selectedProp ? props.selectedProp : ['']
 			const invalidOptions = props.invalidOptionsListProp ? props.invalidOptionsListProp : ['']
-            const skillsTabs = {
-                sortedAttributeSkills: {
-                    niceName: 'Grundfärdigheter',
-                    list: getNiceNameSortedList(attributeSkills())
-                },
-                sortedGeneralSkills: {
-                    niceName: 'Allmänna',
-                    list: getNiceNameSortedList(generalSkills())
-                },
-                sortedKnowledgeSkills: {
-                    niceName: 'Kunskap',
-                    list: getNiceNameSortedList(knowledgeSkills())
-                },
-                sortedTerrainSkills: {
-                    niceName: 'Terrängvana',
-                    list: getNiceNameSortedList(favouredTerrainSkills())
-                }
-            }
+
+			let skillsTabs = {}
+
+			if (props.isBackground) {
+				skillsTabs = {
+					sortedAttributeSkills: {
+						niceName: 'Grundfärdigheter',
+						list: getNiceNameSortedList(removeTraitsWithRequirements(attributeSkills()))
+					},
+					sortedGeneralSkills: {
+						niceName: 'Allmänna',
+						list: getNiceNameSortedList(removeTraitsWithRequirements(generalSkills()))
+					},
+					sortedKnowledgeSkills: {
+						niceName: 'Kunskap',
+						list: getNiceNameSortedList(removeTraitsWithRequirements(knowledgeSkills()))
+					},
+					sortedTerrainSkills: {
+						niceName: 'Terrängvana',
+						list: getNiceNameSortedList(removeTraitsWithRequirements(favouredTerrainSkills()))
+					}
+				}
+			} else {
+				skillsTabs = {
+					sortedAttributeSkills: {
+						niceName: 'Grundfärdigheter',
+						list: getNiceNameSortedList(attributeSkills())
+					},
+					sortedGeneralSkills: {
+						niceName: 'Allmänna',
+						list: getNiceNameSortedList(generalSkills())
+					},
+					sortedKnowledgeSkills: {
+						niceName: 'Kunskap',
+						list: getNiceNameSortedList(knowledgeSkills())
+					},
+					sortedTerrainSkills: {
+						niceName: 'Terrängvana',
+						list: getNiceNameSortedList(favouredTerrainSkills())
+					}
+				}
+			}
 
 			return {
 				name,
@@ -77,7 +101,7 @@
 				getBackgroundSkillsListNiceNames,
 				containsKey,
 
-                skillsTabs
+				skillsTabs
 			}
 		},
 		watch: {

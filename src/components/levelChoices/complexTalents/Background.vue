@@ -2,6 +2,7 @@
 	<div class="width-whole">
 		<!-- PEOPLES -->
 		<tabs class="margin-bottom-small">
+
 			<tab name="Folk">
 				<div>
 					<div class="background-header-choice margin-bottom-small">
@@ -10,7 +11,7 @@
 							:optionsProp="Object.keys(peoplesOptions)"
 							:selectedProp="peoplesChoiceKey"
 							@input="inputEventHandler"
-					/>
+						/>
 					</div>
 					<div v-if="peoplesChoiceKey">
 						<div class="margin-bottom-small">
@@ -128,6 +129,7 @@
 					chosenByFateSkillsChoiceList?.[0]?.toString()
 				)"
 				:invalidOptionsListProp="invalidChosenByFateChoicesList"
+				:isBackground="true"
 				@input="inputEventHandler"
 			/>
 		</div>
@@ -208,12 +210,8 @@
 			const invalidProfessionsChoicesList = ref([])
 			const invalidKnowledgeSkillsForProfessionsChoicesList = ref([])
 
-
 			// --- CHOSEN BY FATE ---
 			const isChosenByFate = ref(characterStore.metadata.isChosenByFate)
-
-			// Available Options
-			const chosenByFateOptions = background.complexTrait.chosenByFate
 
 			// Chosen "Chosen By Fate" Key
 			const chosenByFateChoiceKey = ref(isChosenByFate.value ? 'chosenByFate' : '')
@@ -231,7 +229,6 @@
 				characterStore,
 				characterStoreLocal,
 				isChosenByFate,
-
 
 				peoplesOptions,
 				peoplesChoiceKey,
@@ -252,7 +249,6 @@
 				invalidProfessionsChoicesList,
 				invalidKnowledgeSkillsForProfessionsChoicesList,
 
-				chosenByFateOptions,
 				chosenByFateChoiceKey,
 				chosenByFateSkillsChoiceList,
 				invalidChosenByFateChoicesList,

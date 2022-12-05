@@ -398,3 +398,10 @@ export function getTraitNiceName(traitKey) {
 	if (trait) { return trait.name }
 }
 
+export function removeTraitsWithRequirements(traits) {
+	const tempTraits = { ...traits } // remove reference
+	for (const trait in tempTraits) {
+		if (tempTraits[trait].requirements) delete tempTraits[trait]
+	}
+	return tempTraits
+}

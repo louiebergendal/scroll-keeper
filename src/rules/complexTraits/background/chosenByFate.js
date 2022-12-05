@@ -23,4 +23,12 @@ const chosenByFate = {
 	},
 }
 
+
+export const makeListGood = (list) => {
+
+}
+
 export default chosenByFate
+
+
+/* SLÄNG SKITEN. DEN ANVÄNDS ÄNDÅ INTE */
