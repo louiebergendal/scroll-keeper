@@ -10,11 +10,11 @@
 			<tabs>
 				<tab name="Grundfärdigheter">
 					<TraitLevelTraitGroup 
-						:selected-level-prop="selectedLevel"
-						:trait-type-prop="'attributeSkills'"
-						:selected-choice-key-prop="selectedChoiceKey"
-						:temp-character-sheet-prop="tempCharacterSheet"
-						:temp-validation-sheet-prop="tempValidationSheet"
+						:selectedLevelProp="selectedLevel"
+						:traitTypeProp="'attributeSkills'"
+						:selectedChoiceKeyProp="selectedChoiceKey"
+						:tempCharacterSheetProp="tempCharacterSheet"
+						:tempValidationSheetProp="tempValidationSheet"
 						@selected-choiceKey="updateSelectedChoiceKey"
 						@complex-payload="complexPayload"
 						@update-tabs="$emit('update-tabs')"
@@ -22,22 +22,22 @@
 				</tab>
 				<tab name="Allmänna">
 					<TraitLevelTraitGroup 
-						:selected-level-prop="selectedLevel"
-						:trait-type-prop="'generalSkills'"
-						:selected-choice-key-prop="selectedChoiceKey"
-						:temp-character-sheet-prop="tempCharacterSheet"
-						:temp-validation-sheet-prop="tempValidationSheet"
+						:selectedLevelProp="selectedLevel"
+						:traitTypeProp="'generalSkills'"
+						:selectedChoiceKeyProp="selectedChoiceKey"
+						:tempCharacterSheetProp="tempCharacterSheet"
+						:tempValidationSheetProp="tempValidationSheet"
 						@selected-choiceKey="updateSelectedChoiceKey"
 						@update-tabs="$emit('update-tabs')"
 					/>
 				</tab>
 				<tab name="Kunskap">
 					<TraitLevelTraitGroup 
-						:selected-level-prop="selectedLevel"
-						:trait-type-prop="'knowledgeSkills'"
-						:selected-choice-key-prop="selectedChoiceKey"
-						:temp-character-sheet-prop="tempCharacterSheet"
-						:temp-validation-sheet-prop="tempValidationSheet"
+						:selectedLevelProp="selectedLevel"
+						:traitTypeProp="'knowledgeSkills'"
+						:selectedChoiceKeyProp="selectedChoiceKey"
+						:tempCharacterSheetProp="tempCharacterSheet"
+						:tempValidationSheetProp="tempValidationSheet"
 						@selected-choiceKey="updateSelectedChoiceKey"
 						@complex-payload="complexPayload"
 						@update-tabs="$emit('update-tabs')"
@@ -45,11 +45,11 @@
 				</tab>
 				<tab name="Terrängvana">
 					<TraitLevelTraitGroup 
-						:selected-level-prop="selectedLevel"
-						:trait-type-prop="'favouredTerrainSkills'"
-						:selected-choice-key-prop="selectedChoiceKey"
-						:temp-character-sheet-prop="tempCharacterSheet"
-						:temp-validation-sheet-prop="tempValidationSheet"
+						:selectedLevelProp="selectedLevel"
+						:traitTypeProp="'favouredTerrainSkills'"
+						:selectedChoiceKeyProp="selectedChoiceKey"
+						:tempCharacterSheetProp="tempCharacterSheet"
+						:tempValidationSheetProp="tempValidationSheet"
 						@selected-choiceKey="updateSelectedChoiceKey"
 						@complex-payload="complexPayload"
 						@update-tabs="$emit('update-tabs')"
@@ -60,11 +60,11 @@
 
 		<div v-if="traitType === 'talent'">
 			<TraitLevelTraitGroup 
-				:selected-level-prop="selectedLevel"
-				:trait-type-prop="'talents'"
-				:selected-choice-key-prop="selectedChoiceKey"
-				:temp-character-sheet-prop="tempCharacterSheet"
-				:temp-validation-sheet-prop="tempValidationSheet"
+				:selectedLevelProp="selectedLevel"
+				:traitTypeProp="'talents'"
+				:selectedChoiceKeyProp="selectedChoiceKey"
+				:tempCharacterSheetProp="tempCharacterSheet"
+				:tempValidationSheetProp="tempValidationSheet"
 				@selected-choiceKey="updateSelectedChoiceKey"
 				@complex-payload="complexPayload"
 				@update-tabs="$emit('update-tabs')"

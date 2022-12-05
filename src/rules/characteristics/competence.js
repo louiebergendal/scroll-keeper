@@ -1,1 +1,1 @@
-export const baseValue = 6
+export const baseValue = 5

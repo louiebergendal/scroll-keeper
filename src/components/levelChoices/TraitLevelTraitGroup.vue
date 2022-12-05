@@ -6,11 +6,11 @@
 				class="width-whole"
 				v-if="(selectedLevel === 1 && trait.key === 'background') && trait.key === 'background'"
 			>
-				<div class="margin-bottom-small"><RuleRelevantMetadata @update-tabs="$emit('update-tabs')" /></div>
-				<Background
-					@complex-payload="complexPayload"
-				/>
-			</div>
+				<div class="margin-bottom-small">
+					<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
+				</div>
+				<Background @complex-payload="complexPayload"/>
+		</div>
 			<!-- not owned -->
 			<div v-if="
 				!traitIsOwned(trait.key)
@@ -60,12 +60,12 @@
 							@change="emitOption(selectedChoiceKey)" 
 						/>
 						<TraitLevelCardText
-							:trait-prop="trait"									
-							:selected-level-prop="selectedLevel"
-							:trait-type-prop="traitType"
-							:temp-validation-sheet-prop="tempValidationSheet"
-							:temp-character-sheet-prop="tempCharacterSheet"
-							:selected-choice-key-prop="selectedChoiceKey"
+							:traitProp="trait"									
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="traitType"
+							:tempValidationSheetProp="tempValidationSheet"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:selectedChoiceKeyProp="selectedChoiceKey"
 						/>
 					</label>
 
@@ -135,12 +135,12 @@
 							class="trait-input"
 						/>
 						<TraitLevelCardText
-							:trait-prop="trait"
-							:selected-level-prop="selectedLevel"
-							:trait-type-prop="traitType"
-							:temp-validation-sheet-prop="tempValidationSheet"
-							:temp-character-sheet-prop="tempCharacterSheet"
-							:selected-choice-key-prop="selectedChoiceKey"
+							:traitProp="trait"
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="traitType"
+							:tempValidationSheetProp="tempValidationSheet"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:selectedChoiceKeyProp="selectedChoiceKey"
 						/>
 					</label>
 				</div>

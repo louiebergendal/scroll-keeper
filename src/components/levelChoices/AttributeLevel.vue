@@ -55,8 +55,8 @@
 								) || !invalidAttributeChoiceIsNotDeselected(attribute.key)"
 							>
 								<InvalidOccurrence 
-									:characteristic-prop="attribute.key"
-									:selected-level-prop="selectedLevel"
+									:characteristicProp="attribute.key"
+									:selectedLevelProp="selectedLevel"
 								/>
 							</div>
 						</div>

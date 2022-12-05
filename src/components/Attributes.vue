@@ -4,11 +4,11 @@
 		<div class="corner -inner-bottom-left-side"></div>
 		<div class="corner -top-middle"></div>
 		<div class="corner -left-middle"></div>
-		<Attribute :attribute-prop='attributes.battle' :icon-url-prop='"iconKam"' />
-		<Attribute :attribute-prop='attributes.agility' :icon-url-prop='"iconSmi"'/>
-		<Attribute :attribute-prop='attributes.spirit' :icon-url-prop='"iconAnd"'/>
-		<Attribute :attribute-prop='attributes.knowledge' :icon-url-prop='"iconKun"'/>
-		<Attribute :attribute-prop='attributes.physique' :icon-url-prop='"iconFys"'/>
+		<Attribute :attributeProp='attributes.battle' :iconUrlProp='"iconKam"' />
+		<Attribute :attributeProp='attributes.agility' :iconUrlProp='"iconSmi"'/>
+		<Attribute :attributeProp='attributes.spirit' :iconUrlProp='"iconAnd"'/>
+		<Attribute :attributeProp='attributes.knowledge' :iconUrlProp='"iconKun"'/>
+		<Attribute :attributeProp='attributes.physique' :iconUrlProp='"iconFys"'/>
 	</div>
 </template>
 

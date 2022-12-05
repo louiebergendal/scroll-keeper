@@ -34,7 +34,7 @@ export const attributes = {
 	}
 }
 
-export const baseValue = 3
+export const baseValue = 2
 
 /**
 * Returns an 'attributeValueName'-string.

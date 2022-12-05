@@ -1,7 +1,7 @@
 import { tryApplyTraitEffectOnValue } from '../traits'
 
 export const niceName = "Bärförmåga"
-export const baseValue = 2
+export const baseValue = 3
 
 export const calculateCarryingCapacity = (physiqueValue, characterTraitList) => {
     let maxCarryingCapacity = physiqueValue + baseValue

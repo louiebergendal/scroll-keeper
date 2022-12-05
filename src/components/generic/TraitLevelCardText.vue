@@ -10,8 +10,8 @@
 			class="font-size-tiny"
 		>
 			<InvalidOccurrence 
-				:characteristic-prop="trait.key"
-				:selected-level-prop="selectedLevel"
+				:characteristicProp="trait.key"
+				:selectedLevelProp="selectedLevel"
 			/>
 		</span>						
 		
