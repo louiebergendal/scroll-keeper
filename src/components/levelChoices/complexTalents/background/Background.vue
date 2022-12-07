@@ -5,15 +5,16 @@
 
 			<tab name="Folk">
 				<div>
-					<div class="background-header-choice margin-bottom-small">
+					<div class="background-header-choice">
 						<RadioButtonGroup
 							:nameProp="'peoples'"
 							:optionsProp="Object.keys(peoplesOptions)"
 							:selectedProp="peoplesChoiceKey"
 							@input="inputEventHandler"
+							:isPrimaryProp="true"
 						/>
 					</div>
-					<div v-if="peoplesChoiceKey">
+					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
 						<div class="margin-bottom-small">
 							<h3 class="align-center">Obligatorisk</h3>
 							<div :key="skill" v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills">
@@ -41,15 +42,16 @@
 			</tab>
 			<tab name="Uppväxt">
 				<div>
-					<div class="background-header-choice margin-bottom-small">
+					<div class="background-header-choice">
 						<RadioButtonGroup
 							:nameProp="'upbringings'"
 							:optionsProp="Object.keys(upbringingsOptions)"
 							:selectedProp="upbringingsChoiceKey"
 							@input="inputEventHandler"
+							:isPrimaryProp="true"
 						/>
 					</div>
-					<div v-if="upbringingsChoiceKey">
+					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
 						<div>
 							<h3 class="align-center">Val 1</h3>
 							<div class="margin-bottom-small">
@@ -81,15 +83,16 @@
 			</tab>
 			<tab name="Livnäring">
 				<div>
-					<div class="background-header-choice margin-bottom-small">
+					<div class="background-header-choice">
 						<RadioButtonGroup
 							:nameProp="'professions'"
 							:optionsProp="Object.keys(professionsOptions)"
 							:selectedProp="professionsChoiceKey"
 							@input="inputEventHandler"
+							:isPrimaryProp="true"
 						/>
 					</div>
-					<div v-if="professionsChoiceKey">
+					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
 						<div>
 							<h3 class="align-center">Val 1</h3>
 							<div class="margin-bottom-small">

@@ -81,6 +81,43 @@ nav {
     }
   }
 }
+.primary-radio-buttons {
+  label {
+    align-items: center;
+    text-align:center;
+    position: relative;
+    padding: $size-tiny;
+    padding-bottom: $size-small;
+
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+    &:first-of-type {
+      border-top-left-radius: $border-radius;
+    }
+    &:last-of-type {
+      border-top-right-radius: $border-radius;
+    }
+    input {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+    }
+    input[type="radio"] {
+      cursor: pointer;
+      opacity: 0.01;
+      z-index: 100;
+    }
+    .button-text {
+      width: 100%;
+      text-align: center;
+    }
+  }
+}
 
 input[type="text"] {
   border-radius: $border-radius;
@@ -127,6 +164,14 @@ textarea {
     margin: 0 auto;
   }
 }
+
+.bordered-block {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-top-width: 0;
+  border-bottom-left-radius: $border-radius;
+  border-bottom-right-radius: $border-radius;
+}
+
 .corner {
   background-size: cover;
   height: 4rem;
@@ -258,6 +303,9 @@ textarea {
 
 .tabs-component {
   border-radius: $border-radius;
+  .tabs-component-panels {
+
+  }
   .tabs-component-tabs {
     display: flex;
     list-style: none;
@@ -484,14 +532,15 @@ button {
       margin-top: -1.4rem;
     }
   }
-  &.-no-right-curve {
-    border-bottom-right-radius: 0;
-    border-top-right-radius: 0;
-  }
-  &.-no-left-curve {
-    border-bottom-left-radius: 0;
-    border-top-left-radius: 0;
-  }
+}
+
+.-no-right-curve {
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+.-no-left-curve {
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
 }
 
 // --- Don't mind .fancy, I am working on it //Leo

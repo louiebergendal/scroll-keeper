@@ -4,9 +4,6 @@
       <h2>Omen Alpha WIP</h2>
       <b>todo:</b>
       <div class="">
-          <span>hunt remaining bugs in level ladder</span><br>
-          <span>portrait upload</span><br>
-          <span>description field</span><br>
           <span>icons for talents</span><br>
           <span>icons for backgrounds</span><br>
           <span>menu should fold away when clicking outside while it is open</span><br>

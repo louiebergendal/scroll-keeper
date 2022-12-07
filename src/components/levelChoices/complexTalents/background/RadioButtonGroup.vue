@@ -1,13 +1,14 @@
 <template>
-	<div class="radio-button-group">
+	<div class="radio-button-group" :class="{'primary-radio-buttons flex': isPrimary}">
 		<label
-			:class="{
-				'selected': containsKey(option, selectedOptions) && !containsKey(option, invalidOptions)
-			}"
-			class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
+			v-for="(option, index) in options"
 			:key="option"
 			:for="name + '-' + option"
-			v-for="option in options"
+			:class="{
+				'selected': containsKey(option, selectedOptions) && !containsKey(option, invalidOptions),
+				'padding-left-tiny padding-bottom-tiny': !isPrimary
+			}"
+			class="card dark margin-bottom-nano flex width-whole display-block"
 		>
 			<input
 				type="radio"
@@ -19,8 +20,8 @@
 				:disabled="containsKey(option, invalidOptions)"
 				@change="emitOption(option)" 
 			/>
-			<div>
-				<span class="trait-align">
+			<div class="button-text">
+				<span :class="{'trait-align': !isPrimary}">
 					<span v-if="getTraitNiceName(option)">{{ getTraitNiceName(option) }}</span>
 					<span v-if="getBackgroundSkillsListNiceNames(option)">{{ getBackgroundSkillsListNiceNames(option) }}</span>
 				</span>
@@ -36,8 +37,9 @@
 
 	export default {
 		name: 'BaseRadioButtonGroup',
-		props: ['nameProp', 'optionsProp', 'selectedProp', 'invalidOptionsListProp'],
+		props: ['nameProp', 'optionsProp', 'selectedProp', 'invalidOptionsListProp', 'isPrimaryProp'],
 		setup(props) {
+			const isPrimary = props.isPrimaryProp ? props.isPrimaryProp : false
 			const name = props.nameProp
 			const options = props.optionsProp
 			const selectedOptions = props.selectedProp ? props.selectedProp : ['']
@@ -45,6 +47,7 @@
 
 
 			return {
+				isPrimary,
 				name,
 				options,
 				selectedOptions,
