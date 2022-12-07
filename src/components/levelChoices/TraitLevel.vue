@@ -70,23 +70,24 @@
 				@update-tabs="$emit('update-tabs')"
 			/>
 		</div>
-		
-		<button
-			:disabled="
-				(
-					!selectedChoiceKey
-					||
-					(traits[selectedChoiceKey].complexTrait
-					&& !hasFullComplexPayload)
-					||
-					cannotChooseTrait(traits[selectedChoiceKey].key)
-				)"
-			type="submit"
-			class="margin-top-tiny margin-left-nano"
-			@click="submitNewTraitLevel()"
-		>
-			Submitta!
-		</button>
+		<div class="align-center">
+			<button
+				:disabled="
+					(
+						!selectedChoiceKey
+						||
+						(traits[selectedChoiceKey].complexTrait
+						&& !hasFullComplexPayload)
+						||
+						cannotChooseTrait(traits[selectedChoiceKey].key)
+					)"
+				type="submit"
+				class="margin-top-tiny margin-left-nano"
+				@click="submitNewTraitLevel()"
+			>
+				Uppdatera
+			</button>
+		</div>
 
 	</div>
 </template>

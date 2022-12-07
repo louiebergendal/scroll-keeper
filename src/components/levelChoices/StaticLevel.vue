@@ -1,14 +1,14 @@
 <template>
     <div class='card square medium padding-large align-center -fill'>
 
-		<div class='card light padding-medium width-half center'>
+		<div class='card light padding-medium width-whole center'>
 			<h3 class="align-center margin-top-nano margin-bottom-huge">Klicka på knappen för att bli bättre</h3>
 			<button
 				type="submit"
 				class="margin-top-tiny margin-left-nano"
 				@click="submitNewStaticLevel()"
 			>
-				Öka {{ getStaticCharacteristicNiceName(traitToBeIncreased) }}
+				Öka {{ getStaticCharacteristicNiceName(traitToBeIncreased) }} och Uppdatera
 			</button>
 		</div>
 
@@ -38,8 +38,8 @@
 				this.$emit('update-tabs')
 			},
 			getStaticCharacteristicNiceName(characteristicKey) {
-				if (characteristicKey === 'competence') return 'erfarenhetsbonus'
-				if (characteristicKey === 'fate') return 'öde'
+				if (characteristicKey === 'competence') return 'Erfarenhetsbonus'
+				if (characteristicKey === 'fate') return 'Öde'
 			}
 		},
 	}

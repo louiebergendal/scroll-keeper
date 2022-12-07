@@ -23,10 +23,10 @@
 
 			<button
 				type="submit"
-				class="margin-left-nano width-fourth"
+				class="margin-left-nano width-third"
 				@click="setIsChosenByFate()"
 			>
-				Ändra
+				Uppdatera
 			</button>
 
 		</div>

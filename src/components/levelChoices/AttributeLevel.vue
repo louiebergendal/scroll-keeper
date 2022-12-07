@@ -93,15 +93,16 @@
 			</div>
 		</div>
 
-
-		<button
+		<div class="align-center">
+			<button
 			:disabled="!levelIsChangable"
 			type="submit"
 			class="margin-top-tiny margin-left-nano"
 			@click="submitNewAttributeLevel()"
 		>
-			Submitta!
+			Uppdatera
 		</button>
+		</div>
 
 	</div>
 </template>

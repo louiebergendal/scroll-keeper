@@ -16,7 +16,14 @@
 					>
 					</div>
 				</div>
-				<div v-for='healthLevel in characterStore.sheet.health' :key='healthLevel' class='flex'>
+				<div
+					v-for='(healthLevel, key, i) in characterStore.sheet.health'
+					:key='healthLevel'
+					class='flex health-level'
+					:class="{
+						'no-margin': i >= Object.keys(characterStore.sheet.health).length - 1
+					}"
+				>
 					<div class='health-level-title bold font-size-nano padding-right-small'>{{ getHealthLevelNiceName(healthLevel._frontend_key) }}:</div>
 					<div
 						v-for='index in healthLevel.currentStrain.damage'
@@ -38,24 +45,52 @@
 					</div>
 				</div>
 			</div>
-			<div class="flex width-fourth -dir-col margin-bottom-tiny margin-top-small health-button-wrapper">
-				<div class="flex -h-spread card margin-bottom-tiny background-brightness-medium margin-bottom-tiny">
+			<div class="flex -h-spread width-fourth -dir-col margin-top-small health-button-wrapper">
+				<div class="flex -h-spread card background-brightness-medium">
 					<div>
 						<label for="damage-button-group" class="font-size-tiny padding-left-tiny">Skada</label>
 					</div>
 					<div>
-						<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(dealDamage)">+</button>
-						<button type="submit" name="damage-button-group" class="-small" @click="addStrainToDB(healDamage)">-</button>
+						<button
+							type="submit"
+							name="damage-button-group"
+							class="-small -no-right-curve -no-left-curve -semi-symbol"
+							@click="addStrainToDB(dealDamage)"	
+						>
+							<span>+</span>
+						</button>
+						<button
+							type="submit"
+							name="damage-button-group"
+							class="-small -no-left-curve -semi-symbol"
+							@click="addStrainToDB(healDamage)"
+						>
+							<span>-</span>
+						</button>
 					</div>
 				</div>
 
-				<div class="flex -h-spread card margin-bottom-tiny background-brightness-medium">
+				<div class="flex -h-spread card background-brightness-medium">
 					<div>
 						<label for="fatigue-button-group" class="font-size-tiny padding-left-tiny">Utmattning</label>
 					</div>
 					<div>
-						<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(dealFatigue)">+</button>
-						<button type="submit" name="fatigue-button-group" class="-small" @click="addStrainToDB(healFatigue)">-</button>
+						<button
+							type="submit"
+							name="fatigue-button-group"
+							class="-small -no-right-curve -no-left-curve -semi-symbol"
+							@click="addStrainToDB(dealFatigue)"
+						>
+							<span>+</span>
+						</button>
+						<button
+							type="submit"
+							name="fatigue-button-group"
+							class="-small -no-left-curve -semi-symbol"
+							@click="addStrainToDB(healFatigue)"
+						>
+							<span>-</span>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -132,8 +167,11 @@
 </script>
 
 <style>
-	.health-wrapper {
-
+	.health-level {
+		margin-bottom: 3px;
+	}
+	.health-level.no-margin {
+		margin-bottom: 0;
 	}
 	.health-point {
 		width: 100%;
@@ -143,7 +181,6 @@
 		border: 1px solid #559c1e;
 		border-radius: 5px;
 		margin-right: 2px;
-		margin-bottom: 3px;
 	}
 	.damage {
 		background-color: rgb(218, 114, 95);

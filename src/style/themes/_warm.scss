@@ -304,7 +304,7 @@ textarea {
   border: 1px solid $border-contrast-medium;
   background-image: url('/img/monochromeNoise.png');
   &.selected {
-    background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgba(233,227,167,1) 0%, rgba(241,233,147,1) 19%, rgba(233,227,167,1) 100%);
+    background: url('/img/monochromeNoise.png'), linear-gradient(90deg, rgb(206, 202, 153) 0%, rgb(255, 218, 164) 19%, rgb(236 223 196) 100%);
     box-shadow: inset 0px 1px rgba(255, 255, 255, 0.5) !important;
     border: 1px solid #d2b02a;
   }
@@ -467,6 +467,31 @@ textarea {
 
 .angled-top {
   border-radius: 0px 0px 3px 3px !important;
+}
+
+// Buttons
+
+button {
+  &.-small {
+    span {
+      padding-top: 0.4rem !important;
+    }
+  }
+  &.-semi-symbol {
+    font-size: $font-size-medium !important;
+    span {
+      display:block;
+      margin-top: -1.4rem;
+    }
+  }
+  &.-no-right-curve {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+  }
+  &.-no-left-curve {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+  }
 }
 
 // --- Don't mind .fancy, I am working on it //Leo

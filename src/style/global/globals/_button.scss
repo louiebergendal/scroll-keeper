@@ -1,7 +1,7 @@
 button, .button {
     height: $button-height;
     padding: $button-padding;
-    font-size: $font-size-small;
+    font-size: $font-size-tiny;
     border-radius: $border-radius;
     line-height: 1;
     border: 1px solid transparent;
@@ -28,8 +28,11 @@ button, .button {
     // Default from Theme
 
     background-color: map-get($button-default, 'background-color');
-    color: map-get($button-default, 'font-color');
+    color: darken(map-get($button-default, 'font-color'), 13%);
     border-color: map-get($button-default, 'border-color');
+    box-shadow: map-get($button-default, 'box-shadow');
+    text-shadow: map-get($button-default, 'text-shadow');
+    font-weight: map-get($button-default, 'font-weight');
     &:not([disabled='disabled']):hover {
         background-color: darken(map-get($button-default, 'background-color'), $button-hover-darken-percentage);
         border-color: darken(map-get($button-default, 'border-color'), $button-hover-darken-percentage);

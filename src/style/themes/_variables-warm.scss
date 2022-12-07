@@ -30,10 +30,13 @@ $border-contrast-medium: map-get($border-contrasts, 'medium');
 $border-contrast-low: map-get($border-contrasts, 'low');
 
 $button-default: (
-    'background-color': #d7cfc2,
-    'font-color': map-get($font-contrasts, 'medium'),
-    'border-color': #d7cfc2,
-    'hover-darken-percentage': 5%
+    'background-color': #e8c791,
+    'font-color': #a58644,
+    'border-color': #b7a384,
+    'hover-darken-percentage': 7%,
+    'box-shadow': inset 0px 1px rgb(255 255 255 / 50%),
+    'font-weight': normal,
+    'text-shadow': 0px -1px 1px rgb(103 0 0 / 70%)
 );
 
 $button-background-color: map-get($button-default, 'background-color');
