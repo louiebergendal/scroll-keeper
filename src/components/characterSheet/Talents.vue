@@ -27,9 +27,9 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../stores/character'
-	import { independentCharacterTalents } from '../rules/characteristics/traits'
-	import { isTouchedByError } from '../validators/validators'
+	import { useCharacterStore } from '../../stores/character'
+	import { independentCharacterTalents } from '../../rules/characteristics/traits'
+	import { isTouchedByError } from '../../validators/validators'
 
 	export default {
 		setup() {

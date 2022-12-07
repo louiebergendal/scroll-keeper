@@ -36,7 +36,7 @@
 
 <script>
 	import { ref } from 'vue'
-	import { useCharacterStore } from '../../stores/character'
+	import { useCharacterStore } from '../../../../stores/character'
 
 	export default {
 		emits: ['update-tabs'],

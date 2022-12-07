@@ -138,13 +138,13 @@
 
 <script>
 	import { ref } from 'vue'
-	import { useCharacterStore } from '../../../stores/character'
-	import { canChooseTrait, getTraitNiceName } from '../../../rules/characteristics/traits'
-	import { background } from '../../../rules/characteristics/traitLists/talents'
-	import { knowledgeSkillKeysList } from '../../../rules/characteristics/traitLists/knowledgeSkills'
-	import RadioButtonGroup from './background/RadioButtonGroup.vue'
-	import TabbedTraitsGroup from '../../generic/TabbedTraitsGroup.vue'
-	import { containsKey } from '../../../rules/utils'
+	import { useCharacterStore } from '../../../../stores/character'
+	import { canChooseTrait, getTraitNiceName } from '../../../../rules/characteristics/traits'
+	import { background } from '../../../../rules/characteristics/traitLists/talents'
+	import { knowledgeSkillKeysList } from '../../../../rules/characteristics/traitLists/knowledgeSkills'
+	import RadioButtonGroup from './RadioButtonGroup.vue'
+	import TabbedTraitsGroup from '../../../generic/TabbedTraitsGroup.vue'
+	import { containsKey } from '../../../../rules/utils'
 
 	export default {
 		components: {

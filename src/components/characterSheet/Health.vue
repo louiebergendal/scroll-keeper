@@ -99,9 +99,9 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../stores/character'
-	import { getHealthLevelNiceName } from '../rules/characteristics/secondaryCharacteristics/health'
-	import { fateNiceName } from '../rules/characteristics/fate'
+	import { useCharacterStore } from '../../stores/character'
+	import { getHealthLevelNiceName } from '../../rules/characteristics/secondaryCharacteristics/health'
+	import { fateNiceName } from '../../rules/characteristics/fate'
 
 	export default {
 		setup() {

@@ -18,7 +18,7 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../stores/character'
+	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue'
 
 	export default {

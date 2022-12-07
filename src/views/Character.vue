@@ -34,14 +34,14 @@
 </template>
 
 <script>
-	import Attributes from '../components/Attributes.vue'
-	import Avatar from '../components/Avatar.vue'
-	import Health from '../components/Health.vue'
-	import Skills from '../components/Skills.vue'
-	import Talents from '../components/Talents.vue'
-	import Competence from '../components/Competence.vue'
-	import SecondaryCharacteristics from '../components/SecondaryCharacteristics.vue'
-	import Biography from '../components/Biography.vue'
+	import Attributes from '../components/characterSheet/Attributes.vue'
+	import Avatar from '../components/characterSheet/Avatar.vue'
+	import Health from '../components/characterSheet/Health.vue'
+	import Skills from '../components/characterSheet/Skills.vue'
+	import Talents from '../components/characterSheet/Talents.vue'
+	import Competence from '../components/characterSheet/Competence.vue'
+	import SecondaryCharacteristics from '../components/characterSheet/SecondaryCharacteristics.vue'
+	import Biography from '../components/characterSheet/Biography.vue'
 	import Sidebar from '../components/sidebar/Sidebar.vue'
 	import { useCharacterStore } from '../stores/character'
 	import { useRoute } from 'vue-router'

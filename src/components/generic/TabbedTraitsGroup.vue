@@ -1,22 +1,16 @@
 <template>
 	<div class="radio-button-group">
 
-
-
-
-
 		<tabs>
-
 			<tab v-for="tab in skillsTabs" :name="tab.niceName" :key="tab">
-
 				<label
+					v-for="option in tab.list"
+					:key="option.key"
+					:for="name + '-' + option.key"
 					:class="{
 						'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
 					}"
 					class="card dark margin-bottom-nano padding-bottom-tiny padding-left-tiny flex width-whole display-block"
-					:key="option.key"
-					:for="name + '-' + option.key"
-					v-for="option in tab.list"
 				>
 					<input
 						type="radio"
@@ -32,14 +26,8 @@
 						<span class="trait-align">{{ option.niceName }}</span>
 					</div>
 				</label>
-
 			</tab>
-
 		</tabs>
-
-
-
-
 
 	</div>
 </template>

@@ -82,12 +82,12 @@
 </template>
 
 <script>
-	import { setAttributeValueName, baseValue } from '../rules/characteristics/attributes'
-	import { specificAttributeSkills } from '../rules/characteristics/traits'
-	import { containsKey, explodeInvalidList } from '../rules/utils'
-	import { useCharacterStore } from '../stores/character'
+	import { setAttributeValueName, baseValue } from '../../rules/characteristics/attributes'
+	import { specificAttributeSkills } from '../../rules/characteristics/traits'
+	import { containsKey, explodeInvalidList } from '../../rules/utils'
+	import { useCharacterStore } from '../../stores/character'
 	import { ref } from 'vue'
-	import { isTouchedByError } from '../validators/validators'
+	import { isTouchedByError } from '../../validators/validators'
 
 	export default {
 		props: ['attributeProp', 'iconUrlProp'], // ska "iconURL" vara här?

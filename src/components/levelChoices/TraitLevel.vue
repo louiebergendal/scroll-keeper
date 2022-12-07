@@ -9,7 +9,7 @@
 		<div v-if="traitType === 'skill'">
 			<tabs>
 				<tab name="Grundfärdigheter">
-					<TraitLevelTraitGroup 
+					<TraitLevelTraitsGroup 
 						:selectedLevelProp="selectedLevel"
 						:traitTypeProp="'attributeSkills'"
 						:selectedChoiceKeyProp="selectedChoiceKey"
@@ -21,7 +21,7 @@
 					/>
 				</tab>
 				<tab name="Allmänna">
-					<TraitLevelTraitGroup 
+					<TraitLevelTraitsGroup 
 						:selectedLevelProp="selectedLevel"
 						:traitTypeProp="'generalSkills'"
 						:selectedChoiceKeyProp="selectedChoiceKey"
@@ -32,7 +32,7 @@
 					/>
 				</tab>
 				<tab name="Kunskap">
-					<TraitLevelTraitGroup 
+					<TraitLevelTraitsGroup 
 						:selectedLevelProp="selectedLevel"
 						:traitTypeProp="'knowledgeSkills'"
 						:selectedChoiceKeyProp="selectedChoiceKey"
@@ -44,7 +44,7 @@
 					/>
 				</tab>
 				<tab name="Terrängvana">
-					<TraitLevelTraitGroup 
+					<TraitLevelTraitsGroup 
 						:selectedLevelProp="selectedLevel"
 						:traitTypeProp="'favouredTerrainSkills'"
 						:selectedChoiceKeyProp="selectedChoiceKey"
@@ -59,7 +59,7 @@
 		</div>
 
 		<div v-if="traitType === 'talent'">
-			<TraitLevelTraitGroup 
+			<TraitLevelTraitsGroup 
 				:selectedLevelProp="selectedLevel"
 				:traitTypeProp="'talents'"
 				:selectedChoiceKeyProp="selectedChoiceKey"
@@ -104,10 +104,10 @@
 	import { isInvalidAtThisLevel } from '../../validators/validators'
 	import { containsKey } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import TraitLevelTraitGroup from './TraitLevelTraitGroup.vue'
+	import TraitLevelTraitsGroup from '../generic/TraitLevelTraitsGroup.vue'
 	export default {
 		components: {
-			TraitLevelTraitGroup,
+			TraitLevelTraitsGroup,
 		},
 		props: ['selectedLevelProp', 'traitTypeProp'],
 		emits: ['complexPayload', 'update-tabs', 'selected-choiceKey'],

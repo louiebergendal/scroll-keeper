@@ -66,9 +66,9 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../stores/character'
-	import { getTraitNiceName } from '../rules/characteristics/traits'
-	import background, { backgroundCategoryNiceNames } from '../rules/complexTraits/background/background'
+	import { useCharacterStore } from '../../stores/character'
+	import { getTraitNiceName } from '../../rules/characteristics/traits'
+	import background, { backgroundCategoryNiceNames } from '../../rules/complexTraits/background/background'
 	import { ref } from 'vue';
 
 	export default {

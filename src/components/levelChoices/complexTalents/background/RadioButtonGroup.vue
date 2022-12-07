@@ -30,9 +30,9 @@
 </template>
   
 <script>
-	import { containsKey } from '../../rules/utils'
-	import { getTraitNiceName } from '../../rules/characteristics/traits'
-	import { getBackgroundSkillsListNiceNames } from '../../rules/complexTraits/background/background'
+	import { containsKey } from '../../../../rules/utils'
+	import { getTraitNiceName } from '../../../../rules/characteristics/traits'
+	import { getBackgroundSkillsListNiceNames } from '../../../../rules/complexTraits/background/background'
 
 	export default {
 		name: 'BaseRadioButtonGroup',

@@ -159,11 +159,11 @@
 	} from '../../rules/characteristics/traits'
 	import { invalidChoiceIsNotDeselected, isTouchedByError, isInvalidAtThisLevel } from '../../validators/validators'
 	import { containsKey } from '../../rules/utils'
-	import RuleRelevantMetadata from './RuleRelevantMetadata.vue'
-	import TraitLevelCardText from '../generic/TraitLevelCardText.vue'
-	import Background from './complexTalents/Background.vue'
-	import Scholar from './complexTalents/Scholar.vue'
-	import Pathfinder from './complexTalents/Pathfinder.vue'
+	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
+	import TraitLevelCardText from './TraitLevelCardText.vue'
+	import Background from '../levelChoices/complexTalents/background/Background.vue'
+	import Scholar from '../levelChoices/complexTalents/Scholar.vue'
+	import Pathfinder from '../levelChoices/complexTalents/Pathfinder.vue'
 
 	export default {
 		components: {

@@ -42,10 +42,10 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../stores/character'
-	import { independentCharacterSkills } from '../rules/characteristics/traits'
-	import { isTouchedByError } from '../validators/validators'
-	import { containsKey } from '../rules/utils'
+	import { useCharacterStore } from '../../stores/character'
+	import { independentCharacterSkills } from '../../rules/characteristics/traits'
+	import { isTouchedByError } from '../../validators/validators'
+	import { containsKey } from '../../rules/utils'
 
 	export default {
 		setup() {

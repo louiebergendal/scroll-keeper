@@ -14,7 +14,7 @@
 
 <script>
 	import Attribute from './Attribute.vue'
-	import { attributes } from '../rules/characteristics/attributes'
+	import { attributes } from '../../rules/characteristics/attributes'
 
 	export default {
 		components: {

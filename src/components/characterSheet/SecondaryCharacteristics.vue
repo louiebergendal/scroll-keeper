@@ -38,18 +38,18 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../stores/character'
+	import { useCharacterStore } from '../../stores/character'
 	import {
 		niceName as powerNiceName,
 		typesNiceNames as powerTypesNiceNames 
-	} from '../rules/characteristics/secondaryCharacteristics/power'
+	} from '../../rules/characteristics/secondaryCharacteristics/power'
 	import {
 		niceName as actionPointsNiceName,
 		typesNiceNames as actionPointsTypesNiceNames
-	} from '../rules/characteristics/secondaryCharacteristics/actionPoints'
-	import { niceName as carryingCapacityNiceName } from '../rules/characteristics/secondaryCharacteristics/carryingCapacity'
-	import { niceName as initiativeNiceName } from '../rules/characteristics/secondaryCharacteristics/initiative'
-	import { niceName as movementNiceName } from '../rules/characteristics/secondaryCharacteristics/movement'
+	} from '../../rules/characteristics/secondaryCharacteristics/actionPoints'
+	import { niceName as carryingCapacityNiceName } from '../../rules/characteristics/secondaryCharacteristics/carryingCapacity'
+	import { niceName as initiativeNiceName } from '../../rules/characteristics/secondaryCharacteristics/initiative'
+	import { niceName as movementNiceName } from '../../rules/characteristics/secondaryCharacteristics/movement'
 
 	export default {
 		setup() {
