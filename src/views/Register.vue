@@ -2,8 +2,8 @@
   <div class="main-bg padding-top-medium padding-left-medium padding-right-medium">
 		<div class='inner-bg padding-top-small padding-left-small padding-right-small'>
       <div class="faux-modal-container">
+        <h2 class="align-center margin-top-small">Create an Account</h2>
         <div class="card dark padding-small faux-modal">
-          <h2>Create an Account</h2>
           <form>
             <p>
               <input
@@ -30,7 +30,7 @@
               />
             </p>
           </form>
-          <p class="align-right"><button @click="register">Submit</button></p>
+          <p class="align-center"><button @click="register">Submit</button></p>
         </div>
       </div>
     </div>

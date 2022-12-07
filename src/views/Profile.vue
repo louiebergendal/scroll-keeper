@@ -1,8 +1,10 @@
 <template>
   <div class="main-bg padding-top-medium padding-left-medium padding-right-medium">
 		<div class='inner-bg padding-top-small padding-left-small padding-right-small'>
-      <h2>Profile</h2>
-      <div>{{userUid}}</div>
+      <h2 class="align-center margin-top-small">Profile</h2>
+      <div class="width-whole align-center">
+        <div class="card align-center width-half padding-small" v-if="userUid">{{userUid}}</div>
+      </div>
     </div>
     <Sidebar />
   </div>

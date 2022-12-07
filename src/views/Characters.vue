@@ -12,7 +12,7 @@
 				<span class="align-right icon-delete" @click="removeCharacter(key)"></span>
 			</div>
 
-			<button type="submit" class="margin-top-tiny margin-left-nano" @click="createNewCharacter()">Ny karaktär</button>
+			<button type="submit" class="margin-top-large margin-left-nano" @click="createNewCharacter()">Ny karaktär</button>
 		</div>
 		<Sidebar />
 	</div>
