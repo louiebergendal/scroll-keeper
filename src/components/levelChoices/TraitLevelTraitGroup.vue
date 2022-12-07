@@ -2,21 +2,23 @@
 	<div class="">
 		<!-- loop sortedNiceTraits -->
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
+			
+			<!-- background -->
 			<div
-				class="width-whole"
 				v-if="(selectedLevel === 1 && trait.key === 'background') && trait.key === 'background'"
+				class="width-whole"
 			>
 				<div class="margin-bottom-small">
 					<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
 				</div>
-				<Background @complex-payload="complexPayload"/>
-		</div>
+				<Background @complex-payload="complexPayload" />
+			</div>
+
 			<!-- not owned -->
 			<div v-if="
 				!traitIsOwned(trait.key)
 				&& !(selectedLevel === 1 && trait.key !== 'background')
-				&& trait.key !== 'background'
-			"
+				&& trait.key !== 'background'"
 				class="card width-whole dark margin-bottom-nano"
 				:class="{
 					'touched-by-error':
@@ -82,14 +84,6 @@
 							&& !traitIsTouchedByError(trait.key)
 					}"
 				>
-					<div v-if="trait.key === 'background'">
-						<RuleRelevantMetadata
-							@update-tabs="$emit('update-tabs')"
-						/>
-						<Background
-							@complex-payload="complexPayload"
-						/>
-					</div>
 					<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
 						<Scholar
 							:characterSheetProp="tempCharacterSheet"
@@ -187,10 +181,8 @@
 			const traitType = props.traitTypeProp
 			const tempCharacterSheet = props.tempCharacterSheetProp
 			const tempValidationSheet = ref(props.tempValidationSheetProp)
-
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()
-
 			const selectedChoiceKey = ref(props.selectedChoiceKeyProp)
 			
 			let traits

@@ -1,7 +1,14 @@
 <template>
 	<div class="radio-button-group">
+
+
+
+
+
 		<tabs>
+
 			<tab v-for="tab in skillsTabs" :name="tab.niceName" :key="tab">
+
 				<label
 					:class="{
 						'selected': containsKey(option.key, selectedOptions) && !containsKey(option.key, invalidOptions)
@@ -25,8 +32,15 @@
 						<span class="trait-align">{{ option.niceName }}</span>
 					</div>
 				</label>
+
 			</tab>
+
 		</tabs>
+
+
+
+
+
 	</div>
 </template>
   
@@ -53,7 +67,7 @@
 
 			let skillsTabs = {}
 
-			if (props.isBackground) {
+			if (props.isBackground === true) {
 				skillsTabs = {
 					sortedAttributeSkills: {
 						niceName: 'Grundfärdigheter',

@@ -53,7 +53,7 @@
 						</span>
 						<span
 							v-if="
-								containsKey(pathfinderSkill.key, characterTraits)
+								containsKey(pathfinderSkill.key, characterStore.sheet.traits)
 								&& !containsKey(pathfinderSkill.key, validationSheet.traits)
 								&& !traitIsTouchedByError(pathfinderSkill.key)"
 							class="margin-left-small font-size-nano display-inline font-contrast-lowest margin-left-small"

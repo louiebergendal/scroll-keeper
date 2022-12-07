@@ -53,8 +53,8 @@
 
 						<span
 							v-if="
-								containsKey(scholarSkill.key, characterSheet.traits)
-								&& !containsKey(scholarSkill.key, tempValidationSheet.traits)
+								containsKey(scholarSkill.key, characterStore.sheet.traits)
+								&& !containsKey(scholarSkill.key, validationSheet.traits)
 								&& !scholarSkillIsTouchedByError(scholarSkill.key)"
 							class="font-size-nano display-block font-contrast-lowest margin-left-small"
 						>
@@ -147,7 +147,6 @@
 			const characterSheet = props.characterSheetProp
 			const validationSheet = ref(props.validationSheetProp)
 			const selectedLevel = validationSheet.value.metadata.selectedLevel
-			const characterTraits = characterSheet.traits
 			const scholarOptions = scholar.complexTrait[0]
 			const choicesAmount = scholarOptions.choices
 			const currentLevel = Object.values(characterStore.history)[selectedLevel - 1]
@@ -166,7 +165,7 @@
 
 			const selectedList = ref(checkedOptionsList.value.filter(
 				skill => (
-					!containsKey(skill, characterTraits)
+					!containsKey(skill, characterSheet.traits)
 					|| containsKey(skill, originalScholarChoices)
 				))
 			)
@@ -174,7 +173,6 @@
 			return {
 				characterStore,
 				characterSheet,
-				characterTraits,
 				scholarOptions,
 				choicesAmount,
 				checkedOptionsList,
@@ -182,7 +180,6 @@
 				selectedList,
 				containsKey,
 				canChooseTrait,
-				scholar,
 				getTraitNiceName,
 				selectedLevel,
 				isInvalidAtThisLevel,
@@ -190,11 +187,12 @@
 				invalidChoiceIsNotUnChecked,
 				originalCheckedOptionsList,
 				getFailedRequirements,
-				getFailedTraitRequirementsErrorMessage
+				getFailedTraitRequirementsErrorMessage,
+				validationSheet
 			}
 		},
 		watch: {
-			tempValidationSheet: {
+			validationSheetProp: {
 				handler(newVal) {
 					this.validationSheet = newVal
 				},
@@ -205,7 +203,7 @@
 			inputEventHandler() {
 
 				this.selectedList = this.checkedOptionsList.filter(skill => (
-					!containsKey(skill, this.characterTraits)
+					!containsKey(skill, this.characterSheet.traits)
 					|| containsKey(skill, this.originalScholarChoices)
 				))
 
@@ -228,14 +226,14 @@
 			canChooseScholarSkill(scholarSkillKey) {
 				return canChooseTrait(
 					scholarSkillKey,
-					this.characterTraits,
+					this.characterSheet.traits,
 					this.characterSheet.attributes,
 					this.characterSheet.metadata.isChosenByFate,
 					this.characterSheet.metadata.level
 				)
 			},
 			isOwned(scholarSkillKey) {
-				return containsKey(scholarSkillKey, this.characterTraits)
+				return containsKey(scholarSkillKey, this.characterSheet.traits)
 			},
 			isSelected(scholarSkillKey) {
 				return containsKey(scholarSkillKey, this.selectedList)

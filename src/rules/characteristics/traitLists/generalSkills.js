@@ -8,6 +8,7 @@ import {
 	addMaxCarryingCapacityBonus
 } from '../../mechanics.js'
 import { getNiceNameSortedList } from './traitsUtils.js'
+import { baseValue } from '../attributes'
 
 const animalHusbandry = {
 	key: 'animalHusbandry',
@@ -27,7 +28,7 @@ const bookworm = {
 	name: 'Bokmal',
 	requirements: {
 		attributes: {
-			knowledge: 5
+			knowledge: baseValue + 2
 		}
 	},
 	softUnlock: (fv) => removeSucRollPenalty(fv),
@@ -73,7 +74,7 @@ const cutthroat = {
 	name: 'Överfall',
 	requirements: {
 		attributes: {
-			agility: 5
+			agility: baseValue + 2
 		}
 	},
 	usageRequirements: ['unnoticed'],
@@ -87,7 +88,7 @@ const fast = {
 	name: 'Flyfotad',
 	requirements: {
 		attributes: {
-			agility: 7
+			agility: baseValue + 4
 		}
 	},
 	usageRequirements: ['standing'],

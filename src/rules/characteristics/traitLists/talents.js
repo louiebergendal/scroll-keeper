@@ -7,7 +7,7 @@ import {
 
 import knowledgeSkills from './knowledgeSkills'
 import favouredTerrainSkills from './favouredTerrainSkills'
-
+import { baseValue } from '../attributes'
 
 import complexTraitBackground from '../../complexTraits/background/background'
 
@@ -29,8 +29,8 @@ export const steady = {
 			level: 11
 		},
 		attributes: {
-			battle: 5,
-			physique: 5
+			battle: baseValue + 2,
+			physique: baseValue + 2
 		}
 	},
 	addPowerBonus: (power) => {
@@ -48,8 +48,8 @@ export const quick = {
 			level: 11
 		},
 		attributes: {
-			battle: 5,
-			agility: 5
+			battle: baseValue + 2,
+			agility: baseValue + 2
 		}
 	},
 	usageRequirements: ['well'],
@@ -67,7 +67,7 @@ export const scholar = {
 			level: 11
 		},
 		attributes: {
-			knowledge: 5
+			knowledge: baseValue + 2
 		}
 	},
 	retroactivelyAddInformationRollBonus: (rollResult) => addProficiencyBonus(rollResult, 2),
@@ -87,7 +87,7 @@ export const quiet = {
 			level: 11
 		},
 		attributes: {
-			agility: 5
+			agility: baseValue + 2
 		},
 		traits: ['stealth']
 	},
@@ -150,7 +150,7 @@ export const spellCaster = {
 			isChosenByFate: true,
 		},
 		attributes: {
-			spirit: 5
+			spirit: baseValue + 2
 		},
 		traits: ['force']
 	},
@@ -166,7 +166,7 @@ export const marksman = {
 			level: 11
 		},
 		attributes: {
-			battle: 5
+			battle: baseValue + 2
 		},
 		traits: ['accuracy']
 	},
@@ -184,7 +184,7 @@ export const lightningReflexes = {
 			level: 11
 		},
 		attributes: {
-			agility: 5
+			agility: baseValue + 2
 		},
 	},
 	addInitiativeSizeBonus: (initiative) => initiative -= 1,
@@ -202,9 +202,9 @@ export const masterSpellCaster = {
 			level: 31
 		},
 		attributes: {
-			spirit: 6
+			spirit: baseValue + 3
 		},
-		traits: ['spellCaster']
+		traits: ['spellCaster', 'basicKnowledgeArcane']
 	},
 	addSpellbookPointsBonus: (spellBookPoints) => spellBookPoints += 2,
 	addManaBonus: (mana) => mana + 1,
@@ -231,8 +231,8 @@ export const massive = {
 	name: 'Massiv',
 	requirements: {
 		attributes: {
-			battle: 6,
-			physique: 6,
+			battle: baseValue + 2,
+			physique: baseValue + 3,
 		},
 		traits: ['hardy', 'steady']
 	},
@@ -252,7 +252,7 @@ export const artisan = {
 			level: 20
 		},
 		attributes: {
-			knowledge: 4,
+			knowledge: baseValue + 1,
 		},
 		traits: ['crafting']
 	},
@@ -284,7 +284,7 @@ export const engineer = {
 			isChosenByFate: true,
 		},
 		attributes: {
-			knowledge: 7
+			knowledge: baseValue + 4
 		},
 		traits: ['bookworm', 'crafting', 'artisan']
 	},
