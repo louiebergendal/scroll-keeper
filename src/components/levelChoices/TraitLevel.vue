@@ -2,8 +2,8 @@
 	<div class="card square medium padding-large -fill">
 
 		<div class="padding-bottom-small" v-if="selectedLevel !== 1">
-			<h3 v-if="traitType === 'skill'" class="align-center margin-top-nano margin-bottom-tiny">Välj en färdighet!</h3>
-			<h3 v-if="traitType === 'talent'" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang!</h3>
+			<h3 v-if="traitType === 'skill'" class="align-center margin-top-nano margin-bottom-tiny">Välj en färdighet</h3>
+			<h3 v-if="traitType === 'talent'" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang</h3>
 		</div>
 
 		<div v-if="traitType === 'skill'">
@@ -82,7 +82,7 @@
 						cannotChooseTrait(traits[selectedChoiceKey].key)
 					)"
 				type="submit"
-				class="margin-top-tiny margin-left-nano"
+				class="margin-top-medium margin-left-nano"
 				@click="submitNewTraitLevel()"
 			>
 				Uppdatera

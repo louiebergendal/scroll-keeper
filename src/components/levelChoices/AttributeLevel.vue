@@ -1,7 +1,7 @@
 <template>
 	<div class='card flex -dir-col square medium padding-large -fill'>
 
-		<h3 class="align-center margin-top-nano margin-bottom-medium">Öka en grundegenskap!</h3>
+		<h3 class="align-center margin-top-nano margin-bottom-medium">Öka en grundegenskap</h3>
 		<div
 			v-for='attribute in attributes'
 			:key='attribute.key'

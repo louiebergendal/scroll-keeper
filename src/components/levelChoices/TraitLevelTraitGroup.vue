@@ -1,5 +1,5 @@
 <template>
-	<div class="margin-bottom-small">
+	<div class="">
 		<!-- loop sortedNiceTraits -->
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
 			<div
