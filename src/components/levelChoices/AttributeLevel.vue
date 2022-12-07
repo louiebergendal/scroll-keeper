@@ -97,7 +97,6 @@
 			<button
 			:disabled="!levelIsChangable"
 			type="submit"
-			class="margin-top-tiny margin-left-nano"
 			@click="submitNewAttributeLevel()"
 		>
 			Uppdatera

@@ -82,7 +82,7 @@
 						cannotChooseTrait(traits[selectedChoiceKey].key)
 					)"
 				type="submit"
-				class="margin-top-medium margin-left-nano"
+				class="margin-top-large margin-left-nano"
 				@click="submitNewTraitLevel()"
 			>
 				Uppdatera
