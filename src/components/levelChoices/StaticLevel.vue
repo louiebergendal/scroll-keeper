@@ -1,8 +1,7 @@
 <template>
     <div class='card square medium padding-large align-center -fill'>
-
+		<h3 class="align-center margin-top-nano margin-bottom-medium">Öka en sekundär egenskap</h3>
 		<div class='card light padding-medium width-whole center'>
-			<h3 class="align-center margin-top-nano margin-bottom-huge">Öka en sekundär egenskap</h3>
 			<button
 				type="submit"
 				class="margin-top-tiny margin-left-nano"

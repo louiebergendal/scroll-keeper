@@ -8,6 +8,7 @@
 				v-if="(selectedLevel === 1 && trait.key === 'background') && trait.key === 'background'"
 				class="width-whole"
 			>
+				<h3 class="align-center margin-bottom-medium margin-top-nano">Bakgrund</h3>
 				<div class="margin-bottom-small">
 					<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
 				</div>
