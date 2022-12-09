@@ -246,7 +246,7 @@ export const massive = {
 
 export const artisan = {
 	key: 'artisan',
-	name: 'Hantverkig',
+	name: 'Hantverksmästare',
 	requirements: {
 		metadata: {
 			level: 20

@@ -43,6 +43,7 @@
 							:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
 							class="trait-input"
 						/>
+						
 						<div>
 							<div class="margin-top-tiny">{{ getAttributeLongName(attribute.key) }}</div>
 							<div  
@@ -60,6 +61,11 @@
 								/>
 							</div>
 						</div>
+						<div
+							v-if="
+								attributeIsInvalidAtThisLevel(attribute.key)
+								&& invalidAttributeChoiceIsNotDeselected(attribute.key)" 
+							class="margin-left-tiny">Tak: {{ getAttributeLvlCeiling(selectedLevel) }}</div>
 					</label>
 				</div>
 				<div

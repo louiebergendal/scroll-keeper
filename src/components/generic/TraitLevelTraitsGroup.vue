@@ -3,88 +3,47 @@
 		<!-- loop sortedNiceTraits -->
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
 			
-			<!-- background -->
-			<div
-				v-if="(selectedLevel === 1 && trait.key === 'background') && trait.key === 'background'"
-				class="width-whole"
+			<TraitLevelTraitCard 
+				:traitProp="trait"
+				:isFontContrastLowestProp="cannotChooseTrait(trait.key) && !traitIsTouchedByError(trait.key)"
+				:isTouchedByErrorProp="traitIsTouchedByError(trait.key)"
+				:isInvalidProp="traitIsInvalidAtThisLevel(trait.key) && traitIsSelected(trait.key)"
+				:isSelectedProp="traitIsSelected(trait.key)"
+				:cannotChooseTraitProp="cannotChooseTrait(trait.key)"
+				:isBackgroundLevelProp="selectedLevel === 1"
 			>
-				<h3 class="align-center margin-bottom-medium margin-top-nano">Bakgrund</h3>
-				<div class="margin-bottom-small">
-					<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
-				</div>
-				<Background @complex-payload="complexPayload" />
-			</div>
+				<template #background>
+					<Background
+						:characterSheetProp="tempCharacterSheet"
+						:validationSheetProp="tempValidationSheet"
+						@complex-payload="complexPayload"
+					/>
+				</template>
 
-			<!-- not owned -->
-			<div v-if="
-				!traitIsOwned(trait.key)
-				&& !(selectedLevel === 1 && trait.key !== 'background')
-				&& trait.key !== 'background'"
-				class="card width-whole dark margin-bottom-nano"
-				:class="{
-					'touched-by-error':
-						traitIsTouchedByError(trait.key)
-						&& containsKey('complexTrait', Object.keys(trait))
-						&& traitIsSelected(trait.key),
-					'selected': traitIsSelected(trait.key) && !traitIsTouchedByError(trait.key)
-				}"
-			>
-				<div
-					class=""
-					:class="{
-						'touched-by-error -sub': traitIsTouchedByError(trait.key),
-						'invalid-background':
-							traitIsInvalidAtThisLevel(trait.key)
-							&& traitIsSelected(trait.key),
-						'font-contrast-lowest':
-							invalidTraitChoiceIsNotDeselected(trait.key)
-							&& !traitIsTouchedByError(trait.key),
-						' -angled-bottom':
-							containsKey('complexTrait', Object.keys(trait))
-							&& traitIsSelected(trait.key)
-					}"
-				>
-					<label
-						:for="trait.key"
-						class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start"
-						:class="{
-							'font-contrast-lowest':
-								(cannotChooseTrait(trait.key)
-								&& !traitIsTouchedByError(trait.key))
-						}"
-					>
-						<input
-							type="radio"
-							v-model="selectedChoiceKey"
-							:value="trait.key"
-							:id="trait.key"
-							:disabled="cannotChooseTrait(trait.key)"
-							class="trait-input"
-							@change="emitOption(selectedChoiceKey)" 
-						/>
-						<TraitLevelCardText
-							:traitProp="trait"									
-							:selectedLevelProp="selectedLevel"
-							:traitTypeProp="traitType"
-							:tempValidationSheetProp="tempValidationSheet"
-							:tempCharacterSheetProp="tempCharacterSheet"
-							:selectedChoiceKeyProp="selectedChoiceKey"
-						/>
-					</label>
+				<template #input>
+					<input
+						type="radio"
+						v-model="selectedChoiceKey"
+						:value="trait.key"
+						:id="trait.key"
+						:disabled="cannotChooseTrait(trait.key)"
+						class="trait-input"
+						@change="emitOption(selectedChoiceKey)" 
+					/>
+				</template>
 
-				</div>
+				<template #cardText>
+					<TraitLevelCardText
+						:traitProp="trait"									
+						:selectedLevelProp="selectedLevel"
+						:traitTypeProp="traitType"
+						:tempValidationSheetProp="tempValidationSheet"
+						:tempCharacterSheetProp="tempCharacterSheet"
+						:selectedChoiceKeyProp="selectedChoiceKey"
+					/>
+				</template>
 
-				<!-- complex traits -->
-				<div
-					v-if="containsKey('complexTrait', Object.keys(trait))"
-					class="width-whole angled-top"
-					:class="{
-						'touched-by-error': traitIsTouchedByError(trait.key),
-						'font-contrast-lowest':
-						invalidTraitChoiceIsNotDeselected(trait.key)
-							&& !traitIsTouchedByError(trait.key)
-					}"
-				>
+				<template #complexTrait>
 					<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
 						<Scholar
 							:characterSheetProp="tempCharacterSheet"
@@ -99,47 +58,13 @@
 							@complex-payload="complexPayload"
 						/>
 					</div>
-				</div>
+				</template>
 
-			</div>
+				<template #ruleRelevantMetadata>
+					<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
+				</template>
 
-			<!-- already owned -->
-			<div 
-				v-if="traitIsOwned(trait.key) && trait.key !== 'background'"
-				class="card dark width-whole flex margin-bottom-nano"
-			>
-				<div
-					class="width-whole"
-					:class="{
-						'touched-by-error': traitIsTouchedByError(trait.key),
-						'invalid-background':
-						traitIsInvalidAtThisLevel(trait.key)
-							&& invalidTraitChoiceIsNotDeselected(trait.key)
-					}"
-				>
-					<label
-						:for="key + '-owned'"
-						class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start"
-						:class="{ 'font-contrast-lowest' : !traitIsTouchedByError(trait.key) }"
-					>
-						<input
-							type="radio"
-							:id="key + '-owned'"
-							disabled
-							checked='true'
-							class="trait-input"
-						/>
-						<TraitLevelCardText
-							:traitProp="trait"
-							:selectedLevelProp="selectedLevel"
-							:traitTypeProp="traitType"
-							:tempValidationSheetProp="tempValidationSheet"
-							:tempCharacterSheetProp="tempCharacterSheet"
-							:selectedChoiceKeyProp="selectedChoiceKey"
-						/>
-					</label>
-				</div>
-			</div>
+			</TraitLevelTraitCard>
 
 		</div>
 
@@ -162,6 +87,7 @@
 	import { containsKey } from '../../rules/utils'
 	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
 	import TraitLevelCardText from './TraitLevelCardText.vue'
+	import TraitLevelTraitCard from './TraitLevelTraitCard.vue'
 	import Background from '../levelChoices/complexTalents/background/Background.vue'
 	import Scholar from '../levelChoices/complexTalents/Scholar.vue'
 	import Pathfinder from '../levelChoices/complexTalents/Pathfinder.vue'
@@ -170,6 +96,7 @@
 		components: {
 			RuleRelevantMetadata,
 			TraitLevelCardText,
+			TraitLevelTraitCard,
 			Pathfinder,
 			Background,
 			Scholar
