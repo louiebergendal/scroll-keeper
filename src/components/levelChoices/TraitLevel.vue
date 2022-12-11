@@ -6,70 +6,78 @@
 			<h3 v-if="traitType === 'talent'" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang</h3>
 		</div>
 
-		<div v-if="traitType === 'skill'">
-			<tabs>
-				<tab name="Grundfärdigheter">
-					<TraitLevelTraitsGroup 
-						:selectedLevelProp="selectedLevel"
-						:traitTypeProp="'attributeSkills'"
-						:selectedChoiceKeyProp="selectedChoiceKey"
-						:tempCharacterSheetProp="tempCharacterSheet"
-						:tempValidationSheetProp="tempValidationSheet"
-						@selected-choiceKey="updateSelectedChoiceKey"
-						@complex-payload="complexPayload"
-						@update-tabs="$emit('update-tabs')"
-					/>
-				</tab>
-				<tab name="Allmänna">
-					<TraitLevelTraitsGroup 
-						:selectedLevelProp="selectedLevel"
-						:traitTypeProp="'generalSkills'"
-						:selectedChoiceKeyProp="selectedChoiceKey"
-						:tempCharacterSheetProp="tempCharacterSheet"
-						:tempValidationSheetProp="tempValidationSheet"
-						@selected-choiceKey="updateSelectedChoiceKey"
-						@update-tabs="$emit('update-tabs')"
-					/>
-				</tab>
-				<tab name="Kunskap">
-					<TraitLevelTraitsGroup 
-						:selectedLevelProp="selectedLevel"
-						:traitTypeProp="'knowledgeSkills'"
-						:selectedChoiceKeyProp="selectedChoiceKey"
-						:tempCharacterSheetProp="tempCharacterSheet"
-						:tempValidationSheetProp="tempValidationSheet"
-						@selected-choiceKey="updateSelectedChoiceKey"
-						@complex-payload="complexPayload"
-						@update-tabs="$emit('update-tabs')"
-					/>
-				</tab>
-				<tab name="Terrängvana">
-					<TraitLevelTraitsGroup 
-						:selectedLevelProp="selectedLevel"
-						:traitTypeProp="'favouredTerrainSkills'"
-						:selectedChoiceKeyProp="selectedChoiceKey"
-						:tempCharacterSheetProp="tempCharacterSheet"
-						:tempValidationSheetProp="tempValidationSheet"
-						@selected-choiceKey="updateSelectedChoiceKey"
-						@complex-payload="complexPayload"
-						@update-tabs="$emit('update-tabs')"
-					/>
-				</tab>
-			</tabs>
+		<div v-if="selectedLevel !== 1">
+			<div v-if="traitType === 'skill'">
+				<tabs>
+					<tab name="Grundfärdigheter">
+						<TraitLevelTraitsGroup 
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="'attributeSkills'"
+							:selectedChoiceKeyProp="selectedChoiceKey"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:tempValidationSheetProp="tempValidationSheet"
+							@selected-choiceKey="updateSelectedChoiceKey"
+							@complex-payload="complexPayload"
+							@update-tabs="$emit('update-tabs')"
+						/>
+					</tab>
+					<tab name="Allmänna">
+						<TraitLevelTraitsGroup 
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="'generalSkills'"
+							:selectedChoiceKeyProp="selectedChoiceKey"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:tempValidationSheetProp="tempValidationSheet"
+							@selected-choiceKey="updateSelectedChoiceKey"
+							@update-tabs="$emit('update-tabs')"
+						/>
+					</tab>
+					<tab name="Kunskap">
+						<TraitLevelTraitsGroup 
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="'knowledgeSkills'"
+							:selectedChoiceKeyProp="selectedChoiceKey"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:tempValidationSheetProp="tempValidationSheet"
+							@selected-choiceKey="updateSelectedChoiceKey"
+							@complex-payload="complexPayload"
+							@update-tabs="$emit('update-tabs')"
+						/>
+					</tab>
+					<tab name="Terrängvana">
+						<TraitLevelTraitsGroup 
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="'favouredTerrainSkills'"
+							:selectedChoiceKeyProp="selectedChoiceKey"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:tempValidationSheetProp="tempValidationSheet"
+							@selected-choiceKey="updateSelectedChoiceKey"
+							@complex-payload="complexPayload"
+							@update-tabs="$emit('update-tabs')"
+						/>
+					</tab>
+				</tabs>
+			</div>
+
+			<div v-if="traitType === 'talent'">
+				<TraitLevelTraitsGroup 
+					:selectedLevelProp="selectedLevel"
+					:traitTypeProp="'talents'"
+					:selectedChoiceKeyProp="selectedChoiceKey"
+					:tempCharacterSheetProp="tempCharacterSheet"
+					:tempValidationSheetProp="tempValidationSheet"
+					@selected-choiceKey="updateSelectedChoiceKey"
+					@complex-payload="complexPayload"
+					@update-tabs="$emit('update-tabs')"
+				/>
+			</div>
 		</div>
 
-		<div v-if="traitType === 'talent'">
-			<TraitLevelTraitsGroup 
-				:selectedLevelProp="selectedLevel"
-				:traitTypeProp="'talents'"
-				:selectedChoiceKeyProp="selectedChoiceKey"
-				:tempCharacterSheetProp="tempCharacterSheet"
-				:tempValidationSheetProp="tempValidationSheet"
-				@selected-choiceKey="updateSelectedChoiceKey"
-				@complex-payload="complexPayload"
-				@update-tabs="$emit('update-tabs')"
-			/>
+		<div v-if="selectedLevel === 1">
+			<RuleRelevantMetadata />
+			<Background @complex-payload="complexPayload"/>
 		</div>
+
 		<div class="align-center">
 			<button
 				:disabled="
@@ -105,9 +113,14 @@
 	import { containsKey } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
 	import TraitLevelTraitsGroup from '../generic/TraitLevelTraitsGroup.vue'
+	import Background from './complexTalents/background/Background.vue'
+	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
+
 	export default {
 		components: {
 			TraitLevelTraitsGroup,
+			Background,
+			RuleRelevantMetadata
 		},
 		props: ['selectedLevelProp', 'traitTypeProp'],
 		emits: ['complexPayload', 'update-tabs', 'selected-choiceKey'],
@@ -117,7 +130,7 @@
 			const traitType = props.traitTypeProp
 			
 			const tempCharacterSheet = flattenCharacter(characterStore, selectedLevel - 1) // -1 to account for current lvling
-			let tempValidationSheet = ref(flattenCharacter(characterStore, selectedLevel))
+			const tempValidationSheet = ref(flattenCharacter(characterStore, selectedLevel))
 			
 			const complexTraitData = ref({})
 			const hasFullComplexPayload = ref()

@@ -39,7 +39,9 @@
 							:class="{
 								'font-contrast-medium normal': !traitIsTouchedByError(pathfinderSkill.key)
 							}"
-						>{{ pathfinderSkill.name }}</span>
+						>
+							{{ pathfinderSkill.name }}
+						</span>
 						<span 
 							v-if="
 								traitIsTouchedByError(pathfinderSkill.key)
@@ -51,6 +53,7 @@
 								:selectedLevelProp="selectedLevel"
 							/>
 						</span>
+
 						<span
 							v-if="
 								containsKey(pathfinderSkill.key, characterStore.sheet.traits)
@@ -136,7 +139,6 @@
 			const characterStore = useCharacterStore()
 			const characterSheet = props.characterSheetProp
 			const characterTraits = characterSheet.traits
-			console.log("characterTraits: ", characterTraits)
 			const validationSheet = props.validationSheetProp
 			const selectedLevel = validationSheet.metadata.selectedLevel
 			const pathfinderOptions = pathfinder.complexTrait[0]
@@ -175,7 +177,7 @@
 			})
 		},
 		watch: {
-			tempValidationSheet: {
+			validationSheetProp: {
 				handler(newVal) {
 					this.validationSheet = newVal
 				},

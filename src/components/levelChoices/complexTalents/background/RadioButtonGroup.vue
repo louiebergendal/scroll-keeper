@@ -1,7 +1,7 @@
 <template>
 	<div class="radio-button-group" :class="{'primary-radio-buttons flex': isPrimary}">
 		<label
-			v-for="(option, index) in options"
+			v-for="option in options"
 			:key="option"
 			:for="name + '-' + option"
 			:class="{
@@ -44,7 +44,6 @@
 			const options = props.optionsProp
 			const selectedOptions = props.selectedProp ? props.selectedProp : ['']
 			const invalidOptions = props.invalidOptionsListProp ? props.invalidOptionsListProp : ['']
-
 
 			return {
 				isPrimary,

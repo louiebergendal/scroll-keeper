@@ -40,6 +40,7 @@
 					</div>
 				</div>
 			</tab>
+
 			<tab name="Uppväxt">
 				<div>
 					<div class="background-header-choice">
@@ -51,10 +52,10 @@
 							:isPrimaryProp="true"
 						/>
 					</div>
-					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
-						<div>
+					<div v-if="upbringingsChoiceKey && upbringingsChoiceKey.length" class="bordered-block padding-small">
+						<div v-if="upbringingsOptions[upbringingsChoiceKey]">
 							<h3 class="align-center">Val 1</h3>
-							<div class="margin-bottom-small">
+							<div class="margin-bottom-small"> <!-- xx -->
 								<RadioButtonGroup
 									:nameProp="'upbringings' + '-' + 'skillList' + '-' + 0"
 									:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[0].list"
@@ -92,7 +93,7 @@
 							:isPrimaryProp="true"
 						/>
 					</div>
-					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
+					<div v-if="professionsChoiceKey && professionsChoiceKey.length > 0" class="bordered-block padding-small">
 						<div>
 							<h3 class="align-center">Val 1</h3>
 							<div class="margin-bottom-small">

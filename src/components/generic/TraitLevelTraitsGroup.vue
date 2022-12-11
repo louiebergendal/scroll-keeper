@@ -2,69 +2,61 @@
 	<div class="">
 		<!-- loop sortedNiceTraits -->
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
-			
-			<TraitLevelTraitCard 
-				:traitProp="trait"
-				:isFontContrastLowestProp="cannotChooseTrait(trait.key) && !traitIsTouchedByError(trait.key)"
-				:isTouchedByErrorProp="traitIsTouchedByError(trait.key)"
-				:isInvalidProp="traitIsInvalidAtThisLevel(trait.key) && traitIsSelected(trait.key)"
-				:isSelectedProp="traitIsSelected(trait.key)"
-				:cannotChooseTraitProp="cannotChooseTrait(trait.key)"
-				:isBackgroundLevelProp="selectedLevel === 1"
-			>
-				<template #background>
-					<Background
-						:characterSheetProp="tempCharacterSheet"
-						:validationSheetProp="tempValidationSheet"
-						@complex-payload="complexPayload"
-					/>
-				</template>
 
-				<template #input>
-					<input
-						type="radio"
-						v-model="selectedChoiceKey"
-						:value="trait.key"
-						:id="trait.key"
-						:disabled="cannotChooseTrait(trait.key)"
-						class="trait-input"
-						@change="emitOption(selectedChoiceKey)" 
-					/>
-				</template>
-
-				<template #cardText>
-					<TraitLevelCardText
-						:traitProp="trait"									
-						:selectedLevelProp="selectedLevel"
-						:traitTypeProp="traitType"
-						:tempValidationSheetProp="tempValidationSheet"
-						:tempCharacterSheetProp="tempCharacterSheet"
-						:selectedChoiceKeyProp="selectedChoiceKey"
-					/>
-				</template>
-
-				<template #complexTrait>
-					<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
-						<Scholar
-							:characterSheetProp="tempCharacterSheet"
-							:validationSheetProp="tempValidationSheet"
-							@complex-payload="complexPayload"
+			<div v-if="trait.key !== 'background'" class="width-whole">
+				<TraitLevelTraitCard 
+					:traitProp="trait"
+					:isFontContrastLowestProp="cannotChooseTrait(trait.key) && !traitIsTouchedByError(trait.key)"
+					:isTouchedByErrorProp="traitIsTouchedByError(trait.key)"
+					:isInvalidProp="traitIsInvalidAtThisLevel(trait.key) && traitIsSelected(trait.key)"
+					:isSelectedProp="traitIsSelected(trait.key)"
+					:cannotChooseTraitProp="cannotChooseTrait(trait.key)"
+				>
+					<template #input>
+						<input
+							type="radio"
+							v-model="selectedChoiceKey"
+							:value="trait.key"
+							:id="trait.key"
+							:disabled="cannotChooseTrait(trait.key)"
+							class="trait-input"
+							@change="emitOption(selectedChoiceKey)" 
 						/>
-					</div>
-					<div v-if="trait.key === 'pathfinder' && selectedChoiceKey === 'pathfinder'">
-						<Pathfinder
-							:characterSheetProp="tempCharacterSheet"
-							:validationSheetProp="tempValidationSheet"
-							@complex-payload="complexPayload"
+					</template>
+
+					<template #cardText>
+						<TraitLevelCardText
+							:traitProp="trait"									
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="traitType"
+							:tempValidationSheetProp="tempValidationSheet"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:selectedChoiceKeyProp="selectedChoiceKey"
 						/>
-					</div>
-				</template>
+					</template>
 
-				<template #ruleRelevantMetadata>
-					<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
-				</template>
+					<template #complexTrait>
+						<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
+							<Scholar
+								:characterSheetProp="tempCharacterSheet"
+								:validationSheetProp="tempValidationSheet"
+								@complex-payload="complexPayload"
+							/>
+						</div>
+						<div v-if="trait.key === 'pathfinder' && selectedChoiceKey === 'pathfinder'">
+							<Pathfinder
+								:characterSheetProp="tempCharacterSheet"
+								:validationSheetProp="tempValidationSheet"
+								@complex-payload="complexPayload"
+							/>
+						</div>
+					</template>
 
-			</TraitLevelTraitCard>
+					<template #ruleRelevantMetadata>
+						<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
+					</template>
+				</TraitLevelTraitCard>
+			</div>
 
 		</div>
 
@@ -88,9 +80,9 @@
 	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
 	import TraitLevelCardText from './TraitLevelCardText.vue'
 	import TraitLevelTraitCard from './TraitLevelTraitCard.vue'
-	import Background from '../levelChoices/complexTalents/background/Background.vue'
 	import Scholar from '../levelChoices/complexTalents/Scholar.vue'
 	import Pathfinder from '../levelChoices/complexTalents/Pathfinder.vue'
+	import Background from '../levelChoices/complexTalents/background/Background.vue'
 
 	export default {
 		components: {
@@ -98,8 +90,8 @@
 			TraitLevelCardText,
 			TraitLevelTraitCard,
 			Pathfinder,
-			Background,
-			Scholar
+			Scholar,
+			Background
 		},
 		props: ['selectedLevelProp', 'traitTypeProp', 'selectedChoiceKeyProp', 'tempCharacterSheetProp', 'tempValidationSheetProp'],
 		emits: ['complexPayload', 'update-tabs', 'selected-choiceKey'],

@@ -1,20 +1,7 @@
 <template>
 
-	<!-- background -->
-	<div
-		v-if="(isBackgroundLevelProp && trait.key === 'background') && trait.key === 'background'"
-		class="width-whole"
-	>
-		<h3 class="align-center margin-bottom-medium margin-top-nano">Bakgrund</h3>
-		<div class="margin-bottom-small">
-			<slot name='ruleRelevantMetadata'>RuleRelevantMetadata har inte laddat!</slot> <!-- slot -->
-		</div>
-
-		<slot name='background'>Background har inte laddat!</slot> <!-- slot -->
-	</div>
-
 	<!-- trait -->
-	<div v-if="!isBackgroundLevel"
+	<div
 		class="card width-whole dark margin-bottom-nano"
 		:class="{
 			'touched-by-error':isTouchedByError,
@@ -39,8 +26,8 @@
 					'font-contrast-lowest': isFontContrastLowest
 				}"
 			>
-				<slot name='input'>ping</slot> <!-- slot -->
-				<slot name='cardText'>pong</slot> <!-- slot -->
+				<slot name='input'></slot> <!-- slot -->
+				<slot name='cardText'></slot> <!-- slot -->
 			</label>
 		</div>
 
@@ -53,7 +40,7 @@
 				'font-contrast-lowest': isFontContrastLowest
 			}"
 		>
-			<slot name="complexTrait">Egenskapsalternativ har inte laddat!</slot> <!-- slot -->
+			<slot name="complexTrait"></slot> <!-- slot -->
 		</div>
 
 	</div>
@@ -66,20 +53,16 @@
 	} from '../../rules/characteristics/traits'
 	import { containsKey } from '../../rules/utils'
 	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
-	import TraitLevelCardText from './TraitLevelCardText.vue'
-	import Background from '../levelChoices/complexTalents/background/Background.vue'
 	import Scholar from '../levelChoices/complexTalents/Scholar.vue'
 	import Pathfinder from '../levelChoices/complexTalents/Pathfinder.vue'
 
 	export default {
 		components: {
 			RuleRelevantMetadata,
-			TraitLevelCardText,
 			Pathfinder,
-			Background,
 			Scholar
 		},
-		props: ['traitProp', 'isFontContrastLowestProp', 'isTouchedByErrorProp', 'isInvalidProp', 'isSelectedProp', 'cannotChooseTraitProp', 'isBackgroundLevelProp'],
+		props: ['traitProp', 'isFontContrastLowestProp', 'isTouchedByErrorProp', 'isInvalidProp', 'isSelectedProp', 'cannotChooseTraitProp'],
 		setup(props) {
 			const trait = props.traitProp
 			const isFontContrastLowest = ref(props.fontContrastLowestProp)
@@ -87,7 +70,6 @@
 			const isInvalid = ref(props.invalidProp)
 			const isSelected = ref(props.selectedProp)
 			const cannotChooseTrait = ref(props.cannotChooseTraitProp)
-			const isBackgroundLevel = ref(props.isBackgroundLevelProp)
 
 			trait.niceName = getTraitNiceName(trait.key)
 
@@ -99,7 +81,6 @@
 				isInvalid,
 				isSelected,
 				cannotChooseTrait,
-				isBackgroundLevel,
 				containsKey
 			}
 		},
@@ -137,12 +118,6 @@
 			cannotChooseTraitProp: {
 				handler(newVal) {
 					this.cannotChooseTrait = newVal
-				},
-				immediate: true
-			},
-			isBackgroundLevelProp: {
-				handler(newVal) {
-					this.isBackgroundLevel = newVal
 				},
 				immediate: true
 			}
