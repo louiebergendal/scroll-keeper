@@ -12,7 +12,6 @@
 					:cannotChooseTraitProp="cannotChooseTrait(trait.key)"
 					@option="emitOption"
 				>
-
 					<template #cardText>
 						<TraitLevelCardText
 							:traitProp="trait"									
@@ -23,7 +22,6 @@
 							:selectedChoiceKeyProp="selectedChoiceKey"
 						/>
 					</template>
-
 					<template #complexTrait>
 						<div v-if="trait.key === 'scholar' && selectedChoiceKey === 'scholar'">
 							<Scholar
@@ -50,7 +48,7 @@
 
 <script>
 	import { ref } from 'vue'
-	import { useCharacterStore } from '../../stores/character'
+	import { useCharacterStore } from '../../../stores/character'
 	import {
 		canChooseTrait,
 		allTalents,
@@ -58,12 +56,12 @@
 		generalSkills,
 		knowledgeSkills,
 		favouredTerrainSkills
-	} from '../../rules/characteristics/traits'
-	import { invalidChoiceIsNotDeselected, isTouchedByError, isInvalidAtThisLevel } from '../../validators/validators'
-	import { containsKey } from '../../rules/utils'
+	} from '../../../rules/characteristics/traits'
+	import { invalidChoiceIsNotDeselected, isTouchedByError, isInvalidAtThisLevel } from '../../../validators/validators'
+	import { containsKey } from '../../../rules/utils'
 	import TraitLevelCardText from './TraitLevelCardText.vue'
-	import Scholar from '../levelChoices/complexTalents/Scholar.vue'
-	import Pathfinder from '../levelChoices/complexTalents/Pathfinder.vue'
+	import Scholar from '../complexTalents/Scholar.vue'
+	import Pathfinder from '../complexTalents/Pathfinder.vue'
 
 	export default {
 		name: 'TraitLevelTraitsGroup',

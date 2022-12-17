@@ -43,15 +43,15 @@
 </template>
 
 <script>
-	import { useCharacterStore } from '../../stores/character'
+	import { useCharacterStore } from '../../../stores/character'
 	import {
 		canChooseTrait,
 		getFailedRequirements,
 		getFailedTraitRequirementsErrorMessage
-	} from '../../rules/characteristics/traits'
-	import { containsKey } from '../../rules/utils'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../validators/validators'
-	import InvalidOccurrence from './InvalidOccurrence.vue'
+	} from '../../../rules/characteristics/traits'
+	import { containsKey } from '../../../rules/utils'
+	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../../validators/validators'
+	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
 
 	export default {
 		components: {

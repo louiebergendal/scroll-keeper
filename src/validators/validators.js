@@ -44,8 +44,7 @@ export const isInvalidAtLevel = (key, invalidLevels) => {
 	for (const level in invalidLevels) {
 		const invalidLevel = invalidLevels[level]
 		if (isKey(key, invalidLevel)) return level
-	}
-	return false
+	} return false
 }
 
 function isKey(key, invalidLevel) {

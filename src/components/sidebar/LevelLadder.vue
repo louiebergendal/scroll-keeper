@@ -57,7 +57,7 @@
 	import { useCharacterStore } from '../../stores/character'
 	import experienceTableMaker from '../../rules/experienceTableMaker.js'
 	import Wizard from 'form-wizard-vue3'
-	import TraitLevel from '../../components/levelChoices/TraitLevel.vue'
+	import TraitLevel from '../levelChoices/traitLevel/TraitLevel.vue'
 	import AttributeLevel from '../../components/levelChoices/AttributeLevel.vue'
 	import StaticLevel from '../../components/levelChoices/StaticLevel.vue'
 	import { getTraitNiceName } from '../../rules/characteristics/traits'

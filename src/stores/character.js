@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { onValue } from 'firebase/database'
 import { loaderCharacter } from '../mocks/loaderCharacterHistory'
-import { flattenCharacter } from '../utilities/characterFlattener'
+import { flattenCharacter } from '../rules/characterFlattener'
 import { createRefs, updateData, removeData } from '../api/firebaseApi'
 import { traitFromKey } from '../rules/characteristics/traits'
 

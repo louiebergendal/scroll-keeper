@@ -55,7 +55,7 @@
 
 <script>
 	import { ref } from 'vue'
-	import { containsKey } from '../../rules/utils'
+	import { containsKey } from '../../../rules/utils'
 
 	export default {
 		name: 'TraitLevelTraitCard',

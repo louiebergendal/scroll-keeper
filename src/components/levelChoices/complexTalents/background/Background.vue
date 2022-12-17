@@ -147,7 +147,7 @@
 	import { background } from '../../../../rules/characteristics/traitLists/talents'
 	import { knowledgeSkillKeysList } from '../../../../rules/characteristics/traitLists/knowledgeSkills'
 	import RadioButtonGroup from './RadioButtonGroup.vue'
-	import TabbedTraitsGroup from '../../../generic/TabbedTraitsGroup.vue'
+	import TabbedTraitsGroup from '../../traitLevel/TabbedTraitsGroup.vue'
 	import { containsKey } from '../../../../rules/utils'
 
 	export default {

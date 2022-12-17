@@ -6,8 +6,8 @@ import { initializeApp } from "firebase/app"
 import { firebaseConfig } from "./config"
 import Tab from './components/generic/tabs/Tab.vue'
 import Tabs from './components/generic/tabs/Tabs.vue'
-import TraitLevelTraitsGroup from './components/generic/TraitLevelTraitsGroup.vue'
-import TraitLevelTraitCard from './components/generic/TraitLevelTraitCard.vue'
+import TraitLevelTraitsGroup from './components/levelChoices/traitLevel/TraitLevelTraitsGroup.vue'
+import TraitLevelTraitCard from './components/levelChoices/traitLevel/TraitLevelTraitCard.vue'
 
 initializeApp(firebaseConfig)
 const pinia = createPinia()

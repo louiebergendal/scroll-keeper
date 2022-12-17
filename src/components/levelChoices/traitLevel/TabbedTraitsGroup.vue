@@ -33,7 +33,7 @@
 </template>
   
 <script>
-	import { containsKey } from '../../rules/utils'
+	import { containsKey } from '../../../rules/utils'
 	import {
 		attributeSkills,
 		generalSkills,
@@ -41,9 +41,9 @@
 		favouredTerrainSkills,
 		getTraitNiceName,
 		removeTraitsWithRequirements
-	} from '../../rules/characteristics/traits'
-	import { getNiceNameSortedList } from '../../rules/characteristics/traitLists/traitsUtils'
-	import { getBackgroundSkillsListNiceNames } from '../../rules/complexTraits/background/background'
+	} from '../../../rules/characteristics/traits'
+	import { getNiceNameSortedList } from '../../../rules/characteristics/traitLists/traitsUtils'
+	import { getBackgroundSkillsListNiceNames } from '../../../rules/complexTraits/background/background'
 
 	export default {
 		name: 'BaseRadioButtonGroup',

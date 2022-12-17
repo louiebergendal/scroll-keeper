@@ -121,12 +121,11 @@
 	import { useCharacterStore } from '../../stores/character'
 	import {
 		attributes,
-		getAttributeShortName,
 		getAttributeLongName,
 		canChooseAttribute,
 		getAttributeLvlCeiling
 	} from '../../rules/characteristics/attributes'
-	import { flattenCharacter } from '../../utilities/characterFlattener'
+	import { flattenCharacter } from '../../rules/characterFlattener'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../validators/validators'
 	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
 
@@ -155,7 +154,6 @@
 				characterAttributes,
 				originalLevelChoiceKey,
 				selectedChoiceKey,
-				getAttributeShortName,
 				getAttributeLongName,
 				canChooseAttribute,
 				getAttributeLvlCeiling,

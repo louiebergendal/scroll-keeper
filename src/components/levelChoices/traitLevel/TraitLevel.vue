@@ -100,18 +100,18 @@
 
 <script>
 	import { ref } from 'vue'
-	import { useCharacterStore } from '../../stores/character'
+	import { useCharacterStore } from '../../../stores/character'
 	import {
 		allSkills,
 		allTalents,
 		canChooseTrait,
 		getFailedRequirements
-	} from '../../rules/characteristics/traits'
-	import { isInvalidAtThisLevel } from '../../validators/validators'
-	import { containsKey } from '../../rules/utils'
-	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import Background from './complexTalents/background/Background.vue'
-	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
+	} from '../../../rules/characteristics/traits'
+	import { isInvalidAtThisLevel } from '../../../validators/validators'
+	import { containsKey } from '../../../rules/utils'
+	import { flattenCharacter } from '../../../rules/characterFlattener'
+	import Background from '../complexTalents/background/Background.vue'
+	import RuleRelevantMetadata from '../complexTalents/background/RuleRelevantMetadata.vue'
 
 	export default {
 		components: {
