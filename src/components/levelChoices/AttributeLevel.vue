@@ -60,12 +60,16 @@
 									:selectedLevelProp="selectedLevel"
 								/>
 							</div>
+							<div
+								v-if="
+									attributeIsInvalidAtThisLevel(attribute.key)
+									&& invalidAttributeChoiceIsNotDeselected(attribute.key)" 
+								class="margin-left-small font-size-nano"
+							>
+
+							Tak: {{ getAttributeLvlCeiling(selectedLevel) }}
+							</div>
 						</div>
-						<div
-							v-if="
-								attributeIsInvalidAtThisLevel(attribute.key)
-								&& invalidAttributeChoiceIsNotDeselected(attribute.key)" 
-							class="margin-left-tiny">Tak: {{ getAttributeLvlCeiling(selectedLevel) }}</div>
 					</label>
 				</div>
 				<div

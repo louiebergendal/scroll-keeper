@@ -2,27 +2,16 @@
 	<div class="">
 		<!-- loop sortedNiceTraits -->
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
-
 			<div v-if="trait.key !== 'background'" class="width-whole">
 				<TraitLevelTraitCard 
 					:traitProp="trait"
 					:isFontContrastLowestProp="cannotChooseTrait(trait.key) && !traitIsTouchedByError(trait.key)"
 					:isTouchedByErrorProp="traitIsTouchedByError(trait.key)"
 					:isInvalidProp="traitIsInvalidAtThisLevel(trait.key) && traitIsSelected(trait.key)"
-					:isSelectedProp="traitIsSelected(trait.key)"
+					:selectedChoiceKeyProp="selectedChoiceKey"
 					:cannotChooseTraitProp="cannotChooseTrait(trait.key)"
+					@option="emitOption"
 				>
-					<template #input>
-						<input
-							type="radio"
-							v-model="selectedChoiceKey"
-							:value="trait.key"
-							:id="trait.key"
-							:disabled="cannotChooseTrait(trait.key)"
-							class="trait-input"
-							@change="emitOption(selectedChoiceKey)" 
-						/>
-					</template>
 
 					<template #cardText>
 						<TraitLevelCardText
@@ -51,10 +40,6 @@
 							/>
 						</div>
 					</template>
-
-					<template #ruleRelevantMetadata>
-						<RuleRelevantMetadata @update-tabs="$emit('update-tabs')" />
-					</template>
 				</TraitLevelTraitCard>
 			</div>
 
@@ -72,26 +57,20 @@
 		attributeSkills,
 		generalSkills,
 		knowledgeSkills,
-		favouredTerrainSkills,
-		getTraitNiceName
+		favouredTerrainSkills
 	} from '../../rules/characteristics/traits'
 	import { invalidChoiceIsNotDeselected, isTouchedByError, isInvalidAtThisLevel } from '../../validators/validators'
 	import { containsKey } from '../../rules/utils'
-	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
 	import TraitLevelCardText from './TraitLevelCardText.vue'
-	import TraitLevelTraitCard from './TraitLevelTraitCard.vue'
 	import Scholar from '../levelChoices/complexTalents/Scholar.vue'
 	import Pathfinder from '../levelChoices/complexTalents/Pathfinder.vue'
-	import Background from '../levelChoices/complexTalents/background/Background.vue'
 
 	export default {
+		name: 'TraitLevelTraitsGroup',
 		components: {
-			RuleRelevantMetadata,
 			TraitLevelCardText,
-			TraitLevelTraitCard,
 			Pathfinder,
-			Scholar,
-			Background
+			Scholar
 		},
 		props: ['selectedLevelProp', 'traitTypeProp', 'selectedChoiceKeyProp', 'tempCharacterSheetProp', 'tempValidationSheetProp'],
 		emits: ['complexPayload', 'update-tabs', 'selected-choiceKey'],
@@ -102,7 +81,6 @@
 			const tempCharacterSheet = props.tempCharacterSheetProp
 			const tempValidationSheet = ref(props.tempValidationSheetProp)
 			const complexTraitData = ref({})
-			const hasFullComplexPayload = ref()
 			const selectedChoiceKey = ref(props.selectedChoiceKeyProp)
 			
 			let traits
@@ -116,8 +94,7 @@
 			let niceTraitKeysList = []
 			for (const traitKey in traits) {
 				const trait = traits[traitKey]
-				trait.niceName = getTraitNiceName(traitKey)
-				niceTraitKeysList.push(trait.niceName)
+				niceTraitKeysList.push(trait.name)
 			}
 
 			// trim and sort nice names
@@ -130,7 +107,7 @@
 				// second loop
 				for (const traitKey in traits) {
 					const trait = traits[traitKey]
-					if (trait.niceName === niceTraitKey) sortedNiceTraits.push(trait)
+					if (trait.name === niceTraitKey) sortedNiceTraits.push(trait)
 				}	
 			}
 
@@ -138,13 +115,11 @@
 				characterStore,
 				traitType,
 				sortedNiceTraits,
-				niceTraitKeysList,
 				tempCharacterSheet,
 				tempValidationSheet,
 				selectedChoiceKey,
 				selectedLevel,
 				complexTraitData,
-				hasFullComplexPayload,
 				containsKey,
 				canChooseTrait,
 			}
@@ -176,7 +151,6 @@
 				return containsKey(traitKey, this.tempCharacterSheet.traits)
 			},
 			traitIsSelected(traitKey){
-
 				return traitKey === this.selectedChoiceKey
 			},
 			invalidTraitChoiceIsNotDeselected(traitKey) {

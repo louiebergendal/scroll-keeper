@@ -1,23 +1,23 @@
 <template>
 	<div class="card square medium padding-large -fill">
 
-		<div class="padding-bottom-small" v-if="selectedLevel !== 1">
+		<div class="padding-bottom-small">
+			<h3 v-if="traitType === 'talent' && selectedLevel === 1" class="align-center margin-top-nano margin-bottom-tiny">Bakgrund</h3>
+			<h3 v-if="traitType === 'talent' && selectedLevel !== 1" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang</h3>
 			<h3 v-if="traitType === 'skill'" class="align-center margin-top-nano margin-bottom-tiny">Välj en färdighet</h3>
-			<h3 v-if="traitType === 'talent'" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang</h3>
 		</div>
 
 		<div v-if="selectedLevel !== 1">
 			<div v-if="traitType === 'skill'">
 				<tabs>
 					<tab name="Grundfärdigheter">
-						<TraitLevelTraitsGroup 
+						<TraitLevelTraitsGroup
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'attributeSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
 							@selected-choiceKey="updateSelectedChoiceKey"
-							@complex-payload="complexPayload"
 							@update-tabs="$emit('update-tabs')"
 						/>
 					</tab>
@@ -33,26 +33,24 @@
 						/>
 					</tab>
 					<tab name="Kunskap">
-						<TraitLevelTraitsGroup 
+						<TraitLevelTraitsGroup
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'knowledgeSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
 							@selected-choiceKey="updateSelectedChoiceKey"
-							@complex-payload="complexPayload"
 							@update-tabs="$emit('update-tabs')"
 						/>
 					</tab>
 					<tab name="Terrängvana">
-						<TraitLevelTraitsGroup 
+						<TraitLevelTraitsGroup
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'favouredTerrainSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
 							@selected-choiceKey="updateSelectedChoiceKey"
-							@complex-payload="complexPayload"
 							@update-tabs="$emit('update-tabs')"
 						/>
 					</tab>
@@ -60,7 +58,7 @@
 			</div>
 
 			<div v-if="traitType === 'talent'">
-				<TraitLevelTraitsGroup 
+				<TraitLevelTraitsGroup
 					:selectedLevelProp="selectedLevel"
 					:traitTypeProp="'talents'"
 					:selectedChoiceKeyProp="selectedChoiceKey"
@@ -74,7 +72,7 @@
 		</div>
 
 		<div v-if="selectedLevel === 1">
-			<RuleRelevantMetadata />
+			<RuleRelevantMetadata class="margin-bottom-medium"/>
 			<Background @complex-payload="complexPayload"/>
 		</div>
 
@@ -112,13 +110,11 @@
 	import { isInvalidAtThisLevel } from '../../validators/validators'
 	import { containsKey } from '../../rules/utils'
 	import { flattenCharacter } from '../../utilities/characterFlattener'
-	import TraitLevelTraitsGroup from '../generic/TraitLevelTraitsGroup.vue'
 	import Background from './complexTalents/background/Background.vue'
 	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
 
 	export default {
 		components: {
-			TraitLevelTraitsGroup,
 			Background,
 			RuleRelevantMetadata
 		},
@@ -174,7 +170,6 @@
 			},
 			complexPayload(data) {
 				let isValid = true
-
 				for (const option in data) {
 					for (const choiceGroup in data[option].choices) {
 						for (const skillChoice in data[option].choices[choiceGroup]) {

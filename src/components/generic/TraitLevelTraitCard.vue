@@ -5,18 +5,17 @@
 		class="card width-whole dark margin-bottom-nano"
 		:class="{
 			'touched-by-error':isTouchedByError,
-			'selected': isSelectedProp
+			'selected': traitIsSelected(trait.key)
 		}"
 	>
 		<div
-			class=""
 			:class="{
 				'touched-by-error -sub': isTouchedByError,
 				'invalid-background': isInvalid,
 				'font-contrast-lowest': isFontContrastLowest,
 				' -angled-bottom':
 					containsKey('complexTrait', Object.keys(trait))
-					&& isSelectedProp
+					&& traitIsSelected(trait.key)
 			}"
 		>
 			<label
@@ -26,7 +25,15 @@
 					'font-contrast-lowest': isFontContrastLowest
 				}"
 			>
-				<slot name='input'></slot> <!-- slot -->
+				<input
+					type="radio"
+					:checked="traitIsSelected(trait.key)"
+					:value="trait.key"
+					:id="trait.key"
+					:disabled="cannotChooseTrait"
+					class="trait-input"
+					@change="emitOption(trait.key)" 
+				/>
 				<slot name='cardText'></slot> <!-- slot -->
 			</label>
 		</div>
@@ -48,38 +55,25 @@
 
 <script>
 	import { ref } from 'vue'
-	import {
-		getTraitNiceName
-	} from '../../rules/characteristics/traits'
 	import { containsKey } from '../../rules/utils'
-	import RuleRelevantMetadata from '../levelChoices/complexTalents/background/RuleRelevantMetadata.vue'
-	import Scholar from '../levelChoices/complexTalents/Scholar.vue'
-	import Pathfinder from '../levelChoices/complexTalents/Pathfinder.vue'
 
 	export default {
-		components: {
-			RuleRelevantMetadata,
-			Pathfinder,
-			Scholar
-		},
-		props: ['traitProp', 'isFontContrastLowestProp', 'isTouchedByErrorProp', 'isInvalidProp', 'isSelectedProp', 'cannotChooseTraitProp'],
+		name: 'TraitLevelTraitCard',
+		props: ['traitProp', 'isFontContrastLowestProp', 'isTouchedByErrorProp', 'isInvalidProp', 'selectedChoiceKeyProp', 'cannotChooseTraitProp'],
 		setup(props) {
 			const trait = props.traitProp
 			const isFontContrastLowest = ref(props.fontContrastLowestProp)
 			const isTouchedByError = ref(props.touchedByErrorProp)
 			const isInvalid = ref(props.invalidProp)
-			const isSelected = ref(props.selectedProp)
+			const selectedChoiceKey = ref(props.selectedChoiceKeyProp)
 			const cannotChooseTrait = ref(props.cannotChooseTraitProp)
-
-			trait.niceName = getTraitNiceName(trait.key)
-
 
 			return {
 				trait,
 				isFontContrastLowest,
 				isTouchedByError,
 				isInvalid,
-				isSelected,
+				selectedChoiceKey,
 				cannotChooseTrait,
 				containsKey
 			}
@@ -109,9 +103,9 @@
 				},
 				immediate: true
 			},
-			isSelectedProp: {
+			selectedChoiceKeyProp: {
 				handler(newVal) {
-					this.isSelected = newVal
+					this.selectedChoiceKey = newVal
 				},
 				immediate: true
 			},
@@ -120,7 +114,15 @@
 					this.cannotChooseTrait = newVal
 				},
 				immediate: true
-			}
+			},	
+		},
+		methods: {
+			emitOption(selectedChoiceKey) {
+				this.$emit('option', selectedChoiceKey)
+			},
+			traitIsSelected(traitKey){
+				return traitKey === this.selectedChoiceKey
+			},
 		}
 	}
 </script>
