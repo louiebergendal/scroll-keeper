@@ -13,9 +13,30 @@ import complexTraitBackground from '../../complexTraits/background/background'
 
 // * * * Exports * * * //
 
+export const acrobat = {
+	key: 'acrobat',
+	name: 'Akrobatisk',
+	requirements: {
+		metadata: {
+			level: 11,
+		},
+		attributes: {
+			agility: baseValue + 2,
+			physique: baseValue + 1
+		},
+		traits: ['athletics']
+	},
+	addExtraMovementAction: () => addExtraMovementAction(),
+    addAdvantage: (advantage) => addAdvantage(advantage),
+	quickWithdrawal: () => quickWithdrawal(),
+	leapUp: () => leapUp(),
+	reduceFallimngDamage: () => reduceFallimngDamage()
+}
+
 export const background = {
 	key: 'background',
 	name: 'Bakgrund',
+	description: 'Rollpersonen kommer någonstans ifrån och har levt ett liv som påverkat vem den är och vad den kan. Det här kan antingen slås fram med tärning eller väljas. Vilken av metoderna som används får SL avgöra.',
 	complexTrait: {
 		...complexTraitBackground
 	}
@@ -24,6 +45,7 @@ export const background = {
 export const steady = {
 	key: 'steady',
 	name: 'Stadig',
+	description: 'Man är stor, stark och helt uppenbart byggd för strid.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -43,6 +65,7 @@ export const steady = {
 export const quick = {
 	key: 'quick',
 	name: 'Kvick',
+	description: 'Man rör sig snabbt, smidigt och bra',
 	requirements: {
 		metadata: {
 			level: 11
@@ -204,7 +227,7 @@ export const masterSpellCaster = {
 		attributes: {
 			spirit: baseValue + 3
 		},
-		traits: ['spellCaster', 'basicKnowledgeArcane']
+		traits: ['spellCaster', 'knowledgeArcaneAdvanced']
 	},
 	addSpellbookPointsBonus: (spellBookPoints) => spellBookPoints += 2,
 	addManaBonus: (mana) => mana + 1,
@@ -296,6 +319,7 @@ export const complexTalents = [
 
 export default {
 	// basic talents
+	acrobat,
 	background,
 	scrutiny,
 	steady,

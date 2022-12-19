@@ -32,7 +32,7 @@
 					:id="trait.key"
 					:disabled="cannotChooseTrait"
 					class="trait-input"
-					@change="emitOption(trait.key)" 
+					@change="emitOption(trait.key)"
 				/>
 				<slot name='cardText'></slot> <!-- slot -->
 			</label>

@@ -26,7 +26,7 @@
 					<span v-if="getBackgroundSkillsListNiceNames(option)">{{ getBackgroundSkillsListNiceNames(option) }}</span>
 				</span>
 			</div>
-		</label>
+		</label> 
 	</div>
 </template>
   
@@ -44,6 +44,7 @@
 			const options = props.optionsProp
 			const selectedOptions = props.selectedProp ? props.selectedProp : ['']
 			const invalidOptions = props.invalidOptionsListProp ? props.invalidOptionsListProp : ['']
+
 
 			return {
 				isPrimary,

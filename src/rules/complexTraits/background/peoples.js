@@ -2,11 +2,11 @@ const davanic = {
 	key: 'davanic',
 	niceName: 'Davan',
 	description: 'davan',
-	mandatorySkills: ['basicKnowledgeDavand'],
+	mandatorySkills: ['knowledgeDavandBasic'],
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['animalHusbandry', 'seamanship', 'carouse', 'beastOfBurden', 'basicKnowledgeVend']
+			list: ['animalHusbandry', 'seamanship', 'carouse', 'beastOfBurden', 'knowledgeVendBasic']
 		}
 	},
 }
@@ -15,11 +15,11 @@ const vendic = {
 	key: 'vendic',
 	niceName: 'Vender',
 	description: 'vend',
-	mandatorySkills: ['basicKnowledgeVend'],
+	mandatorySkills: ['knowledgeVendBasic'],
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['animalHusbandry', 'riding', 'brawling', 'basicKnowledgeDavand', 'basicKnowledgeArcane']
+			list: ['animalHusbandry', 'riding', 'brawling', 'knowledgeDavandBasic', 'knowledgeArcaneBasic']
 		}
 	},
 }
@@ -28,11 +28,11 @@ const sodoric = {
 	key: 'sodoric',
 	niceName: 'Sodorit',
 	description: 'sodorfolk',
-	mandatorySkills: ['basicKnowledgeSodor'],
+	mandatorySkills: ['knowledgeSodorBasic'],
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['basicKnowledgeChemistry', 'wayfinding', 'brawling', 'weatherBeaten', 'basicKnowledgeOrun']
+			list: ['knowledgeChemistryBasic', 'wayfinding', 'brawling', 'weatherBeaten', 'knowledgeOrunBasic']
 		}
 	},
 }
@@ -41,11 +41,11 @@ const durchic = {
 	key: 'durchic',
 	niceName: 'Durcher',
 	description: 'durcher',
-	mandatorySkills: ['basicKnowledgeDurcher'],
+	mandatorySkills: ['knowledgeDurcherBasic'],
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['basicKnowledgeDavand', 'basicKnowledgeSodor', 'basicKnowledgeSidra', 'basicKnowledgeOrun', 'wayfinding']
+			list: ['knowledgeDavandBasic', 'knowledgeSodorBasic', 'knowledgeSidraBasic', 'knowledgeOrunBasic', 'wayfinding']
 		}
 	},
 }

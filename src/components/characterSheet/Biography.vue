@@ -109,9 +109,9 @@
 
 				this.hasComplexPayload = complexPayload.people.key !== ''
 				if (this.hasComplexPayload) {
-					this.peopleNiceName = background.peoples[complexPayload.people.key].niceName
-					this.upbringingNiceName = background.upbringings[complexPayload.upbringing.key].niceName
-					this.professionNiceName = background.professions[complexPayload.profession.key].niceName
+					this.peopleNiceName = background.peoples.peoples[complexPayload.people.key].niceName
+					this.upbringingNiceName = background.upbringings.upbringings[complexPayload.upbringing.key].niceName
+					this.professionNiceName = background.professions.professions[complexPayload.profession.key].niceName
 				}
 			})
 		}

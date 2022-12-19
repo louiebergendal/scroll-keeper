@@ -21,13 +21,13 @@ const experienceTableMaker = (level) => {
 				experienceTable.push('attribute')
 				break
 			case 5:
-				experienceTable.push('fate')
+				experienceTable.push('competence')
 				break
 			case 6:
 				experienceTable.push('attribute')
 				break
 			case 7:
-				experienceTable.push('competence')
+				experienceTable.push('flexible')
 				break
 			case 8:
 				experienceTable.push('attribute')

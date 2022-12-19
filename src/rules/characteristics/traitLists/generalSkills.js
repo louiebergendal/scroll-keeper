@@ -103,6 +103,12 @@ const flight = {
 	softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
+const gamesAndGambling = {
+	key: 'gamesAndGambling',
+	name: 'Spel & dobbel',
+	freeReroll: (roll) => freeReroll(roll)
+}
+
 const hardy = {
 	key: 'hardy',
 	name: 'Härdad',
@@ -113,6 +119,12 @@ const intrusion = {
 	key: 'intrusion',
 	name: 'Inbrott',
 	actionTimeLockpick: () => 1
+}
+
+const speechReading = {
+	key: 'speechReading',
+	name: 'Läppläsning',
+	softUnlock: (fv) => removeSucRollPenalty(fv),
 }
 
 const meticulous = {
@@ -162,6 +174,12 @@ const seamanship = {
 	addMoraleBonus: (morale) => morale += 2
 }
 
+const survival = {
+	key: 'survival',
+	name: 'Överlevnad',
+	addForagingBonus: (provisions) => provisions += 1
+}
+
 const tracking = {
 	key: 'tracking',
 	name: 'Spåra',
@@ -196,7 +214,6 @@ const wayfinding = {
 	name: 'Orientera',
 	usageRequirements: ['roughTerrain', 'miserableTerrain'],
 	addGroupNarrativeMovementSpeedBonus: (speed) => speed * 1.25,
-	addForagingBonus: (provisions) => provisions += 1
 }
 
 const weatherBeaten = {
@@ -215,14 +232,17 @@ const generalSkills = {
 	crafting,
 	cutthroat,
 	fast,
+	gamesAndGambling,
 	hardy,
 	intrusion,
+	speechReading,
 	meticulous,
 	performer,
 	physician, 
 	resolve,
 	riding,
-	seamanship, 
+	seamanship,
+	survival,
 	tracking,
 	unarmouredFighting,
 	vigilant,
@@ -230,7 +250,7 @@ const generalSkills = {
 	wayfinding,
 	weatherBeaten,
 
-	flight
+	flight,
 }
 
 export const generalSkillKeysList = () => Object.keys(generalSkills)

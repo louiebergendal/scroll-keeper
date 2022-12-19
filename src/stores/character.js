@@ -5,6 +5,9 @@ import { flattenCharacter } from '../rules/characterFlattener'
 import { createRefs, updateData, removeData } from '../api/firebaseApi'
 import { traitFromKey } from '../rules/characteristics/traits'
 
+import { attributes } from '../rules/characteristics/attributes'
+import { allTraits } from '../rules/characteristics/traits'
+
 export const useCharacterStore = defineStore('character', {
 	state: () => {
 		const currentLevel = loaderCharacter.metadata.level
@@ -34,10 +37,84 @@ export const useCharacterStore = defineStore('character', {
 						this.history = newCharacterState.history
 						this.state = newCharacterState.state
 					}
+					this.catchOutdatedLevelKeys(this.history)
 				}
 			)
 		},
+		catchOutdatedLevelKeys(history) {
+			const traits = allTraits()
 
+			for(const levelIndex in history) {
+				const level = history[levelIndex]
+				
+				if (level.bonusType === 'attribute') {
+					if (!attributes[level.choice]) {
+						// add to invalidLevels
+						this.metadata.invalidLevels = {
+							...this.metadata.invalidLevels, 
+							[levelIndex]: ['invalidKey',level.choice] 
+						}
+						level.choice = ''
+					}
+				}
+				if (level.bonusType === 'skill') {
+					if (!traits[level.choice]) {
+						// add to invalidLevels
+						this.metadata.invalidLevels = { 
+							...this.metadata.invalidLevels, 
+							[levelIndex]: ['invalidKey', level.choice]
+						}
+						level.choice = ''
+					}
+				}
+				if (level.bonusType === 'talent') {
+					if (!traits[level.choice]) {
+						// add to invalidLevels
+						this.metadata.invalidLevels = {
+							...this.metadata.invalidLevels, 
+							[levelIndex]: ['invalidKey', level.choice]
+						}
+						level.choice = ''
+					}
+					if (level.complexPayload) {
+						// check if complexPayload is valid
+
+						for (const complexTraitCategory in level.complexPayload) {
+							const choices = level.complexPayload[complexTraitCategory].choices
+
+							for (const choiceIndex in choices) {
+								const choicesList = choices[choiceIndex]
+
+								for (const choiceIndex in choicesList) {
+									const choice = choicesList[choiceIndex]
+									if (!traits[choice]) {
+										// add to invalidLevels
+										this.metadata.invalidLevels = {
+											...this.metadata.invalidLevels,
+											[levelIndex]: ['invalidKey', choice]
+										}
+										choices[choiceIndex][choice] = ''
+									}
+								}
+
+							}
+						}
+
+						/* target */
+						const chosenTrait = traitFromKey(level.choice)
+						const complexTrait = chosenTrait.complexTrait
+
+						for (const choiceCategory in complexTrait) {
+							console.log('choiceCategory: ', complexTrait[choiceCategory]);
+						}
+
+
+					}
+
+				}
+				
+			}
+		},
 		// Upstream
 		updateCharacterField(refString, data) {
 			updateData(refString, data)

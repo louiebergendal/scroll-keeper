@@ -10,27 +10,32 @@ export const attributes = {
 	[attributeNames.battle]: {
 		key: attributeNames.battle,
 		longName: 'Kamp',
-		shortName: 'KAM'
+		shortName: 'KAM',
+		description: 'Kamp (KAM) representerar karaktärens duglighet i strid. Den med högt värde i Kamp tillfogar mer skada då den anfaller och är själv bättre på att undgå Skada då den försvarar sig. Exakt vilka egenskaper som leder till detta varierar från karaktär till karaktär.'
 	},
 	[attributeNames.agility]: {
 		key: attributeNames.agility,
 		longName: 'Smidighet',
-		shortName: 'SMI'
+		shortName: 'SMI',
+		description: 'Smidighet (SMI) representerar karaktärens kroppskontroll, balans, vighet, finmotorik och koordination. Karaktärer med hög Smidighet rör sig obemärkt, flytande och graciöst. De kan ta långa och exakta språng och Klättra uppför berg, trädstammar och husfasader. De har flinka fingrar och är skickliga på att dyrka upp lås och stjäla föremål från intet ont anande offer. Karaktärer med låg Smidighet är klumpiga.'
 	},
 	[attributeNames.spirit]: {
 		key: attributeNames.spirit,
 		longName: 'Andlighet',
-		shortName: 'AND'
+		shortName: 'AND',
+		description: 'Andlighet (AND) är karaktärens kontakt och förnimmelse av det övernaturliga och ickefysiska. Att tyda magiska runor går på kunskap, men att kasta Besvärjelser eller känna närvaron av en osalig ande går på Andlighet. Någon med högt i Andlighet är troligen väldigt vidskeplig och skrockfull.'
 	},
 	[attributeNames.knowledge]: {
 		key: attributeNames.knowledge,
 		longName: 'Kunskap',
-		shortName: 'KUN'
+		shortName: 'KUN',
+		description: 'Kunskap (KUN) visar en karaktärs allmänbildning. Någon med högt i Kunskap har god koll på skrönor, rykten, legender, fakta etc. Det kan röra sig om allt ifrån historia till extraktkunskap, tydande av uråldriga runor, andra kulturer, kännedom om den undre världen, administration eller kunskap om demoner.'
 	},
 	[attributeNames.physique]: {
 		key: attributeNames.physique,
 		longName: 'Fysik',
-		shortName: 'FYS'
+		shortName: 'FYS',
+		description: 'Fysik (FYS) representerar karaktärens fysiska form, kondition och styrka. Personer med hög Fysik är starka, uthålliga, stryktåliga och muskulösa.'
 	}
 }
 
@@ -61,8 +66,8 @@ export const getAttributeShortName = (attributeKey) => {
 * @param {string} attributeKey
 */
 export const getAttributeLongName = (attributeKey) => {	
-	if (attributeKey) { return attributes[attributeKey].longName }
-	return ''
+	if (attributeKey && attributes[attributeKey]) { return attributes[attributeKey].longName }
+	return null
 }
 
 /** 

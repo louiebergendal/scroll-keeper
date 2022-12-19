@@ -49,15 +49,12 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
 
-		// ADD COMPETENCE
-		if (bonusType === 'competence')
-			baseCharacterSheet.competence++
-
-		// ADD FATE
-		if (bonusType === 'fate') 
-			baseCharacterSheet.fate += 3
-		if (!databaseCharacter.metadata.isChosenByFate) {
-			baseCharacterSheet.fate = baseCharacterSheet.fate * 0
+		// ADD COMPETENCE & FATE
+		if (bonusType === 'competence') {
+			baseCharacterSheet.competence ++
+			if (databaseCharacter.metadata.isChosenByFate) {
+				baseCharacterSheet.fate += 3
+			}
 		}
 
 		// ADD ATTRIBUTES
@@ -67,9 +64,10 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			}
 		}
 
-		const oldTraitsList = [...characterTraitList]
+		
 
 		// ADD TRAITS
+		const oldTraitsList = [...characterTraitList] // make a copy of the old list
 		for (const traitKey in traitList) {
 
 			if (traitKey === chosenBonus) {
@@ -85,7 +83,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 						for (const choiceGroup in skillChoicesList) { // ex. 1
 
-							for (const choiceKey in skillChoicesList[choiceGroup]) { // ex. 'basicKnowledgeDavand'
+							for (const choiceKey in skillChoicesList[choiceGroup]) { // ex. 'KnowledgeDavandBasic'
 								const skillChoiceKey = skillChoicesList[choiceGroup][choiceKey]
 
 								// if any of the traits in the complexPayload are already owned, traitKey is invalid

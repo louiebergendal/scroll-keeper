@@ -2,6 +2,18 @@
 	<div class='card flex -dir-col square medium padding-large -fill'>
 
 		<h3 class="align-center margin-top-nano margin-bottom-medium">Öka en grundegenskap</h3>
+
+		<div 
+			v-if="
+				characterStore.metadata.invalidLevels[selectedLevel]
+				&& characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey'"
+			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"
+		>
+			Det tidigare valet på den här erfarenhetsnivån är ogiltigt
+			<br>
+			Tidigare val: [ <span class="italic">{{ characterStore.metadata.invalidLevels[selectedLevel][1] }}</span> ]
+		</div>
+
 		<div
 			v-for='attribute in attributes'
 			:key='attribute.key'
@@ -27,50 +39,62 @@
 					}"
 					class="width-whole card dark"
 				>
-					<label
-						:for='attribute.key'
-						class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start"
-						:class="{
-							'touched-by-error': attributeIsTouchedByError(attribute.key),
-							'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key) && attributeIsInvalidAtThisLevel(attribute.key)
-						}">
-						<input
-							type="radio"
-							:id="attribute.key"
-							:value="attribute.key"
-							v-model="selectedChoiceKey"
-							name="attribute"
-							:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
-							class="trait-input"
-						/>
+					<div class="flex">
+						<label
+							:for='attribute.key'
+							class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start width-whole"
+						>
+							<input
+								type="radio"
+								:id="attribute.key"
+								:value="attribute.key"
+								v-model="selectedChoiceKey"
+								name="attribute"
+								:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
+								class="trait-input"
+							/>
+							<div class=" margin-top-tiny">
+								{{ getAttributeLongName(attribute.key) }}
+							</div>
+						</label>
 						
-						<div>
-							<div class="margin-top-tiny">{{ getAttributeLongName(attribute.key) }}</div>
-							<div  
-								v-if="(
-									attributeIsInvalidAtThisLevel(attribute.key)
-									&& invalidAttributeChoiceIsNotDeselected(attribute.key)
-								|| (
-									attributeIsTouchedByError(attribute.key)
-									&& (!attributeIsInvalidAtThisLevel(attribute.key)))
-								) || !invalidAttributeChoiceIsNotDeselected(attribute.key)"
-							>
-								<InvalidOccurrence 
-									:characteristicProp="attribute.key"
-									:selectedLevelProp="selectedLevel"
-								/>
-							</div>
-							<div
-								v-if="
-									attributeIsInvalidAtThisLevel(attribute.key)
-									&& invalidAttributeChoiceIsNotDeselected(attribute.key)" 
-								class="margin-left-small font-size-nano"
-							>
+						<span @click="onClickToggleDescription(attribute.key)" class="font-contrast-medium margin-top-small margin-right-small info-button-inline float-right">
+							<span class="info-button-content"> i </span>
+						</span>
 
-							Tak: {{ getAttributeLvlCeiling(selectedLevel) }}
-							</div>
+					</div>
+					
+					
+					<div class="width-whole">
+						<div
+							v-if="(
+								attributeIsInvalidAtThisLevel(attribute.key)
+								&& invalidAttributeChoiceIsNotDeselected(attribute.key)
+							|| (
+								attributeIsTouchedByError(attribute.key)
+								&& (!attributeIsInvalidAtThisLevel(attribute.key)))
+							) || !invalidAttributeChoiceIsNotDeselected(attribute.key)"
+							class="margin-left-small padding-bottom-tiny font-size-nano negative-top-margin attribute-info-margin"
+						>
+							<InvalidOccurrence 
+								:characteristicProp="attribute.key"
+								:selectedLevelProp="selectedLevel"
+							/>
 						</div>
-					</label>
+						<div
+							v-if="
+								attributeIsInvalidAtThisLevel(attribute.key)
+								&& invalidAttributeChoiceIsNotDeselected(attribute.key)" 
+							class="margin-left-small padding-bottom-tiny font-size-nano negative-top-margin attribute-info-margin"
+						>
+							<span class="font-size-nano display-block margin-left-small margin-top-nano padding-top-nano">
+								Tak: {{ getAttributeLvlCeiling(selectedLevel) }}
+							</span>
+						</div>
+						<div v-show="visibleAttributeDescriptions[attribute.key]" class="attribute-info-margin card medium font-contrast-medium padding-bottom-tiny padding-left-tiny margin-right-tiny margin-bottom-tiny padding-right-tiny font-size-nano">
+							{{ attributes[attribute.key].description }}
+						</div>
+					</div>
 				</div>
 				<div
 					v-if="selectedChoiceKey === attribute.key"
@@ -118,16 +142,16 @@
 
 <script>
 	import { ref } from 'vue'
-	import { useCharacterStore } from '../../stores/character'
+	import { useCharacterStore } from '../../../stores/character'
 	import {
 		attributes,
 		getAttributeLongName,
 		canChooseAttribute,
 		getAttributeLvlCeiling
-	} from '../../rules/characteristics/attributes'
-	import { flattenCharacter } from '../../rules/characterFlattener'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../validators/validators'
-	import InvalidOccurrence from '../generic/InvalidOccurrence.vue'
+	} from '../../../rules/characteristics/attributes'
+	import { flattenCharacter } from '../../../rules/characterFlattener'
+	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../../validators/validators'
+	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
 
 	export default {
 		components: {
@@ -136,6 +160,14 @@
 		props: ['selectedLevelProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()
+			const visibleAttributeDescriptionsDefaults = {
+				battle: false,
+				agility: false,
+				spirit: false,
+				knowledge: false,
+				physique: false,
+			}
+			const visibleAttributeDescriptions = ref(visibleAttributeDescriptionsDefaults)
 			const selectedLevel = props.selectedLevelProp
 			const levelIsChangable = ref(selectedLevel <= characterStore.metadata.level + 1)
 
@@ -154,6 +186,8 @@
 				characterAttributes,
 				originalLevelChoiceKey,
 				selectedChoiceKey,
+				visibleAttributeDescriptionsDefaults,
+				visibleAttributeDescriptions,
 				getAttributeLongName,
 				canChooseAttribute,
 				getAttributeLvlCeiling,
@@ -193,6 +227,15 @@
 					this.characterStore.metadata.invalidLevels,
 					this.selectedLevel
 				)
+			},
+			/* 
+			this is a function in a vue component.
+			it is supposed to be called when the user clicks the toggle button.
+			when clicked ir should toggle the visibbility of the description of the attribute.
+			*/
+			onClickToggleDescription(attributeKey) {
+				this.visibleAttributeDescriptions = this.visibleAttributeDescriptionsDefaults
+				this.visibleAttributeDescriptions[attributeKey] = !this.visibleAttributeDescriptions[attributeKey]
 			}
 		}
 	}
@@ -205,5 +248,11 @@
 	}
 	.attribute-result {
 		margin-top: -1px;
+	}
+	.attribute-info-margin {
+		margin-left: 3.4rem !important; 
+	}
+	.negative-top-margin {
+		margin-top: -0.8rem;
 	}
 </style>

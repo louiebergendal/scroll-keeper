@@ -6,6 +6,17 @@
 			<h3 v-if="traitType === 'talent' && selectedLevel !== 1" class="align-center margin-top-nano margin-bottom-tiny">Välj en talang</h3>
 			<h3 v-if="traitType === 'skill'" class="align-center margin-top-nano margin-bottom-tiny">Välj en färdighet</h3>
 		</div>
+		
+		<div 
+			v-if="
+				characterStore.metadata.invalidLevels[selectedLevel]
+				&& characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey'"
+			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"
+		>
+			Det tidigare valet på den här erfarenhetsnivån är ogiltigt
+			<br>
+			Tidigare val: [ <span class="italic">{{ characterStore.metadata.invalidLevels[selectedLevel][1] }}</span> ]
+		</div>
 
 		<div v-if="selectedLevel !== 1">
 			<div v-if="traitType === 'skill'">
@@ -82,10 +93,11 @@
 					(
 						!selectedChoiceKey
 						||
-						(traits[selectedChoiceKey].complexTrait
+						(traits[selectedChoiceKey]?.complexTrait
 						&& !hasFullComplexPayload)
 						||
-						cannotChooseTrait(traits[selectedChoiceKey].key)
+						(traits[selectedChoiceKey]
+						&& cannotChooseTrait(traits[selectedChoiceKey]?.key))
 					)"
 				type="submit"
 				class="margin-top-large margin-left-nano"
@@ -132,7 +144,10 @@
 			const hasFullComplexPayload = ref()
 
 			let originalLevelChoiceKey = ''
-			if (selectedLevel <= characterStore.metadata.level) { originalLevelChoiceKey = characterStore.history[selectedLevel].choice }
+			if (selectedLevel <= characterStore.metadata.level) {
+				originalLevelChoiceKey = characterStore.history[selectedLevel].choice
+			}
+
 			const selectedChoiceKey = ref(originalLevelChoiceKey)
 			let traits
 			if (traitType === 'skill') { traits = allSkills() }

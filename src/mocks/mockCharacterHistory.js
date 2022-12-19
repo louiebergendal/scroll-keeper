@@ -59,7 +59,7 @@ const VilleVakt = {
 		},
 		3: {
 			bonusType: 'skill',
-			choice: 'basicKnowledgeDavand'
+			choice: 'knowledgeDavandBasic'
 		},
 		4: {
 			bonusType: 'attribute',
@@ -74,8 +74,8 @@ const VilleVakt = {
 			choice: 'agility'
 		},
 		7: {
-			bonusType: 'competence',
-			choice: ''
+			bonusType: 'attribute',
+			choice: 'kowledge'
 		},
 		8: {
 			bonusType: 'attribute',
@@ -114,8 +114,8 @@ const VilleVakt = {
 			choice: 'agility'
 		},
 		17: {
-			bonusType: 'competence',
-			choice: ''
+			bonusType: 'attribute',
+			choice: 'knowledge'
 		},
 		18: {
 			bonusType: 'attribute',

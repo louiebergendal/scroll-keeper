@@ -17,12 +17,14 @@
 					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
 						<div class="margin-bottom-small">
 							<h3 class="align-center">Obligatorisk</h3>
-							<div :key="skill" v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills">
+
+							<div v-for="skill in peoplesOptions[peoplesChoiceKey].mandatorySkills" :key="skill">
 								<label class="card selected margin-bottom-nano width-whole padding-left-tiny padding-bottom-tiny display-block flex" :for="'mandatory-' + skill">
 									<input class="trait-input" type="radio" :id="'mandatory-' + skill" checked="true">
 									<div><span class="trait-align">{{ getTraitNiceName(skill) }}</span></div>
 								</label>
 							</div>
+
 						</div>
 						<div>
 							<h3 class="align-center">Val</h3>
@@ -55,7 +57,7 @@
 					<div v-if="upbringingsChoiceKey && upbringingsChoiceKey.length" class="bordered-block padding-small">
 						<div v-if="upbringingsOptions[upbringingsChoiceKey]">
 							<h3 class="align-center">Val 1</h3>
-							<div class="margin-bottom-small"> <!-- xx -->
+							<div class="margin-bottom-small">
 								<RadioButtonGroup
 									:nameProp="'upbringings' + '-' + 'skillList' + '-' + 0"
 									:optionsProp="upbringingsOptions[upbringingsChoiceKey].skillsLists[0].list"
@@ -94,7 +96,7 @@
 						/>
 					</div>
 					<div v-if="professionsChoiceKey && professionsChoiceKey.length > 0" class="bordered-block padding-small">
-						<div>
+						<div v-if="professionsOptions[professionsChoiceKey]">
 							<h3 class="align-center">Val 1</h3>
 							<div class="margin-bottom-small">
 								<RadioButtonGroup
@@ -143,7 +145,7 @@
 <script>
 	import { ref } from 'vue'
 	import { useCharacterStore } from '../../../../stores/character'
-	import { canChooseTrait, getTraitNiceName } from '../../../../rules/characteristics/traits'
+	import { canChooseTrait, getTraitNiceName, allTraits } from '../../../../rules/characteristics/traits'
 	import { background } from '../../../../rules/characteristics/traitLists/talents'
 	import { knowledgeSkillKeysList } from '../../../../rules/characteristics/traitLists/knowledgeSkills'
 	import RadioButtonGroup from './RadioButtonGroup.vue'
@@ -157,16 +159,17 @@
 		},
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const characterStoreLocal = {}
 
+			const characterStoreLocal = {}
+			const comparisonTraits = allTraits()
 
 			// --- PEOPLES ---
 
 			// Available Options
-			const peoplesOptions = background.complexTrait.peoples
+			const peoplesOptions = background.complexTrait.peoples.peoples
 
 			// Chosen People Key
-			const peoplesChoiceKey = ref(characterStore.history[1].complexPayload.people.key)
+			const peoplesChoiceKey = ref(characterStore.history[1].complexPayload.people.key) || ref('')
 
 			// Chosen People Mandatory Skills - PROXY
 			const peoplesSkillsMandatoryList =
@@ -182,10 +185,23 @@
 			const invalidPeoplesChoicesList = ref([])
 			const invalidKnowledgeSkillsForPeoplesChoicesList = ref([])
 
+			for(let skillsList in Object.values(characterStore.history[1].complexPayload.people.choices) ) {
+
+				for (let skillChoice in Object.values(characterStore.history[1].complexPayload.people.choices)[skillsList]) {
+					const skillChoiceKey = Object.values(characterStore.history[1].complexPayload.people.choices)[skillsList][skillChoice]
+
+					if (!comparisonTraits[skillChoiceKey]) {
+						//console.log('Object.values(characterStore.history[1].complexPayload.people.choices)[1][skillChoice]: ', Object.values(characterStore.history[1].complexPayload.people.choices)[0][skillChoice]);
+						//peoplesSkillsChoiceList[skillChoiceKey] = null
+					}
+				}
+			}
+
+
 			// --- UPBRINGINGS ---
 
 			// Available Options
-			const upbringingsOptions = background.complexTrait.upbringings
+			const upbringingsOptions = background.complexTrait.upbringings.upbringings
 
 			// Chosen Upbringing Key
 			const upbringingsChoiceKey = ref(characterStore.history[1].complexPayload.upbringing.key)
@@ -201,7 +217,7 @@
 			// --- PROFESSIONS ---
 
 			// Available Options
-			const professionsOptions = background.complexTrait.professions
+			const professionsOptions = background.complexTrait.professions.professions
 
 			// Chosen Profession Key
 			const professionsChoiceKey = ref(characterStore.history[1].complexPayload.profession.key)
@@ -267,10 +283,8 @@
 			this.updateInvalidChoicesList()
 
 			this.characterStore.$subscribe((_mutation, state) => {
-
 				this.characterStoreLocal = state
 				this.isChosenByFate = state.metadata.isChosenByFate
-
 			})
 		},
 		methods: {
@@ -281,15 +295,16 @@
 			validateKnowledgeSkills(choiceList) {
 				const knowledgeSkillKeyList = this.knowledgeSkillKeysList()
 				let invalidKnowledgeSkills = []
-				for (const knowledgeSkillKey in knowledgeSkillKeyList) {
+				for (const knowledgeSkillIndex in knowledgeSkillKeyList) {
+					const knowledgeSkillKey = knowledgeSkillKeyList[knowledgeSkillIndex]
 					if (!this.canChooseTrait(
-						knowledgeSkillKeyList[knowledgeSkillKey],
+						knowledgeSkillKey,
 						choiceList,
 						this.characterStore.attributes,
 						this.characterStore.metadata.isChosenByFate,
 						1
 					)) {
-						invalidKnowledgeSkills.push(knowledgeSkillKeyList[knowledgeSkillKey])
+						invalidKnowledgeSkills.push(knowledgeSkillKey)
 					}
 					
 				}
@@ -354,8 +369,6 @@
 					this.validateKnowledgeSkills(this.invalidChosenByFateChoicesList)
 				this.invalidChosenByFateChoicesList =
 					this.invalidChosenByFateChoicesList.concat(this.invalidKnowledgeSkillsForChosenByFateChoicesList)
-
-
 			},
 			inputEventHandler(data) {
 
@@ -425,7 +438,7 @@
 							},
 						},
 						key: this.professionsChoiceKey
-					}
+					},
 				}
 
 				if (this.isChosenByFate) {

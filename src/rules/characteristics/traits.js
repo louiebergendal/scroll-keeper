@@ -12,6 +12,7 @@ import knowledgeSkillsImport from './traitLists/knowledgeSkills'
 import favouredTerrainSkillsImport from './traitLists/favouredTerrainSkills'
 import talentsListImport from './traitLists/talents'
 import { containsKey } from '../utils'
+import background from '../complexTraits/background/background'
 
 const name = 'Färdigheter och Talanger'
 
@@ -136,9 +137,7 @@ export const talentsListKeys = () => Object.keys(talentsList)
 * allTraits:
 * - Returns an 'allTraits' list.
 */
-export function allTraits() {
-	return allTraitsList
-}
+export const allTraits = () => allTraitsList
 /**
 * Returns an array containing the keys of allTraitsList
 */
@@ -174,8 +173,11 @@ export function independentCharacterSkills(characterTraits = []) {
 		talentKeys.forEach(talentKey => {
 			if (traitKey === talentKey) { traitIsValid = false }
 		})
-		if (traitIsValid) { traits[traitKey] = traitFromKey(traitKey, characterTraits) }
+
+		if (traitIsValid && traitFromKey(traitKey, characterTraits)) { traits[traitKey] = traitFromKey(traitKey, characterTraits) }
 	})
+
+
 	return traits
 }
 
@@ -215,7 +217,10 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 
 	let characterTraits = {}
 	characterTraitList.forEach((traitKey) => {
-		characterTraits[traitKey] = allTraits()[traitKey]
+		if (characterTraits[traitKey]) {
+			characterTraits[traitKey] = allTraits()[traitKey]
+		}
+		
 	})
 	let modifiedValue = value
 	for (const traitKey in characterTraits) {
@@ -246,7 +251,7 @@ export function getFailedRequirements(
 ) {
 
 	// access target trait requirements
-	const trait = allTraitsList[traitKey]
+	const trait = allTraitsList[traitKey] || {}
 	const failedRequirements = {}
 
 	// check if trait is already owned
@@ -394,7 +399,7 @@ export function traitFromKey(traitKey) {
 }
 
 export function getTraitNiceName(traitKey) {
-	const trait = traitFromKey(traitKey)
+	const trait = traitFromKey(traitKey) ? traitFromKey(traitKey) : null
 	if (trait) { return trait.name }
 }
 
@@ -404,4 +409,17 @@ export function removeTraitsWithRequirements(traits) {
 		if (tempTraits[trait].requirements) delete tempTraits[trait]
 	}
 	return tempTraits
+}
+
+export function getComplexTraitChoiceKey(complexTraitCategoryKey, address1, address2, complexPayload) {
+	return complexPayload[complexTraitCategoryKey].choices[address1][address2]
+}
+
+export function alterComplexTrait(traitKey, complexTraitCategoryKey, address1, address2, complexPayload) {
+	complexPayload[complexTraitCategoryKey].choices[address1][address2] = traitKey
+	return complexPayload
+}
+
+export function getComplexTraitCategorySkillsList(complexTraitCategoryKey, address1, ) {
+	background.complexTraitCategoryKey
 }

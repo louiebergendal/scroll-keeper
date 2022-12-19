@@ -303,9 +303,6 @@ textarea {
 
 .tabs-component {
   border-radius: $border-radius;
-  .tabs-component-panels {
-
-  }
   .tabs-component-tabs {
     display: flex;
     list-style: none;
@@ -344,6 +341,27 @@ textarea {
     background-color: $background-brightness-high;
     padding: $size-small;
 
+  }
+  &.dark {
+    > .tabs-component-tabs {
+      .tabs-component-tab {
+        .tabs-component-tab-a {
+          border-width: 0;
+          border-radius: 0;
+          background-color: $background-brightness-low;
+          &.is-active {
+            background-color: $background-brightness-medium;
+          }
+        }
+      }
+    }
+    > .tabs-component-panels {
+      > .tabs-component-panel {
+        padding: 0;
+        background-color: $background-brightness-medium;
+        border-width: 0;
+      }
+    }
   }
 }
 
@@ -413,6 +431,21 @@ textarea {
   background-size: cover;
   border-radius: $border-radius;
   box-shadow: inset 0px 0px 22px 0px rgb(0 0 0 / 60%), 0px 1px 2px 0px rgb(0 0 0 / 80%)
+}
+
+// Info buttons
+.info-button-inline {
+  cursor: pointer;
+  position: relative;
+  border-radius: 50%;
+  height: 1.6rem;
+  width: 1.6rem;
+  border: 1px solid #474543;
+  .info-button-content {
+    position: absolute;
+    top: -0.7rem;
+    left: 0.45rem;
+  }
 }
 
 // Traits

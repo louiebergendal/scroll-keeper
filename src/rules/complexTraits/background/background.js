@@ -2,6 +2,10 @@ import peoples from './peoples'
 import upbringings from './upbringings'
 import professions from './professions'
 
+const peoplesDescription = 'Folket representerar din karaktärs etnicitet.'
+const upbringingsDescription = 'Uppväxten representerar miljön i vilken din karaktär spenderade sin barndom.'
+const professionsDescription = 'Livnäringen representerar din karaktärs yrke eller sysselsättning.'
+
 export const backgroundCategoryNiceNames = {
 	people: 'Folk',
 	upbringing: 'Uppväxt',
@@ -16,8 +20,17 @@ export const getBackgroundSkillsListNiceNames = (key) => {
 }
 
 export default {
-	peoples,
-	upbringings,
-	professions,
+	peoples: {
+		peoples: peoples,
+		description: peoplesDescription
+	},
+	upbringings: {
+		upbringings: upbringings,
+		description: upbringingsDescription
+	},
+	professions: {
+		professions: professions,
+		description: professionsDescription
+	},
 }
 

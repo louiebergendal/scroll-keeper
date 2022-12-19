@@ -9,6 +9,7 @@
 				:custom-tabs="levelTabDataList"
 				@change="onChangeCurrentTab"
 			>
+				
 				<div v-for="level in levelList" :key="level.level">
 					<div v-if="currentTabIndex === level.level" >
 						<div v-if="level.levelBonus === 'skill'">
@@ -45,6 +46,25 @@
 								@update-tabs="updateLevelTabData"
 							/>
 						</div>
+						<div v-if="level.levelBonus === 'flexible'">
+							
+							<tabs class="dark">
+								<tab name="Grundegenskap">
+									<AttributeLevel
+										:selectedLevelProp="currentTabIndex"
+										@update-tabs="updateLevelTabData"
+									/>
+								</tab>
+								<tab name="Färdighet">
+									<TraitLevel
+										:selectedLevelProp="currentTabIndex"
+										:traitTypeProp="'skill'"
+										@update-tabs="updateLevelTabData"
+									/>
+								</tab>
+							</tabs>
+							
+						</div>
 					</div>
 				</div>
 			</Wizard>
@@ -58,23 +78,25 @@
 	import experienceTableMaker from '../../rules/experienceTableMaker.js'
 	import Wizard from 'form-wizard-vue3'
 	import TraitLevel from '../levelChoices/traitLevel/TraitLevel.vue'
-	import AttributeLevel from '../../components/levelChoices/AttributeLevel.vue'
+	import AttributeLevel from '../levelChoices/attributeLevel/AttributeLevel.vue'
 	import StaticLevel from '../../components/levelChoices/StaticLevel.vue'
 	import { getTraitNiceName } from '../../rules/characteristics/traits'
 	import { getAttributeLongName } from '../../rules/characteristics/attributes'
 	import { containsKey } from '../../rules/utils'
 	import { getLevelBonusNiceName } from '../../rules/level'
+	import Tabs from '../generic/tabs/Tabs.vue'
 
 	export default {
 		components: {
 			Wizard,
 			AttributeLevel,
 			TraitLevel,
-			StaticLevel
+			StaticLevel,
+			Tabs
 		},
 		setup(props) {
 			const characterStore = useCharacterStore()
-			const experienceTable = ref(experienceTableMaker(characterStore.metadata.level + 1)) // HÅRDKODAT
+			const experienceTable = ref(experienceTableMaker(characterStore.metadata.level + 1))
 			const isClosed = ref(true)
 			const currentTabIndex = ref(0)
 			const levelTabDataList = ref([])
@@ -120,6 +142,10 @@
 							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
 						} else if (levelBonus === 'attribute') {
 							niceName = getAttributeLongName(choice)
+							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
+						} else if (levelBonus === 'flexible') {
+							if (getAttributeLongName(choice)) { niceName = getAttributeLongName(choice) }
+							if (getTraitNiceName(choice)) { niceName = getTraitNiceName(choice) }
 							levelTabData = getLevelBonusNiceName(levelBonus) + ': ' + niceName
 						} else {
 							// Fate'n stuff
@@ -167,6 +193,7 @@
 				}
 			},
 			onChangeCurrentTab(index) {
+				console.log('characterStore.history: ', this.characterStore.history);
 				this.currentTabIndex = index + 1
 				this.updateLevelTabData()
 			}

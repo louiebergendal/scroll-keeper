@@ -62,6 +62,8 @@
 		setup() {
 			const route = useRoute()
 			const characterStore = useCharacterStore()
+
+
 			return {
 				characterStore,
 				route
@@ -69,6 +71,7 @@
 		},
 		beforeMount() {
 			this.characterStore.setPath()
+			console.log('characterStore.metadata: ', this.characterStore.metadata);
 		}
 	}
 </script>
