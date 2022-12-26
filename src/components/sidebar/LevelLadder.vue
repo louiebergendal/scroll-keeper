@@ -193,7 +193,6 @@
 				}
 			},
 			onChangeCurrentTab(index) {
-				console.log('characterStore.history: ', this.characterStore.history);
 				this.currentTabIndex = index + 1
 				this.updateLevelTabData()
 			}

@@ -101,12 +101,12 @@ export const useCharacterStore = defineStore('character', {
 						}
 
 						/* target */
-						const chosenTrait = traitFromKey(level.choice)
+						/* const chosenTrait = traitFromKey(level.choice)
 						const complexTrait = chosenTrait.complexTrait
 
 						for (const choiceCategory in complexTrait) {
 							console.log('choiceCategory: ', complexTrait[choiceCategory]);
-						}
+						} */
 
 
 					}

@@ -35,6 +35,8 @@ const knowledgeDavandExpert = {
 	addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
 
+
+
 const knowledgeVendBasic = {
 	key: 'knowledgeVendBasic',
 	name: 'Ytlig kunskap (Vend)',
@@ -58,6 +60,8 @@ const knowledgeVendExpert = {
 	},
 	addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
+
+
 
 const knowledgeSodorBasic = {
 	key: 'knowledgeSodorBasic',
@@ -83,6 +87,8 @@ const knowledgeSodorExpert = {
 	addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
 
+
+
 const knowledgeSidraBasic = {
 	key: 'knowledgeSidraBasic',
 	name: 'Ytlig kunskap (Sidra)',
@@ -107,6 +113,8 @@ const knowledgeSidraExpert = {
 	addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
 
+
+
 const knowledgeDurcherBasic = {
 	key: 'knowledgeDurcherBasic',
 	name: 'Ytlig kunskap (Durcher)',
@@ -130,6 +138,8 @@ const knowledgeDurcherExpert = {
 	},
 	addAdvantage: (sucRoll) => addAdvantage(sucRoll)
 }
+
+
 
 const knowledgeOrunBasic = {
 	key: 'knowledgeOrunBasic',
@@ -157,6 +167,8 @@ const knowledgeOrunExpert = {
 	canChoseExtraEffects: () => canChoseExtraEffects()
 }
 
+
+
 const knowledgeChemistryBasic = {
 	key: 'knowledgeChemistryBasic',
 	name: 'Ytlig kunskap (Extrakt)',
@@ -182,6 +194,8 @@ const knowledgeChemistryExpert = {
 	},
 	addAdvantage: (sucRoll) => addAdvantage(sucRoll),
 }
+
+
 
 const knowledgeArcaneBasic = {
 	key: 'knowledgeArcaneBasic',
@@ -210,6 +224,8 @@ const knowledgeArcaneExpert = {
 	addAdvantage: (sucRoll) => addAdvantage(sucRoll),
 	addCantrip: (addCantrip) => addCantrip + 1
 }
+
+
 
 const knowledgeSkills = {
 	knowledgeDavandBasic,
