@@ -196,9 +196,11 @@ export default {
         if (currentLevel !== undefined) {
           if (levelBonus === "skill" || levelBonus === "talent") {
             niceName = getTraitNiceName(choice);
+            if (niceName === undefined) niceName = "(Val ogiltigt)";
             levelTabData = getLevelBonusNiceName(levelBonus) + ": " + niceName;
           } else if (levelBonus === "attribute") {
             niceName = getAttributeLongName(choice);
+            if (niceName === undefined) niceName = "(Val ogiltigt)";
             levelTabData = getLevelBonusNiceName(levelBonus) + ": " + niceName;
           } else if (levelBonus === "flexible") {
             if (getAttributeLongName(choice)) {
