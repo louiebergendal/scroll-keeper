@@ -180,6 +180,8 @@
 					? peoplesOptions[peoplesChoiceKey.value].mandatorySkills
 					: []
 
+			console.log('peoplesSkillsMandatoryList', peoplesSkillsMandatoryList);
+
 			// Chosen People Optional Skills - PROXY
 			const peoplesSkillsChoiceList = 
 				characterStore.history[1].complexPayload.people.choices
@@ -420,6 +422,9 @@
 								0: this.peoplesSkillsMandatoryList[0]
 							},
 							1: {
+								0: this.peoplesSkillsMandatoryList[1]
+							},
+							2: {
 								0: this.peoplesSkillsChoiceList[0]
 							},
 						},

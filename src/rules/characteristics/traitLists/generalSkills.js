@@ -17,6 +17,22 @@ const animalHusbandry = {
 	addLoyalAnimal: (beast) => beast.loyal = true
 }
 
+const artisan = {
+	key: 'artisan',
+	name: 'Hantverk',
+	requirements: {
+		traits: ['crafting'],
+		attributes: {
+			knowledge: baseValue + 1,
+			physique: baseValue + 1
+		},
+		metadata: {
+			level: 11,
+		},
+	},
+	addAdvantage: (advantage) => addAdvantage(advantage),
+}
+
 const beastOfBurden = {
 	key: 'beastOfBurden',
 	name: 'Packåsna',
@@ -52,7 +68,6 @@ const carouse = {
 	name: 'Berusningsvana',
 	usageRequirements: ['drunk'],
 	addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2),
-	freeReroll: (roll) => freeReroll(roll)
 }
 
 const cook = {
@@ -65,7 +80,7 @@ const cook = {
 
 const crafting = {
 	key: 'crafting',
-	name: 'Hantverk',
+	name: 'Händig',
 	softUnlock: (fv) => removeSucRollPenalty(fv)
 }
 
@@ -81,19 +96,6 @@ const cutthroat = {
 	addDamageBonus: (dmg) => dmg + 6,
 	retroactivelyLowerCritRoll: (critRoll) => critRoll - 2,
 	retroactivelyIncreaseCritRoll: (critRoll) => critRoll += 2
-}
-
-const fast = {
-	key: 'fast',
-	name: 'Flyfotad',
-	requirements: {
-		attributes: {
-			agility: baseValue + 4
-		}
-	},
-	usageRequirements: ['standing'],
-	addFastMovementBonus: (movement) => movement ++,
-	addSprintMovementBonus:  (movement) => movement += 2
 }
 
 // PUT IN PLUGIN
@@ -119,12 +121,6 @@ const intrusion = {
 	key: 'intrusion',
 	name: 'Inbrott',
 	actionTimeLockpick: () => 1
-}
-
-const speechReading = {
-	key: 'speechReading',
-	name: 'Läppläsning',
-	softUnlock: (fv) => removeSucRollPenalty(fv),
 }
 
 const meticulous = {
@@ -174,10 +170,41 @@ const seamanship = {
 	addMoraleBonus: (morale) => morale += 2
 }
 
+const sixthSense = {
+	key: 'sixthSense',
+	name: 'Varsel',
+	requirements: {
+		traits: ['extrasensation'],
+		attributes: {
+			spirit: baseValue + 2,
+		},
+		metadata: {
+			level: 21,
+			isChosenByFate: true,
+		},
+	},
+	sense: (ExtrasensationRolls) => ExtrasensationRolls += 1
+}
+
+const speechReading = {
+	key: 'speechReading',
+	name: 'Läppläsning',
+	softUnlock: (fv) => removeSucRollPenalty(fv),
+}
+
 const survival = {
 	key: 'survival',
 	name: 'Överlevnad',
 	addForagingBonus: (provisions) => provisions += 1
+}
+
+const thief = {
+	key: 'thief',
+	name: 'Stjäla',
+	addAdvantage: (advantage) => addAdvantage(advantage),
+	requirements: {
+		traits: ['stealth']
+	},
 }
 
 const tracking = {
@@ -223,6 +250,7 @@ const weatherBeaten = {
 }
 
 const generalSkills = {
+	artisan,
 	animalHusbandry,
 	beastOfBurden,
 	bookworm,
@@ -231,18 +259,19 @@ const generalSkills = {
 	cook,
 	crafting,
 	cutthroat,
-	fast,
 	gamesAndGambling,
 	hardy,
 	intrusion,
-	speechReading,
 	meticulous,
 	performer,
 	physician, 
 	resolve,
 	riding,
 	seamanship,
+	sixthSense,
+	speechReading,
 	survival,
+	thief,
 	tracking,
 	unarmouredFighting,
 	vigilant,

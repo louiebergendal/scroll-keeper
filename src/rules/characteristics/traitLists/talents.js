@@ -26,7 +26,8 @@ export const acrobat = {
 		},
 		traits: ['athletics']
 	},
-	addExtraMovementAction: () => addExtraMovementAction(),
+	addFastMovementBonus: (movement) => movement ++,
+	addSprintMovementBonus:  (movement) => movement += 2,
     addAdvantage: (advantage) => addAdvantage(advantage),
 	quickWithdrawal: () => quickWithdrawal(),
 	leapUp: () => leapUp(),
@@ -314,7 +315,7 @@ export default {
 	quiet,
 	marksman,
 	lightningReflexes,
-	
+
 	// advanced talents
 	masterSpellCaster,
 	brutal,

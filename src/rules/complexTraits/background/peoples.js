@@ -2,7 +2,7 @@ const davanic = {
 	key: 'davanic',
 	niceName: 'Davan',
 	description: 'davan',
-	mandatorySkills: ['knowledgeDavandBasic'],
+	mandatorySkills: ['knowledgeDavandBasic', 'knowledgeDavandAdvanced'],
 	skillsLists: {
 		0: {
 			choices: 1,
@@ -15,7 +15,7 @@ const vendic = {
 	key: 'vendic',
 	niceName: 'Vender',
 	description: 'vend',
-	mandatorySkills: ['knowledgeVendBasic'],
+	mandatorySkills: ['knowledgeVendBasic', 'knowledgeVendAdvanced'],
 	skillsLists: {
 		0: {
 			choices: 1,
@@ -28,7 +28,7 @@ const sodoric = {
 	key: 'sodoric',
 	niceName: 'Sodorit',
 	description: 'sodorfolk',
-	mandatorySkills: ['knowledgeSodorBasic'],
+	mandatorySkills: ['knowledgeSodorBasic', 'knowledgeSodorAdvanced'],
 	skillsLists: {
 		0: {
 			choices: 1,
@@ -41,7 +41,7 @@ const durchic = {
 	key: 'durchic',
 	niceName: 'Durcher',
 	description: 'durcher',
-	mandatorySkills: ['knowledgeDurcherBasic'],
+	mandatorySkills: ['knowledgeDurcherBasic', 'knowledgeDurcherAdvanced'],
 	skillsLists: {
 		0: {
 			choices: 1,

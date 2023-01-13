@@ -11,19 +11,19 @@ export const attributes = {
 		key: attributeNames.battle,
 		longName: 'Kamp',
 		shortName: 'KAM',
-		description: 'Kamp (KAM) representerar karaktärens duglighet i strid. Den med högt värde i Kamp tillfogar mer skada då den anfaller och är själv bättre på att undgå Skada då den försvarar sig. Exakt vilka egenskaper som leder till detta varierar från karaktär till karaktär.'
+		description: 'Kamp (KAM) representerar karaktärens duglighet i strid. Den med högt värde i Kamp tillfogar mer skada då den anfaller och är själv bättre på att undgå skada då den försvarar sig. Exakt vilka egenskaper som leder till detta varierar från karaktär till karaktär.'
 	},
 	[attributeNames.agility]: {
 		key: attributeNames.agility,
 		longName: 'Smidighet',
 		shortName: 'SMI',
-		description: 'Smidighet (SMI) representerar karaktärens kroppskontroll, balans, vighet, finmotorik och koordination. Karaktärer med hög Smidighet rör sig obemärkt, flytande och graciöst. De kan ta långa och exakta språng och Klättra uppför berg, trädstammar och husfasader. De har flinka fingrar och är skickliga på att dyrka upp lås och stjäla föremål från intet ont anande offer. Karaktärer med låg Smidighet är klumpiga.'
+		description: 'Smidighet (SMI) representerar karaktärens kroppskontroll, balans, vighet, finmotorik och koordination. Karaktärer med hög Smidighet rör sig obemärkt, flytande och graciöst. De kan ta långa och exakta språng och klättra uppför berg, trädstammar och husfasader. De har flinka fingrar och är skickliga på att dyrka upp lås och stjäla föremål från intet ont anande offer. Karaktärer med låg Smidighet är klumpiga.'
 	},
 	[attributeNames.spirit]: {
 		key: attributeNames.spirit,
 		longName: 'Andlighet',
 		shortName: 'AND',
-		description: 'Andlighet (AND) är karaktärens kontakt och förnimmelse av det övernaturliga och ickefysiska. Att tyda magiska runor går på kunskap, men att kasta Besvärjelser eller känna närvaron av en osalig ande går på Andlighet. Någon med högt i Andlighet är troligen väldigt vidskeplig och skrockfull.'
+		description: 'Andlighet (AND) är karaktärens kontakt och förnimmelse av det övernaturliga och ickefysiska. Att tyda magiska runor går på kunskap, men att kasta besvärjelser eller känna närvaron av en osalig ande går på Andlighet. Någon med högt i Andlighet är troligen väldigt vidskeplig och skrockfull.'
 	},
 	[attributeNames.knowledge]: {
 		key: attributeNames.knowledge,
@@ -35,7 +35,7 @@ export const attributes = {
 		key: attributeNames.physique,
 		longName: 'Fysik',
 		shortName: 'FYS',
-		description: 'Fysik (FYS) representerar karaktärens fysiska form, kondition och styrka. Personer med hög Fysik är starka, uthålliga, stryktåliga och muskulösa.'
+		description: 'Fysik (FYS) representerar karaktärens fysiska form, kondition och styrka. Personer med hög Fysik tål mer påfrestnig och kan bära tunga lass.'
 	}
 }
 

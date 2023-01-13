@@ -75,20 +75,20 @@ export const useCharacterStore = defineStore('character', {
 				if (level.bonusType === 'attribute'
 					&& !attributes[level.choice]
 				) {
-					handleInvalidChoice(levelIndex, level.choice)
+					this.handleInvalidChoice(levelIndex, level.choice)
 					level.choice = ''
 				}
 
 				if (level.bonusType === 'skill'
 				 	&& !this.allTraits[level.choice]
 				) {
-					handleInvalidChoice(levelIndex, level.choice)
+					this.handleInvalidChoice(levelIndex, level.choice)
 					level.choice = ''
 				}
 
 				if (level.bonusType === 'talent') {
 					if (!this.allTraits[level.choice]) {
-						handleInvalidChoice(levelIndex, level.choice)
+						this.handleInvalidChoice(levelIndex, level.choice)
 						level.choice = ''
 					}
 					if (level.complexPayload) {
@@ -144,7 +144,6 @@ export const useCharacterStore = defineStore('character', {
 		},
 		updateIsChosenByFate(isChosenByFate) {
 			if (isChosenByFate === false) {
-
 				removeData(this.metadata.characterRefString + '/history/1/' + '/complexPayload/chosenByFate')
 			}
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { isChosenByFate: isChosenByFate })
