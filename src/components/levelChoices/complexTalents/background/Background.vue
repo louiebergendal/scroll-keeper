@@ -126,7 +126,7 @@
 			</tab>
 		</tabs>
 		<div v-if="isChosenByFate">
-			<h3 class="align-center">Fri färdighet (från Ödesvald)</h3>
+			<h3 class="align-center margin-bottom-medium margin-top-large">Fri färdighet (från Ödesvald)</h3>
 			<TabbedTraitsGroup
 				:nameProp="'fate' + '-' + 'skillList' + '-' + 0"
 				:selectedProp="[setSelectedIfValid(
