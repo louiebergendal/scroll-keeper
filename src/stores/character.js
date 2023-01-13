@@ -3,19 +3,20 @@ import { onValue } from 'firebase/database'
 import { loaderCharacter } from '../mocks/loaderCharacterHistory'
 import { flattenCharacter } from '../rules/characterFlattener'
 import { createRefs, updateData, removeData } from '../api/firebaseApi'
-import { traitFromKey } from '../rules/characteristics/traits'
+import { allTraits as getAllTraits, traitFromKey } from '../rules/characteristics/traits'
 
 import { attributes } from '../rules/characteristics/attributes'
-import { allTraits } from '../rules/characteristics/traits'
 
 export const useCharacterStore = defineStore('character', {
 	state: () => {
 		const currentLevel = loaderCharacter.metadata.level
-		const characterSheet = flattenCharacter(loaderCharacter, currentLevel) 
+		const characterSheet = flattenCharacter(loaderCharacter, currentLevel)
+		const allTraits = getAllTraits()
 
 		return {
 			...loaderCharacter,
 			sheet: characterSheet,
+			allTraits
 		}
 	},
 	actions: {
@@ -41,74 +42,67 @@ export const useCharacterStore = defineStore('character', {
 				}
 			)
 		},
-		catchOutdatedLevelKeys(history) {
-			const traits = allTraits()
+		handleInvalidChoice(levelIndex, choice) {
+			this.metadata.invalidLevels = {
+				...this.metadata.invalidLevels,
+				[levelIndex]: ['invalidKey', choice]
+			}
+		},
+		validateComplexPayload(levelIndex, complexPayload) {
+			for (const complexTraitCategory in complexPayload) {
+				const choices = complexPayload[complexTraitCategory].choices
 
+				for (const choiceIndex in choices) {
+					const choicesList = choices[choiceIndex]
+
+					for (const choiceIndex in choicesList) {
+						const choice = choicesList[choiceIndex]
+
+						if (!this.allTraits[choice]) {
+							// add to invalidLevels
+							this.handleInvalidChoice(levelIndex, choice)
+							choices[choiceIndex][choice] = ''
+						}
+					}
+
+				}
+			}
+		},
+		catchOutdatedLevelKeys(history) {
 			for(const levelIndex in history) {
 				const level = history[levelIndex]
 				
-				if (level.bonusType === 'attribute') {
-					if (!attributes[level.choice]) {
-						// add to invalidLevels
-						this.metadata.invalidLevels = {
-							...this.metadata.invalidLevels, 
-							[levelIndex]: ['invalidKey',level.choice] 
-						}
-						level.choice = ''
-					}
+				if (level.bonusType === 'attribute'
+					&& !attributes[level.choice]
+				) {
+					handleInvalidChoice(levelIndex, level.choice)
+					level.choice = ''
 				}
-				if (level.bonusType === 'skill') {
-					if (!traits[level.choice]) {
-						// add to invalidLevels
-						this.metadata.invalidLevels = { 
-							...this.metadata.invalidLevels, 
-							[levelIndex]: ['invalidKey', level.choice]
-						}
-						level.choice = ''
-					}
+
+				if (level.bonusType === 'skill'
+				 	&& !this.allTraits[level.choice]
+				) {
+					handleInvalidChoice(levelIndex, level.choice)
+					level.choice = ''
 				}
+
 				if (level.bonusType === 'talent') {
-					if (!traits[level.choice]) {
-						// add to invalidLevels
-						this.metadata.invalidLevels = {
-							...this.metadata.invalidLevels, 
-							[levelIndex]: ['invalidKey', level.choice]
-						}
+					if (!this.allTraits[level.choice]) {
+						handleInvalidChoice(levelIndex, level.choice)
 						level.choice = ''
 					}
 					if (level.complexPayload) {
-						// check if complexPayload is valid
 
-						for (const complexTraitCategory in level.complexPayload) {
-							const choices = level.complexPayload[complexTraitCategory].choices
-
-							for (const choiceIndex in choices) {
-								const choicesList = choices[choiceIndex]
-
-								for (const choiceIndex in choicesList) {
-									const choice = choicesList[choiceIndex]
-									if (!traits[choice]) {
-										// add to invalidLevels
-										this.metadata.invalidLevels = {
-											...this.metadata.invalidLevels,
-											[levelIndex]: ['invalidKey', choice]
-										}
-										choices[choiceIndex][choice] = ''
-									}
-								}
-
-							}
-						}
+						// add to invalidLevels if complexPayload is invalid
+						this.validateComplexPayload(levelIndex, level.complexPayload)
 
 						/* target */
 						const chosenTrait = traitFromKey(level.choice)
 						const complexTrait = chosenTrait.complexTrait
 
 						for (const choiceCategory in complexTrait) {
-							console.log('choiceCategory: ', complexTrait[choiceCategory]);
+							//console.log('choiceCategory: ', complexTrait[choiceCategory]);
 						}
-
-
 					}
 
 				}

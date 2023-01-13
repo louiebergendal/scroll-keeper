@@ -267,24 +267,6 @@ export const massive = {
 	addMaxHealthBonus: (health) => health += 4,
 }
 
-export const artisan = {
-	key: 'artisan',
-	name: 'Hantverksmästare',
-	requirements: {
-		metadata: {
-			level: 20
-		},
-		attributes: {
-			knowledge: baseValue + 1,
-		},
-		traits: ['crafting']
-	},
-	addAdvantage: (advantage) => addAdvantage(advantage),
-	addQualityBonus: (quality) => addQualityBonus(quality),
-	canPickMaterialsOnForageRoll: (roll) => canPickMaterialsOnForageRoll(roll),
-	addHardnessBonus: (hardnessValue) => addHardnessBonus(hardnessValue),
-}
-
 export const trustedHenchmen = {
 	key: 'trustedHenchmen',
 	name: 'Trogna underhuggare',
@@ -309,13 +291,14 @@ export const engineer = {
 		attributes: {
 			knowledge: baseValue + 4
 		},
-		traits: ['bookworm', 'crafting', 'artisan']
+		traits: ['bookworm', 'crafting']
 	},
 }
-
-export const complexTalents = [
-	background.key
-]
+export const complexTalents = {
+	scholar,
+	pathfinder,
+	background
+}
 
 export default {
 	// basic talents
@@ -331,11 +314,11 @@ export default {
 	quiet,
 	marksman,
 	lightningReflexes,
+	
 	// advanced talents
 	masterSpellCaster,
 	brutal,
 	massive,
-	artisan,
 	trustedHenchmen,
 
 	engineer

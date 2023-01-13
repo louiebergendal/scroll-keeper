@@ -71,7 +71,6 @@
 		},
 		beforeMount() {
 			this.characterStore.setPath()
-			console.log('characterStore.metadata: ', this.characterStore.metadata);
 		}
 	}
 </script>

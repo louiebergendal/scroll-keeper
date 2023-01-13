@@ -1,8 +1,7 @@
 <template>
 	<div class="radio-button-group">
-
 		<tabs>
-			<tab v-for="tab in skillsTabs" :name="tab.niceName" :key="tab">
+			<tab v-for="tab in skillsTabs" :name="tab.niceName" :key="tab" :status="tab.status">
 				<label
 					v-for="option in tab.list"
 					:key="option.key"
@@ -33,6 +32,7 @@
 </template>
   
 <script>
+	import { ref } from 'vue'
 	import { containsKey } from '../../../rules/utils'
 	import {
 		attributeSkills,
@@ -48,51 +48,89 @@
 	export default {
 		name: 'BaseRadioButtonGroup',
 		props: ['nameProp', 'selectedProp', 'invalidOptionsListProp', 'isBackground'],
+		emits: ['input'],
 		setup(props) {
 			const name = props.nameProp
 			const selectedOptions = props.selectedProp ? props.selectedProp : ['']
 			const invalidOptions = props.invalidOptionsListProp ? props.invalidOptionsListProp : ['']
 
-			let skillsTabs = {}
+			const attributeSkillsList = attributeSkills()
+			const generalSkillsList = generalSkills()
+			const knowledgeSkillsList = knowledgeSkills()
+			const favouredTerrainSkillsList = favouredTerrainSkills()
+
+			const sortedBackgroundAttributesSkillsList = getNiceNameSortedList(removeTraitsWithRequirements(attributeSkillsList))
+			const sortedBackgroundGeneralSkillsList = getNiceNameSortedList(removeTraitsWithRequirements(generalSkillsList))
+			const sortedBackgroundKnowledgeSkillsList = getNiceNameSortedList(removeTraitsWithRequirements(knowledgeSkillsList))
+			const sortedBackgroundTerrainSkillsList = getNiceNameSortedList(removeTraitsWithRequirements(favouredTerrainSkillsList))
+
+			const sortedAttributeSkillsList = getNiceNameSortedList(attributeSkillsList)
+			const sortedGeneralSkillsList = getNiceNameSortedList(generalSkillsList)
+			const sortedKnowledgeSkillsList = getNiceNameSortedList(knowledgeSkillsList)
+			const sortedTerrainSkillsList = getNiceNameSortedList(favouredTerrainSkillsList)
+		
+			const sortedBackgroundAttributeSkills = {
+				niceName: 'Grundfärdigheter',
+				list: sortedBackgroundAttributesSkillsList,
+				status: "normal"
+			}
+			const sortedBackgroundGeneralSkills = {
+				niceName: 'Allmänna',
+				list: sortedBackgroundGeneralSkillsList,
+				status: "normal"
+			}
+			const sortedBackgroundKnowledgeSkills = {
+				niceName: 'Kunskap',
+				list: sortedBackgroundKnowledgeSkillsList,
+				status: "normal"
+			}
+			const sortedBackgroundTerrainSkills = {
+				niceName: 'Favoritmark',
+				list: sortedBackgroundTerrainSkillsList,
+				status: "normal"
+			}
+
+			const sortedAttributeSkills = {
+				niceName: 'Grundfärdigheter',
+				list: sortedAttributeSkillsList,
+				status: "normal"
+			}
+			const sortedGeneralSkills = {
+				niceName: 'Allmänna',
+				list: sortedGeneralSkillsList,
+				status: "normal"
+			}
+			const sortedKnowledgeSkills = {
+				niceName: 'Kunskap',
+				list: sortedKnowledgeSkillsList,
+				status: "normal"
+			}
+			const sortedTerrainSkills = {
+				niceName: 'Favoritmark',
+				list: sortedTerrainSkillsList,
+				status: "normal"
+			}
+
+			const skillsTabs = ref({})
+
+			const backgroundSkillTabsRef = {
+				sortedBackgroundAttributeSkills,
+				sortedBackgroundGeneralSkills,
+				sortedBackgroundKnowledgeSkills,
+				sortedBackgroundTerrainSkills
+			}
+
+			const skillTabsRef = {
+				sortedAttributeSkills,
+				sortedGeneralSkills,
+				sortedKnowledgeSkills,
+				sortedTerrainSkills
+			}
 
 			if (props.isBackground === true) {
-				skillsTabs = {
-					sortedAttributeSkills: {
-						niceName: 'Grundfärdigheter',
-						list: getNiceNameSortedList(removeTraitsWithRequirements(attributeSkills()))
-					},
-					sortedGeneralSkills: {
-						niceName: 'Allmänna',
-						list: getNiceNameSortedList(removeTraitsWithRequirements(generalSkills()))
-					},
-					sortedKnowledgeSkills: {
-						niceName: 'Kunskap',
-						list: getNiceNameSortedList(removeTraitsWithRequirements(knowledgeSkills()))
-					},
-					sortedTerrainSkills: {
-						niceName: 'Terrängvana',
-						list: getNiceNameSortedList(removeTraitsWithRequirements(favouredTerrainSkills()))
-					}
-				}
+				skillsTabs.value = backgroundSkillTabsRef
 			} else {
-				skillsTabs = {
-					sortedAttributeSkills: {
-						niceName: 'Grundfärdigheter',
-						list: getNiceNameSortedList(attributeSkills())
-					},
-					sortedGeneralSkills: {
-						niceName: 'Allmänna',
-						list: getNiceNameSortedList(generalSkills())
-					},
-					sortedKnowledgeSkills: {
-						niceName: 'Kunskap',
-						list: getNiceNameSortedList(knowledgeSkills())
-					},
-					sortedTerrainSkills: {
-						niceName: 'Terrängvana',
-						list: getNiceNameSortedList(favouredTerrainSkills())
-					}
-				}
+				skillsTabs.value = skillTabsRef
 			}
 
 			return {
@@ -109,8 +147,10 @@
 		watch: {
 			selectedProp: {
 				handler(newVal) {
-					this.selectedOptions = newVal
-					this.emitOption(newVal)
+					this.selectedOptions = newVal || ['']
+					Object.keys(this.skillsTabs).forEach((skillListKey) => {
+						this.skillsTabs[skillListKey].status = this.tabIsSelected(newVal, this.skillsTabs[skillListKey].list)
+					})
 				},
 				immediate: true
 			},
@@ -128,6 +168,13 @@
 			}
 		},
 		methods: {
+			tabIsSelected(selectedOptions, skillList) {
+				const skillKeysList = skillList.map((skill) => skill.key)
+				for (const index in selectedOptions) {
+					const selectedOption = selectedOptions[index]
+					return containsKey(selectedOption, skillKeysList) ? "selected" : "normal"
+				}
+			},
 			emitOption(option) {
 				this.$emit('input', {
 					id: this.name,

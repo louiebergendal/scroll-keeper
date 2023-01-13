@@ -9,9 +9,11 @@
 				&& characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey'"
 			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"
 		>
-			Det tidigare valet på den här erfarenhetsnivån är ogiltigt
+			Det har skett en karaktärsbrytande uppdatering av regelverket. Ditt val på den här erfarenhetsnivån är inte längre giltigt.
+			För att åtgärda felet, gör ett nytt val på den här erfarenhetsnivån.
 			<br>
-			Tidigare val: [ <span class="italic">{{ characterStore.metadata.invalidLevels[selectedLevel][1] }}</span> ]
+			<br>
+			Den ogiltiga egenskapens nyckel: [ <span class="italic">{{ characterStore.metadata.invalidLevels[selectedLevel][1] }}</span> ]
 		</div>
 
 		<div
@@ -49,9 +51,10 @@
 								:id="attribute.key"
 								:value="attribute.key"
 								v-model="selectedChoiceKey"
-								name="attribute"
 								:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
+								name="attribute"
 								class="trait-input"
+								@change="updateSelectedChoiceKey"
 							/>
 							<div class=" margin-top-tiny">
 								{{ getAttributeLongName(attribute.key) }}
@@ -158,6 +161,7 @@
 			InvalidOccurrence
 		},
 		props: ['selectedLevelProp'],
+		emits: ['selected-level-type', 'update-tabs'],
 		setup(props) {
 			const characterStore = useCharacterStore()
 			const visibleAttributeDescriptionsDefaults = {
@@ -196,7 +200,21 @@
 				isTouchedByError,
 			}
 		},
+		mounted() {
+			this.updateSelectedChoiceKey(false)
+		},
 		methods: {
+			resetSelection() {
+				this.selectedChoiceKey = ""
+			},
+			updateSelectedChoiceKey(shouldResetCounterpart = true) {
+				const selectedChoiceKey = this.selectedChoiceKey
+				this.$emit('selected-level-type', {
+					type: "attribute",
+					isInvalid: selectedChoiceKey ? this.attributeIsInvalidAtThisLevel(selectedChoiceKey) : false,
+					shouldResetCounterpart
+				})
+			},
 			submitNewAttributeLevel() {
 				this.characterStore.submitNewLevelChoice(
 					this.selectedChoiceKey,

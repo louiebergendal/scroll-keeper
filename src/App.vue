@@ -46,6 +46,20 @@
   <router-view />
 </template>
 
+<!-- 
+
+  todo:
+  - add router-link for "campaigns" and "add campaign"
+  
+  each campaign has a collection of characters
+  each campaign has a list of connected users, identified by their uuid
+
+  A user can have characters in campaigns
+  A user can join one or more campaigns
+  A user can create one or more campaigns
+
+ -->
+
 <script>
 import { ref } from "vue";
 import { useRouter, useRoute } from "vue-router";

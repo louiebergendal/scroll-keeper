@@ -71,7 +71,7 @@
 			Scholar
 		},
 		props: ['selectedLevelProp', 'traitTypeProp', 'selectedChoiceKeyProp', 'tempCharacterSheetProp', 'tempValidationSheetProp'],
-		emits: ['complexPayload', 'update-tabs', 'selected-choiceKey'],
+		emits: ['complexPayload', 'selected-choice-key'],
 		setup(props) {
 			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevelProp
@@ -184,7 +184,7 @@
 				)
 			},
 			emitOption(selectedChoiceKey) {
-				this.$emit('selected-choiceKey', {
+				this.$emit('selected-choice-key', {
 					selectedChoiceKey
 				})
 			}

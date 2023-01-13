@@ -14,24 +14,33 @@
         >
           <a
             role="tab"
+            class="flex -v-center -h-center position-relative"
             :class="[ navItemLinkClass, tab.isDisabled ? navItemLinkDisabledClass : '', tab.isActive ? navItemLinkActiveClass : '' ]"
             :aria-controls="tab.hash"
             :aria-selected="tab.isActive"
             :href="tab.hash"
             @click="selectTab(tab.hash, $event)"
-            v-html="tab.header"
-          />
+          >
+            {{ tab.header }}
+            <div
+              class="choice-marker position-absolute"
+              :class="{
+                '-selected': tab.status === 'selected',
+                '-invalid': tab.status === 'invalid'
+            }">
+            </div>
+          </a>
         </li>
       </ul>
       <div :class="panelsWrapperClass">
-        <slot />
+        <slot/>
       </div>
     </div>
   </template>
   
   <script>
-  import expiringStorage from './expiringStorage';
-  import {reactive, provide, onMounted, toRefs} from 'vue';
+  import expiringStorage from './expiringStorage'
+  import {reactive, provide, onMounted, toRefs} from 'vue'
   export default {
     props: {
       cacheLifetime: {
@@ -97,7 +106,9 @@
       })
       provide('updateTab', (computedId, data) => {
         let tabIndex = state.tabs.findIndex((tab) => tab.computedId === computedId)
-        data.isActive = state.tabs[tabIndex].isActive;
+        if (state.tabs[tabIndex]) {
+          data.isActive = state.tabs[tabIndex].isActive
+        }
         state.tabs[tabIndex] = data
       })
       provide('deleteTab', (computedId) => {

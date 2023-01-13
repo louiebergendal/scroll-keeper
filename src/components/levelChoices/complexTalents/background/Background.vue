@@ -2,8 +2,7 @@
 	<div class="width-whole">
 		<!-- PEOPLES -->
 		<tabs class="margin-bottom-small">
-
-			<tab name="Folk">
+			<tab name="Folk" :status="peopleSkillsStatus">
 				<div>
 					<div class="background-header-choice">
 						<RadioButtonGroup
@@ -43,7 +42,7 @@
 				</div>
 			</tab>
 
-			<tab name="Uppväxt">
+			<tab name="Uppväxt" :status="upbringingSkillsStatus">
 				<div>
 					<div class="background-header-choice">
 						<RadioButtonGroup
@@ -84,7 +83,7 @@
 					</div>
 				</div>
 			</tab>
-			<tab name="Livnäring">
+			<tab name="Livnäring" :status="professionSkillsStatus">
 				<div>
 					<div class="background-header-choice">
 						<RadioButtonGroup
@@ -130,10 +129,10 @@
 			<h3 class="align-center">Fri färdighet (från Ödesvald)</h3>
 			<TabbedTraitsGroup
 				:nameProp="'fate' + '-' + 'skillList' + '-' + 0"
-				:selectedProp="setSelectedIfValid(
+				:selectedProp="[setSelectedIfValid(
 					invalidKnowledgeSkillsForChosenByFateChoicesList,
 					chosenByFateSkillsChoiceList?.[0]?.toString()
-				)"
+				)]"
 				:invalidOptionsListProp="invalidChosenByFateChoicesList"
 				:isBackground="true"
 				@input="inputEventHandler"
@@ -145,23 +144,27 @@
 <script>
 	import { ref } from 'vue'
 	import { useCharacterStore } from '../../../../stores/character'
-	import { canChooseTrait, getTraitNiceName, allTraits } from '../../../../rules/characteristics/traits'
+	import { canChooseTrait, getTraitNiceName } from '../../../../rules/characteristics/traits'
 	import { background } from '../../../../rules/characteristics/traitLists/talents'
 	import { knowledgeSkillKeysList } from '../../../../rules/characteristics/traitLists/knowledgeSkills'
+	import { containsKey } from '../../../../rules/utils'
 	import RadioButtonGroup from './RadioButtonGroup.vue'
 	import TabbedTraitsGroup from '../../traitLevel/TabbedTraitsGroup.vue'
-	import { containsKey } from '../../../../rules/utils'
+
 
 	export default {
 		components: {
 			RadioButtonGroup,
-			TabbedTraitsGroup
+			TabbedTraitsGroup,
 		},
 		setup(props) {
 			const characterStore = useCharacterStore()
-
 			const characterStoreLocal = {}
-			const comparisonTraits = allTraits()
+			const complexPayload = ref({})
+
+			const peopleSkillsStatus = ref('normal')
+			const upbringingSkillsStatus = ref('normal')
+			const professionSkillsStatus = ref('normal')
 
 			// --- PEOPLES ---
 
@@ -184,19 +187,6 @@
 					: []
 			const invalidPeoplesChoicesList = ref([])
 			const invalidKnowledgeSkillsForPeoplesChoicesList = ref([])
-
-			for(let skillsList in Object.values(characterStore.history[1].complexPayload.people.choices) ) {
-
-				for (let skillChoice in Object.values(characterStore.history[1].complexPayload.people.choices)[skillsList]) {
-					const skillChoiceKey = Object.values(characterStore.history[1].complexPayload.people.choices)[skillsList][skillChoice]
-
-					if (!comparisonTraits[skillChoiceKey]) {
-						//console.log('Object.values(characterStore.history[1].complexPayload.people.choices)[1][skillChoice]: ', Object.values(characterStore.history[1].complexPayload.people.choices)[0][skillChoice]);
-						//peoplesSkillsChoiceList[skillChoiceKey] = null
-					}
-				}
-			}
-
 
 			// --- UPBRINGINGS ---
 
@@ -245,11 +235,14 @@
 			const invalidChosenByFateChoicesList = ref([])
 			const invalidKnowledgeSkillsForChosenByFateChoicesList = ref([])
 
+
 			return {
 				characterStore,
+				complexPayload,
 				characterStoreLocal,
 				isChosenByFate,
 
+				peopleSkillsStatus,
 				peoplesOptions,
 				peoplesChoiceKey,
 				peoplesSkillsMandatoryList,
@@ -257,12 +250,14 @@
 				invalidPeoplesChoicesList,
 				invalidKnowledgeSkillsForPeoplesChoicesList,
 
+				upbringingSkillsStatus,
 				upbringingsOptions,
 				upbringingsChoiceKey,
 				upbringingsSkillsChoiceList,
 				invalidUpbringingsChoicesList,
 				invalidKnowledgeSkillsForUpbringingsChoicesList,
 
+				professionSkillsStatus,
 				professionsOptions,
 				professionsChoiceKey,
 				professionsSkillsChoiceList,
@@ -288,6 +283,19 @@
 			})
 		},
 		methods: {
+			setPluppStatus(tabKey) {
+				if (Object.keys(this.complexPayload).length > 0 && tabKey) {
+					for (const choiceIndex in this.complexPayload[tabKey]?.choices) {
+						for (const skillsListIndex in this.complexPayload[tabKey].choices[choiceIndex]) {
+							if (!this.complexPayload[tabKey].choices[choiceIndex][skillsListIndex]) {
+								return 'normal'
+							}
+						}
+					}
+					return 'selected'
+				}
+
+			},
 			setSelectedIfValid(invalidList, key) {
 				if (containsKey(key, invalidList)) key = ''
 				return key
@@ -450,6 +458,11 @@
 					complexPayload.chosenByFate.key = this.chosenByFateChoiceKey
 				}
 
+				this.complexPayload = complexPayload
+
+				this.peopleSkillsStatus = this.setPluppStatus('people')
+				this.upbringingSkillsStatus = this.setPluppStatus('upbringing')
+				this.professionSkillsStatus = this.setPluppStatus('profession')
 				this.$emit('complexPayload', complexPayload)
 			}
 		}

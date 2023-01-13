@@ -13,55 +13,57 @@
 				&& characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey'"
 			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"
 		>
-			Det tidigare valet på den här erfarenhetsnivån är ogiltigt
+			Det har skett en karaktärsbrytande uppdatering av regelverket. Ditt val på den här erfarenhetsnivån är inte längre giltigt.
+			För att åtgärda felet, gör ett nytt val på den här erfarenhetsnivån.
 			<br>
-			Tidigare val: [ <span class="italic">{{ characterStore.metadata.invalidLevels[selectedLevel][1] }}</span> ]
+			<br>
+			Den ogiltiga egenskapens nyckel: [ <span class="italic">{{ characterStore.metadata.invalidLevels[selectedLevel][1] }}</span> ]
 		</div>
 
 		<div v-if="selectedLevel !== 1">
 			<div v-if="traitType === 'skill'">
 				<tabs>
-					<tab name="Grundfärdigheter">
+					<tab name="Grundfärdigheter" :status="setPluppStatus(selectedChoiceKey, attributeSkillsList)">
 						<TraitLevelTraitsGroup
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'attributeSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
-							@selected-choiceKey="updateSelectedChoiceKey"
+							@selected-choice-key="updateSelectedChoiceKey"
 							@update-tabs="$emit('update-tabs')"
 						/>
 					</tab>
-					<tab name="Allmänna">
+					<tab name="Allmänna" :status="setPluppStatus(selectedChoiceKey, generalSkillsList)">
 						<TraitLevelTraitsGroup 
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'generalSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
-							@selected-choiceKey="updateSelectedChoiceKey"
+							@selected-choice-key="updateSelectedChoiceKey"
 							@update-tabs="$emit('update-tabs')"
 						/>
 					</tab>
-					<tab name="Kunskap">
+					<tab name="Kunskap" :status="setPluppStatus(selectedChoiceKey, knowledgeSkillsList)">
 						<TraitLevelTraitsGroup
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'knowledgeSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
-							@selected-choiceKey="updateSelectedChoiceKey"
+							@selected-choice-key="updateSelectedChoiceKey"
 							@update-tabs="$emit('update-tabs')"
 						/>
 					</tab>
-					<tab name="Terrängvana">
+					<tab name="Terrängvana" :status="setPluppStatus(selectedChoiceKey, favouredTerrainSkillsList)">
 						<TraitLevelTraitsGroup
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'favouredTerrainSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
-							@selected-choiceKey="updateSelectedChoiceKey"
+							@selected-choice-key="updateSelectedChoiceKey"
 							@update-tabs="$emit('update-tabs')"
 						/>
 					</tab>
@@ -75,7 +77,7 @@
 					:selectedChoiceKeyProp="selectedChoiceKey"
 					:tempCharacterSheetProp="tempCharacterSheet"
 					:tempValidationSheetProp="tempValidationSheet"
-					@selected-choiceKey="updateSelectedChoiceKey"
+					@selected-choice-key="updateSelectedChoiceKey"
 					@complex-payload="complexPayload"
 					@update-tabs="$emit('update-tabs')"
 				/>
@@ -107,6 +109,8 @@
 			</button>
 		</div>
 
+	
+
 	</div>
 </template>
 
@@ -117,7 +121,11 @@
 		allSkills,
 		allTalents,
 		canChooseTrait,
-		getFailedRequirements
+		getFailedRequirements,
+		attributeSkills,
+		generalSkills,
+		knowledgeSkills,
+		favouredTerrainSkills
 	} from '../../../rules/characteristics/traits'
 	import { isInvalidAtThisLevel } from '../../../validators/validators'
 	import { containsKey } from '../../../rules/utils'
@@ -131,7 +139,7 @@
 			RuleRelevantMetadata
 		},
 		props: ['selectedLevelProp', 'traitTypeProp'],
-		emits: ['complexPayload', 'update-tabs', 'selected-choiceKey'],
+		emits: ['complexPayload', 'update-tabs', 'selected-level-type'],
 		setup(props) {
 			const characterStore = useCharacterStore()
 			const selectedLevel = props.selectedLevelProp
@@ -147,6 +155,11 @@
 			if (selectedLevel <= characterStore.metadata.level) {
 				originalLevelChoiceKey = characterStore.history[selectedLevel].choice
 			}
+
+			const attributeSkillsList = attributeSkills()
+			const generalSkillsList = generalSkills()
+			const knowledgeSkillsList = knowledgeSkills()
+			const favouredTerrainSkillsList = favouredTerrainSkills()
 
 			const selectedChoiceKey = ref(originalLevelChoiceKey)
 			let traits
@@ -167,12 +180,42 @@
 				containsKey,
 				canChooseTrait,
 				getFailedRequirements,
+
+				attributeSkillsList,
+				generalSkillsList,
+				knowledgeSkillsList,
+				favouredTerrainSkillsList
 			}
 		},
 		beforeMount() {
 			this.characterStore.$subscribe((_mutation, state) => {})
 		},
+		mounted() {
+			this.$emit('selected-level-type', {
+				type: 'trait',
+				isInvalid: this.selectedChoiceKey ? this.traitIsInvalidAtThisLevel(this.selectedChoiceKey) : false,
+				shouldResetCounterpart: false
+			})
+		},
 		methods: {
+			resetSelection() {
+				this.selectedChoiceKey = ''
+			},
+			updateSelectedChoiceKey(data, shouldResetCounterpart = true) {
+				this.$emit('selected-level-type', {
+					type: 'trait',
+					isInvalid: data.selectedChoiceKey ? this.traitIsInvalidAtThisLevel(data.selectedChoiceKey) : false,
+					shouldResetCounterpart
+				})
+				this.selectedChoiceKey = data.selectedChoiceKey
+			},
+			setPluppStatus(skillKey, skillsList) {
+				let status = "normal"
+				let isSelected = containsKey(skillKey, Object.keys(skillsList))
+				if (isSelected) status = "selected"
+				if (isSelected && this.traitIsInvalidAtThisLevel(skillKey)) status = "invalid"
+				return status
+			},
 			submitNewTraitLevel() {
 				this.characterStore.submitNewLevelChoice(
 					this.selectedChoiceKey,
@@ -196,9 +239,6 @@
 				}
 				this.hasFullComplexPayload = isValid
 				this.complexTraitData = data
-			},
-			updateSelectedChoiceKey(data) {
-				this.selectedChoiceKey = data.selectedChoiceKey
 			},
 			traitIsInvalidAtThisLevel(traitKey) {
 				return isInvalidAtThisLevel(

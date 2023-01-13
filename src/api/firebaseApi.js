@@ -14,7 +14,7 @@ export const pushDataToCollection = (refString, data) => {
 	const reference = createRefs(refString)
 	const newRef = push(reference, data)
 	return newRef
-} // then kan behövas
+}
 
 // updates provided data keys at path
 export const updateData = (refString, data) => {

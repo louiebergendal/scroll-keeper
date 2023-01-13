@@ -49,17 +49,21 @@
 						<div v-if="level.levelBonus === 'flexible'">
 							
 							<tabs class="dark">
-								<tab name="Grundegenskap">
+								<tab name="Grundegenskap" :status="attributeTabStatus">
 									<AttributeLevel
+										ref="attributeLevelRef"
 										:selectedLevelProp="currentTabIndex"
 										@update-tabs="updateLevelTabData"
+										@selected-level-type="setChildSelectionData"
 									/>
 								</tab>
-								<tab name="Färdighet">
+								<tab name="Färdighet" :status="traitTabStatus">
 									<TraitLevel
+										ref="traitLevelRef"
 										:selectedLevelProp="currentTabIndex"
 										:traitTypeProp="'skill'"
 										@update-tabs="updateLevelTabData"
+										@selected-level-type="setChildSelectionData"
 									/>
 								</tab>
 							</tabs>
@@ -73,7 +77,7 @@
 </template>
 
 <script>
-	import { ref } from 'vue'
+	import { ref, shallowReactive } from 'vue'
 	import { useCharacterStore } from '../../stores/character'
 	import experienceTableMaker from '../../rules/experienceTableMaker.js'
 	import Wizard from 'form-wizard-vue3'
@@ -101,6 +105,11 @@
 			const currentTabIndex = ref(0)
 			const levelTabDataList = ref([])
 			const levelList = ref([])
+			const attributeTabStatus = ref('normal')
+			const traitTabStatus = ref('normal')
+			const currentlySelectedLevelType = ref('')
+			const traitLevelRef = ref(null)
+			const attributeLevelRef = ref(null)
 
 			return {
 				Wizard,
@@ -109,12 +118,47 @@
 				levelList,
 				isClosed,
 				levelTabDataList,
-				currentTabIndex
+				currentTabIndex,
+				attributeTabStatus,
+				traitTabStatus,
+				currentlySelectedLevelType,
+				traitLevelRef,
+				attributeLevelRef
 			}
 		},
 		methods: {
+			setPluppStatus(levelTypeKey, isInvalid, shouldResetCounterpart = true) {
+				let status = "normal"
+				switch (levelTypeKey) {
+					case "attribute":
+						status = "selected"
+						status = isInvalid ? "invalid" : status
+						this.attributeTabStatus = status
+						this.traitTabStatus = "normal"
+						if (Object.keys(this.$refs).length > 0 && shouldResetCounterpart) {
+							this.$refs.traitLevelRef[0].resetSelection()
+						}
+						break;
+					case "trait":
+						status = "selected"
+						status = isInvalid ? "invalid" : status
+						this.traitTabStatus = status
+						this.attributeTabStatus = "normal"
+						if (Object.keys(this.$refs).length > 0 && shouldResetCounterpart) {
+							this.$refs.attributeLevelRef[0].resetSelection()
+						}
+						break;
+					default:
+						console.log("ERROR: Spelling error in setPluppStatus")
+						break;
+				}
+				
+			},
+			setChildSelectionData(data) {
+				this.currentlySelectedLevelType = data.type
+				this.setPluppStatus(data.type, data.isInvalid, data.shouldResetCounterpart)
+			},
 			updateLevelTabData() {
-
 				this.experienceTable = experienceTableMaker(this.characterStore.metadata.level + 1)
 				this.levelTabDataList.length = 0
 				this.levelList.length = 0
@@ -193,7 +237,6 @@
 				}
 			},
 			onChangeCurrentTab(index) {
-				console.log('characterStore.history: ', this.characterStore.history);
 				this.currentTabIndex = index + 1
 				this.updateLevelTabData()
 			}
