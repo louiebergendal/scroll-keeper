@@ -63,7 +63,6 @@
 			const route = useRoute()
 			const characterStore = useCharacterStore()
 
-
 			return {
 				characterStore,
 				route

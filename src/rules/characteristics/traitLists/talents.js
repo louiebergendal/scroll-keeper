@@ -66,7 +66,7 @@ export const steady = {
 export const quick = {
 	key: 'quick',
 	name: 'Kvick',
-	description: 'Man rör sig snabbt, smidigt och bra',
+	description: 'Man rör sig precist och snabbt, varsig man delar ut anfall eller undflyr vakter.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -86,6 +86,7 @@ export const quick = {
 export const scholar = {
 	key: 'scholar',
 	name: 'Lärd',
+	description: 'Man har samlat på sig en stor mängd kunskaper.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -106,6 +107,7 @@ export const scholar = {
 export const quiet = {
 	key: 'quiet',
 	name: 'Tyst',
+	description: 'Man rör sig tyst och placrar fötterna säkert.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -122,6 +124,7 @@ export const quiet = {
 export const scrutiny = {
 	key: 'scrutiny',
 	name: 'Skärskåda',
+	description: 'Man har förmågan att se med blotta ögat ifall någon far med osanning.',
 	requirements: {
 		metadata: {
 			level: 11,
@@ -135,6 +138,7 @@ export const scrutiny = {
 export const pathfinder = {
 	key: 'pathfinder',
 	name: 'Stigfinnare',
+	description: 'Man hittar de snabbaste rutterna, och går orörd genom ur och skur.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -155,6 +159,7 @@ export const pathfinder = {
 export const silverTongued = {
 	key: 'silverTongued',
 	name: 'Silvertunga',
+	description: 'Man framstår som en pålitlig person man gärna lyssnar på.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -168,6 +173,7 @@ export const silverTongued = {
 export const spellCaster = {
 	key: 'spellCaster',
 	name: 'Besvärjare',
+	description: 'Man kan få universum att lyda sina tankar.',
 	requirements: {
 		metadata: {
 			level: 11,
@@ -185,12 +191,14 @@ export const spellCaster = {
 export const marksman = {
 	key: 'marksman',
 	name: 'Skarpskytt',
+	description: '',
 	requirements: {
 		metadata: {
 			level: 11
 		},
 		attributes: {
-			battle: baseValue + 2
+			battle: baseValue + 2,
+			physique: baseValue + 1
 		},
 		traits: ['accuracy']
 	},

@@ -201,18 +201,18 @@
 			}
 		},
 		mounted() {
-			this.updateSelectedChoiceKey(false)
+			const choiceIsAttribute = this.attributes[this.selectedChoiceKey] ? true : false
+			this.updateSelectedChoiceKey(choiceIsAttribute)
 		},
 		methods: {
 			resetSelection() {
 				this.selectedChoiceKey = ""
 			},
-			updateSelectedChoiceKey(shouldResetCounterpart = true) {
-				const selectedChoiceKey = this.selectedChoiceKey
+			updateSelectedChoiceKey() {
 				this.$emit('selected-level-type', {
 					type: "attribute",
-					isInvalid: selectedChoiceKey ? this.attributeIsInvalidAtThisLevel(selectedChoiceKey) : false,
-					shouldResetCounterpart
+					isInvalid: this.selectedChoiceKey ? this.attributeIsInvalidAtThisLevel(this.selectedChoiceKey) : false,
+					selectedChoiceKey: this.selectedChoiceKey,
 				})
 			},
 			submitNewAttributeLevel() {
@@ -247,9 +247,9 @@
 				)
 			},
 			/* 
-			this is a function in a vue component.
-			it is supposed to be called when the user clicks the toggle button.
-			when clicked ir should toggle the visibbility of the description of the attribute.
+				this is a function in a vue component.
+				it is supposed to be called when the user clicks the toggle button.
+				when clicked ir should toggle the visibbility of the description of the attribute.
 			*/
 			onClickToggleDescription(attributeKey) {
 				this.visibleAttributeDescriptions = this.visibleAttributeDescriptionsDefaults
