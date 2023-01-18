@@ -8,10 +8,6 @@ const fighter = {
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['melee', 'accuracy']
-		},
-		1: {
-			choices: 1,
 			list: ['unarmouredFighting', 'warfare', 'brawling']
 		}
 	},
@@ -23,10 +19,6 @@ const outlaw = {
 	description: 'missdådare',
 	skillsLists: {
 		0: {
-			choices: 1,
-			list: ['stealth', 'vigilant']
-		},
-		1: {
 			choices: 1,
 			list: ['carouse', 'brawling', 'intrusion']
 		}
@@ -40,10 +32,6 @@ const commoner = {
 	skillsLists: {
 		0: {
 			choices: 1,
-			list: ['crafting', 'beastOfBurden']
-		},
-		1: {
-			choices: 1,
 			list: ['animalHusbandry', 'carouse', 'cook']
 		}
 	},
@@ -55,10 +43,6 @@ const thinker = {
 	description: 'Lärd',
 	skillsLists: {
 		0: {
-			choices: 1,
-			list: knowledgeSkillKeysList()
-		},
-		1: {
 			choices: 1,
 			list: ['bookworm', 'meticulous', 'performer']
 		}

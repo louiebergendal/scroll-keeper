@@ -40,6 +40,7 @@
 								</label>
 							</div>
 						</div>
+
 						<div>
 							<h3 class="align-center">Val</h3>
 							<RadioButtonGroup
@@ -129,7 +130,7 @@
 						class="bordered-block padding-small"
 					>
 						<div v-if="professionsOptions[professionsChoiceKey]">
-							<h3 class="align-center">Val 1</h3>
+							<h3 class="align-center">Val</h3>
 							<div class="margin-bottom-small">
 								<RadioButtonGroup
 									:nameProp="'professions' + '-' + 'skillList' + '-' + 0"
@@ -146,21 +147,6 @@
 									@input="inputEventHandler"
 								/>
 							</div>
-							<h3 class="align-center">Val 2</h3>
-							<RadioButtonGroup
-								:nameProp="'professions' + '-' + 'skillList' + '-' + 1"
-								:optionsProp="
-									professionsOptions[professionsChoiceKey].skillsLists[1].list
-								"
-								:selectedProp="
-									setSelectedIfValid(
-										invalidKnowledgeSkillsForProfessionsChoicesList,
-										professionsSkillsChoiceList?.[1]?.toString()
-									)
-								"
-								:invalidOptionsListProp="invalidProfessionsChoicesList"
-								@input="inputEventHandler"
-							/>
 						</div>
 					</div>
 				</div>
@@ -231,11 +217,13 @@ export default {
 		const peoplesSkillsChoiceList = characterStore.history[1].complexPayload
 			.people.choices
 			? Object.values(
-					characterStore.history[1].complexPayload.people.choices
-				)[1]
+					characterStore.history[1].complexPayload.people.choices[1]
+				) // "choices[1]" will be unnecessary when people is homogenized. Only "choises" then.
 			: [];
 		const invalidPeoplesChoicesList = ref([]);
 		const invalidKnowledgeSkillsForPeoplesChoicesList = ref([]);
+
+		// --- UPPBRINGINGS ---
 
 		// Available Options
 		const upbringingsOptions = background.complexTrait.upbringings.upbringings;
@@ -440,7 +428,6 @@ export default {
 					this.upbringingsSkillsChoiceList[0],
 					this.upbringingsSkillsChoiceList[1],
 					this.professionsSkillsChoiceList[0],
-					this.professionsSkillsChoiceList[1]
 				);
 			this.invalidKnowledgeSkillsForChosenByFateChoicesList =
 				this.validateKnowledgeSkills(this.invalidChosenByFateChoicesList);
@@ -478,8 +465,6 @@ export default {
 			}
 			if (data.id === "professions-skillList-0")
 				this.professionsSkillsChoiceList[0] = data.option;
-			if (data.id === "professions-skillList-1")
-				this.professionsSkillsChoiceList[1] = data.option;
 
 			// chosenByFate
 			if (data.id === "chosenByFate") {
@@ -496,11 +481,9 @@ export default {
 					choices: {
 						0: {
 							0: this.peoplesSkillsMandatoryList[0],
+							1: this.peoplesSkillsMandatoryList[1]
 						},
 						1: {
-							0: this.peoplesSkillsMandatoryList[1],
-						},
-						2: {
 							0: this.peoplesSkillsChoiceList[0],
 						},
 					},
@@ -521,9 +504,6 @@ export default {
 					choices: {
 						0: {
 							0: this.professionsSkillsChoiceList[0],
-						},
-						1: {
-							0: this.professionsSkillsChoiceList[1],
 						},
 					},
 					key: this.professionsChoiceKey,
