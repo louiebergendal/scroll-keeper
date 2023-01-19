@@ -54,17 +54,25 @@ export const useCharacterStore = defineStore('character', {
 
 				for (const choiceIndex in choices) {
 					const choicesList = choices[choiceIndex]
-
-					for (const choiceIndex in choicesList) {
-						const choice = choicesList[choiceIndex]
-
-						if (!this.allTraits[choice]) {
+					// to account for that the code might ignore that it's a string in an object,
+					// and only treat it as a string, if it's the only thing in the onbject.
+					if (typeof choicesList !== 'string') {
+						
+						for (const innerChoiceIndex in choicesList) {
+							const choice = choicesList[innerChoiceIndex]
+							if (!this.allTraits[choice]) {
+								// add to invalidLevels
+								this.handleInvalidChoice(levelIndex, choice)
+								choices[innerChoiceIndex][choice] = ''
+							}
+						}	
+					} else {
+						if (!this.allTraits[choicesList]) {
 							// add to invalidLevels
-							this.handleInvalidChoice(levelIndex, choice)
-							choices[choiceIndex][choice] = ''
+							this.handleInvalidChoice(levelIndex, choicesList)
+							choices[choiceIndex][choicesList] = ''
 						}
 					}
-
 				}
 			}
 		},

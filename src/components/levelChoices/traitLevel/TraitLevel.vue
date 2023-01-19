@@ -89,7 +89,7 @@
 						/>
 					</tab>
 					<tab
-						name="Terrängvana"
+						name="Vana"
 						:status="
 							setPluppStatus(selectedChoiceKey, favouredTerrainSkillsList)
 						"
@@ -97,6 +97,22 @@
 						<TraitLevelTraitsGroup
 							:selectedLevelProp="selectedLevel"
 							:traitTypeProp="'favouredTerrainSkills'"
+							:selectedChoiceKeyProp="selectedChoiceKey"
+							:tempCharacterSheetProp="tempCharacterSheet"
+							:tempValidationSheetProp="tempValidationSheet"
+							@selected-choice-key="updateSelectedChoiceKey"
+							@update-tabs="$emit('update-tabs')"
+						/>
+					</tab>
+					<tab
+						name="Mästarfärdigheter"
+						:status="
+							setPluppStatus(selectedChoiceKey, masterSkillsList)
+						"
+					>
+						<TraitLevelTraitsGroup
+							:selectedLevelProp="selectedLevel"
+							:traitTypeProp="'masterSkills'"
 							:selectedChoiceKeyProp="selectedChoiceKey"
 							:tempCharacterSheetProp="tempCharacterSheet"
 							:tempValidationSheetProp="tempValidationSheet"
@@ -156,6 +172,7 @@ import {
 	generalSkills,
 	knowledgeSkills,
 	favouredTerrainSkills,
+	masterSkills
 } from "../../../rules/characteristics/traits";
 import { isInvalidAtThisLevel } from "../../../validators/validators";
 import { containsKey } from "../../../rules/utils";
@@ -195,6 +212,7 @@ export default {
 		const generalSkillsList = generalSkills();
 		const knowledgeSkillsList = knowledgeSkills();
 		const favouredTerrainSkillsList = favouredTerrainSkills();
+		const masterSkillsList = masterSkills();
 
 		const selectedChoiceKey = ref(originalLevelChoiceKey);
 		let traits;
@@ -224,6 +242,7 @@ export default {
 			generalSkillsList,
 			knowledgeSkillsList,
 			favouredTerrainSkillsList,
+			masterSkillsList
 		};
 	},
 	beforeMount() {

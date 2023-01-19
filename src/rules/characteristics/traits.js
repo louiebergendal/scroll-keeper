@@ -10,6 +10,7 @@ import attributeSkillsImport from './traitLists/attributeSkills'
 import generalSkillsImport from './traitLists/generalSkills'
 import knowledgeSkillsImport from './traitLists/knowledgeSkills'
 import favouredTerrainSkillsImport from './traitLists/favouredTerrainSkills'
+import masterSkillsImport from './traitLists/masterSkills'
 import talentsListImport from './traitLists/talents'
 import { containsKey } from '../utils'
 import background from '../complexTraits/background/background'
@@ -20,6 +21,7 @@ const attributeSkillsList = Object.assign({}, attributeSkillsImport)
 const generalSkillsList = Object.assign({}, generalSkillsImport)
 const knowledgeSkillsList = Object.assign({}, knowledgeSkillsImport)
 const favouredTerrainSkillsList = Object.assign({}, favouredTerrainSkillsImport)
+const masterSkillsList = Object.assign({}, masterSkillsImport)
 const talentsList = Object.assign({}, talentsListImport)
 
 const allSkillsList = Object.assign({}, {
@@ -29,7 +31,8 @@ const allSkillsList = Object.assign({}, {
 	...attributeSkillsList.knowledge,
 	...generalSkillsList,
 	...knowledgeSkillsList,
-	...favouredTerrainSkillsList
+	...favouredTerrainSkillsList,
+	...masterSkillsList
 })
 
 const allTraitsList = Object.assign({}, {
@@ -120,6 +123,18 @@ export function favouredTerrainSkills() {
 * Returns an array containing the keys of favouredTerrainSkillsList
 */
 export const favouredTerrainSkillListKeys = () => Object.keys(favouredTerrainSkillsList)
+
+/**
+* masterSkills:
+* - Returns a 'masterSkills' list.
+*/
+export function masterSkills() {
+	return masterSkillsList
+}
+/**
+* Returns an array containing the keys of favouredTerrainSkillsList
+*/
+export const masterSkillListKeys = () => Object.keys(masterSkillsList)
 
 /**
 * talents:
@@ -314,6 +329,28 @@ export function getFailedRequirements(
 				}
 			}
 		}
+		// If it's a masterskill, check how many masterskills are already owned and compare to allowed masterskills per level
+		if (trait.requirements.mastery === true) {
+
+			const amountOfMasterSkillsAllowed = amountMasterSkillsAtLevel(selectedLevel)
+			let amountOfMasterSkillsOwnedAtSelectedLevel = 0
+
+			characterTraitList.forEach((traitKey) => {
+				if (masterSkillsList[traitKey]) {
+					amountOfMasterSkillsOwnedAtSelectedLevel ++
+				}
+			})
+
+			
+			if ((amountOfMasterSkillsOwnedAtSelectedLevel + 1) > amountOfMasterSkillsAllowed ) { // +1 to account for current level masterSkillchoice
+				
+				failedRequirements.mastery = {
+					...failedRequirements.mastery,
+					amountOfMasterSkillsAllowed: amountOfMasterSkillsAllowed
+				}
+			}
+				
+		} 
 	}
 
 	return failedRequirements
@@ -321,77 +358,101 @@ export function getFailedRequirements(
 
 export function getFailedTraitRequirementsErrorMessage(failedTraitRequirements) {
 
-    let traitsErrorString = ""
+	let traitsErrorString = ""
 
-    // designing error strings
-    if (failedTraitRequirements.traits) {
-        Object.values(failedTraitRequirements.traits).forEach((traitKey, index) => {
-            const traitNiceName = getTraitNiceName(traitKey)
-            if (index === 0) {
-                traitsErrorString = traitNiceName
-            } else {
-                traitsErrorString += ', ' + traitNiceName
-            }
-        })
-    }
+	// designing error strings
+	if (failedTraitRequirements.traits) {
+		Object.values(failedTraitRequirements.traits).forEach((traitKey, index) => {
+			const traitNiceName = getTraitNiceName(traitKey)
+			if (index === 0) {
+				traitsErrorString = traitNiceName
+			} else {
+				traitsErrorString += ', ' + traitNiceName
+			}
+		})
+	}
 
-    let attributesErrorString = ""
-    if (failedTraitRequirements.attributes) {
-        Object.keys(failedTraitRequirements.attributes).forEach((attributeKey, index) => {
-            const attributeNiceName = getAttributeLongName(attributeKey)
-            if (index === 0) {
-                attributesErrorString = attributeNiceName + ': ' + failedTraitRequirements.attributes[attributeKey] 
-            } else {
-                attributesErrorString += ', ' + attributeNiceName + ': ' + failedTraitRequirements.attributes[attributeKey]
-            }
-        })
-    }
+	let attributesErrorString = ""
+	if (failedTraitRequirements.attributes) {
+		Object.keys(failedTraitRequirements.attributes).forEach((attributeKey, index) => {
+			const attributeNiceName = getAttributeLongName(attributeKey)
+			if (index === 0) {
+				attributesErrorString = attributeNiceName + ': ' + failedTraitRequirements.attributes[attributeKey] 
+			} else {
+				attributesErrorString += ', ' + attributeNiceName + ': ' + failedTraitRequirements.attributes[attributeKey]
+			}
+		})
+	}
 
-    let isNotChosenByFateErrorString = ''
-    if (failedTraitRequirements.metadata && failedTraitRequirements.metadata.isChosenByFate === false) {
-        isNotChosenByFateErrorString = 'Ödesvald'
-    }
+	let isNotChosenByFateErrorString = ''
+	if (failedTraitRequirements.metadata && failedTraitRequirements.metadata.isChosenByFate === false) {
+		isNotChosenByFateErrorString = 'Ödesvald'
+	}
 
-    let levelErrorString = ''
-    if (failedTraitRequirements.metadata && failedTraitRequirements.metadata.level) {
-        levelErrorString = 'Erfarenhet: ' + failedTraitRequirements.metadata.level
-    }
+	let levelErrorString = ''
+	if (failedTraitRequirements.metadata && failedTraitRequirements.metadata.level) {
+		levelErrorString = 'Erfarenhet: ' + failedTraitRequirements.metadata.level
+	}
 
 	// putting error strings together
-    attributesErrorString =
-        (traitsErrorString && attributesErrorString)
-            ? attributesErrorString + ', '
-            : attributesErrorString + ''
+	attributesErrorString =
+		(traitsErrorString && attributesErrorString)
+			? attributesErrorString + ', '
+			: attributesErrorString + ''
 
-    traitsErrorString = traitsErrorString ? traitsErrorString : ''
+	traitsErrorString = traitsErrorString ? traitsErrorString : ''
 
-    let failedRequirementsString = attributesErrorString + traitsErrorString || ''
-    if (isNotChosenByFateErrorString) {
-        failedRequirementsString =
-            (failedRequirementsString)
-                ? failedRequirementsString + ', ' + isNotChosenByFateErrorString
-                : isNotChosenByFateErrorString
-    }
-    if (levelErrorString) {
-        failedRequirementsString =
-            (failedRequirementsString)
-                ? failedRequirementsString + ', ' + levelErrorString
-                : levelErrorString
-    }
+	let failedRequirementsString = attributesErrorString + traitsErrorString || ''
+	if (isNotChosenByFateErrorString) {
+		failedRequirementsString =
+			(failedRequirementsString)
+				? failedRequirementsString + ', ' + isNotChosenByFateErrorString
+				: isNotChosenByFateErrorString
+	}
+	if (levelErrorString) {
+		failedRequirementsString =
+			(failedRequirementsString)
+				? failedRequirementsString + ', ' + levelErrorString
+				: levelErrorString
+	}
 
-    // already owned
-    let isAlreadyOwnedErrorString = ''
-    if (failedTraitRequirements.isAlreadyOwned) isAlreadyOwnedErrorString = 'Redan vald'
+	// other fail reasons
+	let otherFailReasonsString = ''
 
-    if (isAlreadyOwnedErrorString
-        && (attributesErrorString.length === 0 && traitsErrorString.length === 0)
-    ) {
-        isAlreadyOwnedErrorString === isAlreadyOwnedErrorString + ', '
-    }
-    const otherFailReasonsString = isAlreadyOwnedErrorString
-    let returnString = otherFailReasonsString ? otherFailReasonsString : 'Kräver: ' + failedRequirementsString
+	// already owned
+	let isAlreadyOwnedErrorString = ''
+	if (failedTraitRequirements.isAlreadyOwned) isAlreadyOwnedErrorString = 'Redan vald'
 
-    return returnString
+	if (isAlreadyOwnedErrorString
+		&& (attributesErrorString.length === 0 && traitsErrorString.length === 0)
+	) {
+		isAlreadyOwnedErrorString === isAlreadyOwnedErrorString + ', '
+	}
+
+	// amount of master skills allowed
+	let amountOfMasterSkillsAllowedErrorString = ''
+
+	if (failedTraitRequirements.mastery) {
+		amountOfMasterSkillsAllowedErrorString = 
+			'Man får inte ha fler än ' + failedTraitRequirements.mastery.amountOfMasterSkillsAllowed + ' mästarfärdigheter på den här erfarenhetsnivån '
+	}
+
+	// already owned should take precedence over amount of masterskills
+	if (amountOfMasterSkillsAllowedErrorString !== '') otherFailReasonsString = amountOfMasterSkillsAllowedErrorString
+	if (isAlreadyOwnedErrorString !== '') otherFailReasonsString = isAlreadyOwnedErrorString
+
+	let returnString =
+		(otherFailReasonsString !== '')
+			? otherFailReasonsString
+			: 'Kräver: ' + failedRequirementsString
+
+	return returnString
+}
+
+function amountMasterSkillsAtLevel(level) {
+	let allowedAmount = Math.floor(level / 10 - 2)
+	if (allowedAmount < 0) allowedAmount = 0
+	return allowedAmount
 }
 
 export function traitFromKey(traitKey) {
@@ -423,3 +484,4 @@ export function alterComplexTrait(traitKey, complexTraitCategoryKey, address1, a
 export function getComplexTraitCategorySkillsList(complexTraitCategoryKey, address1, ) {
 	background.complexTraitCategoryKey
 }
+

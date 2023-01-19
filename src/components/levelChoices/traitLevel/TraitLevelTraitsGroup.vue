@@ -4,12 +4,13 @@
 		<div v-for="(trait, key) in sortedNiceTraits" :key="key" class="flex">
 			<div v-if="trait.key !== 'background'" class="width-whole">
 				<TraitLevelTraitCard 
-					:traitProp="trait"
+					:traitProp = "trait"
 					:isFontContrastLowestProp="cannotChooseTrait(trait.key) && !traitIsTouchedByError(trait.key)"
 					:isTouchedByErrorProp="traitIsTouchedByError(trait.key)"
 					:isInvalidProp="traitIsInvalidAtThisLevel(trait.key) && traitIsSelected(trait.key)"
 					:selectedChoiceKeyProp="selectedChoiceKey"
 					:cannotChooseTraitProp="cannotChooseTrait(trait.key)"
+					:tempCharacterSheetProp="tempCharacterSheet"
 					@option="emitOption"
 				>
 					<template #cardText>
@@ -55,7 +56,8 @@
 		attributeSkills,
 		generalSkills,
 		knowledgeSkills,
-		favouredTerrainSkills
+		favouredTerrainSkills,
+		masterSkills
 	} from '../../../rules/characteristics/traits'
 	import { invalidChoiceIsNotDeselected, isTouchedByError, isInvalidAtThisLevel } from '../../../validators/validators'
 	import { containsKey } from '../../../rules/utils'
@@ -86,6 +88,7 @@
 			if (traitType === 'generalSkills') { traits = generalSkills() }
 			if (traitType === 'knowledgeSkills') { traits = knowledgeSkills() }
 			if (traitType === 'favouredTerrainSkills') { traits = favouredTerrainSkills() }
+			if (traitType === 'masterSkills') { traits = masterSkills() }
 			if (traitType === 'talents') { traits = allTalents() }
 
 			// get nice names

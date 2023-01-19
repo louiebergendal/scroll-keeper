@@ -208,21 +208,6 @@ export const marksman = {
 	}
 }
 
-export const lightningReflexes = {
-	key: 'lightningReflexes',
-	name: 'Blixtsnabba reflexer',
-	requirements: {
-		metadata: {
-			level: 11
-		},
-		attributes: {
-			agility: baseValue + 2
-		},
-	},
-	addInitiativeSizeBonus: (initiative) => initiative -= 1,
-	drawItemIsResponsiveAction: () => drawItemIsResponsiveAction()
-}
-
 
 /* advanced talents */
 
@@ -244,7 +229,7 @@ export const masterSpellCaster = {
 
 export const brutal = {
 	key: 'brutal',
-	name: 'Brutal',
+	name: 'Våldsam',
 	requirements: {
 		attributes: {
 			battle: 6,
@@ -322,7 +307,6 @@ export default {
 	spellCaster,
 	quiet,
 	marksman,
-	lightningReflexes,
 
 	// advanced talents
 	masterSpellCaster,
@@ -330,5 +314,6 @@ export default {
 	massive,
 	trustedHenchmen,
 
+	// plugins
 	engineer
 }

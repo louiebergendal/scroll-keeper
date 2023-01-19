@@ -279,6 +279,7 @@ export default {
 						characterStore.history[1].complexPayload.chosenByFate.choices
 					)
 				: [];
+		
 		const invalidChosenByFateChoicesList = ref([]);
 		const invalidKnowledgeSkillsForChosenByFateChoicesList = ref([]);
 
@@ -513,9 +514,11 @@ export default {
 			if (this.isChosenByFate) {
 				complexPayload.chosenByFate = {};
 				complexPayload.chosenByFate.choices = {};
-				complexPayload.chosenByFate.choices[0] = {
-					0: this.chosenByFateSkillsChoiceList[0],
-				};
+				complexPayload.chosenByFate.choices = {
+					0: {
+						0: this.chosenByFateSkillsChoiceList[0],
+					}
+				}
 				complexPayload.chosenByFate.key = this.chosenByFateChoiceKey;
 			}
 

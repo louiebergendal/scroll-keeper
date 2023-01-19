@@ -17,8 +17,8 @@ const animalHusbandry = {
 	addLoyalAnimal: (beast) => beast.loyal = true
 }
 
-const artisan = {
-	key: 'artisan',
+const craftsman = {
+	key: 'craftsman',
 	name: 'Hantverk',
 	requirements: {
 		traits: ['crafting'],
@@ -250,7 +250,7 @@ const weatherBeaten = {
 }
 
 const generalSkills = {
-	artisan,
+	craftsman,
 	animalHusbandry,
 	beastOfBurden,
 	bookworm,

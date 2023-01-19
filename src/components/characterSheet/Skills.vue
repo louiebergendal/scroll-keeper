@@ -35,9 +35,6 @@
 
 			</div>
 		</div>
-
-
-
 	</div>
 </template>
 
@@ -65,7 +62,7 @@
 				const proffessionSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.profession).flat(2)
 				let chosenByFateSkillKeysList
 				if (this.characterStore.history[1].complexPayload.chosenByFate) {
-					chosenByFateSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.chosenByFate).flat(2)
+					chosenByFateSkillKeysList = Object.values(this.characterStore.history[1].complexPayload.chosenByFate.choices).flat(3)
 				}
 
 				if (
