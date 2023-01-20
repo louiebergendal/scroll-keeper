@@ -24,10 +24,12 @@ export const addMaxCarryingCapacityBonus = (carryingCapacity, quantity) => carry
 export const addForagingBonus = (provisions, increment) => provisions + increment
 
 export const addOffensivePowerBonus = (power, increment) => {
+	console.log('ping!');
 	power.offensive += increment
 	return power
 }
 export const addDefensivePowerBonus = (power, increment) => {
+	console.log('pong!');
 	power.defensive += increment
 	return power
 }

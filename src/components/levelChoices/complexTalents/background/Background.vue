@@ -15,7 +15,7 @@
 					</div>
 					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
 						<div class="margin-bottom-small">
-							<h3 class="align-center">Obligatorisk</h3>
+							<h3 class="align-center">Obligatoriska färdigheter</h3>
 
 							<div
 								v-for="skill in peoplesOptions[peoplesChoiceKey]

@@ -37,7 +37,6 @@ export const acrobat = {
 export const background = {
 	key: 'background',
 	name: 'Bakgrund',
-	description: 'Rollpersonen kommer någonstans ifrån och har levt ett liv som påverkat vem den är och vad den kan. Det här kan antingen slås fram med tärning eller väljas. Vilken av metoderna som används får SL avgöra.',
 	complexTrait: {
 		...complexTraitBackground
 	}
@@ -46,7 +45,7 @@ export const background = {
 export const steady = {
 	key: 'steady',
 	name: 'Stadig',
-	description: 'Man är stor, stark och helt uppenbart byggd för strid.',
+	description: 'Karaktären ökar skadebonus på sina egna anfall, och reducerar skadebonus på mottagna anfall, med 1.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -59,6 +58,7 @@ export const steady = {
 	addPowerBonus: (power) => {
 		addOffensivePowerBonus(power, 1)
 		addDefensivePowerBonus(power, 1)
+		console.log('power: ', power);
 		return power
 	}
 }
@@ -66,7 +66,7 @@ export const steady = {
 export const quick = {
 	key: 'quick',
 	name: 'Kvick',
-	description: 'Man rör sig precist och snabbt, varsig man delar ut anfall eller undflyr vakter.',
+	description: 'Karaktären får 1 extra handling per stridsrunda.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -86,7 +86,7 @@ export const quick = {
 export const scholar = {
 	key: 'scholar',
 	name: 'Lärd',
-	description: 'Man har samlat på sig en stor mängd kunskaper.',
+	description: 'Karaktären får 2 färdighetspoäng att placera i 2 olika kunskapsfärdigheter, samt +2 FV på 1 kunskapsslag retroaktivt.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -107,7 +107,7 @@ export const scholar = {
 export const quiet = {
 	key: 'quiet',
 	name: 'Tyst',
-	description: 'Man rör sig tyst och placrar fötterna säkert.',
+	description: 'Passivt svårare att upptäcka, samt +2 MV mot 1 vaksamhetsslag retroaktivt.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -124,7 +124,7 @@ export const quiet = {
 export const scrutiny = {
 	key: 'scrutiny',
 	name: 'Skärskåda',
-	description: 'Man har förmågan att se med blotta ögat ifall någon far med osanning.',
+	description: '2 gånger per spelmöte kan man slå ett framgångsslag för att se ifall någon talar sanning eller inte. Karaktären får också +2 MV mot 1 inflytandesslag.',
 	requirements: {
 		metadata: {
 			level: 11,
@@ -138,7 +138,7 @@ export const scrutiny = {
 export const pathfinder = {
 	key: 'pathfinder',
 	name: 'Stigfinnare',
-	description: 'Man hittar de snabbaste rutterna, och går orörd genom ur och skur.',
+	description: 'Karaktärens följe färdas 25% snabbare offroad. Karaktären hittar 2 mer mat när den samlar och får +2 trevnad.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -159,7 +159,7 @@ export const pathfinder = {
 export const silverTongued = {
 	key: 'silverTongued',
 	name: 'Silvertunga',
-	description: 'Man framstår som en pålitlig person man gärna lyssnar på.',
+	description: '+2 inflytande, samt +2 FV på 1 inflytandeslag retroaktivt.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -173,7 +173,7 @@ export const silverTongued = {
 export const spellCaster = {
 	key: 'spellCaster',
 	name: 'Besvärjare',
-	description: 'Man kan få universum att lyda sina tankar.',
+	description: 'Karaktären kan kasta besvärjelser.',
 	requirements: {
 		metadata: {
 			level: 11,
@@ -191,7 +191,7 @@ export const spellCaster = {
 export const marksman = {
 	key: 'marksman',
 	name: 'Skarpskytt',
-	description: '',
+	description: '+1 skadebonus på avståndsanfall. Ytterligare +1 skadebonus ifall karaktären har siktat.',
 	requirements: {
 		metadata: {
 			level: 11
@@ -214,6 +214,7 @@ export const marksman = {
 export const masterSpellCaster = {
 	key: 'masterSpellCaster',
 	name: 'Besvärjelsemästare',
+	description: 'Karaktären får fler besvärjelser, samt mana dedikerat till cantrips varje spelmöte. Denna mana går inte att spara mellan spelmöten.',
 	requirements: {
 		metadata: {
 			level: 31
@@ -230,6 +231,7 @@ export const masterSpellCaster = {
 export const brutal = {
 	key: 'brutal',
 	name: 'Våldsam',
+	description: 'Karaktärens närstridsanfall får +1 skadebonus. Skadeyttringar orsakade av karaktären dubblas, givet att målet inte är gigantiskt.',
 	requirements: {
 		attributes: {
 			battle: 6,
@@ -246,6 +248,7 @@ export const brutal = {
 export const massive = {
 	key: 'massive',
 	name: 'Massiv',
+	description: 'Karaktären får +2 hälsa, reducerar skadebonus på mottagna anfall med 1, och räknas alltid som frisk då man räknar ut läkningstaket.',
 	requirements: {
 		attributes: {
 			battle: baseValue + 2,
@@ -264,6 +267,7 @@ export const massive = {
 export const trustedHenchmen = {
 	key: 'trustedHenchmen',
 	name: 'Trogna underhuggare',
+	description: 'Karaktären får 2 underhuggare att bossa runt helt gratis. Skulle de dö så kan man rekrytera nya.',
 	requirements: {
 		metadata: {
 			level: 21,
@@ -277,6 +281,7 @@ export const trustedHenchmen = {
 export const engineer = {
 	key: 'engineer',
 	name: 'Ingenjör',
+	description: 'detta är en plugin.',
 	requirements: {
 		metadata: {
 			level: 30,

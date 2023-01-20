@@ -232,11 +232,9 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 
 	let characterTraits = {}
 	characterTraitList.forEach((traitKey) => {
-		if (characterTraits[traitKey]) {
-			characterTraits[traitKey] = allTraits()[traitKey]
-		}
-		
+		characterTraits[traitKey] = allTraits()[traitKey]
 	})
+	
 	let modifiedValue = value
 	for (const traitKey in characterTraits) {
 		const traitObject = characterTraits[traitKey]
