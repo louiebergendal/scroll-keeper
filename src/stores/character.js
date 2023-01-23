@@ -6,6 +6,7 @@ import { createRefs, updateData, removeData } from '../api/firebaseApi'
 import { allTraits as getAllTraits, traitFromKey } from '../rules/characteristics/traits'
 
 import { attributes } from '../rules/characteristics/attributes'
+import { containsKey } from '../rules/utils'
 
 export const useCharacterStore = defineStore('character', {
 	state: () => {
@@ -57,7 +58,6 @@ export const useCharacterStore = defineStore('character', {
 					// to account for that the code might ignore that it's a string in an object,
 					// and only treat it as a string, if it's the only thing in the onbject.
 					if (typeof choicesList !== 'string') {
-						
 						for (const innerChoiceIndex in choicesList) {
 							const choice = choicesList[innerChoiceIndex]
 							if (!this.allTraits[choice]) {
@@ -83,38 +83,51 @@ export const useCharacterStore = defineStore('character', {
 				if (level.bonusType === 'attribute'
 					&& !attributes[level.choice]
 				) {
+					// add to invalidLevels
 					this.handleInvalidChoice(levelIndex, level.choice)
 					level.choice = ''
 				}
 
-				if (level.bonusType === 'skill'
-				 	&& !this.allTraits[level.choice]
-				) {
-					this.handleInvalidChoice(levelIndex, level.choice)
-					level.choice = ''
-				}
-
-				if (level.bonusType === 'talent') {
-					if (!this.allTraits[level.choice]) {
+				if (level.bonusType === ('talent' || 'skill')) {
+					const traitChoice = this.allTraits[level.choice]
+					if (!traitChoice) {
+						// add to invalidLevels
 						this.handleInvalidChoice(levelIndex, level.choice)
 						level.choice = ''
 					}
-					if (level.complexPayload) {
 
-						// add to invalidLevels if complexPayload is invalid
+					// check if there are outdated skills in complexPayload
+					if (level.complexPayload) {
+						// find and handle outdated skills in complexPayload
 						this.validateComplexPayload(levelIndex, level.complexPayload)
 
-						/* target */
-						const chosenTrait = traitFromKey(level.choice)
-						const complexTrait = chosenTrait.complexTrait
-
-						for (const choiceCategory in complexTrait) {
-							//console.log('choiceCategory: ', complexTrait[choiceCategory]);
+						// see if the skillsList in the rules contains the chosen skills.
+						for (const choiceCategory in level.complexPayload) {
+							const chosenCategory = level.complexPayload[choiceCategory]
+							
+							if (traitChoice.complexTrait[choiceCategory + 's'] && choiceCategory !== 'people') { 
+								// exlude 'people' untill the "mandatorySkills" crisis is solved
+								for (const chosenSkillsListIndex in chosenCategory.choices) {
+									for (const skillChoiceIndex in chosenCategory.choices[chosenSkillsListIndex]) {
+										const skillKeyFromComplexPayload = chosenCategory.choices[chosenSkillsListIndex][skillChoiceIndex]
+										const refString = this.metadata.characterRefString + '/history/1/complexPayload/' + choiceCategory + '/choices/' + chosenSkillsListIndex + '/' + skillChoiceIndex
+						
+										if (!containsKey(skillKeyFromComplexPayload , traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key].skillsLists[chosenSkillsListIndex].list)) {
+											this.handleInvalidChoice(levelIndex, skillKeyFromComplexPayload)
+											level.complexPayload[choiceCategory].choices[chosenSkillsListIndex][skillChoiceIndex] = ''
+											//removeData(refString)
+										}
+									}
+								}
+							}
 						}
+
+						
 					}
 
+					
+
 				}
-				
 			}
 		},
 		// Upstream

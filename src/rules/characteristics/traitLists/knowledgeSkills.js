@@ -211,6 +211,13 @@ const knowledgeArcaneExpert = {
 	addCantrip: (addCantrip) => addCantrip + 1
 }
 
+// TEST VERSION HANDELING
+const knowledgeTest = {
+	key: 'knowledgeTest',
+	name: 'Kunaksp (TEST)',
+	softUnlock: (fv) => removeSucRollPenalty(fv)
+}
+
 const knowledgeSkills = {
 	knowledgeDavandBasic,
 	knowledgeDavandAdvanced,
@@ -242,7 +249,10 @@ const knowledgeSkills = {
 	
 	knowledgeArcaneBasic,
 	knowledgeArcaneAdvanced,
-	knowledgeArcaneExpert
+	knowledgeArcaneExpert,
+
+	/* test */
+	//knowledgeTest
 }
 
 export const knowledgeSkillKeysList = () => Object.keys(knowledgeSkills)

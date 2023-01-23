@@ -58,7 +58,6 @@ export const steady = {
 	addPowerBonus: (power) => {
 		addOffensivePowerBonus(power, 1)
 		addDefensivePowerBonus(power, 1)
-		console.log('power: ', power);
 		return power
 	}
 }
@@ -248,7 +247,7 @@ export const brutal = {
 export const massive = {
 	key: 'massive',
 	name: 'Massiv',
-	description: 'Karaktären får +2 hälsa, reducerar skadebonus på mottagna anfall med 1, och räknas alltid som frisk då man räknar ut läkningstaket.',
+	description: 'Karaktären får +4 hälsa, reducerar skadebonus på mottagna anfall med 1, och räknas alltid som frisk då man räknar ut läkningstaket.',
 	requirements: {
 		attributes: {
 			battle: baseValue + 2,
@@ -284,7 +283,7 @@ export const engineer = {
 	description: 'detta är en plugin.',
 	requirements: {
 		metadata: {
-			level: 30,
+			level: 31,
 			isChosenByFate: true,
 		},
 		attributes: {

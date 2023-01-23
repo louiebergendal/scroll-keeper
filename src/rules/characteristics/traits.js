@@ -234,11 +234,11 @@ export function tryApplyTraitEffectOnValue(value, traitEffect, characterTraitLis
 	characterTraitList.forEach((traitKey) => {
 		characterTraits[traitKey] = allTraits()[traitKey]
 	})
-	
+
 	let modifiedValue = value
 	for (const traitKey in characterTraits) {
 		const traitObject = characterTraits[traitKey]
-		if (traitObject[traitEffect]) { modifiedValue = traitObject[traitEffect](modifiedValue) }
+		if (traitObject && traitObject[traitEffect]) { modifiedValue = traitObject[traitEffect](modifiedValue) }
 	}
 	
 	return modifiedValue
@@ -338,7 +338,6 @@ export function getFailedRequirements(
 					amountOfMasterSkillsOwnedAtSelectedLevel ++
 				}
 			})
-
 			
 			if ((amountOfMasterSkillsOwnedAtSelectedLevel + 1) > amountOfMasterSkillsAllowed ) { // +1 to account for current level masterSkillchoice
 				

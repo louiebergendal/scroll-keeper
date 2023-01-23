@@ -39,8 +39,8 @@ const commoner = {
 
 const thinker = {
 	key: 'thinker',
-	niceName: 'Lärd',
-	description: 'Lärd',
+	niceName: 'Kunskapstörstare',
+	description: 'kunskapstörstare',
 	skillsLists: {
 		0: {
 			choices: 1,

@@ -212,7 +212,7 @@ export default {
 		const peoplesSkillsMandatoryList = peoplesChoiceKey.value
 			? peoplesOptions[peoplesChoiceKey.value].mandatorySkills
 			: [];
-
+			
 		// Chosen People Optional Skills - PROXY
 		const peoplesSkillsChoiceList = characterStore.history[1].complexPayload
 			.people.choices
@@ -222,6 +222,19 @@ export default {
 			: [];
 		const invalidPeoplesChoicesList = ref([]);
 		const invalidKnowledgeSkillsForPeoplesChoicesList = ref([]);
+
+		/* 
+		
+		// Chosen People Optional Skills - PROXY
+		let peoplesSkillsChoiceList = {}
+		if (characterStore.history[1].complexPayload.people.choices[1]) { // to account for the fact that
+			peoplesSkillsChoiceList = characterStore.history[1].complexPayload
+			.people.choices
+			? Object.values(
+					characterStore.history[1].complexPayload.people.choices[1]
+				) // "choices[1]" will be unnecessary when people is homogenized. Only "choises" then.
+			: [];
+		} */
 
 		// --- UPPBRINGINGS ---
 
