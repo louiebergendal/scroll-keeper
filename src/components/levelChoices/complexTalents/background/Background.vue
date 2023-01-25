@@ -14,49 +14,48 @@
 						/>
 					</div>
 					<div v-if="peoplesChoiceKey" class="bordered-block padding-small">
-						<div class="margin-bottom-small">
+						<div>
 							<h3 class="align-center">Obligatoriska färdigheter</h3>
-
-							<div
-								v-for="skill in peoplesOptions[peoplesChoiceKey]
-									.mandatorySkills"
-								:key="skill"
-							>
-								<label
-									class="card selected margin-bottom-nano width-whole padding-left-tiny display-block flex"
-									:for="'mandatory-' + skill"
-								>
-									<input
-										class="trait-input"
-										type="radio"
-										:id="'mandatory-' + skill"
-										checked="true"
-									/>
-									<div>
-										<span class="trait-align">{{
-											getTraitNiceName(skill)
-										}}</span>
-									</div>
-								</label>
-							</div>
+							<RadioButtonGroup
+								:nameProp="'peoples' + '-' + 'skillList' + '-' + 0 + '-' + 0"
+								:optionsProp="
+									[peoplesOptions[peoplesChoiceKey].skillsLists[0].list[0]]
+								"
+								:selectedProp="
+									peoplesOptions[peoplesChoiceKey].skillsLists[0].list[0]
+								"
+								:invalidOptionsListProp="['']"
+								@input="inputEventHandler"
+							/><br>
+							<RadioButtonGroup
+								:nameProp="'peoples' + '-' + 'skillList' + '-' + 0 + '-' + 1"
+								:optionsProp="
+									[peoplesOptions[peoplesChoiceKey].skillsLists[0].list[1]]
+								"
+								:selectedProp="
+									peoplesOptions[peoplesChoiceKey].skillsLists[0].list[1]
+								"
+								:invalidOptionsListProp="['']"
+								@input="inputEventHandler"
+							/><br>
 						</div>
 
 						<div>
 							<h3 class="align-center">Val</h3>
 							<RadioButtonGroup
-								:nameProp="'peoples' + '-' + 'skillList' + '-' + 0"
+								:nameProp="'peoples' + '-' + 'skillList' + '-' + 1"
 								:optionsProp="
-									peoplesOptions[peoplesChoiceKey].skillsLists[0].list
+									peoplesOptions[peoplesChoiceKey].skillsLists[1].list
 								"
 								:selectedProp="
 									setSelectedIfValid(
 										invalidKnowledgeSkillsForPeoplesChoicesList,
-										peoplesSkillsChoiceList?.[0]?.toString()
+										peoplesSkillsChoiceList?.[1]?.toString()
 									)
 								"
 								:invalidOptionsListProp="invalidPeoplesChoicesList"
 								@input="inputEventHandler"
-							/>
+							/><br>
 						</div>
 					</div>
 				</div>
@@ -157,7 +156,7 @@
 				Fri färdighet (från Ödesvald)
 			</h3>
 			<TabbedTraitsGroup
-				:nameProp="'fate' + '-' + 'skillList' + '-' + 0"
+				:nameProp="'fate-skillList-0'"
 				:selectedProp="[
 					setSelectedIfValid(
 						invalidKnowledgeSkillsForChosenByFateChoicesList,
@@ -205,36 +204,17 @@ export default {
 		const peoplesOptions = background.complexTrait.peoples.peoples;
 
 		// Chosen People Key
-		const peoplesChoiceKey =
-			ref(characterStore.history[1].complexPayload.people.key) || ref("");
+		const peoplesChoiceKey = ref(characterStore.history[1].complexPayload.people.key) || ref("");
 
-		// Chosen People Mandatory Skills - PROXY
-		const peoplesSkillsMandatoryList = peoplesChoiceKey.value
-			? peoplesOptions[peoplesChoiceKey.value].mandatorySkills
-			: [];
-			
 		// Chosen People Optional Skills - PROXY
 		const peoplesSkillsChoiceList = characterStore.history[1].complexPayload
 			.people.choices
 			? Object.values(
-					characterStore.history[1].complexPayload.people.choices[1]
+					characterStore.history[1].complexPayload.people.choices
 				) // "choices[1]" will be unnecessary when people is homogenized. Only "choises" then.
 			: [];
 		const invalidPeoplesChoicesList = ref([]);
 		const invalidKnowledgeSkillsForPeoplesChoicesList = ref([]);
-
-		/* 
-		
-		// Chosen People Optional Skills - PROXY
-		let peoplesSkillsChoiceList = {}
-		if (characterStore.history[1].complexPayload.people.choices[1]) { // to account for the fact that
-			peoplesSkillsChoiceList = characterStore.history[1].complexPayload
-			.people.choices
-			? Object.values(
-					characterStore.history[1].complexPayload.people.choices[1]
-				) // "choices[1]" will be unnecessary when people is homogenized. Only "choises" then.
-			: [];
-		} */
 
 		// --- UPPBRINGINGS ---
 
@@ -305,7 +285,6 @@ export default {
 			peopleSkillsStatus,
 			peoplesOptions,
 			peoplesChoiceKey,
-			peoplesSkillsMandatoryList,
 			peoplesSkillsChoiceList,
 			invalidPeoplesChoicesList,
 			invalidKnowledgeSkillsForPeoplesChoicesList,
@@ -336,7 +315,6 @@ export default {
 	},
 	beforeMount() {
 		this.updateInvalidChoicesList();
-
 		this.characterStore.$subscribe((_mutation, state) => {
 			this.characterStoreLocal = state;
 			this.isChosenByFate = state.metadata.isChosenByFate;
@@ -405,8 +383,8 @@ export default {
 			// upbringings
 			this.invalidUpbringingsChoicesList =
 				this.invalidUpbringingsChoicesList.concat(
-					this.peoplesSkillsMandatoryList,
 					this.peoplesSkillsChoiceList[0],
+					this.peoplesSkillsChoiceList[1],
 					this.professionsSkillsChoiceList[0],
 					this.professionsSkillsChoiceList[1],
 					this.chosenByFateSkillsChoiceList[0]
@@ -421,8 +399,8 @@ export default {
 			// professions
 			this.invalidProfessionsChoicesList =
 				this.invalidProfessionsChoicesList.concat(
-					this.peoplesSkillsMandatoryList,
 					this.peoplesSkillsChoiceList[0],
+					this.peoplesSkillsChoiceList[1],
 					this.upbringingsSkillsChoiceList[0],
 					this.upbringingsSkillsChoiceList[1],
 					this.chosenByFateSkillsChoiceList[0]
@@ -437,8 +415,8 @@ export default {
 			// chosenByFate
 			this.invalidChosenByFateChoicesList =
 				this.invalidChosenByFateChoicesList.concat(
-					this.peoplesSkillsMandatoryList,
 					this.peoplesSkillsChoiceList[0],
+					this.peoplesSkillsChoiceList[1],
 					this.upbringingsSkillsChoiceList[0],
 					this.upbringingsSkillsChoiceList[1],
 					this.professionsSkillsChoiceList[0],
@@ -451,16 +429,22 @@ export default {
 				);
 		},
 		inputEventHandler(data) {
+
 			// peoples
 			if (data.id === "peoples") {
 				this.peoplesChoiceKey = data.option;
 				this.peoplesSkillsChoiceList.length = 0;
+				this.peoplesSkillsChoiceList = { 0: {} }
 			}
-			if (this.peoplesChoiceKey)
-				this.peoplesSkillsMandatoryList =
-					this.peoplesOptions[this.peoplesChoiceKey].mandatorySkills;
-			if (data.id === "peoples-skillList-0")
-				this.peoplesSkillsChoiceList[0] = data.option;
+
+			if (data.id === "peoples-skillList-0-0") {
+				this.peoplesSkillsChoiceList[0][0] = data.option;
+			}
+			if (data.id === "peoples-skillList-0-1") {
+				this.peoplesSkillsChoiceList[0][1] = data.option;
+			}
+			if (data.id === "peoples-skillList-1")
+				this.peoplesSkillsChoiceList[1] = data.option;
 
 			// upbringings
 			if (data.id === "upbringings") {
@@ -485,20 +469,22 @@ export default {
 				this.chosenByFateChoiceKey = data.option;
 				this.chosenByFateSkillsChoiceList.length = 0;
 			}
-			if (data.id === "fate-skillList-0")
+			if (data.id === "fate-skillList-0") {
 				this.chosenByFateSkillsChoiceList[0] = data.option;
-
+			}
 			this.updateInvalidChoicesList();
+
+
 
 			const complexPayload = {
 				people: {
 					choices: {
 						0: {
-							0: this.peoplesSkillsMandatoryList[0],
-							1: this.peoplesSkillsMandatoryList[1]
+							0: this.peoplesSkillsChoiceList[0] ? this.peoplesSkillsChoiceList[0][0] : "", 
+							1: this.peoplesSkillsChoiceList[0] ? this.peoplesSkillsChoiceList[0][1] : ""
 						},
 						1: {
-							0: this.peoplesSkillsChoiceList[0],
+							0: this.peoplesSkillsChoiceList[1],
 						},
 					},
 					key: this.peoplesChoiceKey,
@@ -534,7 +520,7 @@ export default {
 				}
 				complexPayload.chosenByFate.key = this.chosenByFateChoiceKey;
 			}
-
+			
 			this.complexPayload = complexPayload;
 
 			this.peopleSkillsStatus = this.setPluppStatus("people");

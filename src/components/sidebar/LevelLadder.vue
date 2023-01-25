@@ -160,7 +160,7 @@ export default {
 					}
 					break;
 				default:
-					console.log("ERROR: Spelling error in setPluppStatus");
+					console.log("ERROR: Spelling error in setPluppStatus: ", levelTypeKey);
 					break;
 			}
 		},

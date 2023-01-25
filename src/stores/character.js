@@ -101,18 +101,21 @@ export const useCharacterStore = defineStore('character', {
 						// find and handle outdated skills in complexPayload
 						this.validateComplexPayload(levelIndex, level.complexPayload)
 
-						// see if the skillsList in the rules contains the chosen skills.
+						// see if the skillsList in rules contains the chosen skills.
 						for (const choiceCategory in level.complexPayload) {
 							const chosenCategory = level.complexPayload[choiceCategory]
 							
-							if (traitChoice.complexTrait[choiceCategory + 's'] && choiceCategory !== 'people') { 
-								// exlude 'people' untill the "mandatorySkills" crisis is solved
+							if (traitChoice.complexTrait[choiceCategory + 's']) { 
+								// exlude 'people' until the "mandatorySkills" crisis is solved
 								for (const chosenSkillsListIndex in chosenCategory.choices) {
 									for (const skillChoiceIndex in chosenCategory.choices[chosenSkillsListIndex]) {
 										const skillKeyFromComplexPayload = chosenCategory.choices[chosenSkillsListIndex][skillChoiceIndex]
 										const refString = this.metadata.characterRefString + '/history/1/complexPayload/' + choiceCategory + '/choices/' + chosenSkillsListIndex + '/' + skillChoiceIndex
 						
-										if (!containsKey(skillKeyFromComplexPayload , traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key].skillsLists[chosenSkillsListIndex].list)) {
+										if (
+											traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key]
+											&& !containsKey(skillKeyFromComplexPayload , traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key].skillsLists[chosenSkillsListIndex].list)
+										) {
 											this.handleInvalidChoice(levelIndex, skillKeyFromComplexPayload)
 											level.complexPayload[choiceCategory].choices[chosenSkillsListIndex][skillChoiceIndex] = ''
 											//removeData(refString)

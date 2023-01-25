@@ -9,8 +9,8 @@
 			:for="name + '-' + option"
 			:class="{
 				selected:
-					containsKey(option, selectedOptions) &&
-					!containsKey(option, invalidOptions),
+					containsKey(option, selectedOptions)
+					&& !containsKey(option, invalidOptions),
 				'padding-left-tiny': !isPrimary,
 			}"
 			class="card dark margin-bottom-nano flex width-whole display-block"
@@ -22,8 +22,8 @@
 				:value="option"
 				:id="name + '-' + option"
 				:checked="
-					containsKey(option, selectedOptions) &&
-					!containsKey(option, invalidOptions)
+					containsKey(option, selectedOptions)
+					&& !containsKey(option, invalidOptions)
 				"
 				:disabled="containsKey(option, invalidOptions)"
 				@change="emitOption(option)"
@@ -57,20 +57,20 @@ export default {
 		"isPrimaryProp",
 	],
 	setup(props) {
-		const isPrimary = props.isPrimaryProp ? props.isPrimaryProp : false;
 		const name = props.nameProp;
 		const options = props.optionsProp;
 		const selectedOptions = props.selectedProp ? props.selectedProp : [""];
 		const invalidOptions = props.invalidOptionsListProp
 			? props.invalidOptionsListProps
 			: [""];
+		const isPrimary = props.isPrimaryProp ? props.isPrimaryProp : false;
 
 		return {
-			isPrimary,
 			name,
 			options,
 			selectedOptions,
 			invalidOptions,
+			isPrimary,
 			getTraitNiceName,
 			getBackgroundSkillsListNiceNames,
 			containsKey,
@@ -100,8 +100,8 @@ export default {
 	methods: {
 		emitOption(option) {
 			this.$emit("input", {
-				id: this.name,
 				option,
+				id: this.name,
 			});
 		},
 	},
