@@ -8,7 +8,6 @@
 			:tempCharacterSheetProp="characterSheet"
 			:tempValidationSheetProp="validationSheet"
 			@selected-choice-key="updateSelectedChoiceKey"
-			@complex-payload="inputEventHandler"
 			@update-tabs="$emit('update-tabs')"
 		/>
 
@@ -42,7 +41,6 @@
 			}
 			const selectedChoiceKey = ref(originalPathfinderChoiceKey)
 
-
 			return {
 				characterStore,
 				characterSheet,
@@ -54,6 +52,7 @@
 		beforeMount() {
 			this.characterStore.$subscribe((_mutation, state) => {
 			})
+			this.updateSelectedChoiceKey({selectedChoiceKey: this.selectedChoiceKey})
 		},
 		watch: {
 			validationSheetProp: {
@@ -66,7 +65,8 @@
 			}
 		},
 		methods: {
-			inputEventHandler() {
+			updateSelectedChoiceKey(data) {
+				this.selectedChoiceKey = data.selectedChoiceKey
 
 				const complexPayload = {
 					pathfinder: {
@@ -78,10 +78,8 @@
 						key: 'pathfinder'
 					}
 				}
+
 				this.$emit('complexPayload', complexPayload)
-			},
-			updateSelectedChoiceKey(data) {
-				this.selectedChoiceKey = data.selectedChoiceKey
 			},
 		}
 	}

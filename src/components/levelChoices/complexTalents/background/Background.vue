@@ -199,14 +199,8 @@ export default {
 		const professionSkillsStatus = ref("normal");
 
 		// --- PEOPLES ---
-
-		// Available Options
 		const peoplesOptions = background.complexTrait.peoples.peoples;
-
-		// Chosen People Key
 		const peoplesChoiceKey = ref(characterStore.history[1].complexPayload.people.key) || ref("");
-
-		// Chosen People Optional Skills - PROXY
 		const peoplesSkillsChoiceList = characterStore.history[1].complexPayload
 			.people.choices
 			? Object.values(
@@ -217,16 +211,8 @@ export default {
 		const invalidKnowledgeSkillsForPeoplesChoicesList = ref([]);
 
 		// --- UPPBRINGINGS ---
-
-		// Available Options
 		const upbringingsOptions = background.complexTrait.upbringings.upbringings;
-
-		// Chosen Upbringing Key
-		const upbringingsChoiceKey = ref(
-			characterStore.history[1].complexPayload.upbringing.key
-		);
-
-		// Chosen Upbringing Optional Skills - PROXY
+		const upbringingsChoiceKey = ref(characterStore.history[1].complexPayload.upbringing.key);
 		const upbringingsSkillsChoiceList = characterStore.history[1].complexPayload
 			.upbringing.choices
 			? Object.values(
@@ -237,16 +223,10 @@ export default {
 		const invalidKnowledgeSkillsForUpbringingsChoicesList = ref([]);
 
 		// --- PROFESSIONS ---
-
-		// Available Options
 		const professionsOptions = background.complexTrait.professions.professions;
-
-		// Chosen Profession Key
 		const professionsChoiceKey = ref(
 			characterStore.history[1].complexPayload.profession.key
 		);
-
-		// Chosen Profession Optional Skills - PROXY
 		const professionsSkillsChoiceList = characterStore.history[1].complexPayload
 			.profession.choices
 			? Object.values(
@@ -258,13 +238,9 @@ export default {
 
 		// --- CHOSEN BY FATE ---
 		const isChosenByFate = ref(characterStore.metadata.isChosenByFate);
-
-		// Chosen "Chosen By Fate" Key
 		const chosenByFateChoiceKey = ref(
 			isChosenByFate.value ? "chosenByFate" : ""
 		);
-
-		// Chosen "Chosen By Fate" Optional Skills - PROXY
 		const chosenByFateSkillsChoiceList =
 			characterStore.history[1].complexPayload.chosenByFate &&
 			characterStore.history[1].complexPayload.chosenByFate.choices
@@ -272,7 +248,6 @@ export default {
 						characterStore.history[1].complexPayload.chosenByFate.choices
 					)
 				: [];
-		
 		const invalidChosenByFateChoicesList = ref([]);
 		const invalidKnowledgeSkillsForChosenByFateChoicesList = ref([]);
 
@@ -436,45 +411,33 @@ export default {
 				this.peoplesSkillsChoiceList.length = 0;
 				this.peoplesSkillsChoiceList = { 0: {} }
 			}
-
-			if (data.id === "peoples-skillList-0-0") {
-				this.peoplesSkillsChoiceList[0][0] = data.option;
-			}
-			if (data.id === "peoples-skillList-0-1") {
-				this.peoplesSkillsChoiceList[0][1] = data.option;
-			}
-			if (data.id === "peoples-skillList-1")
-				this.peoplesSkillsChoiceList[1] = data.option;
+			if (data.id === "peoples-skillList-0-0") this.peoplesSkillsChoiceList[0][0] = data.option;
+			if (data.id === "peoples-skillList-0-1") this.peoplesSkillsChoiceList[0][1] = data.option;
+			if (data.id === "peoples-skillList-1") this.peoplesSkillsChoiceList[1] = data.option;
 
 			// upbringings
 			if (data.id === "upbringings") {
 				this.upbringingsChoiceKey = data.option;
 				this.upbringingsSkillsChoiceList.length = 0;
 			}
-			if (data.id === "upbringings-skillList-0")
-				this.upbringingsSkillsChoiceList[0] = data.option;
-			if (data.id === "upbringings-skillList-1")
-				this.upbringingsSkillsChoiceList[1] = data.option;
+			if (data.id === "upbringings-skillList-0") this.upbringingsSkillsChoiceList[0] = data.option;
+			if (data.id === "upbringings-skillList-1") this.upbringingsSkillsChoiceList[1] = data.option;
 
 			// professions
 			if (data.id === "professions") {
 				this.professionsChoiceKey = data.option;
 				this.professionsSkillsChoiceList.length = 0;
 			}
-			if (data.id === "professions-skillList-0")
-				this.professionsSkillsChoiceList[0] = data.option;
+			if (data.id === "professions-skillList-0") this.professionsSkillsChoiceList[0] = data.option;
 
 			// chosenByFate
 			if (data.id === "chosenByFate") {
 				this.chosenByFateChoiceKey = data.option;
 				this.chosenByFateSkillsChoiceList.length = 0;
 			}
-			if (data.id === "fate-skillList-0") {
-				this.chosenByFateSkillsChoiceList[0] = data.option;
-			}
+			if (data.id === "fate-skillList-0") this.chosenByFateSkillsChoiceList[0] = data.option;
+
 			this.updateInvalidChoicesList();
-
-
 
 			const complexPayload = {
 				people: {

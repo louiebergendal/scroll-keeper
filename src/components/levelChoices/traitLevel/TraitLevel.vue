@@ -141,14 +141,16 @@
 			<RuleRelevantMetadata class="margin-bottom-medium" />
 			<Background @complex-payload="complexPayload" />
 		</div>
+		selectedChoiceKey: {{ selectedChoiceKey }}<br>
+		hasFullComplexPayload: {{(traits[selectedChoiceKey]?.complexTrait && !hasFullComplexPayload)}}<br>
+		cannotChooseTrait: {{(traits[selectedChoiceKey] && cannotChooseTrait(traits[selectedChoiceKey]?.key))}}
 
 		<div class="align-center">
 			<button
 				:disabled="
 					!selectedChoiceKey ||
 					(traits[selectedChoiceKey]?.complexTrait && !hasFullComplexPayload) ||
-					(traits[selectedChoiceKey] &&
-						cannotChooseTrait(traits[selectedChoiceKey]?.key))
+					(traits[selectedChoiceKey] && cannotChooseTrait(traits[selectedChoiceKey]?.key))
 				"
 				type="submit"
 				class="margin-top-large margin-left-nano"
