@@ -4,9 +4,10 @@ import {
     addAdvantage,
     addProficiencyBonus
 } from '../../mechanics.js'
-
+import attributeSkills from './attributeSkills'
 import knowledgeSkills from './knowledgeSkills'
 import favouredTerrainSkills from './favouredTerrainSkills'
+import generalSkills from './generalSkills'
 import { baseValue } from '../attributes'
 
 import complexTraitBackground from '../../complexTraits/background/background'
@@ -153,6 +154,23 @@ export const pathfinder = {
 			list: favouredTerrainSkills
 		}
 	}
+}
+/*  target  */
+export const jackOfAllTrades = {
+	key: 'jackOfAllTrades',
+	name: 'Mångsysslare',
+	description: 'Karaktären får 1 allmän färdighet, och får 2 grundegenskapspoäng att placera på sina lägsta grundegenskaper.',
+	requirements: {
+		metadata: {
+			level: 21
+		},
+	},
+	complexTrait: {
+		0: {
+			choices: 1,
+			list: [].concat(attributeSkills, generalSkills, knowledgeSkills, favouredTerrainSkills)
+		},
+	},
 }
 
 export const silverTongued = {
@@ -306,6 +324,7 @@ export default {
 	steady,
 	quick,
 	pathfinder,
+	jackOfAllTrades,
 	silverTongued,
 	scholar,
 	spellCaster,

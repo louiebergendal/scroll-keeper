@@ -1,4 +1,4 @@
-import { allTraits, canChooseTrait } from './characteristics/traits'
+import { allTraits, canChooseTrait, allTraitListKeys } from './characteristics/traits'
 import { attributes, baseValue as attributeBaseValue, canChooseAttribute } from './characteristics/attributes'
 import { baseValue as movementBaseValue } from './characteristics/secondaryCharacteristics/movement'
 import { baseValue as actionPointBaseValue } from './characteristics/secondaryCharacteristics/actionPoints'
@@ -48,6 +48,7 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 		const bonusType = currentLevel.bonusType
 		const chosenBonus = currentLevel.choice
 		const traitList = allTraits()
+		const allTraitKeysList = allTraitListKeys()
 
 		// ADD COMPETENCE & FATE
 		if (bonusType === 'competence') {
@@ -64,8 +65,6 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 			}
 		}
 
-		
-
 		// ADD TRAITS
 		const oldTraitsList = [...characterTraitList] // make a copy of the old list
 		for (const traitKey in traitList) {
@@ -75,7 +74,6 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 
 				// complex payload
 				if (currentLevel.complexPayload) {
-
 					const levelComplexPayload = currentLevel.complexPayload
 
 					for (const choiceCategory in levelComplexPayload) { // ex. 'people'
@@ -84,28 +82,40 @@ const flattenCharacter = (databaseCharacter, targetLevel) => {
 						for (const choiceGroup in complexChoicesList) { // ex. 1
 
 							for (const choiceKey in complexChoicesList[choiceGroup]) { // ex. 'KnowledgeDavandBasic'
-								const skillChoiceKey = complexChoicesList[choiceGroup][choiceKey]
+								const characteristicChoiceKey = complexChoicesList[choiceGroup][choiceKey]
 
-								// if any of the traits in the complexPayload are already owned, traitKey is invalid
-								if (containsKey(skillChoiceKey, characterTraitList)) {
-									invalidComplexTraitLevel.push(traitKey)
-									invalidComplexTraitLevel.push(skillChoiceKey)
-								}
+								// if trait
+								if (containsKey(characteristicChoiceKey, allTraitKeysList)) {
 
-								if (skillChoiceKey && skillChoiceKey.length > 0 && !containsKey(skillChoiceKey, characterTraitList)) {
-
-									// validate complexPayload
-									if (bonusType === 'talent' && traitKey !== 'background' && !canChooseTrait(
-										skillChoiceKey,
-										characterTraitList, 
-										baseCharacterSheet.attributes, 
-										baseCharacterSheet.metadata.isChosenByFate, 
-										levelIndex
-									)) {
-										// if there are any errors, push to invalidComplexTraitLevel
-										if (!containsKey(skillChoiceKey, invalidComplexTraitLevel)) invalidComplexTraitLevel.push(skillChoiceKey)
+									// if any of the traits in the complexPayload are already owned, traitKey is invalid
+									if (containsKey(characteristicChoiceKey, characterTraitList)) {
+										invalidComplexTraitLevel.push(traitKey)
+										invalidComplexTraitLevel.push(characteristicChoiceKey)
 									}
-									characterTraitList.push(skillChoiceKey)
+
+									if (characteristicChoiceKey && characteristicChoiceKey.length > 0 && !containsKey(characteristicChoiceKey, characterTraitList)) {
+
+										// validate skill in complexPayload
+										if (bonusType === 'talent' && traitKey !== 'background' && !canChooseTrait(
+											characteristicChoiceKey,
+											characterTraitList, 
+											baseCharacterSheet.attributes, 
+											baseCharacterSheet.metadata.isChosenByFate, 
+											levelIndex
+										)) {
+											// if there are any errors, push to invalidComplexTraitLevel
+											if (!containsKey(characteristicChoiceKey, invalidComplexTraitLevel)) invalidComplexTraitLevel.push(characteristicChoiceKey)
+										}
+										characterTraitList.push(characteristicChoiceKey)
+									}
+								} else { // if not trait
+
+									baseCharacterSheet.attributes[characteristicChoiceKey]++
+									if (!canChooseAttribute(baseCharacterSheet.attributes[characteristicChoiceKey] - 1, levelIndex)) {
+										// add invalid attribute choices to invalidLevels
+										invalidComplexTraitLevel.push(characteristicChoiceKey)
+									}
+
 								}
 							}
 						}

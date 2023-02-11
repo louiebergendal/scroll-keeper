@@ -141,9 +141,6 @@
 			<RuleRelevantMetadata class="margin-bottom-medium" />
 			<Background @complex-payload="complexPayload" />
 		</div>
-		selectedChoiceKey: {{ selectedChoiceKey }}<br>
-		hasFullComplexPayload: {{(traits[selectedChoiceKey]?.complexTrait && !hasFullComplexPayload)}}<br>
-		cannotChooseTrait: {{(traits[selectedChoiceKey] && cannotChooseTrait(traits[selectedChoiceKey]?.key))}}
 
 		<div class="align-center">
 			<button
@@ -300,8 +297,8 @@ export default {
 			for (const option in data) {
 				for (const choiceGroup in data[option].choices) {
 					for (const skillChoice in data[option].choices[choiceGroup]) {
-						const skillChoiceKey =
-						data[option].choices[choiceGroup][skillChoice];
+						const skillChoiceKey = data[option].choices[choiceGroup][skillChoice];
+						console.log('skillChoiceKey: ', skillChoiceKey);
 						if (!skillChoiceKey) isValid = false;
 						if (this.traitIsInvalidAtThisLevel(skillChoiceKey)) isValid = false;
 					}

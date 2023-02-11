@@ -159,6 +159,7 @@
 	export default {
 		components: {
 			InvalidOccurrence
+			
 		},
 		props: ['selectedLevelProp'],
 		emits: ['selected-level-type', 'update-tabs'],
@@ -205,9 +206,6 @@
 			this.updateSelectedChoiceKey(choiceIsAttribute)
 		},
 		methods: {
-			resetSelection() {
-				this.selectedChoiceKey = ""
-			},
 			updateSelectedChoiceKey() {
 				this.$emit('selected-level-type', {
 					type: "attribute",
@@ -246,11 +244,6 @@
 					this.selectedLevel
 				)
 			},
-			/* 
-				this is a function in a vue component.
-				it is supposed to be called when the user clicks the toggle button.
-				when clicked ir should toggle the visibbility of the description of the attribute.
-			*/
 			onClickToggleDescription(attributeKey) {
 				this.visibleAttributeDescriptions = this.visibleAttributeDescriptionsDefaults
 				this.visibleAttributeDescriptions[attributeKey] = !this.visibleAttributeDescriptions[attributeKey]

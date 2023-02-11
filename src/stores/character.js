@@ -60,14 +60,14 @@ export const useCharacterStore = defineStore('character', {
 					if (typeof choicesList !== 'string') {
 						for (const innerChoiceIndex in choicesList) {
 							const choice = choicesList[innerChoiceIndex]
-							if (!this.allTraits[choice]) {
+							if (!this.allTraits[choice] && !containsKey(choice, Object.keys(attributes))) {
 								// add to invalidLevels
 								this.handleInvalidChoice(levelIndex, choice)
 								choices[innerChoiceIndex][choice] = ''
 							}
 						}	
 					} else {
-						if (!this.allTraits[choicesList]) {
+						if (!this.allTraits[choicesList] && !containsKey(choice, Object.keys(attributes))) {
 							// add to invalidLevels
 							this.handleInvalidChoice(levelIndex, choicesList)
 							choices[choiceIndex][choicesList] = ''

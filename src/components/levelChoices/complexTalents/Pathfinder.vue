@@ -17,13 +17,9 @@
 <script>
 	import { ref } from 'vue'
 	import { useCharacterStore } from '../../../stores/character'
-	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
 
 	export default {
 		name: 'Pathfinder',
-		components: {
-			InvalidOccurrence
-		},
 		props: ['characterSheetProp', 'validationSheetProp'],
 		setup(props) {
 			const characterStore = useCharacterStore()

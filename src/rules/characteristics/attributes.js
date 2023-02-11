@@ -35,7 +35,7 @@ export const attributes = {
 		key: attributeNames.physique,
 		longName: 'Fysik',
 		shortName: 'FYS',
-		description: 'Fysik (FYS) representerar karaktärens fysiska form, kondition och styrka. Personer med hög Fysik tål mer påfrestnig och kan bära tunga lass.'
+		description: 'Fysik (FYS) representerar karaktärens fysiska form, kondition och styrka. Personer med hög Fysik tål mycket och kan bära tunga lass.'
 	}
 }
 
