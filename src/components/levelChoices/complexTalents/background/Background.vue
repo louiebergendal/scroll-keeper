@@ -358,7 +358,8 @@ export default {
 			// upbringings
 			this.invalidUpbringingsChoicesList =
 				this.invalidUpbringingsChoicesList.concat(
-					this.peoplesSkillsChoiceList[0],
+					this.peoplesSkillsChoiceList[0][0],
+					this.peoplesSkillsChoiceList[0][1],
 					this.peoplesSkillsChoiceList[1],
 					this.professionsSkillsChoiceList[0],
 					this.professionsSkillsChoiceList[1],
@@ -374,7 +375,8 @@ export default {
 			// professions
 			this.invalidProfessionsChoicesList =
 				this.invalidProfessionsChoicesList.concat(
-					this.peoplesSkillsChoiceList[0],
+					this.peoplesSkillsChoiceList[0][0],
+					this.peoplesSkillsChoiceList[0][1],
 					this.peoplesSkillsChoiceList[1],
 					this.upbringingsSkillsChoiceList[0],
 					this.upbringingsSkillsChoiceList[1],
@@ -390,7 +392,8 @@ export default {
 			// chosenByFate
 			this.invalidChosenByFateChoicesList =
 				this.invalidChosenByFateChoicesList.concat(
-					this.peoplesSkillsChoiceList[0],
+					this.peoplesSkillsChoiceList[0][0],
+					this.peoplesSkillsChoiceList[0][1],
 					this.peoplesSkillsChoiceList[1],
 					this.upbringingsSkillsChoiceList[0],
 					this.upbringingsSkillsChoiceList[1],

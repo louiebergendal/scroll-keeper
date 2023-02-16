@@ -54,7 +54,7 @@
 								:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
 								name="attribute"
 								class="trait-input"
-								@change="updateSelectedChoiceKey"
+								@change="updateSelectedChoiceKey()"
 							/>
 							<div class=" margin-top-tiny">
 								{{ getAttributeLongName(attribute.key) }}
@@ -201,11 +201,11 @@
 				isTouchedByError,
 			}
 		},
-		mounted() {
-			const choiceIsAttribute = this.attributes[this.selectedChoiceKey] ? true : false
-			this.updateSelectedChoiceKey(choiceIsAttribute)
-		},
 		methods: {
+			resetSelection() {
+				// this should be declared here, but is used in LevelLadder.
+				this.selectedChoiceKey = ''
+			},
 			updateSelectedChoiceKey() {
 				this.$emit('selected-level-type', {
 					type: "attribute",

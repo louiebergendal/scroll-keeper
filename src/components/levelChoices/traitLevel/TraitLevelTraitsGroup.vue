@@ -38,13 +38,6 @@
 								@complex-payload="complexPayload"
 							/>
 						</div>
-						<div v-if="trait.key === 'jackOfAllTrades' && selectedChoiceKey === 'jackOfAllTrades'">
-							<JackOfAllTrades
-								:characterSheetProp="tempCharacterSheet"
-								:validationSheetProp="tempValidationSheet"
-								@complex-payload="complexPayload"
-							/>
-						</div>
 					</template>
 				</TraitLevelTraitCard>
 			</div>
@@ -71,7 +64,6 @@
 	import TraitLevelCardText from './TraitLevelCardText.vue'
 	import Scholar from '../complexTalents/Scholar.vue'
 	import Pathfinder from '../complexTalents/Pathfinder.vue'
-	import JackOfAllTrades from '../complexTalents/JackOfAllTrades.vue'
 
 	export default {
 		name: 'TraitLevelTraitsGroup',
@@ -79,7 +71,6 @@
 			TraitLevelCardText,
 			Pathfinder,
 			Scholar,
-			JackOfAllTrades,
 		},
 		props: ['selectedLevelProp', 'traitTypeProp', 'selectedChoiceKeyProp', 'tempCharacterSheetProp', 'tempValidationSheetProp'],
 		emits: ['complexPayload', 'selected-choice-key'],

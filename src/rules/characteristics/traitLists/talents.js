@@ -8,7 +8,7 @@ import attributeSkills from './attributeSkills'
 import knowledgeSkills from './knowledgeSkills'
 import favouredTerrainSkills from './favouredTerrainSkills'
 import generalSkills from './generalSkills'
-import { baseValue } from '../attributes'
+import { baseValue, attributes } from '../attributes'
 
 import complexTraitBackground from '../../complexTraits/background/background'
 
@@ -155,23 +155,6 @@ export const pathfinder = {
 		}
 	}
 }
-/*  target  */
-export const jackOfAllTrades = {
-	key: 'jackOfAllTrades',
-	name: 'Mångsysslare',
-	description: 'Karaktären får 1 allmän färdighet, och får 2 grundegenskapspoäng att placera på sina lägsta grundegenskaper.',
-	requirements: {
-		metadata: {
-			level: 21
-		},
-	},
-	complexTrait: {
-		0: {
-			choices: 1,
-			list: [].concat(attributeSkills, generalSkills, knowledgeSkills, favouredTerrainSkills)
-		},
-	},
-}
 
 export const silverTongued = {
 	key: 'silverTongued',
@@ -310,6 +293,29 @@ export const engineer = {
 		traits: ['bookworm', 'crafting']
 	},
 }
+
+/* WIP
+ export const jackOfAllTrades = {
+	key: 'jackOfAllTrades',
+	name: 'Mångsysslare',
+	description: 'Karaktären får 1 allmän färdighet, och får 2 grundegenskapspoäng att placera på sina lägsta grundegenskaper.',
+	requirements: {
+		metadata: {
+			level: 21
+		},
+	},
+	complexTrait: {
+		0: {
+			choices: 1,
+			list: [].concat(attributeSkills, generalSkills, knowledgeSkills, favouredTerrainSkills)
+		},
+		1: {
+			choices: 2,
+			list: Object.keys(attributes)
+		},
+	},
+} */
+
 export const complexTalents = {
 	scholar,
 	pathfinder,
@@ -324,7 +330,7 @@ export default {
 	steady,
 	quick,
 	pathfinder,
-	jackOfAllTrades,
+
 	silverTongued,
 	scholar,
 	spellCaster,
@@ -336,6 +342,7 @@ export default {
 	brutal,
 	massive,
 	trustedHenchmen,
+	//jackOfAllTrades,
 
 	// plugins
 	engineer

@@ -10,11 +10,14 @@
 		/>
 
 		<div class='card flex -dir-col'> <!-- make pretty -->
+
+			disabledList: {{ disabledAttributeKeysList }}
+
 			<div
 				v-for='attribute in attributes'
 				:key='attribute.key'
 				class='width-whole flex margin-bottom-nano width-whole'
-			>
+			> <!-- complextrait,  not attributes -->
 				<div
 					:class="{
 						'font-contrast-lowest': (
@@ -24,9 +27,11 @@
 					}"
 					class="width-whole flex"
 				>
+					
+
 					<div
 						:class="{
-							'selected': selectedAttributeChoiceKey === attribute.key && !attributeIsTouchedByError(attribute.key),
+							'selected': containsKey(attribute.key, selectedAttributeChoiceKeysList) && !attributeIsTouchedByError(attribute.key),
 							'touched-by-error': attributeIsTouchedByError(attribute.key),
 							'invalid-background': (
 								invalidAttributeChoiceIsNotDeselected(attribute.key) 
@@ -41,14 +46,22 @@
 								class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start width-whole"
 							>
 								<input
-									type="radio"
+									type="checkbox"
 									:id="attribute.key"
 									:value="attribute.key"
-									v-model="selectedAttributeChoiceKey"
-									:disabled="!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)"
+									v-model="selectedAttributeChoiceKeysList"
+									:disabled="
+										(!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)
+										|| containsKey(attribute.key, disabledAttributeKeysList))
+										&& !containsKey(attribute.key, selectedAttributeChoiceKeysList)
+									"
 									name="attribute"
 									class="trait-input"
-									@change="updateSelectedChoiceKeys"
+									@change="updateSelectedChoiceKeys({
+										id: 'JackOfAllTrades-attributeList',
+										option: [attribute.key],
+										statusToSet: containsKey(attribute.key, selectedAttributeChoiceKeysList)
+									})"
 								/>
 								<div class=" margin-top-tiny">
 									{{ getAttributeLongName(attribute.key) }}
@@ -91,7 +104,7 @@
 						</div>
 					</div>
 					<div
-						v-if="selectedAttributeChoiceKey === attribute.key"
+						v-if="containsKey(attribute.key, selectedAttributeChoiceKeysList)"
 						class="width-fourth flex margin-left-tiny"
 					>
 						<div
@@ -105,7 +118,7 @@
 						</div>
 					</div>
 					<div
-						v-if="selectedAttributeChoiceKey !== attribute.key"
+						v-if="!containsKey(attribute.key, selectedAttributeChoiceKeysList)"
 						:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
 						class="width-fourth card light margin-left-tiny align-center"
 					>
@@ -136,7 +149,9 @@
 		canChooseAttribute,
 		getAttributeLvlCeiling
 	} from '../../../rules/characteristics/attributes'
-	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../../validators/validators'
+	import { jackOfAllTrades } from '../../../rules/characteristics/traitLists/talents'
+	import { invalidChoiceIsNotUnChecked, isInvalidAtThisLevel, isTouchedByError } from '../../../validators/validators'
+	import { containsKey } from '../../../rules/utils'
 
 	export default {
 		name: 'JackOfAllTrades',
@@ -151,6 +166,10 @@
 			const characterAttributes = characterSheet.attributes
 			const validationSheet = props.validationSheetProp
 			const selectedLevel = validationSheet.metadata.selectedLevel
+			//const jackOfAllTradesAttributeOptions = jackOfAllTrades.complexTrait[1]
+			const attributeChoicesAmount = jackOfAllTrades.complexTrait[1].choices
+			const disabledAttributeKeysList = ref([])
+
 			let originalJackOfAllTradesChoiceKeysList = []
 
 			// original choices
@@ -161,51 +180,67 @@
 			){
 				originalJackOfAllTradesChoiceKeysList = characterStore.history[selectedLevel].complexPayload.jackOfAllTrades.choices
 			}
+			console.log("originalJackOfAllTradesChoiceKeysList (after declaration): ", originalJackOfAllTradesChoiceKeysList)
 
 			// selected skill
 			const selectedSkillChoiceKey = ref('')
 			if (originalJackOfAllTradesChoiceKeysList[0]) {
-				selectedSkillChoiceKey.value = originalJackOfAllTradesChoiceKeysList[0].toString()
+				selectedSkillChoiceKey.value = originalJackOfAllTradesChoiceKeysList[0]
 			}
 
-			// selected attribute
-			const selectedAttributeChoiceKey = ref('')
+			// selected attributes
+			const selectedAttributeChoiceKeysList = ref([])
 			if (originalJackOfAllTradesChoiceKeysList[1]) {
-				selectedAttributeChoiceKey.value = originalJackOfAllTradesChoiceKeysList[1].toString()
+				selectedAttributeChoiceKeysList.value = originalJackOfAllTradesChoiceKeysList[1]
 			}
 
+			console.log('---> selectedAttributeChoiceKeysList 1: ', selectedAttributeChoiceKeysList.value);
+
+			const choicesLeft = ref(0)
+			
 			return {
 				characterStore,
 				characterSheet,
 				characterAttributes,
 				validationSheet,
 				selectedSkillChoiceKey,
-				selectedAttributeChoiceKey,
+				selectedAttributeChoiceKeysList,
 				selectedLevel,
 				originalJackOfAllTradesChoiceKeysList,
+				choicesLeft,
+				attributeChoicesAmount,
+				disabledAttributeKeysList,
 
 				attributes,
 				getAttributeLongName,
 				canChooseAttribute,
 				getAttributeLvlCeiling,
 
-				invalidChoiceIsNotDeselected,
+				invalidChoiceIsNotUnChecked,
 				isInvalidAtThisLevel,
-				isTouchedByError
+				isTouchedByError,
+
+				containsKey
 			}
 		},
 		beforeMount() {
-			this.findLowestAttributes() /* test */
 			this.characterStore.$subscribe((_mutation, state) => {
 			})
 			this.updateSelectedChoiceKeys({
 				id: 'JackOfAllTrades-skillList-0',
-				option: this.selectedSkillChoiceKey
+				option: this.originalJackOfAllTradesChoiceKeysList[0]
 			})
 			this.updateSelectedChoiceKeys({
-				id: 'JackOfAllTrades-attributeList-0',
-				option: this.selectedAttributeChoiceKey
+				id: 'JackOfAllTrades-attributeList',
+				option: this.originalJackOfAllTradesChoiceKeysList[1]
 			})
+
+			if (this.selectedAttributeChoiceKeysList.length) {
+				this.choicesLeft = this.attributeChoicesAmount - this.selectedAttributeChoiceKeysList.length
+			} else {
+				this.choicesLeft = this.attributeChoicesAmount
+			}
+			
 		},
 		watch: {
 			validationSheetProp: {
@@ -219,13 +254,32 @@
 		},
 		methods: {
 			updateSelectedChoiceKeys(data) {
-
+				console.log('--- --- --- // in updateSelectedChoiceKeys // --- --- ---');
 				if (data.id === 'JackOfAllTrades-skillList-0') {
 					this.selectedSkillChoiceKey = data.option
 				}
-				if (data.id === 'JackOfAllTrades-attributeList-0') {
-					this.selectedAttributeChoiceKey = data.option
+				if (data.id === 'JackOfAllTrades-attributeList' && data.option !== undefined) {
+
+					if(data.statusToSet !== false){ // true or undefined
+						console.log('to be pushed: ', data.option);
+						this.selectedAttributeChoiceKeysList.push(data.option)
+					} else {
+						this.selectedAttributeChoiceKeysList = this.selectedAttributeChoiceKeysList.filter((keys) => {
+							return containsKey(keys, data.option);
+						})
+					}
+
+					if (this.selectedAttributeChoiceKeysList.length) {
+						this.choicesLeft = this.attributeChoicesAmount - this.selectedAttributeChoiceKeysList.length
+					} else {
+						this.choicesLeft = this.attributeChoicesAmount
+					}
 				}
+
+
+				console.log('data: ', data);
+				console.log('selectedAttributeChoiceKeysList: ', this.selectedAttributeChoiceKeysList);
+				console.log('--- --- --- --- --- --- --- ---');
 
 				const complexPayload = {
 					jackOfAllTrades: {
@@ -234,22 +288,25 @@
 								0: this.selectedSkillChoiceKey
 							},
 							1: {
-								0: this.selectedAttributeChoiceKey
+								0: this.selectedAttributeChoiceKeysList[0],
+								1: this.selectedAttributeChoiceKeysList[1]
 							}
 						},
 						key: 'jackOfAllTrades'
 					}
 				}
+				this.updateDisabledList()
 
 				this.$emit('complexPayload', complexPayload)
 			},
 			invalidAttributeChoiceIsNotDeselected(key) {
 				if (this.originalJackOfAllTradesChoiceKeysList && this.originalJackOfAllTradesChoiceKeysList[1]) {
-					const isInvalidChoiceNotDeselected = this.invalidChoiceIsNotDeselected(
+
+					const isInvalidChoiceNotDeselected = this.invalidChoiceIsNotUnChecked(
 						key,
 						this.characterStore.metadata.invalidLevels,
 						this.originalJackOfAllTradesChoiceKeysList[1].toString(),
-						this.selectedAttributeChoiceKey
+						this.selectedAttributeChoiceKeysList
 					)
 					return isInvalidChoiceNotDeselected
 				}
@@ -270,10 +327,14 @@
 				)
 			},
 
-			findLowestAttributes() {
+			/* attributeOptionShouldBeDisabled(attributeKey) {
+
+			}, */
+
+			getAttributesByValue() {
 				const characterAttributes = this.validationSheet.attributes
 				let attributesByValue = {}
-				Object.entries(characterAttributes).map((attribute) => {
+				Object.entries(characterAttributes).forEach((attribute) => {
 					if (!attributesByValue[attribute[1]]) {
 						attributesByValue = {
 							...attributesByValue,
@@ -284,6 +345,49 @@
 				});
 				return attributesByValue
 			},
+			updateDisabledList() {
+				this.disabledAttributeKeysList = []
+				const attributesByValue = this.getAttributesByValue()
+				const attributeValuesArray = Object.keys(attributesByValue).map((key) => {
+					return parseInt(key)
+				})
+				let min = Infinity;
+				let secondMin = Infinity;
+
+				for (let i= 0; i< attributeValuesArray.length; i++) {
+					if (attributeValuesArray[i]< min) {
+						secondMin = min;
+						min = attributeValuesArray[i]; 
+					} else if (attributeValuesArray[i]< secondMin) {
+						secondMin = attributeValuesArray[i]; 
+					}
+				}
+
+				const lowestAttributesLists = {
+					lowest: attributesByValue[min],
+					secondLowest: attributesByValue[secondMin]
+				}
+
+				for (let i = 0; i < attributeValuesArray.length; i++) {
+					const attributeKeys = attributesByValue[attributeValuesArray[i]]
+					attributeKeys.forEach((attributeKey) => {
+						if (containsKey(attributeKey, lowestAttributesLists.lowest)) {
+							return
+						}
+
+						const choicesMade = this.attributeChoicesAmount - this.choicesLeft
+					
+						if (
+							containsKey(attributeKey, lowestAttributesLists.secondLowest)
+							&& choicesMade >= lowestAttributesLists.lowest.length
+						) {
+							return
+						}
+						this.disabledAttributeKeysList.push(attributeKey)
+					})
+
+				}
+			}
 
 		}
 	}

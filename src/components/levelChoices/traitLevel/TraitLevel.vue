@@ -298,7 +298,6 @@ export default {
 				for (const choiceGroup in data[option].choices) {
 					for (const skillChoice in data[option].choices[choiceGroup]) {
 						const skillChoiceKey = data[option].choices[choiceGroup][skillChoice];
-						console.log('skillChoiceKey: ', skillChoiceKey);
 						if (!skillChoiceKey) isValid = false;
 						if (this.traitIsInvalidAtThisLevel(skillChoiceKey)) isValid = false;
 					}
