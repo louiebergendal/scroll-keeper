@@ -21,13 +21,13 @@ The level ladder stops a user from making directly illegal choices. However, by 
 
 The error handling takes care of the following cases and knows how to distinguish between them. The system tells the user the following:
 
-    - That an invalid choice (according to the currently applied ruleset) has been made at the selected level, and the reason for that error (i.e unfulfilled   requirements for the selected choice and so on).
+- That an invalid choice (according to the currently applied ruleset) has been made at the selected level, and the reason for that error (i.e unfulfilled   requirements for the selected choice and so on).
 
-    - That a trait or attribute is "Touched by error", meaning that the trait is affected by an error at another level, but not the selected one, and in this case,  the system tells the user what future or past level the error occurs at.
+- That a trait or attribute is "Touched by error", meaning that the trait is affected by an error at another level, but not the selected one, and in this case,  the system tells the user what future or past level the error occurs at.
 
-    - That the ruleset library has been updated, and that such a change has invalidated one or more of the previously made choices.
+- That the ruleset library has been updated, and that such a change has invalidated one or more of the previously made choices.
 
-    - That a trait is chosen at a later level (taking the trait at this level, while legal, will make the later trait-pick illegal, since a character can only pick a trait once).
+- That a trait is chosen at a later level (taking the trait at this level, while legal, will make the later trait-pick illegal, since a character can only pick a trait once).
 
 ## Tech stack:
 Vite, Vue3, Typescript.
