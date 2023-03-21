@@ -1,7 +1,7 @@
 <template>
   <div class="main-bg padding-top-medium padding-left-medium padding-right-medium">
 		<div class='inner-bg padding-top-small padding-left-small padding-right-small'>
-      <div class="faux-modal-container">
+      <div class="flex faux-modal-container -dir-col">
         <h2 class="align-center margin-top-small">Create an Account</h2>
         <div class="card dark padding-small faux-modal">
           <form>
