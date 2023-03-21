@@ -174,16 +174,13 @@
 
 			// original choices
 			if (characterStore.history[selectedLevel]?.complexPayload?.jackOfAllTrades?.choices){
-				console.log("ping")
 				originalJackOfAllTradesChoiceKeysList = characterStore.history[selectedLevel].complexPayload.jackOfAllTrades.choices
-				console.log("originalJackOfAllTradesChoiceKeysList: ", originalJackOfAllTradesChoiceKeysList)
 			}
 
 			// selected skill
 			const selectedSkillChoiceKey = ref('')
 			if (originalJackOfAllTradesChoiceKeysList[0]) {
 				selectedSkillChoiceKey.value = originalJackOfAllTradesChoiceKeysList[0]?.[0]
-				console.log("selectedSkillChoiceKey.value: ", selectedSkillChoiceKey.value)
 			}
 
 			// selected attributes
