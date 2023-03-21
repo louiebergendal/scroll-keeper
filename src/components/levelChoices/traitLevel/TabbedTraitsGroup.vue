@@ -213,7 +213,6 @@ export default {
 	},
 	methods: {
 		tabIsSelected(selectedOptions, skillList) {
-			console.log('selectedOptions: ', selectedOptions);
 			const skillKeysList = skillList.map((skill) => skill.key);
 			for (const index in selectedOptions) {
 				const selectedOption = selectedOptions[index];
