@@ -1,6 +1,6 @@
 <template>
 	<div class="width-whole">
-		<!-- PEOPLES -->
+
 		<tabs class="margin-bottom-small">
 			<tab name="Folk" :status="peopleSkillsStatus">
 				<div>
@@ -49,8 +49,8 @@
 								"
 								:selectedProp="
 									setSelectedIfValid(
-										invalidKnowledgeSkillsForPeoplesChoicesList,
-										peoplesSkillsChoiceList?.[1]?.toString()
+										peoplesSkillsChoiceList?.[1]?.toString(),
+										invalidKnowledgeSkillsForPeoplesChoicesList
 									)
 								"
 								:invalidOptionsListProp="invalidPeoplesChoicesList"
@@ -86,8 +86,8 @@
 									"
 									:selectedProp="
 										setSelectedIfValid(
-											invalidKnowledgeSkillsForUpbringingsChoicesList,
-											upbringingsSkillsChoiceList?.[0]?.toString()
+											upbringingsSkillsChoiceList?.[0]?.toString(),
+											invalidKnowledgeSkillsForUpbringingsChoicesList
 										)
 									"
 									:invalidOptionsListProp="invalidUpbringingsChoicesList"
@@ -102,8 +102,8 @@
 								"
 								:selectedProp="
 									setSelectedIfValid(
-										invalidKnowledgeSkillsForUpbringingsChoicesList,
-										upbringingsSkillsChoiceList?.[1]?.toString()
+										upbringingsSkillsChoiceList?.[1]?.toString(),
+										invalidKnowledgeSkillsForUpbringingsChoicesList
 									)
 								"
 								:invalidOptionsListProp="invalidUpbringingsChoicesList"
@@ -138,8 +138,8 @@
 									"
 									:selectedProp="
 										setSelectedIfValid(
-											invalidKnowledgeSkillsForProfessionsChoicesList,
-											professionsSkillsChoiceList?.[0]?.toString()
+											professionsSkillsChoiceList?.[0]?.toString(),
+											invalidKnowledgeSkillsForProfessionsChoicesList
 										)
 									"
 									:invalidOptionsListProp="invalidProfessionsChoicesList"
@@ -155,12 +155,16 @@
 			<h3 class="align-center margin-bottom-medium margin-top-large">
 				Fri färdighet (från Ödesvald)
 			</h3>
+			setSelectedIfValid: {{[setSelectedIfValid(
+				chosenByFateSkillsChoiceList?.[0]?.toString(),
+				invalidKnowledgeSkillsForChosenByFateChoicesList
+			)]}}
 			<TabbedTraitsGroup
 				:nameProp="'fate-skillList-0'"
 				:selectedProp="[
 					setSelectedIfValid(
-						invalidKnowledgeSkillsForChosenByFateChoicesList,
-						chosenByFateSkillsChoiceList?.[0]?.toString()
+						chosenByFateSkillsChoiceList?.[0]?.toString(),
+						invalidKnowledgeSkillsForChosenByFateChoicesList
 					),
 				]"
 				:invalidOptionsListProp="invalidChosenByFateChoicesList"
@@ -312,7 +316,7 @@ export default {
 				return "selected";
 			}
 		},
-		setSelectedIfValid(invalidList, key) {
+		setSelectedIfValid(key, invalidList) {
 			if (containsKey(key, invalidList)) key = "";
 			return key;
 		},

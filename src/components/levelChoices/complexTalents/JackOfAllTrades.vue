@@ -1,6 +1,7 @@
 <template>
 	<div class="padding-left-small padding-right-small padding-bottom-small padding-top-small">
 
+		<!-- if selected is in arraybrackets tab-plupps work, but not origninal selected key and vice versa -->
 		<TabbedTraitsGroup
 			:nameProp="'JackOfAllTrades-skillList-0'"
 			:selectedProp="[selectedSkillChoiceKey]"
@@ -9,66 +10,63 @@
 			@input="updateSelectedChoiceKeys"
 		/>
 
-		<div class='card flex -dir-col'> <!-- make pretty -->
-
-			disabledList: {{ disabledAttributeKeysList }}
+		<div class='card flex -dir-col'>
 
 			<div
-				v-for='attribute in attributes'
-				:key='attribute.key'
+				v-for='attribute in attributeOptionsList'
+				:key='attribute'
 				class='width-whole flex margin-bottom-nano width-whole'
-			> <!-- complextrait,  not attributes -->
+			>
 				<div
 					:class="{
 						'font-contrast-lowest': (
-							!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)
-							&& !attributeIsTouchedByError(attribute.key)
+							!canChooseAttribute(characterAttributes[attribute], selectedLevel)
+							&& !attributeIsTouchedByError(attribute)
 						)
 					}"
 					class="width-whole flex"
 				>
-					
-
 					<div
 						:class="{
-							'selected': containsKey(attribute.key, selectedAttributeChoiceKeysList) && !attributeIsTouchedByError(attribute.key),
-							'touched-by-error': attributeIsTouchedByError(attribute.key),
+							'selected': containsKey(attribute, selectedAttributeChoiceKeysList) && !attributeIsTouchedByError(attribute),
+							'touched-by-error': attributeIsTouchedByError(attribute),
 							'invalid-background': (
-								invalidAttributeChoiceIsNotDeselected(attribute.key) 
-								&& attributeIsInvalidAtThisLevel(attribute.key)
+								invalidAttributeChoiceIsNotDeselected(attribute) 
+								&& attributeIsInvalidAtThisLevel(attribute)
 							)
 						}"
 						class="width-whole card dark"
 					>
 						<div class="flex">
 							<label
-								:for='attribute.key'
+								:for='attribute'
 								class="flex padding-left-tiny padding-right-tiny padding-bottom-tiny -v-start width-whole"
 							>
 								<input
 									type="checkbox"
-									:id="attribute.key"
-									:value="attribute.key"
+									:id="attribute"
+									:value="attribute"
 									v-model="selectedAttributeChoiceKeysList"
 									:disabled="
-										(!canChooseAttribute(characterAttributes[attribute.key], selectedLevel)
-										|| containsKey(attribute.key, disabledAttributeKeysList))
-										&& !containsKey(attribute.key, selectedAttributeChoiceKeysList)
+										(!canChooseAttribute(characterAttributes[attribute], selectedLevel)
+										|| containsKey(attribute, disabledAttributeKeysList)
+										|| choicesLeft < 1)
+										&& !containsKey(attribute, selectedAttributeChoiceKeysList)
 									"
 									name="attribute"
 									class="trait-input"
 									@change="updateSelectedChoiceKeys({
 										id: 'JackOfAllTrades-attributeList',
-										option: [attribute.key],
-										statusToSet: containsKey(attribute.key, selectedAttributeChoiceKeysList)
+										option: [attribute],
+										statusToSet: containsKey(attribute, selectedAttributeChoiceKeysList)
 									})"
 								/>
 								<div class=" margin-top-tiny">
-									{{ getAttributeLongName(attribute.key) }}
+									{{ getAttributeLongName(attribute) }}
 								</div>
 							</label>
 							
-							<span @click="onClickToggleDescription(attribute.key)" class="font-contrast-medium margin-top-small margin-right-small info-button-inline float-right">
+							<span @click="onClickToggleDescription(attribute)" class="font-contrast-medium margin-top-small margin-right-small info-button-inline float-right">
 								<span class="info-button-content"> i </span>
 							</span>
 
@@ -78,23 +76,23 @@
 						<div class="width-whole">
 							<div
 								v-if="(
-									attributeIsInvalidAtThisLevel(attribute.key)
-									&& invalidAttributeChoiceIsNotDeselected(attribute.key)
+									attributeIsInvalidAtThisLevel(attribute)
+									&& invalidAttributeChoiceIsNotDeselected(attribute)
 								|| (
-									attributeIsTouchedByError(attribute.key)
-									&& (!attributeIsInvalidAtThisLevel(attribute.key)))
-								) || !invalidAttributeChoiceIsNotDeselected(attribute.key)"
+									attributeIsTouchedByError(attribute)
+									&& (!attributeIsInvalidAtThisLevel(attribute)))
+								) || !invalidAttributeChoiceIsNotDeselected(attribute)"
 								class="margin-left-small padding-bottom-tiny font-size-nano negative-top-margin attribute-info-margin"
 							>
 								<InvalidOccurrence 
-									:characteristicProp="attribute.key"
+									:characteristicProp="attribute"
 									:selectedLevelProp="selectedLevel"
 								/>
 							</div>
 							<div
 								v-if="
-									attributeIsInvalidAtThisLevel(attribute.key)
-									&& invalidAttributeChoiceIsNotDeselected(attribute.key)" 
+									attributeIsInvalidAtThisLevel(attribute)
+									&& invalidAttributeChoiceIsNotDeselected(attribute)" 
 								class="margin-left-small padding-bottom-tiny font-size-nano negative-top-margin attribute-info-margin"
 							>
 								<span class="font-size-nano display-block margin-left-small margin-top-nano padding-top-nano">
@@ -104,25 +102,25 @@
 						</div>
 					</div>
 					<div
-						v-if="containsKey(attribute.key, selectedAttributeChoiceKeysList)"
+						v-if="containsKey(attribute, selectedAttributeChoiceKeysList)"
 						class="width-fourth flex margin-left-tiny"
 					>
 						<div
-							:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
+							:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute)}"
 							class="card light width-half align-center"
 						>
 							<span class="vertical-align-middle bold font-size-small">+ 1</span>
 						</div>
 						<div class="card light width-half align-center margin-left-nano">
-							<div class="bold font-size-medium attribute-result">{{ characterAttributes[attribute.key] + 1}} </div>
+							<div class="bold font-size-medium attribute-result">{{ characterAttributes[attribute] + 1}} </div>
 						</div>
 					</div>
 					<div
-						v-if="!containsKey(attribute.key, selectedAttributeChoiceKeysList)"
-						:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute.key)}"
+						v-if="!containsKey(attribute, selectedAttributeChoiceKeysList)"
+						:class="{'invalid-background': invalidAttributeChoiceIsNotDeselected(attribute)}"
 						class="width-fourth card light margin-left-tiny align-center"
 					>
-						<span class="vertical-align-middle">{{ characterAttributes[attribute.key] }} </span>
+						<span class="vertical-align-middle">{{ characterAttributes[attribute] }} </span>
 					</div>
 				</div>
 			</div>
@@ -152,12 +150,14 @@
 	import { jackOfAllTrades } from '../../../rules/characteristics/traitLists/talents'
 	import { invalidChoiceIsNotUnChecked, isInvalidAtThisLevel, isTouchedByError } from '../../../validators/validators'
 	import { containsKey } from '../../../rules/utils'
+	import TraitLevel from '../traitLevel/TraitLevel.vue'
 
 	export default {
 		name: 'JackOfAllTrades',
 		components: {
 			TabbedTraitsGroup,
-			InvalidOccurrence
+			InvalidOccurrence,
+			TraitLevel
 		},
 		props: ['characterSheetProp', 'validationSheetProp'],
 		setup(props) {
@@ -166,35 +166,31 @@
 			const characterAttributes = characterSheet.attributes
 			const validationSheet = props.validationSheetProp
 			const selectedLevel = validationSheet.metadata.selectedLevel
-			//const jackOfAllTradesAttributeOptions = jackOfAllTrades.complexTrait[1]
+			const attributeOptionsList = jackOfAllTrades.complexTrait[1].list
 			const attributeChoicesAmount = jackOfAllTrades.complexTrait[1].choices
 			const disabledAttributeKeysList = ref([])
 
 			let originalJackOfAllTradesChoiceKeysList = []
 
 			// original choices
-			if (characterStore.history[selectedLevel]
-				&& characterStore.history[selectedLevel].complexPayload
-				&& characterStore.history[selectedLevel].complexPayload.jackOfAllTrades
-				&& characterStore.history[selectedLevel].complexPayload.jackOfAllTrades.choices.toString()
-			){
+			if (characterStore.history[selectedLevel]?.complexPayload?.jackOfAllTrades?.choices){
+				console.log("ping")
 				originalJackOfAllTradesChoiceKeysList = characterStore.history[selectedLevel].complexPayload.jackOfAllTrades.choices
+				console.log("originalJackOfAllTradesChoiceKeysList: ", originalJackOfAllTradesChoiceKeysList)
 			}
-			console.log("originalJackOfAllTradesChoiceKeysList (after declaration): ", originalJackOfAllTradesChoiceKeysList)
 
 			// selected skill
 			const selectedSkillChoiceKey = ref('')
 			if (originalJackOfAllTradesChoiceKeysList[0]) {
-				selectedSkillChoiceKey.value = originalJackOfAllTradesChoiceKeysList[0]
+				selectedSkillChoiceKey.value = originalJackOfAllTradesChoiceKeysList[0]?.[0]
+				console.log("selectedSkillChoiceKey.value: ", selectedSkillChoiceKey.value)
 			}
 
 			// selected attributes
 			const selectedAttributeChoiceKeysList = ref([])
 			if (originalJackOfAllTradesChoiceKeysList[1]) {
 				selectedAttributeChoiceKeysList.value = originalJackOfAllTradesChoiceKeysList[1]
-			}
-
-			console.log('---> selectedAttributeChoiceKeysList 1: ', selectedAttributeChoiceKeysList.value);
+			} 
 
 			const choicesLeft = ref(0)
 			
@@ -208,6 +204,7 @@
 				selectedLevel,
 				originalJackOfAllTradesChoiceKeysList,
 				choicesLeft,
+				attributeOptionsList,
 				attributeChoicesAmount,
 				disabledAttributeKeysList,
 
@@ -228,7 +225,7 @@
 			})
 			this.updateSelectedChoiceKeys({
 				id: 'JackOfAllTrades-skillList-0',
-				option: this.originalJackOfAllTradesChoiceKeysList[0]
+				option: this.originalJackOfAllTradesChoiceKeysList[0]?.[0]
 			})
 			this.updateSelectedChoiceKeys({
 				id: 'JackOfAllTrades-attributeList',
@@ -240,6 +237,8 @@
 			} else {
 				this.choicesLeft = this.attributeChoicesAmount
 			}
+
+			this.updateDisabledList()
 			
 		},
 		watch: {
@@ -254,32 +253,18 @@
 		},
 		methods: {
 			updateSelectedChoiceKeys(data) {
-				console.log('--- --- --- // in updateSelectedChoiceKeys // --- --- ---');
+
 				if (data.id === 'JackOfAllTrades-skillList-0') {
 					this.selectedSkillChoiceKey = data.option
 				}
+
 				if (data.id === 'JackOfAllTrades-attributeList' && data.option !== undefined) {
-
-					if(data.statusToSet !== false){ // true or undefined
-						console.log('to be pushed: ', data.option);
-						this.selectedAttributeChoiceKeysList.push(data.option)
-					} else {
-						this.selectedAttributeChoiceKeysList = this.selectedAttributeChoiceKeysList.filter((keys) => {
-							return containsKey(keys, data.option);
-						})
-					}
-
 					if (this.selectedAttributeChoiceKeysList.length) {
 						this.choicesLeft = this.attributeChoicesAmount - this.selectedAttributeChoiceKeysList.length
 					} else {
 						this.choicesLeft = this.attributeChoicesAmount
 					}
 				}
-
-
-				console.log('data: ', data);
-				console.log('selectedAttributeChoiceKeysList: ', this.selectedAttributeChoiceKeysList);
-				console.log('--- --- --- --- --- --- --- ---');
 
 				const complexPayload = {
 					jackOfAllTrades: {
@@ -296,7 +281,6 @@
 					}
 				}
 				this.updateDisabledList()
-
 				this.$emit('complexPayload', complexPayload)
 			},
 			invalidAttributeChoiceIsNotDeselected(key) {
@@ -326,11 +310,6 @@
 					this.selectedLevel
 				)
 			},
-
-			/* attributeOptionShouldBeDisabled(attributeKey) {
-
-			}, */
-
 			getAttributesByValue() {
 				const characterAttributes = this.validationSheet.attributes
 				let attributesByValue = {}
@@ -348,18 +327,18 @@
 			updateDisabledList() {
 				this.disabledAttributeKeysList = []
 				const attributesByValue = this.getAttributesByValue()
-				const attributeValuesArray = Object.keys(attributesByValue).map((key) => {
+				const attributeValuesList = Object.keys(attributesByValue).map((key) => {
 					return parseInt(key)
 				})
 				let min = Infinity;
 				let secondMin = Infinity;
 
-				for (let i= 0; i< attributeValuesArray.length; i++) {
-					if (attributeValuesArray[i]< min) {
+				for (let i = 0; i < attributeValuesList.length; i++) {
+					if (attributeValuesList[i] < min) {
 						secondMin = min;
-						min = attributeValuesArray[i]; 
-					} else if (attributeValuesArray[i]< secondMin) {
-						secondMin = attributeValuesArray[i]; 
+						min = attributeValuesList[i]; 
+					} else if (attributeValuesList[i] < secondMin) {
+						secondMin = attributeValuesList[i]; 
 					}
 				}
 
@@ -368,27 +347,34 @@
 					secondLowest: attributesByValue[secondMin]
 				}
 
-				for (let i = 0; i < attributeValuesArray.length; i++) {
-					const attributeKeys = attributesByValue[attributeValuesArray[i]]
+				for (let i = 0; i < attributeValuesList.length; i++) {
+
+					const attributeKeys = attributesByValue[attributeValuesList[i]]
 					attributeKeys.forEach((attributeKey) => {
+
 						if (containsKey(attributeKey, lowestAttributesLists.lowest)) {
 							return
 						}
 
-						const choicesMade = this.attributeChoicesAmount - this.choicesLeft
-					
-						if (
-							containsKey(attributeKey, lowestAttributesLists.secondLowest)
-							&& choicesMade >= lowestAttributesLists.lowest.length
+						let secondLowestAvailable = true
+						for (let i = 0; i < lowestAttributesLists.lowest.length; i++) {
+							const attribute = lowestAttributesLists.lowest[i];
+							if (!containsKey(attribute, this.selectedAttributeChoiceKeysList)) {
+								secondLowestAvailable = false
+							}
+						}
+
+						if (containsKey(attributeKey, lowestAttributesLists.secondLowest)
+							&& secondLowestAvailable
 						) {
 							return
 						}
+						
 						this.disabledAttributeKeysList.push(attributeKey)
 					})
 
 				}
 			}
-
 		}
 	}
 </script>

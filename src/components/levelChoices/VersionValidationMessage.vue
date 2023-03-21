@@ -35,7 +35,7 @@ export default {
 		const selectedLevel = props.selectedLevelProp;
         const characterStore = useCharacterStore();
 
-        /* den här lirar inte, och används ingenstanns.  */
+        /* den här lirar inte, och används ingenstans.  */
 
 		return {
             characterStore,

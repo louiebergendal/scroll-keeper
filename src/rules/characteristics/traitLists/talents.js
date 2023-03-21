@@ -294,8 +294,8 @@ export const engineer = {
 	},
 }
 
-/* WIP
- export const jackOfAllTrades = {
+
+/* export const jackOfAllTrades = {
 	key: 'jackOfAllTrades',
 	name: 'Mångsysslare',
 	description: 'Karaktären får 1 allmän färdighet, och får 2 grundegenskapspoäng att placera på sina lägsta grundegenskaper.',

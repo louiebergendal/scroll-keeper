@@ -107,7 +107,7 @@ const createHealthLevels = (maxHealthValue, strain) => {
 }
  
 export const calculateMaxHealthValue = (physiqueValue, characterTraitList) => {
-	let maxHealthValue = physiqueValue + baseValue // baseValue added here to be included in multiplication at return
+	let maxHealthValue = baseValue + (physiqueValue * 2) // baseValue added here to be included in multiplication at return
 	maxHealthValue = tryApplyTraitEffectOnValue(maxHealthValue, 'addMaxHealthBonus', characterTraitList)
 	// Everything that modifies maxHealth should be added before final multiplication
 	return maxHealthValue = maxHealthValue * 3

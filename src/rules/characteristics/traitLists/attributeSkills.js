@@ -27,7 +27,7 @@ const athletics = {
 
 const extrasensation = {
 	key: 'extrasensation',
-	name: 'Förnimma',
+	name: 'Varsel',
 	addProficiencyBonus: (fv) => addProficiencyBonus(fv, 2)
 }
 

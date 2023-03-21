@@ -30,8 +30,8 @@
 			/>
 			<div class="button-text">
 				<span :class="{ 'trait-align': !isPrimary }">
-					<span v-if="getTraitNiceName(option)">{{
-						getTraitNiceName(option)
+					<span v-if="getCharacteristicNiceName(option)">{{
+						getCharacteristicNiceName(option)
 					}}</span>
 					<span v-if="getBackgroundSkillsListNiceNames(option)">{{
 						getBackgroundSkillsListNiceNames(option)
@@ -46,6 +46,7 @@
 import { containsKey } from "../../../../rules/utils";
 import { getTraitNiceName } from "../../../../rules/characteristics/traits";
 import { getBackgroundSkillsListNiceNames } from "../../../../rules/complexTraits/background/background";
+import { getAttributeLongName } from "../../../../rules/characteristics/attributes"
 
 export default {
 	name: "BaseRadioButtonGroup",
@@ -73,6 +74,7 @@ export default {
 			isPrimary,
 			getTraitNiceName,
 			getBackgroundSkillsListNiceNames,
+			getAttributeLongName,
 			containsKey,
 		};
 	},
@@ -104,6 +106,12 @@ export default {
 				id: this.name,
 			});
 		},
+		getCharacteristicNiceName(option) {
+			const isTrait = getTraitNiceName(option)
+			if(isTrait) return isTrait
+			return getAttributeLongName(option)
+		},
+
 	},
 };
 </script>

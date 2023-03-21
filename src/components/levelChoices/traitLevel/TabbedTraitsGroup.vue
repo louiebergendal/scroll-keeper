@@ -1,5 +1,6 @@
 <template>
 	<div class="radio-button-group">
+
 		<tabs>
 			<tab
 				v-for="tab in skillsTabs"
@@ -12,9 +13,9 @@
 					:key="option.key"
 					:for="name + '-' + option.key"
 					:class="{
-						selected:
-							containsKey(option.key, selectedOptions) &&
-							!containsKey(option.key, invalidOptions),
+						'selected':
+							containsKey(option.key, selectedOptions)
+							&& !containsKey(option.key, invalidOptions)
 					}"
 					class="card dark margin-bottom-nano padding-left-tiny flex width-whole display-block"
 				>
@@ -37,6 +38,7 @@
 				</label>
 			</tab>
 		</tabs>
+
 	</div>
 </template>
 
@@ -54,15 +56,21 @@ import {
 } from "../../../rules/characteristics/traits";
 import { getNiceNameSortedList } from "../../../rules/characteristics/traitLists/traitsUtils";
 import { getBackgroundSkillsListNiceNames } from "../../../rules/complexTraits/background/background";
+import TraitLevelTraitCard from "./TraitLevelTraitCard.vue";
 
 export default {
 	name: "BaseRadioButtonGroup",
+	components: {
+		TraitLevelTraitCard
+	},
 	props: ["nameProp", "selectedProp", "invalidOptionsListProp", "isBackground"],
 	emits: ["input"],
 	setup(props) {
 		const name = props.nameProp;
-		const selectedOptions = props.selectedProp ? props.selectedProp : [""];
-		const invalidOptions = props.invalidOptionsListProp
+		const selectedOptions = ref("")
+		selectedOptions.value = props.selectedProp ? props.selectedProp : [""];
+		const invalidOptions = ref("")
+		invalidOptions.value = props.invalidOptionsListProp
 			? props.invalidOptionsListProp
 			: [""];
 
@@ -205,6 +213,7 @@ export default {
 	},
 	methods: {
 		tabIsSelected(selectedOptions, skillList) {
+			console.log('selectedOptions: ', selectedOptions);
 			const skillKeysList = skillList.map((skill) => skill.key);
 			for (const index in selectedOptions) {
 				const selectedOption = selectedOptions[index];
@@ -214,6 +223,7 @@ export default {
 			}
 		},
 		emitOption(option) {
+			console.log('option: ', option);
 			this.$emit("input", {
 				id: this.name,
 				option,
