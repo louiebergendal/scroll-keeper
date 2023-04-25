@@ -23,8 +23,7 @@
 		<div
 			v-if="
 				characterStore.metadata.invalidLevels[selectedLevel] &&
-				characterStore.metadata.invalidLevels[selectedLevel][0] ===
-					'invalidKey' &&
+				characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey' &&
 				characterStore.metadata.invalidLevels[selectedLevel][1]
 			"
 			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"

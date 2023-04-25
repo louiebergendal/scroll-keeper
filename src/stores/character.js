@@ -44,6 +44,7 @@ export const useCharacterStore = defineStore('character', {
 			)
 		},
 		handleInvalidChoice(levelIndex, choice) {
+
 			this.metadata.invalidLevels = {
 				...this.metadata.invalidLevels,
 				[levelIndex]: ['invalidKey', choice]
@@ -63,23 +64,26 @@ export const useCharacterStore = defineStore('character', {
 							if (!this.allTraits[choice] && !containsKey(choice, Object.keys(attributes))) {
 								// add to invalidLevels
 								this.handleInvalidChoice(levelIndex, choice)
-								choices[innerChoiceIndex][choice] = ''
+								choices[innerChoiceIndex][choice] = '' // ? vad gör det här för skillnad ?
 							}
-						}	
+						}
 					} else {
-						if (!this.allTraits[choicesList] && !containsKey(choice, Object.keys(attributes))) {
+						if (!this.allTraits[choicesList] && !containsKey(choicesList, Object.keys(attributes))) {
 							// add to invalidLevels
 							this.handleInvalidChoice(levelIndex, choicesList)
-							choices[choiceIndex][choicesList] = ''
+							choices[choiceIndex][choicesList] = '' // ? vad gör det här för skillnad ?
 						}
 					}
 				}
 			}
 		},
 		catchOutdatedLevelKeys(history) {
+
+			// WIP //
+
 			for(const levelIndex in history) {
 				const level = history[levelIndex]
-				
+
 				if (level.bonusType === 'attribute'
 					&& !attributes[level.choice]
 				) {
@@ -88,8 +92,11 @@ export const useCharacterStore = defineStore('character', {
 					level.choice = ''
 				}
 
-				if (level.bonusType === ('talent' || 'skill')) {
+				if (level.bonusType === 'talent'
+					|| level.bonusType === 'skill'
+				) {
 					const traitChoice = this.allTraits[level.choice]
+
 					if (!traitChoice) {
 						// add to invalidLevels
 						this.handleInvalidChoice(levelIndex, level.choice)
@@ -106,11 +113,10 @@ export const useCharacterStore = defineStore('character', {
 							const chosenCategory = level.complexPayload[choiceCategory]
 							
 							if (traitChoice.complexTrait[choiceCategory + 's']) { 
-								// exlude 'people' until the "mandatorySkills" crisis is solved
 								for (const chosenSkillsListIndex in chosenCategory.choices) {
 									for (const skillChoiceIndex in chosenCategory.choices[chosenSkillsListIndex]) {
 										const skillKeyFromComplexPayload = chosenCategory.choices[chosenSkillsListIndex][skillChoiceIndex]
-										const refString = this.metadata.characterRefString + '/history/1/complexPayload/' + choiceCategory + '/choices/' + chosenSkillsListIndex + '/' + skillChoiceIndex
+										//const refString = this.metadata.characterRefString + '/history/1/complexPayload/' + choiceCategory + '/choices/' + chosenSkillsListIndex + '/' + skillChoiceIndex
 						
 										if (
 											traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key]
@@ -118,18 +124,12 @@ export const useCharacterStore = defineStore('character', {
 										) {
 											this.handleInvalidChoice(levelIndex, skillKeyFromComplexPayload)
 											level.complexPayload[choiceCategory].choices[chosenSkillsListIndex][skillChoiceIndex] = ''
-											//removeData(refString)
 										}
 									}
 								}
 							}
 						}
-
-						
 					}
-
-					
-
 				}
 			}
 		},
@@ -155,7 +155,7 @@ export const useCharacterStore = defineStore('character', {
 			this.updateCharacterField(levelRefString, level)
 		},
 		updateCharacterAvatarUrl(url) {
-			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', {avatarUrl: url})
+			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { avatarUrl: url })
 		},
 		updateCharacterName(name) {
 			this.updateCharacterField(this.metadata.characterRefString + '/metadata/', { name: name })

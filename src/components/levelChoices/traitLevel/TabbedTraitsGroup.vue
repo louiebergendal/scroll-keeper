@@ -222,7 +222,6 @@ export default {
 			}
 		},
 		emitOption(option) {
-			console.log('option: ', option);
 			this.$emit("input", {
 				id: this.name,
 				option,

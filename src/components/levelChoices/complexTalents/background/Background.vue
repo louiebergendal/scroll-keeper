@@ -155,10 +155,6 @@
 			<h3 class="align-center margin-bottom-medium margin-top-large">
 				Fri färdighet (från Ödesvald)
 			</h3>
-			setSelectedIfValid: {{[setSelectedIfValid(
-				chosenByFateSkillsChoiceList?.[0]?.toString(),
-				invalidKnowledgeSkillsForChosenByFateChoicesList
-			)]}}
 			<TabbedTraitsGroup
 				:nameProp="'fate-skillList-0'"
 				:selectedProp="[
