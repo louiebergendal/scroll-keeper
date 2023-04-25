@@ -9,6 +9,7 @@ lerna-debug.log*
 yarn.lock
 
 node_modules
+.firebase/*
 package-lock.json
 .DS_Store
 dist
