@@ -44,7 +44,6 @@ export const useCharacterStore = defineStore('character', {
 			)
 		},
 		handleInvalidChoice(levelIndex, choice) {
-
 			this.metadata.invalidLevels = {
 				...this.metadata.invalidLevels,
 				[levelIndex]: ['invalidKey', choice]
@@ -57,8 +56,9 @@ export const useCharacterStore = defineStore('character', {
 				for (const choiceIndex in choices) {
 					const choicesList = choices[choiceIndex]
 					// to account for that the code might ignore that it's a string in an object,
-					// and only treat it as a string, if it's the only thing in the onbject.
+					// and only treat it as a string, if it's the only thing in the object.
 					if (typeof choicesList !== 'string') {
+
 						for (const innerChoiceIndex in choicesList) {
 							const choice = choicesList[innerChoiceIndex]
 							if (!this.allTraits[choice] && !containsKey(choice, Object.keys(attributes))) {
@@ -103,24 +103,29 @@ export const useCharacterStore = defineStore('character', {
 						level.choice = ''
 					}
 
-					// check if there are outdated skills in complexPayload
+					if (traitChoice && traitChoice.key !== level.choice) {
+						console.log("ERROR: trait object and trait key-property should share name. Trait key-property: ", traitChoice.key);
+					}
+
 					if (level.complexPayload) {
-						// find and handle outdated skills in complexPayload
+						// find and handle outdated traits or attributes in complexPayload
 						this.validateComplexPayload(levelIndex, level.complexPayload)
 
-						// see if the skillsList in rules contains the chosen skills.
-						for (const choiceCategory in level.complexPayload) {
-							const chosenCategory = level.complexPayload[choiceCategory]
-							
-							if (traitChoice.complexTrait[choiceCategory + 's']) { 
+						// see if the background skillsList in rules contains the chosen skills.
+						if (level.choice === 'background') {
+							for (const choiceCategory in level.complexPayload) {
+								const chosenCategory = level.complexPayload[choiceCategory]
+
 								for (const chosenSkillsListIndex in chosenCategory.choices) {
 									for (const skillChoiceIndex in chosenCategory.choices[chosenSkillsListIndex]) {
 										const skillKeyFromComplexPayload = chosenCategory.choices[chosenSkillsListIndex][skillChoiceIndex]
 										//const refString = this.metadata.characterRefString + '/history/1/complexPayload/' + choiceCategory + '/choices/' + chosenSkillsListIndex + '/' + skillChoiceIndex
 						
+										// console.logga ifall skill.key har annat namn än skill-objektet
+
 										if (
-											traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key]
-											&& !containsKey(skillKeyFromComplexPayload , traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key].skillsLists[chosenSkillsListIndex].list)
+											traitChoice.complexTrait[choiceCategory + 's']?.[choiceCategory + 's'][chosenCategory.key]
+											&& !containsKey(skillKeyFromComplexPayload, traitChoice.complexTrait[choiceCategory + 's'][choiceCategory + 's'][chosenCategory.key].skillsLists[chosenSkillsListIndex].list)
 										) {
 											this.handleInvalidChoice(levelIndex, skillKeyFromComplexPayload)
 											level.complexPayload[choiceCategory].choices[chosenSkillsListIndex][skillChoiceIndex] = ''

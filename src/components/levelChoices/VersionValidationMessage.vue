@@ -1,13 +1,5 @@
 <template>
-		<div
-            v-if="
-				characterStore.metadata.invalidLevels[selectedLevel] &&
-				characterStore.metadata.invalidLevels[selectedLevel][0] ===
-					'invalidKey' &&
-				characterStore.metadata.invalidLevels[selectedLevel][1]
-			"
-			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"
-		>
+		<div class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background">
 			<p class="font-size-nano margin-bottom-tiny">
 				Det har skett en karaktärsbrytande uppdatering av regelverket. Ditt val
 				på den här erfarenhetsnivån är inte längre giltigt. För att åtgärda
@@ -29,17 +21,15 @@ import { useCharacterStore } from "../../stores/character";
 export default {
 	name: "VersionValidationMessage",
 	props: [
-		"selectedLevelProp",
+		"selectedLevelProp"
 	],
 	setup(props) {
 		const selectedLevel = props.selectedLevelProp;
-        const characterStore = useCharacterStore();
-
-        /* den här lirar inte, och används ingenstans.  */
+		const characterStore = useCharacterStore();
 
 		return {
-            characterStore,
-            selectedLevel
+			characterStore,
+			selectedLevel
 		};
 	},
 	watch: {

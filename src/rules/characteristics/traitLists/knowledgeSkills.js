@@ -12,7 +12,7 @@ import { getNiceNameSortedList } from './traitsUtils.js'
 
 
 const knowledgeDavandBasic = {
-	key: 'knowledgeDavandBasic',
+	key: 'knowledgeDavandBusic',
 	name: 'Ytlig kunskap (Davand)',
 	softUnlock: (fv) => removeSucRollPenalty(fv)
 }

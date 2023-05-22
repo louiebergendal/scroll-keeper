@@ -9,11 +9,7 @@
 				&& characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey'"
 			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"
 		>
-			Det har skett en karaktärsbrytande uppdatering av regelverket. Ditt val på den här erfarenhetsnivån är inte längre giltigt.
-			För att åtgärda felet, gör ett nytt val på den här erfarenhetsnivån.
-			<br>
-			<br>
-			Den ogiltiga egenskapens nyckel: [ <span class="italic">{{ characterStore.metadata.invalidLevels[selectedLevel][1] }}</span> ]
+			<VersionValidationMessage :selectedLevelProp="selectedLevel" />
 		</div>
 
 		<div
@@ -155,11 +151,12 @@
 	import { flattenCharacter } from '../../../rules/characterFlattener'
 	import { invalidChoiceIsNotDeselected, isInvalidAtThisLevel, isTouchedByError } from '../../../validators/validators'
 	import InvalidOccurrence from '../../generic/InvalidOccurrence.vue'
+	import VersionValidationMessage from '../VersionValidationMessage.vue'
 
 	export default {
 		components: {
-			InvalidOccurrence
-			
+			InvalidOccurrence,
+			VersionValidationMessage
 		},
 		props: ['selectedLevelProp'],
 		emits: ['selected-level-type', 'update-tabs'],

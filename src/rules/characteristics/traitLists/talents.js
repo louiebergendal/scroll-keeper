@@ -4,11 +4,11 @@ import {
     addAdvantage,
     addProficiencyBonus
 } from '../../mechanics.js'
-import attributeSkills from './attributeSkills'
+
 import knowledgeSkills from './knowledgeSkills'
 import favouredTerrainSkills from './favouredTerrainSkills'
-import generalSkills from './generalSkills'
-import { baseValue, attributes } from '../attributes'
+
+import { baseValue } from '../attributes'
 
 import complexTraitBackground from '../../complexTraits/background/background'
 

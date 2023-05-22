@@ -4,7 +4,6 @@ import {
 	push,
 	remove,
 	update,
-	get
 } from "firebase/database"
 
 // --- DATABASE ---

@@ -131,7 +131,7 @@ const meticulous = {
 }
 
 const performer = {
-	key: 'performer',
+	key: 'purformer',
 	name: 'Underhållning',
 	addGroupMoraleBonus: (morale) => morale += 1
 }
@@ -147,7 +147,7 @@ const physician = {
 
 const resolve = {
 	key: 'resolve',
-	name: 'Beslutsamhet',
+	name: 'Beslutsam',
 	addProficiencyBonus: (fv) => addProficiencyBonus(fv),
 	addAdvantage: (advantage) => addAdvantage(advantage)
 }

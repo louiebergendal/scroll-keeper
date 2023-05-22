@@ -20,26 +20,13 @@
 				Välj en färdighet
 			</h3>
 		</div>
-		<div
-			v-if="
-				characterStore.metadata.invalidLevels[selectedLevel] &&
-				characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey' &&
-				characterStore.metadata.invalidLevels[selectedLevel][1]
-			"
-			class="card padding-left-small margin-bottom-small font-size-nano padding-tiny touched-by-error invalid-background"
-		>
-			<p class="font-size-nano margin-bottom-tiny">
-				Det har skett en karaktärsbrytande uppdatering av regelverket. Ditt val
-				på den här erfarenhetsnivån är inte längre giltigt. För att åtgärda
-				felet, gör ett nytt val på den här erfarenhetsnivån.
-			</p>
-			<p class="font-size-nano">
-				Den ogiltiga egenskapens nyckel: [
-				<span class="italic">{{
-					characterStore.metadata.invalidLevels[selectedLevel][1]
-				}}</span>
-				]
-			</p>
+		
+		<div v-if="
+			characterStore.metadata.invalidLevels[selectedLevel]
+			&& characterStore.metadata.invalidLevels[selectedLevel][0] === 'invalidKey'
+			&& characterStore.metadata.invalidLevels[selectedLevel][1]
+		">
+			<VersionValidationMessage :selectedLevelProp="selectedLevel" />
 		</div>
 
 		<div v-if="selectedLevel !== 1">
@@ -177,11 +164,13 @@ import { containsKey } from "../../../rules/utils";
 import { flattenCharacter } from "../../../rules/characterFlattener";
 import Background from "../complexTalents/background/Background.vue";
 import RuleRelevantMetadata from "../complexTalents/background/RuleRelevantMetadata.vue";
+import VersionValidationMessage from "../VersionValidationMessage.vue";
 
 export default {
 	components: {
 		Background,
 		RuleRelevantMetadata,
+		VersionValidationMessage
 	},
 	props: ["selectedLevelProp", "traitTypeProp"],
 	emits: ["complexPayload", "update-tabs", "selected-level-type"],
