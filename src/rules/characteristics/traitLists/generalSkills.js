@@ -131,7 +131,7 @@ const meticulous = {
 }
 
 const performer = {
-	key: 'purformer',
+	key: 'performer',
 	name: 'Underhållning',
 	addGroupMoraleBonus: (morale) => morale += 1
 }

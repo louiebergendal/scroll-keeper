@@ -9,7 +9,7 @@
 	>
 		<div class="levels">
 			<Wizard
-				:start-index="characterStore.metadata.level"
+				:start-index="characterStore.metadata.level-1"
 				squared-tabs
 				navigable-tabs
 				vertical-tabs
